@@ -12,6 +12,13 @@ testing and gives no medical advice.
 > `data/` (except the base model's rules, generated from its supplement by `src/cellproof/network/gupta2023.py`), `scripts/`
 > and `docs/`.
 
+## In 30 seconds
+
+- **What it is.** An agent in which Muse Spark reads papers and proposes rules for a published cell-signalling model, and an exact solver accepts or rejects each rule, returning a counterexample that Muse Spark uses to repair it.
+- **Why it matters.** Applied without the solver, edits taken from papers break 7 of 10 known behaviours of the model; with the solver, none (`results/RESULTS.md`).
+- **What it does not do.** It does not predict held-out outcomes better than the published model; the result is an automatic audit of where a model and the literature disagree. Failed checks are reported next to the passed ones.
+- **Try it.** Open `results/report.html`, or run `make verify` (no API call, no cost).
+
 ## The idea
 
 Boolean network models of cell signalling are powerful but incomplete: they miss mechanisms the literature already knows. A
