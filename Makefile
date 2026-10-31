@@ -1,6 +1,6 @@
 PY ?= python
 
-.PHONY: test smoke verify extract label tissue targets compounds sequences
+.PHONY: test smoke verify extract label tissue targets compounds sequences board
 
 # The two reading tasks only a person can do (M4 labels, D4 quote checks): a local page, every click saved at once.
 label:
@@ -37,3 +37,7 @@ extract:
 # Start-aware and sequential interventions (docs/sequential_protocol.md): exact, a few minutes on several cores; `make verify` only reads the result.
 sequences:
 	$(PY) -m cellproof.cli sequences
+
+# The search board the page draws (docs/search_board.md): the solver's verdict on every set of one or two changes, per tumour profile (about a minute).
+board:
+	$(PY) -m cellproof.cli board

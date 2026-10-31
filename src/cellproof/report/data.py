@@ -429,6 +429,16 @@ def tissue_block() -> dict | None:
             "rows": summary["rows"]}
 
 
+def search_block() -> dict | None:
+    """The search board as the page draws it (results/search_board.json): the solver's verdict on every set of one or two changes, per profile.
+    The model cell's list is checked against the live search a few lines up in `interventions` by tests/test_search_board.py."""
+    d = _read(ROOT / "results" / "search_board.json")
+    if not d:
+        return None
+    return {"genes": d["genes"], "symbols": d["symbols"], "combos": d["combos"], "rule": d["rule"], "no_search_needed": d["no_search_needed"],
+            "profiles": [{k: p[k] for k in ("forced", "samples", "baseline", "verdicts", "found")} for p in d["profiles"]]}
+
+
 def downstream_block() -> dict | None:
     """The solver's answers as targets, and what ChEMBL holds for the proteins among them (files written by `cellproof targets` and `compounds`)."""
     targets, compounds = _read(ROOT / "results" / "targets.json"), _read(ROOT / "results" / "compounds.json")
@@ -544,6 +554,7 @@ def collect() -> dict:
         "llm_search": llm_search_block(rules["augmented"]),
         "scaling": _read(ROOT / "results" / "scaling.json"),
         "tissue": tissue_block(),
+        "search": search_block(),
         "downstream": downstream_block(),
         "api": api_usage(),
         "labels": {"sampled": len(label_rows), "labelled": sum(1 for r in label_rows if r["label"].strip())},

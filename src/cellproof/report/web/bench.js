@@ -10,7 +10,7 @@
   const GATE = [...new Set(toks(PATCH.final).filter((x) => /^[A-Za-z_]/.test(x) && !toks(PATCH.template).includes(x)))];
   const SPOT = new Set(["DNA_damage", "ATR", SRC, DST, ...GATE]);
   const NEW_LIST = ((D.summary && D.summary.new_nodes) || []).map(pretty).join(", ");
-  const N0 = D.networks.published.nodes.length, PLAY_S = 60;
+  const N0 = D.networks.published.nodes.length, PLAY_S = 86;
   const SCI = { proliferation: "proliferation", arrest: "arrest", senescence: "senescence", autophagy: "autophagy", apoptosis: "apoptosis" };
   /* the hunt: the exact solver found every set of one or two changes (readout genes excluded) after which every cell dies */
   const INTERV = ((D.interventions || {}).augmented || []).map((s) => s.map(([n, v]) => [n, v])), READOUT = new Set((D.interventions || {}).readout || []), HUNT = INTERV.length > 0;
@@ -38,13 +38,32 @@
   const UNCH = HERO.unchecked.length ? [Math.min(...HERO.unchecked), Math.max(...HERO.unchecked)] : null, CHK = HERO.checked.length ? Math.max(...HERO.checked) : 0;
   /* the shortlisted sets that the base paper itself reports (TUG1 knocked out, miR-221 forced on) and that the search rediscovers */
   const PAPER_SETS = [[["TUG1", 0]], [["miR221", 1]]].filter((s) => ((D.interventions || {}).published || []).some((q) => JSON.stringify(q) === JSON.stringify(s))).length;
+  /* the virtual tumour (PhysiBoSS, results/tissue/): the conditions the page replays, picked by rules that do not look at the pictures, and the
+     numbers it states, all from the simulation's own files; and the tumour samples (public counts, results/genotypes.json) for the header */
+  const TS = D.tissue, TF = TS && TS.facts && TS.conditions.some((c) => c.name === "radiation_only" && c.frames) ? tissueFrames(TS) : null;
+  const lastAlive = (c) => c.alive[c.alive.length - 1], framed = (g) => (TS ? TS.conditions.filter((c) => c.group === g && c.frames) : []);
+  const TUM = TF ? (() => {
+    const radiation = TS.conditions.find((c) => c.name === "radiation_only"), hits = framed("hit"), misses = framed("miss"), F = TS.facts, quarter = 0.25 * F.cells;
+    const hit = hits.find((c) => lastAlive(c) === 0) || hits[0], novel = framed("novel").find((c) => lastAlive(c) === 0) || framed("novel")[0];
+    const rejected = misses.length ? misses.reduce((b, c) => (Math.abs(lastAlive(c) - quarter) < Math.abs(lastAlive(b) - quarter) ? c : b), misses[0]) : null;
+    if (!hit) return null;
+    const withFrames = TS.conditions.filter((c) => c.frames);
+    return { frames: TF, cells: F.cells, hours: F.hours, alive: F.radiation.alive, agree: F.hits.agree + F.misses.agree, of: F.hits.count + F.misses.count,
+      items: [radiation, hit, rejected, novel].map((c, i) => (c ? { i, cond: c } : null)).filter(Boolean), byName: Object.fromEntries(withFrames.map((c) => [c.name, c])),
+      byLabel: Object.fromEntries(withFrames.filter((c) => c.group === "hit" || c.group === "novel").map((c) => [c.label, c])) };
+  })() : null;
+  const GT = ((D.downstream || {}).genotypes) || null;
+  const SAMPLES = GT && GT.r1 && GT.r2 && GT.r1.any_works != null ? (() => {
+    const split = (r) => ({ lost: r.tp53_lost, none: r.samples - r.any_works - r.tp53_lost });
+    return { n: GT.r1.samples, r1: split(GT.r1), r2: split(GT.r2), lo: Math.round((100 * GT.r1.tp53_lost) / GT.r1.samples), hi: Math.round((100 * GT.r2.tp53_lost) / GT.r2.samples) };
+  })() : null;
   const range = (a, b) => (a === b ? `${a}` : `${a}–${b}`), joined = (parts) => parts.filter(Boolean).join(" · ");
 
   /* ---------------------------------------------------------------- texts */
   const TEXT = {
     en: {
-      "nav.story": "Story", "nav.bench": "Bench", "play.short": "▶ Bench demo", "play.stop": "■ Stop",
-      "hero.sr": () => "CellProof: radiation breaks DNA and a damaged cell does not always die. The goal is a combination of genes to switch off, or on, that leaves only death. Below, a short story in plain words, then the technical part. Hypotheses for experiments, not treatments.",
+      "nav.bench": "Demo", "nav.search": "Search", "play.short": "▶ Play the demo", "play.stop": "■ Stop",
+      "hero.sr": () => "CellProof: radiation breaks DNA and a damaged cell does not always die. The goal is a combination of genes to switch off, or on, that leaves only death. There are far too many combinations to try, and every new paper can change which ones work. An AI reads the papers, an exact solver checks every rule, a virtual tumour tests what is left, and real tumour samples show that every tumour is different. Hypotheses for experiments, not treatments.",
       "hero.sa": () => `<b>AI alone:</b> ${joined([HERO.ai && `${HERO.ai.works} of ${HERO.ai.distinct} guesses right, ${HERO.ai.minimal_hits} of the ${HERO.ai.minimal} candidates found`, UNCH && `its edits break ${range(...UNCH)} of 10 known experiments`])}`,
       "hero.sb": () => `<b>Solver alone:</b> finds all ${HERO.found} and checks them, but cannot read the papers${HERO.proj["5"] ? `; ≈ ${dur(HERO.proj["5"])} for 5 changes (projected)` : ""}`,
       "hero.sc": () => `<b>Together:</b> ${HERO.found} candidates for the lab (${PAPER_SETS} in the base paper, the rest computed), ${CHK} of 10 known experiments broken`,
@@ -52,7 +71,7 @@
       "hero.b3": "Flip the right genes, and every cell <em>dies.</em>", "hero.s3": "The goal: a combination of genes to switch off, or on, that leaves only death.",
       "hero.n3": "Two genes here, an example from the model. Illustration.",
       "hero.bd": "New rules change <em>which genes to flip.</em>",
-      "hero.sd": () => `A rule is a link between two genes, and papers keep adding them. Here, ${DR.rules} new rules from ${DR.papers} papers, unchecked, replaced all ${DR.published} combinations that worked.`,
+      "hero.sd": () => `A rule is a link between two genes, and papers keep adding them. Here, ${DR.rules} new rules from ${DR.papers} papers, unchecked, replaced all ${DR.published} combinations that worked with ${DR.unchecked.new} different ones.`,
       "hero.dl": () => `Check each rule first, and the same ${DR.checked.sets} stay.`,
       "hero.drn": "combinations that work", "hero.drb": (n) => `${n} of ${DR.cases} known experiments broken`,
       "hero.dra": (n) => `Unchecked · ${n} new rules`, "hero.drc": "Each rule checked first", "hero.drp": (n) => `${n} paper${n === 1 ? "" : "s"}`,
@@ -61,17 +80,36 @@
       "hero.b5": "The AI proposes. The solver <em>decides.</em>", "hero.n5": "candidates left",
       "unit.s": "s", "unit.min": "min", "unit.h": "h",
       "hero.tag": "Illustration, not to scale. Hypotheses for experiments, not treatments.", "hero.step": (i, n) => `Part ${i} of ${n}`,
-      "hero.play": "Start the story ↓", "hero.try": "The technical part",
-      "bench.eyebrow": "The test bench", "bench.h2": "Five steps. One circuit. The checker decides.",
-      "tech.eyebrow": "The technical part", "tech.h2": "Everything above, with every number and every check.",
-      "tech.lede": "A test bench you can click, the cell with all of its genes, how the agent works, every rule it judged and the audit. In English. All of it is read from the files the pipeline wrote.",
+      "hero.play": "▶ Play the demo", "hero.try": "Try it yourself",
+      "hero.b7": "Now, a virtual <em>tumour.</em>",
+      "hero.s7": () => (TUM ? `${num(TUM.cells)} cells in a computer simulation. Radiation alone leaves ${num(TUM.alive)} alive. With one of the solver's candidates: ${lastAlive(TUM.items[1].cond) ? num(lastAlive(TUM.items[1].cond)) : "none"}.` : ""),
+      "hero.n7": "A simulation (PhysiBoSS). An illustration of the model, not a prediction for any person.",
+      "hero.t0": "Radiation only", "hero.t1": "With a solver candidate", "hero.talive": "cells alive", "hero.thours": (h) => `after ${h} hours`,
+      "hero.b8": "Every tumour has <em>its own genes.</em>",
+      "hero.n8": "of every 100 tumour samples have lost p53. None of our candidates works there.",
+      "hero.f8": () => (SAMPLES ? `${num(SAMPLES.n)} real tumour samples (public data), one dot each. A statement about the model, not about any person. Hypotheses for the lab.` : ""),
+      "hero.k0": "a candidate still works", "hero.k1": "p53 intact, none works", "hero.k2": "p53 lost: none works",
+      "hero.r1": "counting only clear breaks of p53", "hero.r2": "counting every change to p53",
+      "bench.eyebrow": "The demo", "bench.h2": "Six steps. One circuit. The checker decides.",
+      "scale.tumour": "Tumour", "irr.tum": "Replay",
+      "a5.next": "Next: a virtual tumour →",
+      "tum.t": "A virtual tumour", "tum.h": (n) => `${num(n)} cells in a computer simulation (PhysiBoSS). The same rules run in each cell. Pick what to apply, then watch 72 hours.`,
+      "tum.b0": "Radiation only", "tum.b1": "The solver's pick", "tum.b2": "A candidate it rejected", "tum.b3": "Found later, predicted first",
+      "tum.alive": (n) => `of ${num(n)} cells alive`, "tum.hours": "hours",
+      "tum.n0": "Without a switch some cells survive. They have aged: alive, but stopped.", "tum.n1": (a) => `The solver's pick: ${a ? `${num(a)} cells are left.` : "no cell is left."}`,
+      "tum.n2": "A candidate the checker rejected: many cells survive. The checker does not say yes to everything.",
+      "tum.n3": () => `Our exact analysis predicted this before the simulation ran: no cell is left.`, "tum.nx": (label, a) => `${label}: ${a ? `${num(a)} cells are left.` : "no cell is left."}`,
+      "tum.foot": (a, n) => `Two independent engines, the solver and the simulation, agree on ${a} of ${n} sets. Both run the same rules, so this checks one against the other, not the biology.`,
+      "tum.note": "A computer simulation (PhysiBoSS). One dot is one cell. An illustration of the model, not a prediction for any person.",
+      "sx.eyebrow": "The search engine", "sx.h2": "Every change of one or two genes. <em>Tried.</em>",
+      "sx.lede": "Ask for a cell that dies and nothing else. The solver tries every set of one or two genes, off or on, and keeps the smallest that work. Then pick a tumour profile and ask again.",
       "ctl.damage": "DNA damage",
       "scale.dish": "Dish", "scale.circuit": "Cell", "irr.go": "Irradiate", "irr.again": "Irradiate again", "irr.replay": "Replay",
       "vial.none": "No change", "vial.tug1": "Switch off TUG1", "vial.mir": "Switch on miR-221", "vial.p53": "Remove p53", "cmp.paper": "Paper: known result",
       "dish.note": "Illustration. The model gives possible fates, not percentages.", "dish.empty": "no cells left",
       "tip.idle": "A healthy cell. Irradiate the dish and watch it decide.", "tip.cell": "Click to look inside this cell.", "tip.osc": "No stable state: this cell keeps flipping between fates.",
       "dock.circuit": "Click a gene to cut it. Click again to switch it on.", "lg.act": "switches on", "lg.inh": "switches off", "lg.new": "new link", "lg.on": "on", "lg.off": "off",
-      rail: ["Cells", "New link", "Tests", "Fix", "Audit", "Hunt"],
+      rail: ["Cells", "New link", "Tests", "Fix", "Audit", "Tumour", "Hunt"],
       "a6.t": "The hunt", "a6.h": (n) => `Cut or switch on one or two genes so that every cell dies. The checker knows exactly ${n} ways. How many can you find?`,
       "a6.how": "On the circuit, click a gene: once to cut it, twice to force it on, three times to clear it. Two genes at most.",
       "a6.none": "Pick a gene to start.", "a6.never": "The circuit never settles here, so no cell reaches any fate.", "a6.trivial": "Only death, but it works by forcing the death machinery itself. That does not count.",
@@ -116,10 +154,13 @@
       "cap.8": (f) => `${f} of the 10 now come out wrong: the AI's link was not safe.`, "cap.9": "The AI sees which ones, and rewrites the link.",
       "cap.10": "Now all 10 come out right. The checker decided, not the AI.",
       "cap.11": "Honest limit: on 10 outcomes from papers the AI never read, the model is no better than before.", "cap.12": "The AI proposes. The solver decides.",
+      "cap.13": (n) => `Now a virtual tumour: ${num(n)} cells in a computer simulation, the same rules in each.`, "cap.14": (a) => `Radiation alone: ${num(a)} cells are still alive after 72 hours.`,
+      "cap.15": "Now one of the solver's candidates, switched in every cell.", "cap.16": (a, n) => `No cell is left. The simulation agrees with the solver on ${a} of ${n} sets.`,
+      "cap.17": "But every tumour has its own genes. Where p53 is lost, none of the candidates works.",
     },
     el: {
-      "nav.story": "Η ιστορία", "nav.bench": "Εργαστήριο", "play.short": "▶ Demo εργαστηρίου", "play.stop": "■ Στοπ",
-      "hero.sr": () => "CellProof: η ακτινοβολία σπάει το DNA και ένα κύτταρο με βλάβη δεν πεθαίνει πάντα. Ο στόχος είναι ένας συνδυασμός γονιδίων να σβήσουν, ή να ανάψουν, ώστε να μείνει μόνο ο θάνατος. Παρακάτω, μια σύντομη ιστορία με απλά λόγια, και μετά το τεχνικό μέρος. Υποθέσεις για πειράματα, όχι θεραπείες.",
+      "nav.bench": "Demo", "nav.search": "Αναζήτηση", "play.short": "▶ Παίξε το demo", "play.stop": "■ Στοπ",
+      "hero.sr": () => "CellProof: η ακτινοβολία σπάει το DNA και ένα κύτταρο με βλάβη δεν πεθαίνει πάντα. Ο στόχος είναι ένας συνδυασμός γονιδίων να σβήσουν, ή να ανάψουν, ώστε να μείνει μόνο ο θάνατος. Οι συνδυασμοί είναι πάρα πολλοί για να δοκιμαστούν, και κάθε νέο paper μπορεί να αλλάξει ποιοι δουλεύουν. Ένα AI διαβάζει τα papers, ένας ακριβής solver ελέγχει κάθε κανόνα, ένας εικονικός όγκος δοκιμάζει ό,τι μένει, και πραγματικά δείγματα όγκων δείχνουν ότι κάθε όγκος είναι διαφορετικός. Υποθέσεις για πειράματα, όχι θεραπείες.",
       "hero.sa": () => `<b>Μόνο AI:</b> ${joined([HERO.ai && `${HERO.ai.works} από ${HERO.ai.distinct} εικασίες σωστές, βρήκε ${HERO.ai.minimal_hits} από τις ${HERO.ai.minimal} υποψήφιες`, UNCH && `οι αλλαγές του χαλάνε ${range(...UNCH)} από 10 γνωστά πειράματα`])}`,
       "hero.sb": () => `<b>Μόνο solver:</b> βρίσκει και τις ${HERO.found} και τις ελέγχει, αλλά δεν διαβάζει τα papers${HERO.proj["5"] ? `· ≈ ${dur(HERO.proj["5"])} για 5 αλλαγές (εκτίμηση)` : ""}`,
       "hero.sc": () => `<b>Μαζί:</b> ${HERO.found} υποψήφιες για το εργαστήριο (${PAPER_SETS} στο βασικό paper, οι άλλες υπολογισμένες), ${CHK} από 10 γνωστά πειράματα χαλασμένα`,
@@ -127,7 +168,7 @@
       "hero.b3": "Γύρνα τους σωστούς διακόπτες και κάθε κύτταρο <em>πεθαίνει.</em>", "hero.s3": "Ο στόχος: ένας συνδυασμός γονιδίων να σβήσουν, ή να ανάψουν, ώστε να μείνει μόνο ο θάνατος.",
       "hero.n3": "Εδώ δύο γονίδια, ένα παράδειγμα από το μοντέλο. Εικονογράφηση.",
       "hero.bd": "Νέοι κανόνες, <em>άλλοι διακόπτες να γυρίσεις.</em>",
-      "hero.sd": () => `Ένας κανόνας είναι μια σύνδεση ανάμεσα σε δύο γονίδια, και τα papers προσθέτουν συνέχεια νέους. Εδώ, ${DR.rules} νέοι κανόνες από ${DR.papers} papers, χωρίς έλεγχο, αντικατέστησαν όλους τους ${DR.published} συνδυασμούς που δούλευαν.`,
+      "hero.sd": () => `Ένας κανόνας είναι μια σύνδεση ανάμεσα σε δύο γονίδια, και τα papers προσθέτουν συνέχεια νέους. Εδώ, ${DR.rules} νέοι κανόνες από ${DR.papers} papers, χωρίς έλεγχο, αντικατέστησαν όλους τους ${DR.published} συνδυασμούς που δούλευαν με ${DR.unchecked.new} άλλους.`,
       "hero.dl": () => `Έλεγξε κάθε κανόνα πρώτα και μένουν οι ίδιοι ${DR.checked.sets}.`,
       "hero.drn": "συνδυασμοί που δουλεύουν", "hero.drb": (n) => `${n} από ${DR.cases} γνωστά πειράματα χαλασμένα`,
       "hero.dra": (n) => `Χωρίς έλεγχο · ${n} νέοι κανόνες`, "hero.drc": "Κάθε κανόνας ελέγχεται πρώτα", "hero.drp": (n) => `${n} paper${n === 1 ? "" : "s"}`,
@@ -136,17 +177,36 @@
       "hero.b5": "Το AI προτείνει. Ο solver <em>αποφασίζει.</em>", "hero.n5": "υποψήφιες έμειναν",
       "unit.s": "δλ", "unit.min": "λ", "unit.h": "ώ",
       "hero.tag": "Εικονογράφηση, όχι υπό κλίμακα. Υποθέσεις για πειράματα, όχι θεραπείες.", "hero.step": (i, n) => `Μέρος ${i} από ${n}`,
-      "hero.play": "Ξεκίνα την ιστορία ↓", "hero.try": "Το τεχνικό μέρος",
-      "bench.eyebrow": "Το εργαστήριο δοκιμών", "bench.h2": "Πέντε βήματα. Ένα κύκλωμα. Αποφασίζει ο ελεγκτής.",
-      "tech.eyebrow": "Το τεχνικό μέρος", "tech.h2": "Όλα τα παραπάνω, με κάθε αριθμό και κάθε έλεγχο.",
-      "tech.lede": "Ένα εργαστήριο δοκιμών που μπορείς να πατήσεις, το κύτταρο με όλα τα γονίδιά του, πώς δουλεύει ο agent, κάθε κανόνας που έκρινε και ο έλεγχος. Στα αγγλικά. Όλα διαβάζονται από τα αρχεία που έγραψε το pipeline.",
+      "hero.play": "▶ Παίξε το demo", "hero.try": "Δοκίμασέ το μόνος σου",
+      "hero.b7": "Τώρα, ένας εικονικός <em>όγκος.</em>",
+      "hero.s7": () => (TUM ? `${num(TUM.cells)} κύτταρα σε προσομοίωση στον υπολογιστή. Η ακτινοβολία μόνη αφήνει ${num(TUM.alive)} ζωντανά. Με μία από τις υποψήφιες του solver: ${lastAlive(TUM.items[1].cond) ? num(lastAlive(TUM.items[1].cond)) : "κανένα"}.` : ""),
+      "hero.n7": "Προσομοίωση (PhysiBoSS). Εικόνα του μοντέλου, όχι πρόβλεψη για κάποιον άνθρωπο.",
+      "hero.t0": "Μόνο ακτινοβολία", "hero.t1": "Με μια υποψήφια του solver", "hero.talive": "κύτταρα ζωντανά", "hero.thours": (h) => `μετά από ${h} ώρες`,
+      "hero.b8": "Κάθε όγκος έχει <em>δικά του γονίδια.</em>",
+      "hero.n8": "από κάθε 100 δείγματα όγκων έχουν χάσει το p53. Καμία υποψήφια δεν δουλεύει εκεί.",
+      "hero.f8": () => (SAMPLES ? `${num(SAMPLES.n)} πραγματικά δείγματα όγκων (δημόσια δεδομένα), μία κουκκίδα το καθένα. Δήλωση για το μοντέλο, όχι για κάποιον άνθρωπο. Υποθέσεις για το εργαστήριο.` : ""),
+      "hero.k0": "μια υποψήφια δουλεύει", "hero.k1": "p53 άθικτο, καμία δεν δουλεύει", "hero.k2": "p53 χαμένο: καμία δεν δουλεύει",
+      "hero.r1": "μετράμε μόνο ξεκάθαρες βλάβες του p53", "hero.r2": "μετράμε κάθε αλλαγή του p53",
+      "bench.eyebrow": "Το demo", "bench.h2": "Έξι βήματα. Ένα κύκλωμα. Αποφασίζει ο ελεγκτής.",
+      "scale.tumour": "Όγκος", "irr.tum": "Επανάληψη",
+      "a5.next": "Επόμενο: ένας εικονικός όγκος →",
+      "tum.t": "Ένας εικονικός όγκος", "tum.h": (n) => `${num(n)} κύτταρα σε προσομοίωση στον υπολογιστή (PhysiBoSS). Οι ίδιοι κανόνες τρέχουν σε κάθε κύτταρο. Διάλεξε τι θα εφαρμόσεις και δες 72 ώρες.`,
+      "tum.b0": "Μόνο ακτινοβολία", "tum.b1": "Η επιλογή του solver", "tum.b2": "Μια υποψήφια που απέρριψε", "tum.b3": "Βρέθηκε αργότερα, προβλέφθηκε πρώτα",
+      "tum.alive": (n) => `από ${num(n)} κύτταρα ζωντανά`, "tum.hours": "ώρες",
+      "tum.n0": "Χωρίς διακόπτη κάποια κύτταρα επιζούν. Έχουν γεράσει: ζουν, αλλά έχουν σταματήσει.", "tum.n1": (a) => `Η επιλογή του solver: ${a ? `μένουν ${num(a)} κύτταρα.` : "δεν μένει κανένα κύτταρο."}`,
+      "tum.n2": "Μια υποψήφια που ο ελεγκτής απέρριψε: πολλά κύτταρα επιζούν. Ο ελεγκτής δεν λέει ναι σε όλα.",
+      "tum.n3": () => `Η ακριβής ανάλυσή μας το προέβλεψε πριν τρέξει η προσομοίωση: δεν μένει κανένα κύτταρο.`, "tum.nx": (label, a) => `${label}: ${a ? `μένουν ${num(a)} κύτταρα.` : "δεν μένει κανένα κύτταρο."}`,
+      "tum.foot": (a, n) => `Δύο ανεξάρτητες μηχανές, ο solver και η προσομοίωση, συμφωνούν σε ${a} από ${n} σύνολα. Και οι δύο τρέχουν τους ίδιους κανόνες, άρα ελέγχουν η μία την άλλη, όχι τη βιολογία.`,
+      "tum.note": "Προσομοίωση στον υπολογιστή (PhysiBoSS). Μία κουκκίδα είναι ένα κύτταρο. Εικόνα του μοντέλου, όχι πρόβλεψη για κάποιον άνθρωπο.",
+      "sx.eyebrow": "Η μηχανή αναζήτησης", "sx.h2": "Κάθε αλλαγή ενός ή δύο γονιδίων. <em>Δοκιμασμένη.</em>",
+      "sx.lede": "Ζήτα ένα κύτταρο που πεθαίνει και τίποτε άλλο. Ο solver δοκιμάζει κάθε σύνολο ενός ή δύο γονιδίων, σβηστών ή αναμμένων, και κρατά τα μικρότερα που δουλεύουν. Μετά διάλεξε προφίλ όγκου και ρώτα ξανά.",
       "ctl.damage": "Βλάβη DNA",
       "scale.dish": "Τρυβλίο", "scale.circuit": "Κύτταρο", "irr.go": "Ακτινοβόληση", "irr.again": "Ξανά ακτινοβόληση", "irr.replay": "Επανάληψη",
       "vial.none": "Καμία αλλαγή", "vial.tug1": "Σβήσε το TUG1", "vial.mir": "Άναψε το miR-221", "vial.p53": "Βγάλε το p53", "cmp.paper": "Paper: γνωστό αποτέλεσμα",
       "dish.note": "Εικονογράφηση. Το μοντέλο δίνει πιθανές μοίρες, όχι ποσοστά.", "dish.empty": "δεν έμεινε κανένα κύτταρο",
       "tip.idle": "Ένα υγιές κύτταρο. Ακτινοβόλησε το τρυβλίο και δες το να αποφασίζει.", "tip.cell": "Κάνε κλικ για να δεις μέσα στο κύτταρο.", "tip.osc": "Καμία σταθερή κατάσταση: το κύτταρο αλλάζει συνεχώς μοίρα.",
       "dock.circuit": "Κάνε κλικ σε γονίδιο για να το κόψεις. Ξανά κλικ για να το ανάψεις.", "lg.act": "ανάβει", "lg.inh": "σβήνει", "lg.new": "νέα σύνδεση", "lg.on": "αναμμένο", "lg.off": "σβηστό",
-      rail: ["Κύτταρα", "Νέα σύνδεση", "Δοκιμές", "Διόρθωση", "Έλεγχος", "Κυνήγι"],
+      rail: ["Κύτταρα", "Νέα σύνδεση", "Δοκιμές", "Διόρθωση", "Έλεγχος", "Όγκος", "Κυνήγι"],
       "a6.t": "Το κυνήγι", "a6.h": (n) => `Κόψε ή άναψε ένα ή δύο γονίδια ώστε να πεθαίνουν όλα τα κύτταρα. Ο ελεγκτής ξέρει ακριβώς ${n} τρόπους. Πόσους βρίσκεις;`,
       "a6.how": "Στο κύκλωμα, κάνε κλικ σε ένα γονίδιο: μία φορά το κόβεις, δύο φορές το αναγκάζεις να ανάψει, τρεις φορές το καθαρίζεις. Το πολύ δύο γονίδια.",
       "a6.none": "Διάλεξε ένα γονίδιο για να ξεκινήσεις.", "a6.never": "Το κύκλωμα δεν σταθεροποιείται εδώ, οπότε κανένα κύτταρο δεν φτάνει σε μοίρα.", "a6.trivial": "Μόνο θάνατος, αλλά επειδή αναγκάζεις τον ίδιο τον μηχανισμό θανάτου. Δεν μετράει.",
@@ -191,6 +251,9 @@
       "cap.8": (f) => `Τα ${f} από τα 10 βγαίνουν πια λάθος: η σύνδεση του AI δεν ήταν ασφαλής.`, "cap.9": "Το AI βλέπει ποια, και ξαναγράφει τη σύνδεση.",
       "cap.10": "Τώρα βγαίνουν σωστά και τα 10. Αποφάσισε ο ελεγκτής, όχι το AI.",
       "cap.11": "Ειλικρινές όριο: σε 10 αποτελέσματα από papers που το AI δεν διάβασε, το μοντέλο δεν είναι καλύτερο από πριν.", "cap.12": "Το AI προτείνει. Ο solver αποφασίζει.",
+      "cap.13": (n) => `Τώρα ένας εικονικός όγκος: ${num(n)} κύτταρα σε προσομοίωση, οι ίδιοι κανόνες σε κάθε ένα.`, "cap.14": (a) => `Μόνο η ακτινοβολία: ${num(a)} κύτταρα είναι ακόμα ζωντανά μετά από 72 ώρες.`,
+      "cap.15": "Τώρα μία από τις υποψήφιες του solver, γυρισμένη σε κάθε κύτταρο.", "cap.16": (a, n) => `Δεν μένει κανένα κύτταρο. Η προσομοίωση συμφωνεί με τον solver σε ${a} από ${n} σύνολα.`,
+      "cap.17": "Αλλά κάθε όγκος έχει δικά του γονίδια. Όπου το p53 έχει χαθεί, καμία υποψήφια δεν δουλεύει.",
     },
   };
   let lang = "en";
@@ -202,7 +265,7 @@
 
   /* ---------------------------------------------------------------- state */
   const initial = () => ({ act: 1, reach: 1, ver: "A", scale: "dish", damage: 0, irr: 0, perts: [], fate: null, variant: 0, read: false, reading: false, plugged: false,
-    answered: false, thinking: false, fixed: false, run: {}, sel: null, claim: null, status: "", playing: false, verdict: null, lastFind: null });
+    answered: false, thinking: false, fixed: false, run: {}, sel: null, claim: null, status: "", playing: false, verdict: null, lastFind: null, tumName: "radiation_only", tumRun: 0 });
   const st = initial();
   let found = new Set();  /* the hunt's progress outlives a restart, and a reload when storage allows it */
   try { found = new Set(JSON.parse(localStorage.getItem("cellproof-hunt") || "[]")); } catch (e) { /* storage may be blocked */ }
@@ -235,6 +298,11 @@
   let built = "A";
   const pulseG = svg("g", { class: "pulses" }, svgEl);
   const dish = makeDish($("#bDish"), { tip: $("#bTip"), label: cellTip, onCell });
+  /* the virtual tumour: one condition of the simulation at a time; the counters of the panel follow the frames */
+  let tumSig = "";
+  function tumFrame(alive, hours) { const a = $("#tumAlive"), h = $("#tumHours"); if (a) a.textContent = num(Math.round(alive)); if (h) h.textContent = String(Math.round(hours)); }
+  const tumour = TUM ? makeTumour($("#bTumour"), { frames: TUM.frames, onFrame: tumFrame }) : null;
+  if (!TUM) { $("#bScaleTum").hidden = true; $("#bTumour").remove(); }
 
   /* signals running along the wires whose source gene is on in the stable state being shown */
   let pulses = [], pulseLast = 0, pulseAcc = 0, pulsing = false;
@@ -265,6 +333,7 @@
     const live = inView && !document.hidden && !reduced, want = (s) => live && st.scale === s;
     if (want("circuit") && !pulsing) { pulsing = true; pulseLast = performance.now(); requestAnimationFrame(pulseFrame); } else if (!want("circuit")) pulsing = false;
     if (want("dish")) dish.start(); else dish.stop();
+    if (tumour) { if (want("tumour")) tumour.start(); else tumour.stop(); }
   }
   new IntersectionObserver((es) => { inView = es[0].isIntersecting; syncLoops(); }, { threshold: 0.15 }).observe(box);
   document.addEventListener("visibilitychange", syncLoops);
@@ -291,7 +360,7 @@
   function burst() { burstEl.classList.remove("go"); void burstEl.offsetWidth; burstEl.classList.add("go"); }
   function onNode(n) {
     if (st.playing) return;
-    if (st.act === 6) {  /* in the hunt up to two genes can be cut or forced on at once */
+    if (st.act === 7) {  /* in the hunt up to two genes can be cut or forced on at once */
       if (n === "DNA_damage") return;
       const i = st.perts.findIndex(([m]) => m === n);
       if (i >= 0) { if (st.perts[i][1] === 0) st.perts[i][1] = 1; else st.perts.splice(i, 1); } else { st.perts.push([n, 0]); if (st.perts.length > 2) st.perts.shift(); }
@@ -333,6 +402,10 @@
         dishes: compare ? [{ fates: c.expected, title: T("cmp.paper"), empty: T("dish.empty") }, { fates, osc, bad, title: T("says"), empty: T("dish.empty") }] : [{ fates, osc, bad, empty: T("dish.empty") }] });
       dish.spot(st.fate && present.has(st.fate) ? st.fate : null);
     }
+    if (st.scale === "tumour" && tumour) {  /* a condition is replayed when it is picked or asked for again, not at every repaint */
+      const cond = TUM.byName[st.tumName] || TUM.items[0].cond, sig = cond.name + "|" + st.tumRun;
+      if (sig !== tumSig) { tumSig = sig; tumour.play(cond); }
+    }
     renderDock(compare); syncLoops();
   }
 
@@ -349,11 +422,12 @@
     $("#bVials").hidden = !(s === "dish" && !compare);
     $$(".vial", $("#bVials")).forEach((v) => v.setAttribute("aria-pressed", String(st.damage === 1 && pertKey(st.perts) === v.dataset.key)));
     $("#bIrr").hidden = s === "circuit";
-    $("#bIrrTxt").textContent = T(compare ? "irr.replay" : st.damage ? "irr.again" : "irr.go");
+    $("#bIrrTxt").textContent = T(compare ? "irr.replay" : s === "tumour" ? "irr.tum" : st.damage ? "irr.again" : "irr.go");
+    $("#bTumPick").hidden = s !== "tumour"; if (s === "tumour" && TUM) buildTumPick();
     $("#bIrr").classList.toggle("nudge", !st.damage && !compare);
     $("#bLegend").hidden = s !== "circuit";
     $("#bDockHint").textContent = s === "circuit" ? T("dock.circuit") : "";
-    $("#bNote").hidden = s !== "dish"; $("#bNote").textContent = T("dish.note");
+    $("#bNote").hidden = s !== "dish" && s !== "tumour"; $("#bNote").textContent = T(s === "tumour" ? "tum.note" : "dish.note");
   }
   const btn = (act, label, cls = "", arg = "") => `<button type="button" class="btn ${cls}" data-do="${act}"${arg ? ` data-arg="${esc(arg)}"` : ""}>${label}</button>`;
   const presetRow = () => `<div class="b-row">${PRESETS.map(([id, key, perts]) => `<button type="button" class="tab" data-do="cut" data-arg="${id}" aria-pressed="${st.damage === 1 && pertKey(st.perts) === pertKey(perts)}">${esc(T(key))}</button>`).join("")}</div>`;
@@ -389,7 +463,7 @@
     return `<p class="b-hint">${esc(T("a5.h", N))}</p>
       <div class="score">${score(1, HO_.totals[pub].correct, T("sc.pub"))}${score(2, HO_.totals[aug].correct, T("sc.aug"))}${score(3, HO_.baseline.correct, T("sc.base"))}</div>
       <div class="b-card"><b>${esc(T("a5.no"))}</b><span>${esc(T("a5.hollow", hollow, can.length))}</span>${naive.length ? `<span>${esc(T("a5.worked", Math.min(...naive), Math.max(...naive), checked.length ? Math.max(...checked) : 0))}</span>` : ""}</div>
-      <div class="b-actions">${btn("notebook", esc(T("a5.nb")), "primary")}${btn("again", esc(T("a5.again")))}${HUNT ? btn("hunt", esc(T("a6.go"))) : ""}${btn("restart", esc(T("a5.restart")))}</div>
+      <div class="b-actions">${TUM ? btn("next", esc(T("a5.next")), "primary") : btn("notebook", esc(T("a5.nb")), "primary")}${btn("again", esc(T("a5.again")))}${HUNT ? btn("hunt", esc(T("a6.go"))) : ""}${TUM ? btn("notebook", esc(T("a5.nb"))) : ""}${btn("restart", esc(T("a5.restart")))}</div>
       <div class="claims10"><div class="cl head"><span>${esc(T("a5.click"))}</span><span>1</span><span>2</span><span>3</span></div>${rows}</div>${picked}`;
   }
 
@@ -418,7 +492,8 @@
         ${v ? `<details class="b-card"><summary>${esc(T("a4.cheat"))}</summary><span>${esc(T("a4.cheat.d"))}</span><div class="rule">${ruleHTML(v.old, v.rule)}</div></details>` : ""}
         <div class="b-actions">${btn("next", T("a4.next"), "primary")}</div>`;
     }
-    if (st.act === 6) return `<h3>${T("a6.t")}</h3>${huntBlock()}`;
+    if (st.act === 7) return `<h3>${T("a6.t")}</h3>${huntBlock()}`;
+    if (st.act === 6) return `<h3>${T("tum.t")}</h3>${tumourBlock()}`;
     return `<h3>${T("a5.t")}</h3>${auditBlock()}`;
   }
   function verdictText(v) {
@@ -435,6 +510,27 @@
       <div class="hunt-meter"><b>${k}<span>/${INTERV.length}</span></b><div class="bar"><i style="width:${(100 * k) / INTERV.length}%"></i></div></div>
       <p class="b-status hunt-msg ${v.kind}">${esc(verdictText(v))}</p><div class="hunt-grid">${items}</div>
       <div class="b-actions">${btn("hint", esc(T("a6.hint")), "small")}${btn("huntdish", esc(T("a6.dish")), "small")}${btn("huntreset", esc(T("a6.reset")), "small")}</div><p class="hint">${esc(T("a6.note"))}</p>`;
+  }
+  /* ---------------------------------------------------------------- step 6: the virtual tumour */
+  const parsePerts = (label) => { const parts = String(label).split(" + ").map((x) => /^([A-Za-z0-9_]+) (KO|E1)$/.exec(x)); return parts.every(Boolean) ? parts.map((m) => [m[1], m[2] === "E1" ? 1 : 0]) : []; };
+  function selectTum(name) {
+    const c = TUM && TUM.byName[name]; if (!c) return;
+    st.tumName = name; st.tumRun++; st.damage = 1; st.perts = parsePerts(c.label); st.fate = null; st.variant = 0; render();
+  }
+  const tumNote = () => { const it = TUM.items.find((x) => x.cond.name === st.tumName), c = TUM.byName[st.tumName]; return it ? T("tum.n" + it.i, lastAlive(c)) : T("tum.nx", c.label, lastAlive(c)); };
+  function buildTumPick() {
+    $("#bTumPick").replaceChildren(...TUM.items.map((x) => {
+      const b = h(`<button type="button" class="vial" aria-pressed="${st.tumName === x.cond.name}"><span class="tube"><i class="liq"></i></span><span>${esc(T("tum.b" + x.i))}</span></button>`);
+      b.addEventListener("click", () => { if (!st.playing) selectTum(x.cond.name); });
+      return b;
+    }));
+  }
+  function tumourBlock() {
+    const picks = TUM.items.map((x) => `<button type="button" class="tab" data-do="tum" data-arg="${esc(x.cond.name)}" aria-pressed="${st.tumName === x.cond.name}">${esc(T("tum.b" + x.i))}</button>`).join("");
+    return `<p class="b-hint">${esc(T("tum.h", TUM.cells))}</p><div class="b-row">${picks}</div>
+      <div class="b-count"><div><b id="tumAlive">${num(TUM.cells)}</b><small>${esc(T("tum.alive", TUM.cells))}</small></div><div><b id="tumHours">0</b><small>${esc(T("tum.hours"))}</small></div></div>
+      <p class="b-status">${esc(tumNote())}</p>
+      <div class="b-actions">${HUNT ? btn("hunt", esc(T("a6.go")), "primary") : ""}${btn("notebook", esc(T("a5.nb")))}</div><p class="hint">${esc(T("tum.foot", TUM.agree, TUM.of))}</p>`;
   }
   function renderPanel() {
     const el = $("#bPanel"), a = document.activeElement, keep = a && el.contains(a) && a.dataset.do ? [a.dataset.do, a.dataset.arg] : null;
@@ -471,8 +567,8 @@
 
   /* ---------------------------------------------------------------- steps */
   function renderRail() {
-    $("#bRail").replaceChildren(...T("rail").slice(0, HUNT ? 6 : 5).map((label, i) => {
-      const n = i + 1, li = h(`<li><button type="button"${n === st.act ? ' aria-current="step"' : ""} class="${n === 6 ? "bonus " : ""}${n < st.reach && n !== st.act && n !== 6 ? "done" : ""}"${n > st.reach && n !== 6 ? " disabled" : ""}><b>${n}</b><span class="lbl">${esc(label)}</span></button></li>`);
+    $("#bRail").replaceChildren(...T("rail").slice(0, HUNT ? 7 : 6).map((label, i) => {
+      const n = i + 1, off = n > st.reach && n !== 7 || n === 6 && !TUM, li = h(`<li><button type="button"${n === st.act ? ' aria-current="step"' : ""} class="${n === 7 ? "bonus " : ""}${n < st.reach && n !== st.act && n !== 7 ? "done" : ""}"${off ? " disabled" : ""}><b>${n}</b><span class="lbl">${esc(label)}</span></button></li>`);
       li.firstElementChild.addEventListener("click", () => { if (!st.playing) go(n); });
       return li;
     }));
@@ -485,12 +581,13 @@
   }
   function go(n) {
     clearUi();
-    st.act = n; st.reach = Math.max(st.reach, Math.min(n, 5)); st.sel = null; st.claim = null; st.fate = null; st.variant = 0; st.verdict = null;
+    st.act = n; st.reach = Math.max(st.reach, Math.min(n, 6)); st.sel = null; st.claim = null; st.fate = null; st.variant = 0; st.verdict = null;
     st.ver = n === 1 ? "A" : n === 2 ? (st.plugged ? "B" : "A") : n === 3 ? "B" : n === 4 ? (st.fixed ? "C" : "B") : "C";
     if (n === 3) st.plugged = true;
     if (n === 2 || n >= 5 || st.perts.length > 1) st.perts = [];  /* an old cut does not carry into a new step; a pair of cuts is only for the tests */
     if (n > 1) st.damage = 1;  /* every step after the first is about irradiated cells */
-    st.scale = n === 1 ? "dish" : n === 4 && caseFor(st.ver, st.damage, st.perts) ? "dish" : "circuit";  /* cells to start with, wires for the patch, cells again to compare a failed test with the paper */
+    st.scale = n === 1 ? "dish" : n === 4 && caseFor(st.ver, st.damage, st.perts) ? "dish" : n === 6 && tumour ? "tumour" : "circuit";  /* cells to start with, wires for the patch, cells again to compare a failed test with the paper, the tumour at the end */
+    if (n === 6) { st.tumName = "radiation_only"; st.tumRun++; }
     if (n === 4 && !st.answered) { st.thinking = true; later(ui, () => { st.thinking = false; st.answered = true; renderPanel(); }, reduced ? 150 : 1500); }
     render();
   }
@@ -536,11 +633,11 @@
     const p = PRESETS.find((x) => x[0] === id); if (!p) return;
     st.damage = 1; st.perts = p[2].map((x) => [...x]); st.sel = null; st.fate = null; st.variant = 0; st.irr++; render();
   }
-  function irradiate() { if (st.playing) return; st.damage = 1; st.irr++; st.sel = null; st.fate = null; st.variant = 0; render(); }
+  function irradiate() { if (st.playing) return; if (st.scale === "tumour") { st.tumRun++; render(); return; } st.damage = 1; st.irr++; st.sel = null; st.fate = null; st.variant = 0; render(); }
   function setScale(s) { if (s === st.scale) return; st.scale = s; render(); }
-  function reset() { stop(); clearUi(); Object.assign(st, initial()); built = null; render(); }
+  function reset() { stop(); clearUi(); Object.assign(st, initial()); built = null; tumSig = ""; render(); }
   const ACT = {
-    next: () => go(st.act + 1), cut: setCut, read: doRead, plug: doPlug, run: () => doRun("B"), fix: doFix, hunt: () => go(6),
+    next: () => go(st.act + 1), cut: setCut, read: doRead, plug: doPlug, run: () => doRun("B"), fix: doFix, hunt: () => go(7), tum: (name) => selectTum(name),
     hint: () => {  /* name one gene of an answer not found yet, and make it blink on the circuit */
       const left = INTERV.filter((s) => !found.has(pertKey(s))); if (!left.length) return;
       const n = left[0][0][0]; st.verdict = { kind: "hint", node: n }; render(); net.flash(n); later(ui, () => net.flash(n), 500); later(ui, () => net.flash(n), 1000);
@@ -568,7 +665,7 @@
   }
   function play() {
     clearSet(script); clearUi(); Object.assign(st, initial()); built = null; render();
-    st.playing = true; grid.classList.add("playing"); $("#bStop").hidden = false;
+    st.playing = true; tumSig = ""; grid.classList.add("playing"); $("#bStop").hidden = false;
     grid.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });  /* stage and lamps together in one screen */
     /* plain words, one idea at a time: the damage, the four fates, a gene whose loss kills every cell, the model, a missing link, the test, the fix, the limit */
     const fails = failing("B").length, S = [
@@ -578,25 +675,28 @@
       [31000, () => { say("cap.6", pretty(SRC), pretty(DST)); doPlug(); }],
       [35500, () => { say("cap.7"); go(3); }], [38000, () => doRun("B")], [43500, () => say("cap.8", fails)],
       [47500, () => { say("cap.9"); go(4); }], [51500, () => { say("cap.10"); doFix(); }],
-      [55500, () => { say("cap.11"); go(5); }], [PLAY_S * 1000, () => stop()],
+      [55500, () => { say("cap.11"); go(5); }],
+      ...(TUM ? [[60000, () => { say("cap.13", TUM.cells); go(6); }], [67200, () => say("cap.14", TUM.alive)], [69500, () => { say("cap.15"); selectTum(TUM.items[1].cond.name); }],
+        [76500, () => say("cap.16", TUM.agree, TUM.of)], [81500, () => say("cap.17")]] : []),
+      [(TUM ? PLAY_S : 60) * 1000, () => stop()],
     ];
     S.forEach(([ms, fn]) => later(script, fn, ms));
   }
   $("#bStop").addEventListener("click", stop);
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && st.playing) stop(); });
-  $("#playTop").addEventListener("click", play);
+  ["#playTop", "#playHero"].forEach((id) => { const b = $(id); if (b) b.addEventListener("click", play); });
 
   /* ---------------------------------------------------------------- language */
   let heroApi = null;  /* set by the header at the end of this file */
-  function applyStatic() {
+  let applyStatic = function applyStatic() {
     document.documentElement.lang = lang;
     $$("[data-i18n]").forEach((el) => (el.textContent = T(el.dataset.i18n, N0, PLAY_S)));
     $$("[data-i18n-html]").forEach((el) => (el.innerHTML = T(el.dataset.i18nHtml, N0, PLAY_S)));
     $("#langTxt").textContent = lang === "en" ? "ΕΛ" : "EN";
     const aria = lang === "en"
-      ? ["The gene circuit of a cell. Lamps below show which fates it can reach.", "A culture dish of cells reacting to radiation."]
-      : ["Το κύκλωμα γονιδίων ενός κυττάρου. Οι λυχνίες από κάτω δείχνουν ποιες μοίρες μπορεί να φτάσει.", "Ένα τρυβλίο με κύτταρα που αντιδρούν στην ακτινοβολία."];
-    ["#bNet", "#bDish"].forEach((id, i) => $(id).setAttribute("aria-label", aria[i]));
+      ? ["The gene circuit of a cell. Lamps below show which fates it can reach.", "A culture dish of cells reacting to radiation.", "A virtual tumour: a disc of dots, one per cell, replayed over 72 hours after radiation."]
+      : ["Το κύκλωμα γονιδίων ενός κυττάρου. Οι λυχνίες από κάτω δείχνουν ποιες μοίρες μπορεί να φτάσει.", "Ένα τρυβλίο με κύτταρα που αντιδρούν στην ακτινοβολία.", "Ένας εικονικός όγκος: ένας δίσκος από κουκκίδες, μία για κάθε κύτταρο, που παίζει 72 ώρες μετά την ακτινοβολία."];
+    ["#bNet", "#bDish", "#bTumour"].forEach((id, i) => { const el = $(id); if (el) el.setAttribute("aria-label", aria[i]); });
     buildVials(); net.relabel(); if (heroApi) heroApi.relabel();
   }
   $("#lang").addEventListener("click", () => {
@@ -609,7 +709,7 @@
      it moves only while it is on screen, and the little bars under the words jump to any beat */
   (function heroStory() {
     const hero = $("#top"), cvH = $("#heroMol"), cvS = $("#heroStory"); if (!hero || !cvH || !cvS) return;
-    const FULL = HERO.total && HERO.found && HERO.sizes.every(Boolean) && DRIFT, lite = innerWidth < 700, BEATS = 3, DUR = [5500, 6500, 8500, 11000, 10000, 11500].slice(0, BEATS), dots = $$("#hDots button");
+    const FULL = HERO.total && HERO.found && HERO.sizes.every(Boolean) && DRIFT, lite = innerWidth < 700, BEATS = FULL ? (TUM ? (SAMPLES ? 8 : 7) : 6) : 3, DUR = [5500, 6500, 8500, 11000, 10000, 11500, 12500, 13500].slice(0, BEATS), dots = $$("#hDots button");
     let beat = 0, timer = 0, hitT = 0, seen = true, shown = -1, shownStage = 0, held = false, due = 0, since = 0;
     dots.forEach((d, i) => { d.hidden = i >= BEATS; });
     const paint = (n) => { shown = n; const el = $(`.beat[data-b="${beat + 1}"] [data-count]`, hero); if (el && n >= 0) el.textContent = num(n); };
@@ -628,11 +728,14 @@
     /* the first two rows are warnings (each does part of the job); the first becomes a cross only if the model was mostly wrong */
     const aiRow = $(".b-score li:nth-child(1)", hero);
     if (aiRow && HERO.ai && HERO.ai.distinct && HERO.ai.works / HERO.ai.distinct < 0.5) { aiRow.className = "no"; $("i", aiRow).textContent = "✕"; }
-    const helix = makeHelix(cvH, { lite }), story = makeStory(cvS, { lite, total: HERO.total, keep: HERO.keep, sizes: HERO.sizes, marks: HERO.marks, chips, drift, fmt: num, onCount: paint, onStage: stageTo });
+    /* the two last beats: the virtual tumour (the simulation's own frames, radiation alone next to a solver candidate) and the tumour samples */
+    const tumour7 = TUM ? { frames: TUM.frames, hours: TUM.hours, a: TUM.items[0].cond, b: TUM.items[1].cond, labels: () => ({ a: T("hero.t0"), b: T("hero.t1"), alive: T("hero.talive"), hours: (h) => T("hero.thours", h) }) } : null;
+    const samples8 = SAMPLES ? { n: SAMPLES.n, r1: SAMPLES.r1, r2: SAMPLES.r2, labels: () => ({ k0: T("hero.k0"), k1: T("hero.k1"), k2: T("hero.k2"), r1: T("hero.r1"), r2: T("hero.r2") }) } : null;
+    const helix = makeHelix(cvH, { lite }), story = makeStory(cvS, { lite, total: HERO.total, keep: HERO.keep, sizes: HERO.sizes, marks: HERO.marks, chips, drift, tumour: tumour7, samples: samples8, fmt: num, onCount: paint, onStage: stageTo });
     function show(n) {
       beat = n; hero.dataset.beat = String(n + 1); shownStage = 0; hero.dataset.stage = "0"; paintHeroStage(0);
       dots.forEach((d, i) => { d.dataset.state = i < n ? "done" : i === n ? "on" : "todo"; d.setAttribute("aria-current", i === n ? "step" : "false"); d.style.setProperty("--dur", DUR[n] + "ms"); });
-      paint(n === 5 ? HERO.total : n === 4 ? 0 : -1);
+      paint(n === 5 ? HERO.total : n === 4 || n === 7 ? 0 : -1);
       story.show(n, reduced);
       clearTimeout(hitT); if (n === 0) hitT = setTimeout(helix.hit, 1000);
       arm(DUR[n]);
@@ -660,6 +763,20 @@
     heroApi = { relabel: () => { dots.forEach((d, i) => d.setAttribute("aria-label", T("hero.step", i + 1, BEATS))); paint(shown); paintHeroStage(shownStage); } };
   })();
 
+  /* the search engine (search.js) opens its answers here and adds its own words */
+  function openSet(perts, where) {
+    if (st.playing) stop();
+    const label = perts.map(([n, v]) => `${n} ${v ? "E1" : "KO"}`).join(" + "), cond = TUM && TUM.byLabel[label];
+    if (where === "tumour" && cond) { go(6); selectTum(cond.name); } else { go(7); st.perts = perts.map(([n, v]) => [n, v]); st.verdict = huntVerdict(); st.scale = "dish"; st.irr++; render(); }
+    $("#bench").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+  }
+  const langHooks = [];
+  window.CP = {
+    T: (k, ...a) => T(k, ...a), num: (n) => num(n), lang: () => lang, onLang: (fn) => langHooks.push(fn), refresh: () => applyStatic(),
+    add: (dict) => { Object.assign(TEXT.en, dict.en); Object.assign(TEXT.el, dict.el); }, hasTumour: (perts) => !!(TUM && TUM.byLabel[perts.map(([n, v]) => `${n} ${v ? "E1" : "KO"}`).join(" + ")]), open: openSet,
+  };
+  const applyStatic0 = applyStatic;
+  applyStatic = function () { applyStatic0(); langHooks.forEach((fn) => fn()); };
   applyStatic(); render();
-  window.CPBench = { play, stop, go, reset, state: st };
+  window.CPBench = { play, stop, go, reset, state: st, open: openSet };
 })();

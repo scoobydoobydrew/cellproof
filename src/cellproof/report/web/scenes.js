@@ -258,3 +258,61 @@ function makeDish(cv, opt = {}) {
 
   return { run, fire, start: b.start, stop: b.stop, draw: () => b.tick(0, performance.now()), spot: (f) => { spot = f; if (!b.running) b.tick(0, performance.now()); }, cells: () => dishes.map((d) => d.cells.length) };
 }
+
+/* ---------------------------------------------------------------- the virtual tumour: the frames PhysiBoSS wrote (results/tissue), replayed
+   Shared by the header (two discs side by side) and by the bench (one disc). Nothing here is simulated again: a cell's state at a frame is
+   read from the run-length coded string `report/data.py` wrote (a digit for the state, the length of the run, a comma), and between two
+   frames a cell takes the later state at a random moment, so the crowd changes a little at a time. States: 0 undecided, 1 pauses,
+   2 ages, 3 recycles, 4 dying, 5 gone. */
+const lerp = (a, b, t) => a + (b - a) * t;
+function tissueFrames(TS) {
+  const N = TS.facts.cells, pos = TS.positions, spacing = TS.settings.spacing, cache = new Map(), r = rng(11);
+  const R = Math.max(...pos.map(([x, y]) => Math.hypot(x, y))) + spacing;
+  const frame = (c, k) => {
+    const key = c.name + ":" + k;
+    if (!cache.has(key)) { const out = new Uint8Array(N); let i = 0; c.frames[k].replace(/(\d)(\d+),/g, (_, d, run) => { out.fill(+d, i, i + +run); i += +run; return ""; }); cache.set(key, out); }
+    return cache.get(key);
+  };
+  return { N, pos, spacing, R, frame, thr: Float32Array.from({ length: N }, () => r()), scratch: new Uint8Array(N) };
+}
+/* the cells of `cond` at the fractional frame f, inside a disc of radius `rad` centred on (cx, cy); `colors` has one fill per state 0..4, `gone`
+   the faint dot left where a cell has gone; returns how many cells the frame counts as alive and the hours it stands for */
+function drawCrowd(ctx, tf, cond, f, cx, cy, rad, colors, gone) {
+  const steps = cond.times.length, k = Math.max(0, Math.min(Math.floor(f), steps - 2)), fr = Math.max(0, Math.min(1, f - k)), a = tf.frame(cond, k), b = tf.frame(cond, k + 1);
+  const s = rad / tf.R, r = Math.max(1.05, tf.spacing * 0.47 * s), st = tf.scratch, N = tf.N, pos = tf.pos;
+  for (let i = 0; i < N; i++) st[i] = a[i] === b[i] ? a[i] : fr > tf.thr[i] ? b[i] : a[i];
+  for (let c = 0; c < 6; c++) {
+    if (c === 5 && !gone) break;
+    ctx.beginPath();
+    const rr = c === 5 ? r * 0.55 : r;
+    for (let i = 0; i < N; i++) if (st[i] === c) { const x = cx + pos[i][0] * s, y = cy - pos[i][1] * s; ctx.moveTo(x + rr, y); ctx.arc(x, y, rr, 0, TAU); }
+    ctx.fillStyle = c === 5 ? gone : colors[c]; ctx.fill();
+  }
+  return { alive: lerp(cond.alive[k], cond.alive[k + 1], fr), hours: lerp(cond.times[k], cond.times[k + 1], fr) / 60 };
+}
+
+/* the bench's tumour: one disc on the bench's own tokens, replaying one condition at a time */
+function makeTumour(cv, opt = {}) {
+  const b = sceneBase(cv), ctx = b.ctx, tf = opt.frames, PLAY = 6200;
+  let cond = null, f = 0, t0 = 0, phase = "idle", done = null, flash = 0;
+  const colors = () => { const C = b.c; return [rgba(C.fg, 0.5), rgba(C["f-arrest"], 0.95), rgba(C["f-senescence"], 0.95), rgba(C["f-autophagy"], 0.95), rgba(C["f-apoptosis"], 0.95)]; };
+  b.tick = (dt, T) => {
+    const C = b.c, cx = 500, cy = 340, R = 292;
+    if (cond && phase === "play") { const p = Math.min(1, (T - t0) / PLAY); f = p * (cond.times.length - 1); if (p >= 1) { phase = "done"; if (done) { const d = done; done = null; d(); } } }
+    b.begin();
+    ctx.beginPath(); ctx.arc(cx, cy, R + 14, 0, TAU); ctx.fillStyle = rgba(C.fg, 0.035); ctx.fill(); ctx.lineWidth = 3; ctx.strokeStyle = rgba(C.fg, 0.2); ctx.stroke();
+    const g = ctx.createRadialGradient(cx - R * 0.3, cy - R * 0.35, R * 0.05, cx, cy, R); g.addColorStop(0, rgba(C.raised, 0.9)); g.addColorStop(1, rgba(C.surface, 0.9));
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, TAU); ctx.fillStyle = g; ctx.fill(); ctx.lineWidth = 1.5; ctx.strokeStyle = rgba(C.fg, 0.28); ctx.stroke();
+    if (!cond) return;
+    const info = drawCrowd(ctx, tf, cond, f, cx, cy, R - 10, colors(), rgba(C.fg, b.light ? 0.12 : 0.16));
+    if (T - flash < 700) { const k = (T - flash) / 700; ctx.beginPath(); ctx.arc(cx, cy, R * (1 + 0.08 * k), 0, TAU); ctx.lineWidth = 6 * (1 - k); ctx.strokeStyle = rgba(C.accent, 0.8 * (1 - k)); ctx.stroke(); }
+    if (opt.onFrame) opt.onFrame(info.alive, info.hours, phase);
+  };
+  const api = {
+    play(c, o = {}) { cond = c; done = o.done || null; f = 0; phase = "play"; t0 = performance.now(); flash = t0; if (reduced) { f = c.times.length - 1; phase = "done"; b.fit(); b.tick(0, performance.now()); return; } b.start(); },
+    still(c) { cond = c; f = c.times.length - 1; phase = "done"; b.tick(0, performance.now()); },
+    start: b.start, stop: () => { b.stop(); }, draw: () => b.tick(0, performance.now()),
+    get cond() { return cond; }, get playing() { return phase === "play"; },
+  };
+  return api;
+}

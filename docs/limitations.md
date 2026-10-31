@@ -20,6 +20,9 @@ This is a research prototype that ranks hypotheses for lab testing. It makes no 
 - Literature can be inconsistent, incomplete or specific to a cell type; the model has one context.
 
 **The pictures**
+- The virtual tumour (header and demo) replays the frames that PhysiBoSS wrote; the dots of the tumour samples (header) are public
+  counts, one dot per sample, in no order that means anything; the ring of genes in the search engine draws the solver's verdict on each
+  set, and the profiles are single forced genes, not whole tumours (`docs/search_board.md`). All three are statements about a model.
 - The DNA at the top of the page, its story (the dish of cells, the field of dots) and, on the bench, the dish and the cell with its
   membrane are illustrations. The helix is not structure data: shapes, colours and the way they sit are decoration. The dots
   in the story are one per set of one or two changes that the solver tried; their positions are arbitrary, only their number

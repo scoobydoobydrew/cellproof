@@ -2,7 +2,7 @@
   <div class="wrap">
     <a class="brand" href="#top">CellProof <small>hackathon build</small></a>
     <nav aria-label="Sections">
-      <a href="#story" data-i18n="nav.story">Story</a><a href="#bench" data-i18n="nav.bench">Bench</a><a href="#model">The cell</a><a href="#agent">The agent</a><a href="#cases">Case files</a><a href="#evidence">Evidence</a><a href="#tissue">Tissue</a><a href="#limits">Limits</a>
+      <a href="#bench" data-i18n="nav.bench">Demo</a><a href="#search" data-i18n="nav.search">Search</a><a href="#model">The cell</a><a href="#agent">The agent</a><a href="#cases">Case files</a><a href="#evidence">Evidence</a><a href="#tissue">Tissue</a><a href="#limits">Limits</a>
     </nav>
     <button class="btn small" id="playTop" type="button" data-i18n="play.short">▶ Play</button>
     <button class="iconbtn" id="lang" type="button" aria-label="English / Ελληνικά" title="English / Ελληνικά"><span id="langTxt">ΕΛ</span></button>
@@ -60,129 +60,26 @@
           <li class="yes"><i>✓</i><span data-i18n-html="hero.sc">Together</span></li>
         </ul>
       </div>
+      <div class="beat" data-b="7">
+        <p class="b-big" data-i18n-html="hero.b7">Now, a virtual <em>tumour.</em></p>
+        <p class="b-sub" data-i18n="hero.s7">A computer simulation of a tumour. One dot is one cell.</p>
+        <p class="b-sub b-fine" data-i18n="hero.n7">A simulation (PhysiBoSS). An illustration of the model, not a prediction for any person.</p>
+      </div>
+      <div class="beat" data-b="8">
+        <p class="b-big" data-i18n-html="hero.b8">Every tumour has <em>its own genes.</em></p>
+        <div class="b-num"><b data-count>0</b><span data-i18n="hero.n8">of every 100 tumour samples have lost p53. None of our candidates works there.</span></div>
+        <p class="b-sub b-fine" data-i18n="hero.f8">Real tumour samples (public data), one dot each. A statement about the model, not about any person. Hypotheses for the lab.</p>
+      </div>
     </div>
     <div class="hero-foot">
-      <div class="hero-dots" id="hDots" role="group" aria-label="Story"><button type="button"></button><button type="button"></button><button type="button"></button><button type="button"></button><button type="button"></button><button type="button"></button><span class="hero-hold" aria-hidden="true"></span></div>
+      <div class="hero-dots" id="hDots" role="group" aria-label="Story"><button type="button"></button><button type="button"></button><button type="button"></button><button type="button"></button><button type="button"></button><button type="button"></button><button type="button"></button><button type="button"></button><span class="hero-hold" aria-hidden="true"></span></div>
       <div class="cta">
-        <a class="btn primary" href="#story" data-i18n="hero.play">Start the story ↓</a>
-        <a class="btn" href="#tech" data-i18n="hero.try">The technical part</a>
+        <button class="btn primary" id="playHero" type="button" data-i18n="hero.play">▶ Play the demo</button>
+        <a class="btn" href="#bench" data-i18n="hero.try">Try it yourself</a>
       </div>
     </div>
   </div>
   <div class="hero-tag" aria-hidden="true" data-i18n="hero.tag">Illustration, not to scale. Hypotheses for experiments, not treatments.</div>
-</section>
-
-<section class="story" id="story" aria-label="The story">
-  <div class="scene" data-scene="crowd">
-    <div class="wrap">
-      <div class="s-copy">
-        <div class="s-eyebrow" data-s="crowd.e"></div>
-        <h2 class="s-big" data-sh="crowd.h"></h2>
-        <p class="s-sub" data-s="crowd.p"></p>
-        <div class="s-count"><b id="cAlive">0</b><span id="cLine"></span></div>
-        <p class="s-note" data-s="crowd.n"></p>
-      </div>
-      <div class="s-fig">
-        <div class="s-canvas"><canvas id="sCrowd" role="img"></canvas><i class="s-zap" aria-hidden="true"></i></div>
-        <div class="s-key" id="cKey"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="scene flip" data-scene="circuit">
-    <div class="wrap">
-      <div class="s-copy">
-        <div class="s-eyebrow" data-s="circ.e"></div>
-        <h2 class="s-big" data-sh="circ.h"></h2>
-        <p class="s-sub" data-s="circ.p"></p>
-        <p class="s-note" data-s="circ.n"></p>
-      </div>
-      <div class="s-fig">
-        <svg id="sCircuit" viewBox="0 0 460 340" role="img"></svg>
-        <p class="s-cap" id="cCap" aria-live="off"></p>
-      </div>
-    </div>
-  </div>
-
-  <div class="scene" data-scene="search">
-    <div class="wrap">
-      <div class="s-copy">
-        <div class="s-eyebrow" data-s="srch.e"></div>
-        <h2 class="s-big" data-sh="srch.h"></h2>
-        <p class="s-sub" data-s="srch.p"></p>
-        <div class="s-count"><b id="sCount">0</b><span id="sStage"></span></div>
-        <p class="s-note" id="sStageNote"></p>
-      </div>
-      <div class="s-fig"><div class="s-canvas"><canvas id="sSearch" role="img"></canvas></div></div>
-    </div>
-  </div>
-
-  <div class="scene flip" data-scene="helpers">
-    <div class="wrap">
-      <div class="s-copy">
-        <div class="s-eyebrow" data-s="help.e"></div>
-        <h2 class="s-big" data-sh="help.h"></h2>
-        <p class="s-sub" data-s="help.p"></p>
-        <p class="s-note" data-s="help.n"></p>
-      </div>
-      <div class="s-fig"><div class="helpers" id="sHelpers"></div></div>
-    </div>
-  </div>
-
-  <div class="scene" data-scene="tissue">
-    <div class="wrap">
-      <div class="s-copy">
-        <div class="s-eyebrow" data-s="tis.e"></div>
-        <h2 class="s-big" data-sh="tis.h"></h2>
-        <p class="s-sub" data-s="tis.p"></p>
-        <div class="s-count"><b id="tAlive">0</b><span id="tLine"></span></div>
-        <p class="s-note" id="tNote2"></p>
-      </div>
-      <div class="s-fig">
-        <div class="s-pick" id="tPick" role="group"></div>
-        <div class="s-canvas"><canvas id="sTissue" role="img"></canvas></div>
-        <div class="s-key" id="tKey"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="scene flip" data-scene="tumours">
-    <div class="wrap">
-      <div class="s-copy">
-        <div class="s-eyebrow" data-s="gen.e"></div>
-        <h2 class="s-big" data-sh="gen.h"></h2>
-        <p class="s-sub" data-s="gen.p"></p>
-        <div class="s-count"><b id="gLost">0</b><span id="gLine"></span></div>
-        <p class="s-note" data-s="gen.n"></p>
-      </div>
-      <div class="s-fig">
-        <div class="s-pick" id="gPick" role="group"></div>
-        <div class="s-canvas"><canvas id="sWaffle" role="img"></canvas></div>
-        <div class="s-key" id="gKey"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="scene closing" data-scene="honest">
-    <div class="wrap">
-      <div class="s-copy">
-        <div class="s-eyebrow" data-s="hon.e"></div>
-        <h2 class="s-big" data-sh="hon.h"></h2>
-      </div>
-      <ul class="s-cards" id="hCards"></ul>
-      <div class="cta"><a class="btn primary" href="#tech" data-s="hon.go"></a></div>
-    </div>
-  </div>
-</section>
-
-<section id="tech" class="tech-gate">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="eyebrow" data-i18n="tech.eyebrow">The technical part</div>
-      <h2 class="h2" data-i18n="tech.h2">Everything above, with every number and every check.</h2>
-      <p class="lede" data-i18n="tech.lede">A test bench you can click, the cell with all of its genes, how the agent works, every rule it judged and the audit. In English. All of it is read from the files the pipeline wrote.</p>
-    </div>
-  </div>
 </section>
 
 <section id="bench" class="band bench-sec">
@@ -197,6 +94,7 @@
           <div class="b-scale" id="bScale" role="group" aria-label="Zoom level">
             <button type="button" data-scale="dish" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="9" cy="10.5" r="1.7"/><circle cx="14.6" cy="9" r="1.2"/><circle cx="13.2" cy="14.6" r="1.9"/></svg><span data-i18n="scale.dish">Dish</span></button>
             <button type="button" data-scale="circuit" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="7" r="2.1"/><circle cx="18" cy="6" r="2.1"/><circle cx="12" cy="18" r="2.1"/><path d="M8 7.3l8-1M7.2 9l4 7.2M16.9 8l-3.8 8.2"/></svg><span data-i18n="scale.circuit">Cell</span></button>
+            <button type="button" data-scale="tumour" aria-pressed="false" id="bScaleTum"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="8.2" cy="9.2" r="1"/><circle cx="12.6" cy="7.4" r="1"/><circle cx="15.8" cy="11" r="1"/><circle cx="9.4" cy="13.4" r="1"/><circle cx="14" cy="15.6" r="1"/><circle cx="7.8" cy="15.2" r="1"/></svg><span data-i18n="scale.tumour">Tumour</span></button>
           </div>
           <button class="pillbtn" id="bDamage" type="button" aria-pressed="false"><i class="bolt"></i><span data-i18n="ctl.damage">DNA damage</span></button>
         </div>
@@ -204,6 +102,7 @@
           <div class="b-view" id="bView">
             <svg id="bNet" viewBox="0 8 1000 692" role="img" aria-label="The gene circuit of a cell. Lamps below show which fates it can reach."></svg>
             <canvas class="scene" id="bDish" role="img" aria-label="A culture dish of cells reacting to radiation."></canvas>
+            <canvas class="scene" id="bTumour" role="img" aria-label="A virtual tumour of cells reacting to radiation."></canvas>
             <div class="tip" id="bTip"></div>
             <div class="b-burst" id="bBurst" aria-hidden="true"></div>
             <button class="pillbtn b-stop" id="bStop" type="button" data-i18n="play.stop" hidden>■ Stop</button>
@@ -211,6 +110,7 @@
           </div>
           <div class="b-dock" id="bDock">
             <div class="vials" id="bVials" role="group" aria-label="Treatments"></div>
+            <div class="tum-pick" id="bTumPick" role="group" aria-label="Virtual tumour" hidden></div>
             <button class="irr" id="bIrr" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2.6"/><path d="M12 2.5v4.2M12 17.3v4.2M2.5 12h4.2M17.3 12h4.2M5.3 5.3l3 3M15.7 15.7l3 3M18.7 5.3l-3 3M8.3 15.7l-3 3"/></svg><span id="bIrrTxt"></span></button>
             <div class="b-legend" id="bLegend" hidden>
               <span><svg viewBox="0 0 34 12" aria-hidden="true"><path class="lg-act" d="M2,6 H24"/><polygon class="lg-act-h" points="32,6 23,1.6 23,10.4"/></svg><span data-i18n="lg.act">switches on</span></span>
@@ -231,6 +131,32 @@
         <div class="b-panel" id="bPanel"></div>
         <div class="b-rack" id="bRack" hidden></div>
         <div id="bDetail"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="search" class="search" aria-label="Search engine">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow" data-i18n="sx.eyebrow">The search engine</div>
+      <h2 class="h2" data-i18n-html="sx.h2">Every change of one or two genes. <em>Tried.</em></h2>
+      <p class="lede" data-i18n="sx.lede">Ask for a cell that dies and nothing else. The solver tries every set of one or two genes, off or on, and keeps the smallest that work. Then pick a tumour profile and ask again.</p>
+    </div>
+    <div class="sx" id="sx">
+      <div class="sx-bar">
+        <div class="sx-goal"><small data-i18n="sx.goal">Goal</small><b data-i18n="sx.goalv">only death</b></div>
+        <div class="sx-profiles" id="sxProfiles" role="group" aria-label="Tumour profile"></div>
+        <button class="btn primary" id="sxGo" type="button" data-i18n="sx.go">Search ▶</button>
+      </div>
+      <div class="sx-main">
+        <div class="sx-board"><canvas id="sxBoard" role="img" aria-label="A ring of genes, each switched off or on; a line joins the two changes of every set the solver tried."></canvas><div class="sx-tip" id="sxTip"></div></div>
+        <div class="sx-side">
+          <div class="sx-count"><div><b id="sxTried">0</b><small data-i18n="sx.tried">sets tried</small></div><div><b id="sxFound">0</b><small data-i18n="sx.found">kept: leave only death</small></div></div>
+          <p class="sx-msg" id="sxMsg" aria-live="polite"></p>
+          <ol class="sx-results" id="sxResults"></ol>
+          <p class="sx-note" id="sxNote"></p>
+        </div>
       </div>
     </div>
   </div>

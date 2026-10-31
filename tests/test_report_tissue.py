@@ -77,11 +77,15 @@ def test_the_sequence_and_genotype_blocks_state_only_what_the_stored_files_say()
 def test_the_page_has_the_tissue_section_and_its_script_is_part_of_the_build():
     head, body, script = parts({"x": 1})
     assert 'id="tissue"' in body and 'id="tCanvas"' in body and 'id="downCard"' in body and "Tissue what-if" in script
-    assert 'id="story"' in body and 'id="tech"' in body and body.index('id="story"') < body.index('id="tech"') < body.index('id="bench"')  # the story first, the technical part after it
-    assert all(f'data-scene="{s}"' in body for s in ("crowd", "circuit", "search", "helpers", "tissue", "tumours", "honest")) and "Start the story" in script
+    assert 'id="story"' not in body and 'id="tech"' not in body  # no long story between the header and the demo
+    assert body.index('id="top"') < body.index('id="bench"') < body.index('id="search"') < body.index('id="notebook"')  # the demo straight after the header, the search engine after the demo
+    assert all(f'data-b="{n}"' in body for n in range(1, 9)) and body.count('<button type="button"></button>') == 8 and 'id="playHero"' in body  # eight beats, one bar each
+    assert 'id="bTumour"' in body and 'data-scale="tumour"' in body and "makeTumour" in script and "tissueFrames" in script and "drawSamples" in script
+    assert 'id="sxBoard"' in body and 'id="sxProfiles"' in body and "The search engine" in script and "Play the demo" in script
     assert 'id="seqCard"' in body and 'id="genoCard"' in body and "Does the order of the changes matter?" in script and "Do the answers survive a tumour's genotype?" in script
     assert (WEB / "tissue.js").read_text(encoding="utf-8").startswith("/* Tissue what-if.")
-    for name in ("tissue.js", "story.js"):
+    assert not (WEB / "story.js").exists()
+    for name in ("tissue.js", "search.js", "bench.js"):
         page = (WEB / name).read_text(encoding="utf-8")
         for word in ("clinical trial", "proof", "patient", "personalis", "cure"):
             assert word not in page.lower().replace("cellproof", "").replace("not a prediction for any patient", "").replace("no patient", "").replace("not a clinical trial", ""), (name, word)

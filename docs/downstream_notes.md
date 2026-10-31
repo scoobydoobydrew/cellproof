@@ -172,5 +172,6 @@ python -m cellproof.cli targets          # results/targets.json (HGNC, cached)
 python -m cellproof.cli compounds        # results/compounds.json (ChEMBL; needs the network)
 python -m cellproof.cli sequences        # results/sequences.json (exact, tens of minutes on several cores; no network)
 python -m cellproof.cli genotypes --fetch   # data/genotypes (cBioPortal, needs the network) and results/genotypes.json; without --fetch only the second
+python -m cellproof.cli board            # results/search_board.json (docs/search_board.md; about 20 seconds; needs results/genotypes.json)
 python -m cellproof.cli verify           # rebuilds every table, including these, from the stored files
 ```

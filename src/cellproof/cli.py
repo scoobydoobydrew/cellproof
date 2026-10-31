@@ -461,6 +461,17 @@ def sequences(
 
 
 @app.command()
+def board(workers: int = typer.Option(6, help="Processes, one profile each.")) -> None:
+    """The search board (docs/search_board.md): the solver's verdict on every set of one or two gene changes, for the model cell and a few
+    tumour profiles. Writes results/search_board.json from results/genotypes.json. `make verify` only reads it."""
+    from cellproof.analysis.search_board import run
+
+    result = run(workers=workers)
+    for p in result["profiles"]:
+        typer.echo(f"{', '.join(f'{n} {v}' for n, v in p['forced']) or 'model cell':16s} tried {len(p['verdicts']) - p['verdicts'].count('-')}, only death {p['verdicts'].count('D')}, kept {len(p['found'])}")
+
+
+@app.command()
 def genotypes(
     fetch: bool = typer.Option(False, help="First download the TCGA PanCancer Atlas alterations from cBioPortal and rebuild data/genotypes (needs the network)."),
     workers: int = typer.Option(6, help="Processes for the genotype-specific searches."),

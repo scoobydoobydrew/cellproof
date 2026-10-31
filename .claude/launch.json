@@ -4,8 +4,26 @@
     {
       "name": "report",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8765", "--directory", "results"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8765",
+        "--directory",
+        "results"
+      ],
       "port": 8765
+    },
+    {
+      "name": "page",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8766",
+        "--directory",
+        "results"
+      ],
+      "port": 8766
     }
   ]
 }

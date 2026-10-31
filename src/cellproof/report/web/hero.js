@@ -157,9 +157,13 @@ function makeStory(cv, opt = {}) {
      each rule first and the dots come back); 4 a field with one dot per change of one or two genes that the solver tried,
      which then zooms out as the number of genes changed at once grows; 5 back to the field: the AI's guesses, judged, and the
      solver's scan, which dims all but the few that leave only death. The dots are one per set, in a fixed random order, so the
-     positions mean nothing; the counts, the guesses' verdicts and which dots stay lit are the solver's. show(n) sets the beat,
-     onCount(n) reports the number the caption should read, onStage(k) the largest number of genes changed at once being shown. */
+     positions mean nothing; the counts, the guesses' verdicts and which dots stay lit are the solver's. 6 is the virtual tumour: two
+     discs of the cells PhysiBoSS simulated, radiation alone and with the checker's pick, replayed from the simulation's own frames.
+     7 is one dot per real tumour sample (public counts) coloured by what the model says, first counting only clear breaks of p53 and
+     then every change to it. show(n) sets the beat, onCount(n) reports the number the caption should read, onStage(k) the largest
+     number of genes changed at once being shown. */
   const ctx = cv.getContext("2d"), lite = !!opt.lite, TOTAL = opt.total || 0, KEEP = opt.keep || [], SIZES = opt.sizes || [], MARKS = opt.marks || [], CHIPS = opt.chips || [];
+  const TUM = opt.tumour || null, SAM = opt.samples || null;
   const SCAN = lite ? 2600 : 3000, RAY = 380, PLAN = [0.8, 1.2, 0.7, 1.2, 0.7, 1.3], TILE = 16, TS = 12, ORDER = ["arrest", "senescence", "autophagy", "apoptosis"];
   const FATES = { arrest: [92, 158, 255], senescence: [232, 192, 72], autophagy: [58, 214, 168], apoptosis: [255, 110, 186], base: [182, 176, 224] };
   const DOTS = [[178, 152, 238], [240, 196, 232], [250, 228, 204], [246, 242, 252]].map((c) => `rgb(${c[0]},${c[1]},${c[2]})`), PEACH = [255, 170, 92], WHITE = [255, 255, 255], INK = [14, 12, 36];
@@ -177,6 +181,7 @@ function makeStory(cv, opt = {}) {
 
   let W = 0, H = 0, dpr = 1, area = { cx: 0, cy: 0, w: 0, h: 0 }, dish = { cx: 0, cy: 0, R: 0 }, grid = null;
   let ready = false, running = false, last = 0, beat = -1, prev = -1, dishA = 0, gridA = 0, sweepT = 0, chipT = 0, gridT = 0, zoomT = 0, backT = 0, backFrom = 1, aiT = 0, scanT = 0, count = -2, stage = 0, driftA = 0, driftT = 0, held = false, heldAt = 0, skew = 0;
+  let tumA = 0, tumT = 0, samA = 0, samT = 0;
   let cells = [], blebs = [], debris = [];
 
   /* ---- the dish: cells are kept in units of the dish radius, so a resize moves nothing */
@@ -502,6 +507,86 @@ function makeStory(cv, opt = {}) {
     ctx.restore();
   }
 
+  /* ---- the virtual tumour: the cells PhysiBoSS simulated, without and with the checker's pick, side by side. The ray lands, then the simulation's
+     own frames play (72 hours in a few seconds); the numbers under the discs are the simulation's count of cells still alive. */
+  const CROWD = [[190, 182, 232], [92, 158, 255], [232, 192, 72], [58, 214, 168], [255, 110, 186]].map((c) => rgba(c, 0.95)), TUM_RAY = 380, TUM_AT = 1500, TUM_PLAY = 5200;
+  const HALO_GREEN = soft(GREEN), num = opt.fmt || String;
+  function drawTumour(T, a) {
+    if (!TUM) return;
+    const t = T - tumT, L = TUM.labels(), R = Math.min(area.w / 4.5, area.h / 2.75), y = area.cy - R * 0.14, f = clamp01((t - TUM_AT) / TUM_PLAY), end = smooth((t - TUM_AT - TUM_PLAY) / 700);
+    const big = Math.round(Math.max(lite ? 26 : 30, Math.min(54, R * 0.3))), fs = lite ? 11.5 : Math.max(12.5, Math.min(15, R * 0.075));
+    ctx.save(); ctx.textAlign = "center";
+    [[area.cx - R * 1.13, TUM.a, L.a, 0], [area.cx + R * 1.13, TUM.b, L.b, 1]].forEach(([x, cond, label, side]) => {
+      const appear = clamp01((t - 120 - side * 180) / 600), al = a * appear;
+      ctx.globalAlpha = al;
+      let g = ctx.createRadialGradient(x, y, R * 0.8, x, y, R * 1.3); g.addColorStop(0, "rgba(176,160,255,.2)"); g.addColorStop(1, "rgba(176,160,255,0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, R * 1.3, 0, TAU); ctx.fill();
+      g = ctx.createRadialGradient(x - R * 0.3, y - R * 0.35, R * 0.05, x, y, R); g.addColorStop(0, "rgba(214,206,255,.2)"); g.addColorStop(0.7, "rgba(120,108,196,.13)"); g.addColorStop(1, "rgba(255,255,255,.15)");
+      ctx.beginPath(); ctx.arc(x, y, R * 1.04, 0, TAU); ctx.fillStyle = g; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = "rgba(255,255,255,.34)"; ctx.stroke();
+      const info = drawCrowd(ctx, TUM.frames, cond, f * (cond.times.length - 1), x, y, R, CROWD, "rgba(255,255,255,.12)");
+      if (t > TUM_AT - TUM_RAY && t < TUM_AT) {  /* the same ray as on the DNA and on the dish, from the upper left, landing on the edge of the disc */
+        const k = (t - (TUM_AT - TUM_RAY)) / TUM_RAY, x0 = x - R * 2.2, y0 = y - R * 1.7, x1 = x - R * 1.02, y1 = y - R * 0.3, tail = Math.max(0, k - 0.22);
+        const xa = x0 + (x1 - x0) * tail, ya = y0 + (y1 - y0) * tail, xb = x0 + (x1 - x0) * k, yb = y0 + (y1 - y0) * k, lg = ctx.createLinearGradient(xa, ya, xb, yb);
+        lg.addColorStop(0, "rgba(255,255,255,0)"); lg.addColorStop(1, "rgba(255,255,255,.95)");
+        ctx.save(); ctx.globalCompositeOperation = "lighter"; ctx.strokeStyle = lg; ctx.lineWidth = Math.max(3, R * 0.03); ctx.lineCap = "round"; ctx.beginPath(); ctx.moveTo(xa, ya); ctx.lineTo(xb, yb); ctx.stroke(); ctx.restore();
+      }
+      if (t >= TUM_AT && t < TUM_AT + 520) { const k = (t - TUM_AT) / 520; ctx.beginPath(); ctx.arc(x, y, R * (1.04 + 0.2 * k), 0, TAU); ctx.lineWidth = 3.5 * (1 - k); ctx.strokeStyle = `rgba(255,255,255,${0.9 * (1 - k)})`; ctx.stroke(); }
+      if (side === 1 && end > 0) {  /* the verdict: the checked disc is empty, and says so */
+        ctx.beginPath(); ctx.arc(x, y, R * 1.08, 0, TAU); ctx.lineWidth = 3; ctx.strokeStyle = rgba(GREEN, 0.85 * end); ctx.stroke();
+        ctx.save(); ctx.globalCompositeOperation = "lighter"; ctx.globalAlpha = al * end * 0.7; ctx.drawImage(HALO_GREEN, x - R * 1.5, y - R * 1.5, R * 3, R * 3); ctx.restore();
+      }
+      ctx.globalAlpha = al; ctx.font = `600 ${fs}px ${sans}`; ctx.fillStyle = "rgba(238,236,252,.92)"; ctx.fillText(label, x, y - R * 1.04 - 12);
+      const n = Math.round(info.alive); ctx.font = `700 ${big}px ${sans}`; ctx.fillStyle = side === 1 && n === 0 && f >= 1 ? rgba(mixc(GREEN, WHITE, 0.2), 1) : rgba(mixc(PEACH, WHITE, 0.5), 1); ctx.fillText(num(n), x, y + R * 1.04 + big + 6);
+      ctx.font = `500 ${fs}px ${sans}`; ctx.fillStyle = "rgba(228,224,255,.78)"; ctx.fillText(L.alive, x, y + R * 1.04 + big + fs + 12);
+    });
+    ctx.globalAlpha = a * clamp01((t - TUM_AT) / 400); ctx.font = `500 ${fs}px ${sans}`; ctx.fillStyle = "rgba(228,224,255,.7)"; ctx.fillText(L.hours(Math.round(lerp(0, TUM.hours, f))), area.cx, y + R * 1.04 + big + fs * 2 + 22);
+    ctx.restore();
+  }
+
+  /* ---- the tumour samples: one dot per real sample (public counts), in no order that means anything. They start neutral, then take the colour of
+     what the model says (a recipe still works / p53 intact but none works / p53 lost, so none works), counting first only clear breaks of p53
+     and then every change to it: the red grows from the first share to the second. */
+  const SAMPLES = SAM ? (() => {
+    const N = SAM.n, r = rng(29), rank = Array.from({ length: N }, (_, i) => i);
+    for (let i = N - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [rank[i], rank[j]] = [rank[j], rank[i]]; }
+    return { N, rank: Int32Array.from(rank), u: Float32Array.from({ length: N }, () => r()) };
+  })() : null, SAM_COLS = 100, SAM_COLOR = [rgba(GREEN, 0.95), rgba([255, 210, 122], 0.95), rgba([255, 106, 92], 0.95)], SAM_TINT = 1900, SAM_SWITCH = 6200;
+  function drawSamples(T, a) {
+    if (!SAM || !SAMPLES) return;
+    const t = T - samT, { N, rank, u } = SAMPLES, L = SAM.labels(), ROWS = Math.ceil(N / SAM_COLS), fs = lite ? 10.5 : 12.5, pad = lite ? 8 : 14;
+    ctx.save(); ctx.font = `500 ${fs}px ${sans}`;
+    const items = [[SAM_COLOR[0], L.k0], [SAM_COLOR[1], L.k1], [SAM_COLOR[2], L.k2]], widths = items.map(([, s]) => ctx.measureText(s).width + 20), total = widths.reduce((s, w) => s + w, 0) + 18 * (items.length - 1), row = total <= area.w;
+    const below = row ? fs * 2 + 38 : (fs + 8) * 3 + fs + 22;  /* the key under the dots, and a line saying which way of counting p53 is on */
+    /* on a phone this canvas is the strip under the words, so the dots and their key fill all of it */
+    const step = Math.min(area.w / SAM_COLS, (lite ? H - below - pad * 2 - 32 : area.h * 0.8) / ROWS), gw = SAM_COLS * step, gh = ROWS * step;
+    const x0 = area.cx - gw / 2, y0 = lite ? pad + 28 : area.cy - gh / 2 - 18, rad = Math.max(0.9, step * 0.4), reveal = clamp01((t - 150) / 1500), tint = smooth((t - SAM_TINT) / 800), q = smooth((t - SAM_SWITCH) / 1100);
+    const lost = lerp(SAM.r1.lost, SAM.r2.lost, q), none = lerp(SAM.r1.none, SAM.r2.none, q);
+    /* a dark panel behind the dots and their key, so that the small words stay readable over the DNA */
+    ctx.globalAlpha = a * smooth(t / 400); ctx.beginPath(); if (ctx.roundRect) ctx.roundRect(x0 - pad, y0 - pad, gw + pad * 2, gh + pad * 2 + below - 14, 14); else ctx.rect(x0 - pad, y0 - pad, gw + pad * 2, gh + pad * 2 + below - 14);
+    ctx.fillStyle = "rgba(14,12,34,.62)"; ctx.fill(); ctx.lineWidth = 1; ctx.strokeStyle = "rgba(255,255,255,.14)"; ctx.stroke();
+    if (tint < 1) {  /* neutral dots, until the colours come in */
+      ctx.globalAlpha = a * (1 - tint) * 0.85; ctx.fillStyle = DOTS[0]; ctx.beginPath();
+      for (let i = 0; i < N; i++) if (u[i] <= reveal) { const x = x0 + ((i % SAM_COLS) + 0.5) * step, yy = y0 + (Math.floor(i / SAM_COLS) + 0.5) * step; ctx.moveTo(x + rad, yy); ctx.arc(x, yy, rad, 0, TAU); }
+      ctx.fill();
+    }
+    if (tint > 0) for (let c = 0; c < 3; c++) {  /* green: a recipe works; amber: p53 intact, none works; red: p53 lost */
+      ctx.globalAlpha = a * tint; ctx.fillStyle = SAM_COLOR[c]; ctx.beginPath();
+      for (let i = 0; i < N; i++) {
+        const k = rank[i] < lost ? 2 : rank[i] < lost + none ? 1 : 0;
+        if (k === c && u[i] <= reveal) { const x = x0 + ((i % SAM_COLS) + 0.5) * step, yy = y0 + (Math.floor(i / SAM_COLS) + 0.5) * step; ctx.moveTo(x + rad, yy); ctx.arc(x, yy, rad, 0, TAU); }
+      }
+      ctx.fill();
+    }
+    /* the key, under the dots, and which way of counting p53 is on */
+    ctx.globalAlpha = a * smooth((t - SAM_TINT) / 600); ctx.font = `500 ${fs}px ${sans}`; ctx.textBaseline = "middle"; ctx.textAlign = "left";
+    let kx = area.cx - (row ? total / 2 : area.w / 2), ky = y0 + gh + (lite ? 14 : 20);
+    items.forEach(([col, s], i) => { ctx.fillStyle = col; ctx.beginPath(); ctx.arc(kx + 5, ky, 5, 0, TAU); ctx.fill(); ctx.fillStyle = "rgba(238,236,252,.9)"; ctx.fillText(s, kx + 16, ky + 1); if (row) kx += widths[i] + 18; else ky += fs + 8; });
+    ctx.textAlign = "center"; ctx.fillStyle = "rgba(255,210,170,.95)"; ctx.font = `600 ${fs}px ${sans}`; ctx.fillText(q < 0.5 ? L.r1 : L.r2, area.cx, ky + (row ? fs + 10 : fs + 6));
+    ctx.restore();
+    const c = tint > 0.6 ? Math.round((100 * lost) / N) : 0;
+    if (c !== count) { count = c; if (opt.onCount) opt.onCount(c); }
+  }
+
   function fit() {
     const r = cv.getBoundingClientRect(); if (!r.width || !r.height) return false;
     dpr = Math.min(2, devicePixelRatio || 1); W = r.width; H = r.height; cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
@@ -511,10 +596,12 @@ function makeStory(cv, opt = {}) {
   }
   function draw(T, dt) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
-    const k = 1 - Math.exp(-dt * 5); dishA += (((beat === 1 || beat === 2) ? 1 : 0) - dishA) * k; gridA += ((beat >= 4 ? 1 : 0) - gridA) * k; driftA += ((beat === 3 ? 1 : 0) - driftA) * k;
+    const k = 1 - Math.exp(-dt * 5); dishA += (((beat === 1 || beat === 2) ? 1 : 0) - dishA) * k; gridA += (((beat === 4 || beat === 5) ? 1 : 0) - gridA) * k; driftA += ((beat === 3 ? 1 : 0) - driftA) * k; tumA += ((beat === 6 ? 1 : 0) - tumA) * k; samA += ((beat === 7 ? 1 : 0) - samA) * k;
     if (dishA > 0.01) { updateCells(dt, T); drawDish(T, dishA); }
     if (driftA > 0.01) drawDrift(T, driftA);
     if (gridA > 0.01) drawGrid(T, gridA);
+    if (tumA > 0.01) drawTumour(T, tumA);
+    if (samA > 0.01) drawSamples(T, samA);
   }
   /* the story's own clock stands still while the header is held (the pointer is over it) and carries on from where it stood */
   const clock = () => (held ? heldAt : performance.now()) - skew;
@@ -526,13 +613,14 @@ function makeStory(cv, opt = {}) {
       if (instant) { for (const c of cells) { c.hit = 1; c.act = c.fate; c.s = c.fate === "senescence" ? 1.3 : 1; c.tint = FATES[c.fate].slice(); if (c.fate === "apoptosis") { c.gone = true; crumbs(c); } } cells = cells.filter((c) => !c.gone); }
     } else { sweepT = 0; chipT = 0; }
     driftT = n === 3 ? (instant ? T - 60000 : T + 250) : 0;
-    if (n >= 4) {
+    tumT = n === 6 ? (instant ? T - 60000 : T + 250) : 0; samT = n === 7 ? (instant ? T - 60000 : T + 250) : 0;
+    if (n === 4 || n === 5) {
       if (n === 4 || prev < 4) gridT = instant || n === 5 ? T - 6000 : T;
       zoomT = n === 4 ? (instant ? T - 20000 : T + 1700) : 0;
       backFrom = n === 5 && prev === 4 ? Math.sqrt(TOTAL / (SIZES[4] || TOTAL)) : 1; backT = n === 5 && !instant && prev === 4 ? T : 0;
       aiT = n === 5 ? (instant ? T - 20000 : T + 1100) : 0; scanT = n === 5 ? (instant ? T - 1e5 : T + 4600) : 0;
     } else { gridT = 0; zoomT = 0; backT = 0; aiT = 0; scanT = 0; }
-    if (instant) { dishA = n === 1 || n === 2 ? 1 : 0; driftA = n === 3 ? 1 : 0; gridA = n >= 4 ? 1 : 0; }
+    if (instant) { dishA = n === 1 || n === 2 ? 1 : 0; driftA = n === 3 ? 1 : 0; gridA = n === 4 || n === 5 ? 1 : 0; tumA = n === 6 ? 1 : 0; samA = n === 7 ? 1 : 0; }
     if ((instant || held) && ready) draw(T, 0);
   }
   const frame = (now) => { if (!running) return; const dt = Math.max(0, Math.min(0.05, (now - last) / 1000)); last = now; if (!held) draw(now - skew, dt); requestAnimationFrame(frame); };

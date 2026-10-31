@@ -45,17 +45,18 @@ All numbers are produced by `make verify` and written to [`results/RESULTS.md`](
 [`docs/limitations.md`](docs/limitations.md).
 
 **The interactive report is [`results/report.html`](results/report.html)** (open it in a browser; `python -m cellproof.cli report`
-rebuilds it). Its first part is a short story in plain words, in English or Greek (the **EN / ΕΛ** button), with no gene names. Over a close-up
-of DNA it says that radiation breaks DNA, that not every damaged cell dies, and that the goal is a few genes to switch so that every cell does.
-Six scenes with simple drawings follow: a tumour is a crowd of cells (a real simulation of 1,663 cells, replayed); each cell is a circuit of
-genes that decides its fate; which switches to flip is too many combinations to try in a lab (the count explodes, with the solver's answers
-glowing among them); an AI reads and a checker checks (the same ten known experiments, with and without the checker); the same crowd again
-with the checker's switches applied, including three recipes that were predicted before the simulation and then confirmed; and 9,896 public tumour
-samples as one dot each, showing that every recipe relies on one gene (p53) and what share of samples have lost it. A short close says what this
-is and is not. After a marked gate comes the technical part, in English: a test bench in five clickable steps and a hunt for every way to leave
-only death, the interactive cell with all of its genes, the agent, every rule it judged, the evidence, the tissue, sequence and genotype studies and
-the limits. Every number on the page is computed when it is built, never typed in; the pictures are illustration unless they say that they
-are the simulation or public counts (see `docs/limitations.md`). The headline numbers, each also in `results/RESULTS.md`:
+rebuilds it). It opens with an eight-beat header in plain words, in English or Greek (the **EN / ΕΛ** button), with no gene names, over a close-up of
+DNA: radiation breaks DNA; not every damaged cell dies; the goal is a few genes to switch so that every cell does; new rules from papers keep changing
+which combinations work; the number of combinations explodes (1,058 sets of one or two changes, over a million of five); the AI proposes and the solver
+decides; a virtual tumour (a real simulation of 1,663 cells, replayed with and without one of the solver's candidates); and 9,896 public tumour samples
+as one dot each, showing that every candidate relies on one gene (p53) and what share of samples have lost it. Straight after the header comes the
+**demo**: a test bench in six clickable steps (a dish of cells, a missing link, ten known experiments, a fix, an audit, the virtual tumour) and a hunt
+for every way to leave only death, with a *Play the demo* button that walks through all of it in about 90 seconds. After the demo comes the **search
+engine**: the solver's verdict on all 1,058 sets of one or two changes drawn on one board, for the model cell and for five tumour profiles
+(`docs/search_board.md`). Below that, in English: the interactive cell with all of its genes, the agent, every rule it judged, the evidence, the
+tissue, sequence and genotype studies and the limits. Every number on the page is computed when it is built, never typed in; the pictures are
+illustration unless they say that they are the simulation or public counts (see `docs/limitations.md`). The headline numbers, each also in
+`results/RESULTS.md`:
 
 | | |
 |---|---|
@@ -73,6 +74,7 @@ are the simulation or public counts (see `docs/limitations.md`). The headline nu
 | Tissue what-if: 1,663 irradiated cells in PhysiBoSS, 72 h (extension) | the simulation agrees with the exact solver on 22 of 22 sets: the 11 solver sets leave at most 12 cells alive (none in 7 of them) and reach 0 by 240 h, the 11 rejected sets of the same size leave at least 34; radiation alone leaves 107 cells, all senescent |
 | Literature check of PTEN and RB loss (extension) | 24 open-access papers read in two waves under a rule fixed before reading (six per gene, then six more by the same rule, decided after the first results), 10 on topic, quotes checked by code: 4 agree with the model's direction, 5 contradict it and 1 shows no difference; where the gene itself was changed in the same cells, 1 agrees and 3 contradict (the one RB1 knockout gave radioresistance and less apoptosis); none reports apoptosis as the only fate |
 | Start-aware and sequential analysis (extension) | exact reachability from a healthy irradiated cell: 2 of the 4 stable states can be reached (the tissue run reached the same 2); 3 more minimal sets than the solver finds (AMPK_MAPK KO + CHK1 KO, Cdc25 on, Sirt1 on), predicted before and leaving no cell alive in the tissue (3 of 3); no pair, no order of the five kinases of the brief (1,081) and no set of three knock-outs (14,586 orders) works only in a particular order, and one pair works only at once; the first validation against the tissue failed for 8 of 23 conditions, an amended one, added after seeing that, holds for 23 of 23 |
+| The search engine's board (extension, `docs/search_board.md`) | The solver's verdict on all 1,058 sets of one or two changes: for the model cell 226 leave only death and 11 are minimal; with p53 lost, none of the 968 sets offered does; two profiles (hTERT, MDM2 high) keep the same 11, one (WIP1 high) keeps a different single set; a model statement, not about any person |
 | Tumour genotypes as constraints on the model (extension) | 9,896 TCGA tumour samples from 32 studies (counts only): TP53 is lost in 14.2% (narrow rule) to 38.6% (broad rule) of them, and for none does any of the 11 sets leave only apoptosis; with TP53 intact each set works in 95% to 96.5% of the samples (80.4% for one); a model statement about genotype, not about any person |
 | Solver targets and ChEMBL chemistry (extension) | 3 of the 11 sets are knock-outs (PTEN, RB, TUG1); PTEN has 5 activity records and none at 1 micromolar, and the 6 strong records of RB1 all read out its phosphorylation in cells; the 5 kinases named in the brief have 566 to 2,299 compounds at 1 micromolar, but knocking out any of them alone leaves all four end states |
 | Extraction accuracy (M4) | TBD: needs 50 claims labelled by a person |
@@ -104,6 +106,7 @@ make verify    # rebuilds every table from cached model outputs; no API call, no
 make extract   # the only target that spends money: calls the Meta Model API for requests not yet in cache/
 make label     # local page for the two reading tasks only a person can do (M4 labels, D4 quote checks)
 make sequences # exact start-aware and sequence search (tens of minutes on several cores, no network); `make verify` only reads its result
+make board     # the search engine's data: the solver's verdict on all 1,058 sets for the model cell and five tumour profiles (about 20 seconds); `make verify` only reads it
 ```
 
 The tissue what-if needs PhysiBoSS, which `make verify` does not: `bash scripts/physiboss_setup.sh` builds it once (WSL or Linux,
@@ -127,6 +130,7 @@ src/cellproof/
   tissue/            PhysiBoSS tissue what-if: network translation, settings, WSL runner, output parser, experiments
   targets/           the solver's sets as targets (HGNC) and ChEMBL measured chemistry
   genotype/          tumour genotypes (TCGA through cBioPortal) as constraints on the model: counts of signatures, what the model says for each
+                     (the search board of `analysis/search_board.py` is the solver's verdict on every set of one or two changes, per profile)
 data/                base network, verification cases, held-out set (frozen), extractions, models, HGNC cache
 docs/                protocol of the held-out set, limitations, notes on the Meta API and the extraction
 ```

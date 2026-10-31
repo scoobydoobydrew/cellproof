@@ -139,9 +139,9 @@ def test_the_ai_alone_marks_of_the_header_agree_with_the_solvers_summary():
     assert s["answered"] + s["out_of_budget"] == s["requests"]
 
 
-def test_the_header_tells_its_story_in_six_beats_and_names_its_sources():
+def test_the_header_tells_its_story_in_eight_beats_and_names_its_sources():
     body = (WEB / "body.html").read_text(encoding="utf-8")
-    assert [int(b) for b in re.findall(r'class="beat" data-b="(\d)"', body)] == [1, 2, 3, 4, 5, 6]
+    assert [int(b) for b in re.findall(r'class="beat" data-b="(\d)"', body)] == [1, 2, 3, 4, 5, 6, 7, 8]
     assert "Radiotherapy is commonly used to treat a variety of solid tumors." in body and "PMC3167033" in body
     assert "NP-hard" in body and "Akutsu et al. 2007" in body  # the difficulty is stated with its source, in the markup as well as in the texts
 
@@ -149,8 +149,9 @@ def test_the_header_tells_its_story_in_six_beats_and_names_its_sources():
 def test_every_beat_of_the_header_stays_long_enough_to_read_its_words():
     js = (WEB / "bench.js").read_text(encoding="utf-8")
     seconds = [int(x) / 1000 for x in re.search(r"DUR = \[([\d, ]+)\]", js).group(1).split(",")]
-    assert len(seconds) == 6 and min(seconds) >= 5  # the first impression: the words have to be readable
+    assert len(seconds) == 8 and min(seconds) >= 5  # the first impression: the words have to be readable
     assert seconds[3] >= 10 and seconds[5] >= 10  # the network with papers arriving and the scoreboard carry the most to read
+    assert seconds[6] >= 11 and seconds[7] >= 11  # the virtual tumour plays 72 hours in about five seconds and then holds; the samples colour in, then change the way p53 is counted
 
 
 def test_the_header_stands_still_while_the_mouse_is_over_its_words_and_pictures_but_not_over_its_bars():
@@ -174,6 +175,9 @@ def test_both_languages_have_the_same_texts_and_every_label_in_the_markup_has_on
     assert quoted(english) == quoted(greek) and quoted(english)
     for key in bare:
         assert re.search(rf"\b{key}: ", english) and re.search(rf"\b{key}: ", greek), key
+    search = (WEB / "search.js").read_text(encoding="utf-8").split("CP.add({\n    en: {\n", 1)[1].split("\n  });", 1)[0]  # the search engine adds its own words to the same two languages
+    english2, greek2 = search.split("\n    el: {\n")
+    assert quoted(english2) == quoted(greek2) and quoted(english2) and not quoted(english2) & quoted(english)
     markup = (WEB / "body.html").read_text(encoding="utf-8")
     for key in set(re.findall(r'data-i18n(?:-html)?="([^"]+)"', markup)):
-        assert key in quoted(english), key
+        assert key in quoted(english) | quoted(english2), key

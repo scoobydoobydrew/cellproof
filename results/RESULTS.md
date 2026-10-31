@@ -341,6 +341,22 @@ Per study under R1:
 | ucs | 56 | 40 | 12 | 18 | 44 |
 | uvm | 80 | 9 | 0 | 3 | 79 |
 
+## The search board: every change of one or two genes, per tumour profile (docs/search_board.md)
+
+The exact solver's verdict on each of the 1,058 sets of one or two gene changes (each gene off or on; readout genes excluded) on the checked network, for the model cell and for 5 tumour profiles. A profile forces the node of a tumour-sample signature (R1 of docs/genotype_protocol.md); a set that touches a node the profile fixes is not offered. Profile rule, fixed in code: the first 5 signatures of rule R1 by number of samples whose genotype alone does not already leave only death. 'Only death' counts every set after which the damaged cell has apoptosis as its only fate; 'kept' counts the minimal ones, which are the sets the page lists. Statements about a model, not about tumours or people.
+
+| profile | tumour samples (R1) | sets offered | leave only death | kept (minimal) | kept sets |
+|---|---|---|---|---|---|
+| model cell | - | 1058 | 226 | 11 | 11 |
+| p53 lost | 681 | 968 | 0 | 0 | none |
+| hTERT high | 151 | 968 | 212 | 11 | 11, the same as the model cell's |
+| Mdm2 high | 144 | 968 | 212 | 11 | 11, the same as the model cell's |
+| Wip1 high | 89 | 1058 | 1 | 1 | Cdc25 E1 + Sirt1 KO |
+| Myc high + p53 lost | 81 | 882 | 0 | 0 | none |
+
+Not searched, because the genotype alone already leaves only death in the model: PTEN lost (510), RB lost (232), Myc high (198), DNA_PK high + Myc high + WWP1 high + p53_INP1 high (71), E2F1 high (64), PTEN lost + RB lost (44), Myc high + WWP1 high + p53_INP1 high (38).
+
+
 ## From the solver's targets to measured chemistry (ChEMBL)
 
 The solver's 11 minimal sets need 3 knock-outs (PTEN KO, RB KO, TUG1 KO) and 8 sets with a gene switched on. Allowing up to three knock-outs at once adds no set (`tests/test_targets.py`). Every set depends on p53: in a cell with p53 knocked out, 11 of the 11 sets no longer leave only apoptosis (5 have no stable state at all, the others one that matches none of the four fates).

@@ -23,11 +23,11 @@ commits the files.
    `THIRD_PARTY.md`, and check that no full paper text is committed (they live in `data/raw`, which is ignored).
 4. **The video:** its first line must say what pre-existed and what was built this week (the brief, rule 9). Record it from
    `make verify` output, which replays cached model outputs and needs no network. Set the page to English (the **EN**
-   button) before recording; `docs/video_script.md` has the scene-by-scene sheet for the story that opens the page.
+   button) before recording; `docs/video_script.md` has the beat-by-beat sheet for the header that opens the page, the demo and the search engine.
 
 ## Where things stand (updated 2026-10-31) and what is left until the submission
 
-Done by the assistant and checked by tests: the pipeline, the audit, the report page, the tissue what-if, the target list, the
+Done by the assistant and checked by tests: the pipeline, the audit, the report page (an eight-beat header, the demo straight after it, then the search engine; `docs/search_board.md`), the tissue what-if, the target list, the
 ChEMBL snapshot, the click page for the two reading tasks, the literature check of PTEN and RB (24 papers), the start-aware and sequential analysis and the genotype study (each with a protocol committed before its results), the secret scan of the new files (clean on 2026-10-31; run it again
 the moment before the repository is made public), `THIRD_PARTY.md` (new entries for PhysiBoSS, MaBoSS, ChEMBL, HGNC use,
 and what was considered and not used).
