@@ -1,0 +1,517 @@
+{
+ "queries": {
+  "PTEN": "TITLE:PTEN AND ABSTRACT:(radiation OR irradiation OR irradiated OR radiosensiti* OR radioresistan* OR radiotherapy) AND ABSTRACT:(loss OR deficien* OR null OR knockdown OR silencing OR mutation OR inhibit* OR deletion OR knockout) AND OPEN_ACCESS:y NOT (PUB_TYPE:\"review\" OR PUB_TYPE:\"Review\" OR TITLE:Retracted OR TITLE:Correction OR TITLE:Erratum OR TITLE:Retraction)",
+  "RB1": "TITLE:(RB1 OR retinoblastoma OR pRB) AND ABSTRACT:(radiation OR irradiation OR irradiated OR radiosensiti* OR radioresistan* OR radiotherapy) AND ABSTRACT:(loss OR deficien* OR null OR knockdown OR silencing OR inactivation OR deletion OR knockout) AND OPEN_ACCESS:y NOT (PUB_TYPE:\"review\" OR PUB_TYPE:\"Review\" OR TITLE:Retracted OR TITLE:Correction OR TITLE:Erratum OR TITLE:Retraction)"
+ },
+ "per_gene": 6,
+ "candidates": {
+  "PTEN": [
+   {
+    "pmcid": "PMC2914702",
+    "doi": "10.1186/1471-2407-10-367",
+    "title": "MicroRNA-221 and microRNA-222 regulate gastric carcinoma cell proliferation and radioresistance by targeting PTEN",
+    "year": "2010",
+    "cited_by": 312,
+    "license": "cc by",
+    "taken": true
+   },
+   {
+    "pmcid": "PMC5627969",
+    "doi": "10.1038/nature22965",
+    "title": "PTEN counteracts FBXL2 to promote IP3R3- and Ca&lt;sup&gt;2+&lt;/sup&gt;-mediated apoptosis limiting tumour growth",
+    "year": "2017",
+    "cited_by": 209,
+    "license": "cc by",
+    "taken": true
+   },
+   {
+    "pmcid": "PMC3722247",
+    "doi": "10.1371/journal.pone.0068543",
+    "title": "Difluorinated-curcumin (CDF) restores PTEN expression in colon cancer cells by down-regulating miR-21",
+    "year": "2013",
+    "cited_by": 118,
+    "license": "cc0",
+    "taken": true
+   },
+   {
+    "pmcid": "PMC3614551",
+    "doi": "10.1371/journal.pone.0060408",
+    "title": "PARP inhibition sensitizes to low dose-rate radiation TMPRSS2-ERG fusion gene-expressing and PTEN-deficient prostate cancer cells",
+    "year": "2013",
+    "cited_by": 93,
+    "license": "cc by",
+    "taken": true
+   },
+   {
+    "pmcid": "PMC6440033",
+    "doi": "10.1186/s13046-019-1119-x",
+    "title": "miR-96-5p targets PTEN expression affecting radio-chemosensitivity of HNSCC cells",
+    "year": "2019",
+    "cited_by": 67,
+    "license": "cc by",
+    "taken": true
+   },
+   {
+    "pmcid": "PMC5834544",
+    "doi": "10.1038/s41598-018-22289-7",
+    "title": "Loss of PTEN-assisted G2/M checkpoint impedes homologous recombination repair and enhances radio-curability and PARP inhibitor treatment response in prostate cancer",
+    "year": "2018",
+    "cited_by": 64,
+    "license": "cc by",
+    "taken": true
+   },
+   {
+    "pmcid": "PMC6798410",
+    "doi": "10.1186/s12885-019-6177-0",
+    "title": "Clinical insights gained by refining the 2016 WHO classification of diffuse gliomas with: EGFR amplification, TERT mutations, PTEN deletion and MGMT methylation",
+    "year": "2019",
+    "cited_by": 60,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC3315579",
+    "doi": "10.1371/journal.pone.0033684",
+    "title": "Loss of PTEN is not associated with poor survival in newly diagnosed glioblastoma patients of the temozolomide era",
+    "year": "2012",
+    "cited_by": 53,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC4441389",
+    "doi": "10.1371/journal.pone.0126149",
+    "title": "Fractionated Ionizing Radiation Promotes Epithelial-Mesenchymal Transition in Human Esophageal Cancer Cells through PTEN Deficiency-Mediated Akt Activation",
+    "year": "2015",
+    "cited_by": 48,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC7145659",
+    "doi": "10.1093/nar/gkz1103",
+    "title": "USP14 is a deubiquitinase for Ku70 and critical determinant of non-homologous end joining repair in autophagy and PTEN-deficient cells",
+    "year": "2020",
+    "cited_by": 46,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC6267624",
+    "doi": "10.2147/ott.s182573",
+    "title": "LncRNA ANCR promotes proliferation and radiation resistance of nasopharyngeal carcinoma by inhibiting PTEN expression",
+    "year": "2018",
+    "cited_by": 41,
+    "license": "cc by-nc",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC3909012",
+    "doi": "10.1371/journal.pone.0087052",
+    "title": "Cell surface area and membrane folding in glioblastoma cell lines differing in PTEN and p53 status",
+    "year": "2014",
+    "cited_by": 38,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC4884961",
+    "doi": "10.18632/oncotarget.6955",
+    "title": "PTEN deficiency promotes macrophage infiltration and hypersensitivity of prostate cancer to IAP antagonist/radiation combination therapy",
+    "year": "2016",
+    "cited_by": 35,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC5650370",
+    "doi": "10.18632/oncotarget.20339",
+    "title": "Radiation-resistant cancer stem-like cell properties are regulated by PTEN through the activity of nuclear β-catenin in nasopharyngeal carcinoma",
+    "year": "2017",
+    "cited_by": 28,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC3787156",
+    "doi": "10.18632/oncotarget.1164",
+    "title": "PTEN loss represses glioblastoma tumor initiating cell differentiation via inactivation of Lgl1",
+    "year": "2013",
+    "cited_by": 27,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC8178252",
+    "doi": "10.1111/jcmm.16539",
+    "title": "ZEB1 serves as an oncogene in acute myeloid leukaemia via regulating the PTEN/PI3K/AKT signalling pathway by combining with P53",
+    "year": "2021",
+    "cited_by": 23,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC7693713",
+    "doi": "10.3389/fcell.2020.553733",
+    "title": "Overcoming of Radioresistance in Non-small Cell Lung Cancer by microRNA-320a Through HIF1α-Suppression Mediated Methylation of PTEN",
+    "year": "2020",
+    "cited_by": 23,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC6050339",
+    "doi": "10.1038/s41467-018-05266-6",
+    "title": "Stromal PTEN determines mammary epithelial response to radiotherapy",
+    "year": "2018",
+    "cited_by": 22,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC5190044",
+    "doi": "10.18632/oncotarget.9618",
+    "title": "Targeted next-generation sequencing of dedifferentiated chondrosarcoma in the skull base reveals combined TP53 and PTEN mutations with increased proliferation index, an implication for pathogenesis",
+    "year": "2016",
+    "cited_by": 22,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC9044846",
+    "doi": "10.1186/s13578-022-00778-7",
+    "title": "PTEN mutant non-small cell lung cancer require ATM to suppress pro-apoptotic signalling and evade radiotherapy",
+    "year": "2022",
+    "cited_by": 20,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC7380483",
+    "doi": "10.1093/narcan/zcaa012",
+    "title": "Clinical and functional characterization of CXCR1/CXCR2 biology in the relapse and radiotherapy resistance of primary PTEN-deficient prostate carcinoma",
+    "year": "2020",
+    "cited_by": 19,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC4929728",
+    "doi": "10.1186/s12935-016-0333-2",
+    "title": "PARG deficiency is neither synthetic lethal with BRCA1 nor PTEN deficiency",
+    "year": "2016",
+    "cited_by": 19,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC9658850",
+    "doi": "10.3390/ijms232112876",
+    "title": "PTEN Loss Enhances Error-Prone DSB Processing and Tumor Cell Radiosensitivity by Suppressing RAD51 Expression and Homologous Recombination",
+    "year": "2022",
+    "cited_by": 18,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC6375989",
+    "doi": "10.1038/s41598-019-38585-9",
+    "title": "Oncogenic Y68 frame shift mutation of PTEN represents a mechanism of docetaxel resistance in endometrial cancer cell lines",
+    "year": "2019",
+    "cited_by": 18,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC7266984",
+    "doi": "10.3389/fonc.2020.00821",
+    "title": "PD-L1 Inhibitor Regulates the miR-33a-5p/PTEN Signaling Pathway and Can Be Targeted to Sensitize Glioblastomas to Radiation",
+    "year": "2020",
+    "cited_by": 16,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC7016954",
+    "doi": "10.3390/cancers12010177",
+    "title": "Contribution of mTOR and PTEN to Radioresistance in Sporadic and NF2-Associated Vestibular Schwannomas: A Microarray and Pathway Analysis",
+    "year": "2020",
+    "cited_by": 16,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC8899089",
+    "doi": "10.3389/fimmu.2022.841404",
+    "title": "Diverse Macrophages Constituted the Glioma Microenvironment and Influenced by PTEN Status",
+    "year": "2022",
+    "cited_by": 15,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC8073943",
+    "doi": "10.3390/biom11040599",
+    "title": "EPHA3 Contributes to Epigenetic Suppression of PTEN in Radioresistant Head and Neck Cancer",
+    "year": "2021",
+    "cited_by": 15,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC3596705",
+    "doi": "10.1016/s1674-8301(11)60017-1",
+    "title": "UVB suppresses PTEN expression by upregulating miR-141 in HaCaT cells",
+    "year": "2011",
+    "cited_by": 15,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC2741431",
+    "doi": "10.1186/1756-9966-28-123",
+    "title": "The drug-resistance to gefitinib in PTEN low expression cancer cells is reversed by irradiation in vitro",
+    "year": "2009",
+    "cited_by": 15,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC6857897",
+    "doi": "10.31557/apjcp.2019.20.5.1587",
+    "title": "Ionizing Radiation-inducible microRNA-21 Induces Angiogenesis by Directly Targeting PTEN",
+    "year": "2019",
+    "cited_by": 14,
+    "license": "cc by-sa",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC7814022",
+    "doi": "10.1038/s41598-020-80754-8",
+    "title": "PTEN inhibitor bpV(HOpic) confers protection against ionizing radiation",
+    "year": "2021",
+    "cited_by": 13,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC9648413",
+    "doi": "10.1158/2767-9764.crc-22-0024",
+    "title": "Bcl-xL inhibition radiosensitizes <i>PIK3CA/PTEN</i> wild-type triple negative breast cancers with low Mcl-1 expression",
+    "year": "2022",
+    "cited_by": 11,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC8025816",
+    "doi": "10.3390/curroncol28020121",
+    "title": "PTEN R130Q Papillary Tumor of the Pineal Region (PTPR) with Chromosome 10 Loss Successfully Treated with Everolimus: A Case Report",
+    "year": "2021",
+    "cited_by": 11,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC5820893",
+    "doi": "10.4103/ajns.ajns_95_17",
+    "title": "Significant Effect of Anti-tyrosine Kinase Inhibitor (Gefitinib) on Overall Survival of the Glioblastoma Multiforme Patients in the Backdrop of Mutational Status of Epidermal Growth Factor Receptor and <i>PTEN</i> Genes",
+    "year": "2018",
+    "cited_by": 11,
+    "license": "cc by-nc-sa",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC6770036",
+    "doi": "10.3390/ijms20184631",
+    "title": "PTEN, A Target of Microrna-374b, Contributes to the Radiosensitivity of Canine Oral Melanoma Cells",
+    "year": "2019",
+    "cited_by": 10,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC10514008",
+    "doi": "10.1007/s12105-023-01576-4",
+    "title": "p-mTOR, p-ERK and PTEN Expression in Tumor Biopsies and Organoids as Predictive Biomarkers for Patients with HPV Negative Head and Neck Cancer",
+    "year": "2023",
+    "cited_by": 9,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC7794981",
+    "doi": "10.3390/cancers13010079",
+    "title": "ATM Kinase Inhibition Preferentially Sensitises PTEN-Deficient Prostate Tumour Cells to Ionising Radiation",
+    "year": "2020",
+    "cited_by": 9,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC11065166",
+    "doi": "10.1101/gad.351350.123",
+    "title": "Haploinsufficiency of phosphodiesterase 10A activates PI3K/AKT signaling independent of PTEN to induce an aggressive glioma phenotype",
+    "year": "2024",
+    "cited_by": 7,
+    "license": "cc by-nc",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC10093147",
+    "doi": "10.3390/cancers15071977",
+    "title": "Prognostic Relevance and In Vitro Targeting of Concomitant PTEN and p16 Deficiency in Chordomas",
+    "year": "2023",
+    "cited_by": 7,
+    "license": "cc by",
+    "taken": false
+   }
+  ],
+  "RB1": [
+   {
+    "pmcid": "PMC5412766",
+    "doi": "10.15252/embj.201694571",
+    "title": "The retinoblastoma homolog RBR1 mediates localization of the repair protein RAD51 to DNA lesions in <i>Arabidopsis</i>",
+    "year": "2017",
+    "cited_by": 78,
+    "license": "cc by-nc-nd",
+    "taken": true
+   },
+   {
+    "pmcid": "PMC3827056",
+    "doi": "10.1371/journal.pone.0078641",
+    "title": "RB1 status in triple negative breast cancer cells dictates response to radiation treatment and selective therapeutic drugs",
+    "year": "2013",
+    "cited_by": 74,
+    "license": "cc by",
+    "taken": true
+   },
+   {
+    "pmcid": "PMC4498940",
+    "doi": "10.1111/j.1582-4934.2008.00406.x",
+    "title": "Central chondrosarcoma progression is associated with pRb pathway alterations: CDK4 down-regulation and p16 overexpression inhibit cell growth in vitro",
+    "year": "2009",
+    "cited_by": 72,
+    "license": null,
+    "taken": false
+   },
+   {
+    "pmcid": "PMC2247029",
+    "doi": "10.1038/bjc.1989.251",
+    "title": "Structural alterations of the RB1 gene in human soft tissue tumours",
+    "year": "1989",
+    "cited_by": 58,
+    "license": "cc by",
+    "taken": true
+   },
+   {
+    "pmcid": "PMC3909110",
+    "doi": "10.1371/journal.pone.0087453",
+    "title": "Efficient photodynamic therapy on human retinoblastoma cell lines",
+    "year": "2014",
+    "cited_by": 20,
+    "license": "cc by",
+    "taken": true
+   },
+   {
+    "pmcid": "PMC4237942",
+    "doi": "10.1186/1476-4598-13-182",
+    "title": "A Rb1 promoter variant with reduced activity contributes to osteosarcoma susceptibility in irradiated mice",
+    "year": "2014",
+    "cited_by": 16,
+    "license": "cc by",
+    "taken": true
+   },
+   {
+    "pmcid": "PMC2394264",
+    "doi": "10.1038/sj.bjc.6601063",
+    "title": "Retinoblastoma protein expression is an independent predictor of both radiation response and survival in muscle-invasive bladder cancer",
+    "year": "2003",
+    "cited_by": 15,
+    "license": "cc by",
+    "taken": true
+   },
+   {
+    "pmcid": "PMC9237030",
+    "doi": "10.1038/s41419-022-04916-4",
+    "title": "Mice with Trp53 and Rb1 deficiency in chondrocytes spontaneously develop chondrosarcoma via overactivation of YAP signaling",
+    "year": "2022",
+    "cited_by": 12,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC5465815",
+    "doi": "10.1016/j.adro.2016.11.002",
+    "title": "Analysis of patient outcomes following proton radiation therapy for retinoblastoma",
+    "year": "2017",
+    "cited_by": 11,
+    "license": "cc by-nc-nd",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC5385017",
+    "doi": "10.1186/s12885-017-3249-x",
+    "title": "Myoepithelial carcinoma with RB1 mutation: remarkable chemosensitivity to carcinoma of unknown origin therapy",
+    "year": "2017",
+    "cited_by": 11,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC11049397",
+    "doi": "10.3390/cells13080700",
+    "title": "Probing the Effects of Retinoblastoma Binding Protein 6 (RBBP6) Knockdown on the Sensitivity of Cisplatin in Cervical Cancer Cells",
+    "year": "2024",
+    "cited_by": 4,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC4220401",
+    "doi": "10.4103/0974-620x.142597",
+    "title": "Resistant retinoblastoma in a 23-year-old patient",
+    "year": "2014",
+    "cited_by": 3,
+    "license": "cc by-nc-sa",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC11237859",
+    "doi": "10.1016/j.clinsp.2024.100415",
+    "title": "P53 and pRB induction improves response to radiation therapy in HPV-positive laryngeal squamous cell carcinoma",
+    "year": "2024",
+    "cited_by": 1,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC9997022",
+    "doi": "10.1186/s13256-023-03761-z",
+    "title": "Rehabilitation of severe dentofacial deformity after early radiotherapy of retinoblastoma: a case report",
+    "year": "2023",
+    "cited_by": 1,
+    "license": "cc by",
+    "taken": false
+   },
+   {
+    "pmcid": "PMC13228095",
+    "doi": "10.12659/ajcr.951652",
+    "title": "Orbital Fungating Mass as a Rare Manifestation of Retinoblastoma: A Case Study in Palliative Care",
+    "year": "2026",
+    "cited_by": 0,
+    "license": "cc by-nc-nd",
+    "taken": false
+   },
+   {
+    "pmcid": null,
+    "doi": null,
+    "title": "Retinoblastoma",
+    "year": "2025",
+    "cited_by": 0,
+    "license": null,
+    "taken": false
+   }
+  ]
+ }
+}

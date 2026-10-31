@@ -199,6 +199,8 @@ def verify() -> None:
                         stalled=",".join(str(s) for s in recorded.get("stalled_seeds", [])))
     typer.echo("== targets of the solver's sets (HGNC, from the cache)")
     targets()
+    typer.echo("== literature check of PTEN and RB loss (stored evidence)")
+    literature(refresh=False)
     from cellproof.report.build import write as write_report
     from cellproof.results_md import render
 
@@ -396,6 +398,27 @@ def targets() -> None:
         kinds = ", ".join(f"{p['node']}={p['kind']}" for p in row["literals"])
         typer.echo(f"{row['id']}  {row['label']:28s} knock-out only: {row['knock_out_only']!s:5}  {kinds}")
     typer.echo(f"wrote {out}")
+
+
+@app.command()
+def literature(refresh: bool = typer.Option(False, help="Redo the Europe PMC search and download the papers the protocol takes (needs the network).")) -> None:
+    """The literature check of PTEN loss and RB loss (docs/literature_check.md). Without --refresh it only checks the stored evidence: every paper
+    is one the protocol takes and, where the paper's text is on this machine, every quote occurs in it. With --refresh the search is redone first;
+    if Europe PMC's order has moved since the papers were read, the check says so."""
+    from cellproof.eval import literature as lit
+
+    if refresh:
+        lit.run()
+    evidence = json.loads(lit.EVIDENCE.read_text(encoding="utf-8"))
+    taken = {r["pmcid"] for rows in json.loads(lit.CANDIDATES.read_text(encoding="utf-8"))["candidates"].values() for r in rows if r["taken"]}
+    found = lit.problems(evidence, taken=taken)
+    papers = [p for block in evidence["genes"].values() for p in block["papers"]]
+    on_texts = sum((lit.TEXTS / f"{p['pmcid']}.txt").exists() for p in papers)
+    typer.echo(f"{len(papers)} papers read, {sum(len(p['quotes']) for p in papers)} quotes; texts on this machine: {on_texts} of {len(papers)} (quotes are checked against those)")
+    for line in found:
+        typer.echo(f"PROBLEM  {line}")
+    if found:
+        raise typer.Exit(1)
 
 
 @app.command()

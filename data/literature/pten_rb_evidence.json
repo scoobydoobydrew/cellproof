@@ -1,0 +1,228 @@
+{
+ "protocol": "docs/literature_check.md",
+ "read_on": "2026-10-31",
+ "read_by": "the assistant, not yet checked by a person; a code check confirms that every quote occurs in the paper",
+ "model_claim": "After DNA damage, a cell without PTEN (hit_03) or without RB1 (hit_04) has apoptosis as its only stable end state (results/targets.json).",
+ "genes": {
+  "PTEN": {
+   "papers": [
+    {
+     "pmcid": "PMC2914702",
+     "doi": "10.1186/1471-2407-10-367",
+     "cite": "Chun-Zhi Z et al. BMC cancer 2010",
+     "title": "MicroRNA-221 and microRNA-222 regulate gastric carcinoma cell proliferation and radioresistance by targeting PTEN",
+     "license": "cc by",
+     "context": "Human gastric cancer cell line SGC7901; PTEN raised by knocking down miR-221/222 or by PTEN cDNA; clonogenic survival after radiation",
+     "verdict": "contradicts",
+     "fate_reported": "apoptosis (more, when PTEN is raised)",
+     "only_apoptosis_reported": false,
+     "quotes": [
+      {
+       "text": "AS-miR-221/222 and pcDNA-PTEN transfection increased radiosensitivity, as determined by clonogenic assay following radiation exposure.",
+       "where": "results",
+       "says": "Raising PTEN made the cells more radiosensitive."
+      },
+      {
+       "text": "Annexin V staining and flow cytometry analysis showing that AS-miR-221/222 transfection induced significantly higher levels of apoptosis in SGC7901 cells than controls, and transfection with pcDNA-PTEN yielded similar results.",
+       "where": "results",
+       "says": "Raising PTEN gave more apoptosis."
+      }
+     ],
+     "note": "More PTEN gave more radiosensitivity and more apoptosis, so low PTEN goes with less of both: the opposite direction of the model. The evidence is by restoring PTEN in cells that had little of it, not by removing it."
+    },
+    {
+     "pmcid": "PMC5627969",
+     "doi": "10.1038/nature22965",
+     "cite": "Kuchay S et al. Nature 2017",
+     "title": "PTEN counteracts FBXL2 to promote IP3R3- and Ca&lt;sup&gt;2+&lt;/sup&gt;-mediated apoptosis limiting tumour growth",
+     "license": "cc by",
+     "context": "",
+     "verdict": "off_topic",
+     "fate_reported": null,
+     "only_apoptosis_reported": false,
+     "quotes": [],
+     "note": "Calcium-dependent apoptosis after photodynamic therapy (a light-activated drug); no ionizing radiation and no DNA damage."
+    },
+    {
+     "pmcid": "PMC3722247",
+     "doi": "10.1371/journal.pone.0068543",
+     "cite": "Roy S et al. PLoS ONE 2013",
+     "title": "Difluorinated-curcumin (CDF) restores PTEN expression in colon cancer cells by down-regulating miR-21",
+     "license": "cc0",
+     "context": "",
+     "verdict": "off_topic",
+     "fate_reported": null,
+     "only_apoptosis_reported": false,
+     "quotes": [],
+     "note": "A curcumin analogue restores PTEN in chemo-resistant colon cancer cells; radiotherapy resistance appears only in the background section."
+    },
+    {
+     "pmcid": "PMC3614551",
+     "doi": "10.1371/journal.pone.0060408",
+     "cite": "Chatterjee P et al. PLoS ONE 2013",
+     "title": "PARP inhibition sensitizes to low dose-rate radiation TMPRSS2-ERG fusion gene-expressing and PTEN-deficient prostate cancer cells",
+     "license": "cc by",
+     "context": "Human prostate cancer cell lines (PTEN-null PC3, LNCaP and C4-2 against PTEN-wild-type DU145), radiation together with the PARP inhibitor rucaparib",
+     "verdict": "agrees_in_direction",
+     "fate_reported": "senescence",
+     "only_apoptosis_reported": false,
+     "quotes": [
+      {
+       "text": "Absence of PTEN and presence of ETS gene fusion thus facilitated activation of senescence, which contributed to decreased clonogenic survival.",
+       "where": "abstract",
+       "says": "PTEN-null cells lost more clonogenic survival, through senescence."
+      },
+      {
+       "text": "These data indicate that senescence contributes to decreased survival of PTEN-deficient cells and that the extent of senescence correlates with clonogenic survival.",
+       "where": "results",
+       "says": "The reduced survival went with senescence."
+      }
+     ],
+     "note": "PTEN-deficient lines lost more survival, but through senescence, not apoptosis. The model says a damaged cell without PTEN has no senescence state, so the fate conflicts with the model even where the direction agrees. The comparison is between different cell lines and includes a drug."
+    },
+    {
+     "pmcid": "PMC6440033",
+     "doi": "10.1186/s13046-019-1119-x",
+     "cite": "Vahabi M et al. J Exp Clin Cancer Res 2019",
+     "title": "miR-96-5p targets PTEN expression affecting radio-chemosensitivity of HNSCC cells",
+     "license": "cc by",
+     "context": "Human head and neck cancer cell lines; siRNA against PTEN; 2 Gy",
+     "verdict": "contradicts",
+     "fate_reported": "not reported (viability and colony assays)",
+     "only_apoptosis_reported": false,
+     "quotes": [
+      {
+       "text": "Collectively these findings clearly describe that PTEN is a mediator of chemo-radiotherapy treatment for HNSCC cells and that its miR-96-5p-mediated depletion contributes to HNSCC radio-chemoresistance.",
+       "where": "results",
+       "says": "Depleting PTEN made the cells more resistant to radiation and chemotherapy."
+      }
+     ],
+     "note": "Silencing PTEN made the cells more resistant to radiation, the opposite direction of the model. The paper measured viability and colonies, not apoptosis."
+    },
+    {
+     "pmcid": "PMC5834544",
+     "doi": "10.1038/s41598-018-22289-7",
+     "cite": "Mansour WY et al. Scientific reports 2018",
+     "title": "Loss of PTEN-assisted G2/M checkpoint impedes homologous recombination repair and enhances radio-curability and PARP inhibitor treatment response in prostate cancer",
+     "license": "cc by",
+     "context": "Human prostate cancer cells (DU145) after PTEN depletion, irradiation, and a tissue microarray of prostate cancer samples",
+     "verdict": "agrees_in_direction",
+     "fate_reported": "not reported (the mechanism given is impaired homologous recombination and G2/M checkpoint)",
+     "only_apoptosis_reported": false,
+     "quotes": [
+      {
+       "text": "PTEN depletion renders cells radiosensitive and susceptible to radiosensitization by PARP inhibition",
+       "where": "results (heading)",
+       "says": "PTEN-depleted cells were more radiosensitive."
+      },
+      {
+       "text": "However, in the same study they demonstrated that the PTEN defect is associated with radioresistance, which does not fit with the proposed HR deficiency.",
+       "where": "discussion",
+       "says": "The authors cite an earlier study in which PTEN loss went with radioresistance."
+      }
+     ],
+     "note": "PTEN-depleted cells were more radiosensitive. The paper itself cites an earlier study in which PTEN loss went with radioresistance, so the literature disagrees. It does not report apoptosis; the mechanism it gives is impaired homologous recombination and G2/M checkpoint."
+    }
+   ]
+  },
+  "RB1": {
+   "papers": [
+    {
+     "pmcid": "PMC5412766",
+     "doi": "10.15252/embj.201694571",
+     "cite": "Biedermann S et al. The EMBO journal 2017",
+     "title": "The retinoblastoma homolog RBR1 mediates localization of the repair protein RAD51 to DNA lesions in <i>Arabidopsis</i>",
+     "license": "cc by-nc-nd",
+     "context": "",
+     "verdict": "off_topic",
+     "fate_reported": null,
+     "only_apoptosis_reported": false,
+     "quotes": [],
+     "note": "The plant homologue RBR1 of Arabidopsis and a genotoxic drug (aluminium), not human RB1. For completeness: it reports that loss of RBR1 leads to cell death under genotoxic stress, the model's direction; it is not counted."
+    },
+    {
+     "pmcid": "PMC3827056",
+     "doi": "10.1371/journal.pone.0078641",
+     "cite": "Robinson TJ et al. PLoS ONE 2013",
+     "title": "RB1 status in triple negative breast cancer cells dictates response to radiation treatment and selective therapeutic drugs",
+     "license": "cc by",
+     "context": "Eight human triple-negative breast cancer cell lines (4 RB-positive, 4 RB-negative); gamma-irradiation, 5 to 10 Gy; MTT viability",
+     "verdict": "agrees_in_direction",
+     "fate_reported": "not reported (MTT viability assays and the cancer stem cell fraction)",
+     "only_apoptosis_reported": false,
+     "quotes": [
+      {
+       "text": "RB-negative TNBC cell lines are highly sensitive to gamma-irradiation, and moderately more sensitive to doxorubicin and methotrexate compared to RB-positive TNBC cell lines.",
+       "where": "abstract",
+       "says": "RB-negative lines were more sensitive to radiation."
+      }
+     ],
+     "note": "RB-negative lines were more sensitive to radiation, the model's direction. The lines differ in many ways besides RB1, and the measure is viability, not apoptosis."
+    },
+    {
+     "pmcid": "PMC2247029",
+     "doi": "10.1038/bjc.1989.251",
+     "cite": "Stratton MR et al. British journal of cancer 1989",
+     "title": "Structural alterations of the RB1 gene in human soft tissue tumours",
+     "license": "cc by",
+     "context": "",
+     "verdict": "off_topic",
+     "fate_reported": null,
+     "only_apoptosis_reported": false,
+     "quotes": [],
+     "note": "Structural alterations of the RB1 gene in soft tissue tumours (a 1989 abstract); no response to radiation is reported."
+    },
+    {
+     "pmcid": "PMC3909110",
+     "doi": "10.1371/journal.pone.0087453",
+     "cite": "Walther J et al. PLoS ONE 2014",
+     "title": "Efficient photodynamic therapy on human retinoblastoma cell lines",
+     "license": "cc by",
+     "context": "",
+     "verdict": "off_topic",
+     "fate_reported": null,
+     "only_apoptosis_reported": false,
+     "quotes": [],
+     "note": "Photodynamic therapy of retinoblastoma cell lines (the disease); it does not examine the effect of losing RB1."
+    },
+    {
+     "pmcid": "PMC4237942",
+     "doi": "10.1186/1476-4598-13-182",
+     "cite": "Rosemann M et al. Molecular cancer 2014",
+     "title": "A Rb1 promoter variant with reduced activity contributes to osteosarcoma susceptibility in irradiated mice",
+     "license": "cc by",
+     "context": "",
+     "verdict": "off_topic",
+     "fate_reported": null,
+     "only_apoptosis_reported": false,
+     "quotes": [],
+     "note": "Susceptibility to radiation-induced osteosarcoma in mice with a low-activity Rb1 promoter variant: tumour induction, not the fate of irradiated cells."
+    },
+    {
+     "pmcid": "PMC2394264",
+     "doi": "10.1038/sj.bjc.6601063",
+     "cite": "Agerbaek M et al. British journal of cancer 2003",
+     "title": "Retinoblastoma protein expression is an independent predictor of both radiation response and survival in muscle-invasive bladder cancer",
+     "license": "cc by",
+     "context": "108 patients with muscle-invasive bladder cancer; pRB staining of the tumour before preoperative radiotherapy",
+     "verdict": "agrees_in_direction",
+     "fate_reported": "apoptosis (cited from earlier work); not measured in the patients' tumours",
+     "only_apoptosis_reported": false,
+     "quotes": [
+      {
+       "text": "Loss of pRB staining was the strongest independent predictor of radiation response in multivariate logistic regression analysis",
+       "where": "abstract",
+       "says": "Tumours without pRB responded better to radiotherapy."
+      },
+      {
+       "text": "pRB-deficient cells have accordingly been found to be hypersensitive to DNA damage-induced apoptosis (Knudsen et al, 2000; Wang et al, 2001).",
+       "where": "introduction (citing earlier work)",
+       "says": "The authors cite earlier work on hypersensitivity of pRB-deficient cells to apoptosis after DNA damage."
+      }
+     ],
+     "note": "Loss of pRB went with a better response to radiotherapy, the model's direction. It is an association in patients' tumours, not a controlled loss; the apoptosis sentence is the authors' citation of earlier work."
+    }
+   ]
+  }
+ }
+}
