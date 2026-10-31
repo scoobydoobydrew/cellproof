@@ -74,3 +74,34 @@ genotype-specific minimal sets and how they differ from the 11. Every number com
   with the TP53 share under both R1 and R2.
 - No sample, no person, no drug and no outcome is claimed. Nothing is called personalised medicine, therapy, treatment or proof.
 - Not modelled: expression, missense effects, subclones, the tissue, any dose, and the fact that a bulk sample is a mixture of cells.
+
+## Results (2026-10-31)
+
+`python -m cellproof.cli genotypes --fetch` read 32 studies and 9,896 tumour samples with mutation and copy-number data, and built
+727 distinct signatures under R1 and 739 under R2 (`data/genotypes/tcga_pancan_signatures.json`, counts only;
+`results/genotypes.json`; every number below is in `results/RESULTS.md`). The code was written after this protocol, and the one
+change made to the protocol (a set that conflicts with the genotype is not applicable) was made before any outcome existed.
+
+- **How many samples carry something the rule can use:** 4,453 (45.0%) under R1 have at least one forced node, 5,635 (56.9%) under R2.
+  TP53 is lost in 1,408 (14.2%) under R1 and in 3,815 (38.6%) under R2. The gap between the two is how much the rule for missense
+  mutations matters; neither number is a measurement of anything but the rule.
+- **The genotype alone:** in 1,744 samples under R1 (17.6%; 1,009 under R2, 10.2%) the genotype by itself already leaves only
+  apoptosis in the model, and every one of those samples has TP53. In 1,080 (R1) or 2,833 (R2) the damaged cell has no stable state.
+- **The 11 sets on top of the genotype:** among the samples with TP53 not lost, each set leaves only apoptosis in 95.1% to 96.5%
+  (R1; 95.4% to 96.6% under R2), except AMPK_MAPK KO with Sirt1 on, which does so in 80.4% (83.2%). **Among the samples with TP53
+  lost, none of the 11 sets leaves only apoptosis, for any sample, under either rule** (0 of 1,408 and 0 of 3,815), which is the
+  earlier finding about p53 measured on a cohort.
+- **Genotype-specific search**, for the 20 most frequent signatures under each rule: for every one of those with TP53 lost
+  (5 under R1, 11 under R2) there is **no set of up to two changes** that leaves only apoptosis. Where the genotype alone already
+  does so (PTEN lost, RB1 lost, MYC amplified, E2F1 amplified and combinations) no change is needed in the model. Where the
+  genotype leaves several fates (TERT or MDM2 amplification, for example) the search returns the same 11 sets. One signature
+  stands out: **PPM1D (Wip1) amplified, 89 samples under R1**: none of the 11 sets leaves only apoptosis there, and the search finds
+  exactly one set, Cdc25 on with Sirt1 off. That is a statement about the model for one genotype, a hypothesis and nothing more.
+- **What it does not say.** Under this rule PTEN lost and RB1 lost are "no change needed" in the model, and the literature check
+  found that the model's direction for exactly those two genes is contested. So for the two most frequent such genotypes (510
+  samples with PTEN lost alone and 232 with RB1 lost alone, under R1) the model's answer is one that the papers read do not support.
+  The numbers measure how the model reacts to genotypes, not what happens in tumours, and no sample, person, drug or outcome is
+  claimed.
+- **Limits specific to this study.** Only 22 of 34 nodes can carry a genotype (ATM, AMPK, the caspases, mTORC1 and 2 and others are
+  merged nodes and never forced), missense effects are ignored, and TP53 loss swings from 14% to 39% with the rule. The model is
+  one published DNA damage network, not a model of any of the 32 cancer types, and every sample is a mixture of cells.

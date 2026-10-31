@@ -111,3 +111,36 @@ What is added now, decided with these results in view (so labelled as such):
    does not find (the H1-only sets) is run in the tissue with the settings of the 22 runs. The prediction is the exact one under
    `visit`: no survivor means fewer than 1% alive at 72 h, survivors means 1% or more. It is written down here before the runs.
    Sequences cannot be run in the tissue (the network is fixed for a whole run in this setup); that is a limit, said plainly.
+
+## Results (2026-10-31)
+
+`python -m cellproof.cli sequences` writes `results/sequences.json`; every number below is in `results/RESULTS.md`, computed from it.
+Each search was run under both meanings of dead, except S2, which was run under `visit`, the meaning the simulation implements.
+
+- **The start-aware analysis.** Radiation alone has four attractors; from the healthy start only apoptosis and senescence can be
+  reached, and a cell can survive in one of them, senescence. Under both meanings H0 reproduces the solver's 11 minimal sets
+  exactly. H1 finds 10 minimal sets: nine single literals, the solver's seven plus Cdc25 forced on and Sirt1 forced on, and one pair,
+  AMPK_MAPK KO with CHK1 KO. The other four pairs of H0 contain one of the two new single literals.
+- **V3 held 3 of 3.** The three sets that H1 finds and the solver does not were run in the tissue (`novel_01` to `novel_03`); the
+  prediction, written before, was fewer than 1% alive after 72 h, and none of the 1,663 cells was alive in any of them. Both
+  engines run the same Boolean rules, so this checks the translation and the two analyses against each other, not the biology.
+- **V1 and V2.** V1 (first criterion, before any result): 15 of 23, failed for the eight conditions listed in Amendment 1; its second
+  criterion held for 23 of 23. V2 (added after V1 failed): survival matches the 1% threshold on 23 of 23 and every simulated fate is
+  the phenotype of a reachable state on 23 of 23.
+- **S1, pairs.** Of the 1,012 pairs of literals on two nodes, 285 are hits as one stage under `settled` and 292 under `visit`; 360 are
+  hits in some order under both. 76 (`settled`) and 69 (`visit`) are hits in some order but not as one stage, and every one of them
+  contains a literal that is a hit alone. **There is no sequence-only pair under either meaning.** One pair works only at once:
+  AMPK_MAPK KO with CHK1 KO, which in either order leaves senescent survivors after its first stage, and the second change does not
+  move them (the reverse of the effect Mandon et al. describe).
+- **S3, the five kinases of the brief.** 1,081 ordered lists of stages over every subset of ATR, CHK1, CHK2, WEE1 and DNA-PK knocked
+  out; none is a hit. They end in no response at all (an unclassified stable state, 808 lists under both meanings), in senescence
+  (250 under `settled`, 273 under `visit`) or, under `settled`, in apoptosis or senescence (23).
+- **S2, three knock-outs.** 1,122 of the 1,771 sets of three knock-outs on three nodes contain no smaller hit and were searched in
+  all 14,586 ordered lists of stages under `visit`: none is a hit, as one stage or in any order.
+
+**What it means.** The solver's question is stricter than the question a healthy irradiated cell poses, and the exact start-aware
+analysis finds three more minimal sets that an independent simulation then confirms. In this model, letting the cell settle between
+changes adds nothing for pairs, for the five kinases of the brief or for triples of knock-outs, and one pair is hurt by it. That does
+not contradict Mandon et al., whose examples are other networks, with temporary perturbations and timing that depends on the state,
+which are not modelled here. Nothing here is a schedule, a therapy or a proof; every set is a hypothesis about one model, and the
+findings that every set depends on p53 and that the literature check does not support the model's direction for PTEN and RB1 stand.

@@ -13,10 +13,13 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import replace
 from itertools import combinations
 
+from pathlib import Path
+
 from cellproof.analysis.interventions import READOUT_NODES, describe, fates, minimal_sets
 from cellproof.tissue.project import Settings
 from cellproof.tissue.run import OUT, simulate
 
+ROOT = Path(__file__).resolve().parents[3]
 SEED = 20261031  # draws the misses
 SIZE = 2  # genes changed at once, as in the exhaustive search of the report
 BASE_SETTINGS = Settings(radius=300.0, max_time=4320.0, snapshot=180.0, threads=3)
@@ -32,6 +35,17 @@ def misses(rules: dict[str, str], hits: list, count: int) -> list[tuple[tuple[st
     return sorted(random.Random(SEED).sample(failing, count))
 
 
+def novel_sets() -> list[tuple[tuple[str, int], ...]]:
+    """The sets that the start-aware exact analysis finds and the solver does not (results/sequences.json, the `visit` meaning): the
+    out-of-sample test V3 of docs/sequential_protocol.md, whose prediction (no survivor: fewer than 1% alive at 72 h) was written down before
+    these runs."""
+    path = ROOT / "results" / "sequences.json"
+    if not path.exists():
+        return []
+    labels = json.loads(path.read_text(encoding="utf-8"))["visit"]["summary"]["h1_only"]
+    return [tuple(sorted((part.rsplit(" ", 1)[0], 0 if part.endswith(" KO") else 1) for part in label.split(" + "))) for label in labels]
+
+
 def conditions(rules: dict[str, str]) -> list[dict]:
     hits = minimal_sets(rules, SIZE)
     drawn = misses(rules, hits, len(hits))
@@ -43,6 +57,8 @@ def conditions(rules: dict[str, str]) -> list[dict]:
         out.append({"name": f"rate_{key}", "group": "rate", "label": f"radiation only, apoptosis rate {rate:g} per minute", "setting": {}, "settings": {"apoptosis_rate": rate}})
     for k, literals in enumerate(hits, 1):
         out.append({"name": f"long_hit_{k:02d}", "group": "long", "label": f"{describe(literals)}, 240 h", "setting": dict(literals), "settings": LONG})
+    for k, literals in enumerate(novel_sets(), 1):  # appended last, so that no earlier condition changes its seed
+        out.append({"name": f"novel_{k:02d}", "group": "novel", "label": describe(literals), "setting": dict(literals), "settings": {}})
     return out
 
 

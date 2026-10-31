@@ -515,6 +515,48 @@
    "dead": 1663,
    "minutes_to_90_percent_dead": 720.0,
    "seed": 1035
+  },
+  {
+   "name": "novel_01",
+   "group": "novel",
+   "label": "AMPK_MAPK KO + CHK1 KO",
+   "cells": 1663,
+   "alive_end": 0,
+   "none": 0,
+   "arrest": 0,
+   "senescence": 0,
+   "autophagy": 0,
+   "dead": 1663,
+   "minutes_to_90_percent_dead": 720.0,
+   "seed": 1036
+  },
+  {
+   "name": "novel_02",
+   "group": "novel",
+   "label": "Cdc25 E1",
+   "cells": 1663,
+   "alive_end": 0,
+   "none": 0,
+   "arrest": 0,
+   "senescence": 0,
+   "autophagy": 0,
+   "dead": 1663,
+   "minutes_to_90_percent_dead": 720.0,
+   "seed": 1037
+  },
+  {
+   "name": "novel_03",
+   "group": "novel",
+   "label": "Sirt1 E1",
+   "cells": 1663,
+   "alive_end": 0,
+   "none": 0,
+   "arrest": 0,
+   "senescence": 0,
+   "autophagy": 0,
+   "dead": 1663,
+   "minutes_to_90_percent_dead": 720.0,
+   "seed": 1038
   }
  ]
 }

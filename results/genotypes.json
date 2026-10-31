@@ -1,0 +1,3013 @@
+{
+ "protocol": "docs/genotype_protocol.md",
+ "model": "data/models/repaired_min2.bnet",
+ "source": {
+  "api": "https://www.cbioportal.org/api",
+  "profiles": "<study>_mutations and <study>_gistic",
+  "sample_list": "<study>_cnaseq",
+  "queried": "2026-10-31",
+  "licence": "ODC Open Database License, attribution to the original studies (cBioPortal FAQ, read 2026-10-31)",
+  "cite": [
+   "Cerami et al. 2012 Cancer Discov",
+   "Gao et al. 2013 Sci Signal",
+   "de Bruijn et al. 2023 Cancer Res",
+   "TCGA PanCancer Atlas (Hoadley et al. 2018 Cell)"
+  ]
+ },
+ "rule": {
+  "truncating": [
+   "Frame_Shift_Del",
+   "Frame_Shift_Ins",
+   "Nonsense_Mutation",
+   "Nonstop_Mutation",
+   "Splice_Site"
+  ],
+  "not_protein_changing": [
+   "3'Flank",
+   "3'UTR",
+   "5'Flank",
+   "5'UTR",
+   "IGR",
+   "Intron",
+   "RNA",
+   "Silent",
+   "Splice_Region"
+  ],
+  "loss": "homozygous deletion (GISTIC -2) or a truncating mutation",
+  "gain": "high-level amplification (GISTIC +2), if there is no loss",
+  "r2": "every protein-changing TP53 mutation also counts as a TP53 loss"
+ },
+ "nodes": {
+  "Mdm2": "MDM2",
+  "p53": "TP53",
+  "p53_INP1": "TP53INP1",
+  "p21": "CDKN1A",
+  "Wip1": "PPM1D",
+  "RB": "RB1",
+  "Myc": "MYC",
+  "WWP1": "WWP1",
+  "hTERT": "TERT",
+  "E2F1": "E2F1",
+  "Cdc25": "CDC25C",
+  "Sirt1": "SIRT1",
+  "Wee1": "WEE1",
+  "PTEN": "PTEN",
+  "AKT": "AKT1",
+  "BCL2": "BCL2",
+  "PUMA": "BBC3",
+  "BAX": "BAX",
+  "CHK2": "CHEK2",
+  "ATR": "ATR",
+  "DNA_PK": "PRKDC",
+  "CHK1": "CHEK1"
+ },
+ "solver_sets": [
+  "E2F1 E1",
+  "Myc E1",
+  "PTEN KO",
+  "RB KO",
+  "TUG1 KO",
+  "WWP1 E1",
+  "miR221 E1",
+  "AKT E1 + Cdc25 E1",
+  "AKT E1 + Sirt1 E1",
+  "AMPK_MAPK KO + Cdc25 E1",
+  "AMPK_MAPK KO + Sirt1 E1"
+ ],
+ "r1": {
+  "samples": 9896,
+  "studies": 32,
+  "distinct_signatures": 727,
+  "altered": 4453,
+  "tp53_lost": 1408,
+  "baseline": {
+   "only_apoptosis": 1744,
+   "other": 7072,
+   "no_stable_state": 1080
+  },
+  "baseline_tp53_lost": {
+   "only_apoptosis": 0,
+   "other": 372,
+   "no_stable_state": 1036
+  },
+  "baseline_tp53_intact": {
+   "only_apoptosis": 1744,
+   "other": 6700,
+   "no_stable_state": 44
+  },
+  "sets": [
+   {
+    "label": "E2F1 E1",
+    "all": {
+     "only_apoptosis": 8181,
+     "other": 1505,
+     "no_stable_state": 184,
+     "not_applicable": 26
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 1372,
+     "no_stable_state": 31,
+     "not_applicable": 5
+    },
+    "tp53_intact": {
+     "only_apoptosis": 8181,
+     "other": 133,
+     "no_stable_state": 153,
+     "not_applicable": 21
+    }
+   },
+   {
+    "label": "Myc E1",
+    "all": {
+     "only_apoptosis": 8189,
+     "other": 1507,
+     "no_stable_state": 191,
+     "not_applicable": 9
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 1371,
+     "no_stable_state": 36,
+     "not_applicable": 1
+    },
+    "tp53_intact": {
+     "only_apoptosis": 8189,
+     "other": 136,
+     "no_stable_state": 155,
+     "not_applicable": 8
+    }
+   },
+   {
+    "label": "PTEN KO",
+    "all": {
+     "only_apoptosis": 8089,
+     "other": 599,
+     "no_stable_state": 1194,
+     "not_applicable": 14
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 370,
+     "no_stable_state": 1036,
+     "not_applicable": 2
+    },
+    "tp53_intact": {
+     "only_apoptosis": 8089,
+     "other": 229,
+     "no_stable_state": 158,
+     "not_applicable": 12
+    }
+   },
+   {
+    "label": "RB KO",
+    "all": {
+     "only_apoptosis": 8176,
+     "other": 1508,
+     "no_stable_state": 187,
+     "not_applicable": 25
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 1363,
+     "no_stable_state": 35,
+     "not_applicable": 10
+    },
+    "tp53_intact": {
+     "only_apoptosis": 8176,
+     "other": 145,
+     "no_stable_state": 152,
+     "not_applicable": 15
+    }
+   },
+   {
+    "label": "TUG1 KO",
+    "all": {
+     "only_apoptosis": 8090,
+     "other": 612,
+     "no_stable_state": 1194,
+     "not_applicable": 0
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 372,
+     "no_stable_state": 1036,
+     "not_applicable": 0
+    },
+    "tp53_intact": {
+     "only_apoptosis": 8090,
+     "other": 240,
+     "no_stable_state": 158,
+     "not_applicable": 0
+    }
+   },
+   {
+    "label": "WWP1 E1",
+    "all": {
+     "only_apoptosis": 8070,
+     "other": 605,
+     "no_stable_state": 1191,
+     "not_applicable": 30
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 371,
+     "no_stable_state": 1033,
+     "not_applicable": 4
+    },
+    "tp53_intact": {
+     "only_apoptosis": 8070,
+     "other": 234,
+     "no_stable_state": 158,
+     "not_applicable": 26
+    }
+   },
+   {
+    "label": "miR221 E1",
+    "all": {
+     "only_apoptosis": 8090,
+     "other": 612,
+     "no_stable_state": 1194,
+     "not_applicable": 0
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 372,
+     "no_stable_state": 1036,
+     "not_applicable": 0
+    },
+    "tp53_intact": {
+     "only_apoptosis": 8090,
+     "other": 240,
+     "no_stable_state": 158,
+     "not_applicable": 0
+    }
+   },
+   {
+    "label": "AKT E1 + Cdc25 E1",
+    "all": {
+     "only_apoptosis": 8108,
+     "other": 1676,
+     "no_stable_state": 45,
+     "not_applicable": 67
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 1362,
+     "no_stable_state": 35,
+     "not_applicable": 11
+    },
+    "tp53_intact": {
+     "only_apoptosis": 8108,
+     "other": 314,
+     "no_stable_state": 10,
+     "not_applicable": 56
+    }
+   },
+   {
+    "label": "AKT E1 + Sirt1 E1",
+    "all": {
+     "only_apoptosis": 8182,
+     "other": 1569,
+     "no_stable_state": 64,
+     "not_applicable": 81
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 1368,
+     "no_stable_state": 25,
+     "not_applicable": 15
+    },
+    "tp53_intact": {
+     "only_apoptosis": 8182,
+     "other": 201,
+     "no_stable_state": 39,
+     "not_applicable": 66
+    }
+   },
+   {
+    "label": "AMPK_MAPK KO + Cdc25 E1",
+    "all": {
+     "only_apoptosis": 8138,
+     "other": 1684,
+     "no_stable_state": 49,
+     "not_applicable": 25
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 1367,
+     "no_stable_state": 39,
+     "not_applicable": 2
+    },
+    "tp53_intact": {
+     "only_apoptosis": 8138,
+     "other": 317,
+     "no_stable_state": 10,
+     "not_applicable": 23
+    }
+   },
+   {
+    "label": "AMPK_MAPK KO + Sirt1 E1",
+    "all": {
+     "only_apoptosis": 6822,
+     "other": 256,
+     "no_stable_state": 2778,
+     "not_applicable": 40
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 62,
+     "no_stable_state": 1340,
+     "not_applicable": 6
+    },
+    "tp53_intact": {
+     "only_apoptosis": 6822,
+     "other": 194,
+     "no_stable_state": 1438,
+     "not_applicable": 34
+    }
+   }
+  ],
+  "per_study": [
+   {
+    "study": "acc_tcga_pan_can_atlas_2018",
+    "samples": 89,
+    "altered": 37,
+    "tp53_lost": 11,
+    "baseline_only_apoptosis": 8,
+    "sets_only_apoptosis": [
+     76,
+     76,
+     76,
+     76,
+     76,
+     76,
+     76,
+     76,
+     76,
+     76,
+     71
+    ]
+   },
+   {
+    "study": "blca_tcga_pan_can_atlas_2018",
+    "samples": 406,
+    "altered": 268,
+    "tp53_lost": 72,
+    "baseline_only_apoptosis": 111,
+    "sets_only_apoptosis": [
+     316,
+     316,
+     313,
+     316,
+     313,
+     312,
+     313,
+     313,
+     315,
+     316,
+     275
+    ]
+   },
+   {
+    "study": "brca_tcga_pan_can_atlas_2018",
+    "samples": 996,
+    "altered": 493,
+    "tp53_lost": 137,
+    "baseline_only_apoptosis": 200,
+    "sets_only_apoptosis": [
+     769,
+     771,
+     761,
+     770,
+     761,
+     759,
+     761,
+     767,
+     771,
+     769,
+     601
+    ]
+   },
+   {
+    "study": "cesc_tcga_pan_can_atlas_2018",
+    "samples": 278,
+    "altered": 118,
+    "tp53_lost": 10,
+    "baseline_only_apoptosis": 60,
+    "sets_only_apoptosis": [
+     262,
+     263,
+     261,
+     262,
+     261,
+     261,
+     261,
+     261,
+     262,
+     263,
+     220
+    ]
+   },
+   {
+    "study": "chol_tcga_pan_can_atlas_2018",
+    "samples": 36,
+    "altered": 8,
+    "tp53_lost": 1,
+    "baseline_only_apoptosis": 2,
+    "sets_only_apoptosis": [
+     35,
+     35,
+     34,
+     35,
+     34,
+     34,
+     34,
+     34,
+     34,
+     35,
+     33
+    ]
+   },
+   {
+    "study": "coadread_tcga_pan_can_atlas_2018",
+    "samples": 526,
+    "altered": 216,
+    "tp53_lost": 94,
+    "baseline_only_apoptosis": 65,
+    "sets_only_apoptosis": [
+     417,
+     416,
+     414,
+     412,
+     414,
+     412,
+     414,
+     414,
+     417,
+     414,
+     354
+    ]
+   },
+   {
+    "study": "dlbc_tcga_pan_can_atlas_2018",
+    "samples": 37,
+    "altered": 12,
+    "tp53_lost": 3,
+    "baseline_only_apoptosis": 3,
+    "sets_only_apoptosis": [
+     32,
+     33,
+     33,
+     32,
+     33,
+     33,
+     33,
+     33,
+     33,
+     33,
+     31
+    ]
+   },
+   {
+    "study": "esca_tcga_pan_can_atlas_2018",
+    "samples": 182,
+    "altered": 124,
+    "tp53_lost": 63,
+    "baseline_only_apoptosis": 29,
+    "sets_only_apoptosis": [
+     113,
+     113,
+     111,
+     112,
+     111,
+     110,
+     111,
+     112,
+     113,
+     112,
+     87
+    ]
+   },
+   {
+    "study": "gbm_tcga_pan_can_atlas_2018",
+    "samples": 378,
+    "altered": 186,
+    "tp53_lost": 32,
+    "baseline_only_apoptosis": 119,
+    "sets_only_apoptosis": [
+     346,
+     346,
+     344,
+     346,
+     344,
+     344,
+     344,
+     344,
+     346,
+     344,
+     250
+    ]
+   },
+   {
+    "study": "hnsc_tcga_pan_can_atlas_2018",
+    "samples": 496,
+    "altered": 286,
+    "tp53_lost": 159,
+    "baseline_only_apoptosis": 62,
+    "sets_only_apoptosis": [
+     336,
+     336,
+     327,
+     336,
+     327,
+     326,
+     327,
+     326,
+     333,
+     329,
+     283
+    ]
+   },
+   {
+    "study": "kich_tcga_pan_can_atlas_2018",
+    "samples": 65,
+    "altered": 20,
+    "tp53_lost": 10,
+    "baseline_only_apoptosis": 5,
+    "sets_only_apoptosis": [
+     55,
+     55,
+     54,
+     55,
+     54,
+     54,
+     54,
+     54,
+     54,
+     55,
+     50
+    ]
+   },
+   {
+    "study": "kirc_tcga_pan_can_atlas_2018",
+    "samples": 354,
+    "altered": 53,
+    "tp53_lost": 5,
+    "baseline_only_apoptosis": 13,
+    "sets_only_apoptosis": [
+     344,
+     344,
+     346,
+     344,
+     346,
+     346,
+     346,
+     346,
+     344,
+     346,
+     333
+    ]
+   },
+   {
+    "study": "kirp_tcga_pan_can_atlas_2018",
+    "samples": 274,
+    "altered": 20,
+    "tp53_lost": 2,
+    "baseline_only_apoptosis": 5,
+    "sets_only_apoptosis": [
+     271,
+     271,
+     268,
+     271,
+     268,
+     267,
+     268,
+     268,
+     269,
+     270,
+     266
+    ]
+   },
+   {
+    "study": "laml_tcga_pan_can_atlas_2018",
+    "samples": 190,
+    "altered": 19,
+    "tp53_lost": 9,
+    "baseline_only_apoptosis": 3,
+    "sets_only_apoptosis": [
+     180,
+     179,
+     180,
+     180,
+     180,
+     178,
+     180,
+     180,
+     180,
+     180,
+     177
+    ]
+   },
+   {
+    "study": "lgg_tcga_pan_can_atlas_2018",
+    "samples": 511,
+    "altered": 152,
+    "tp53_lost": 57,
+    "baseline_only_apoptosis": 42,
+    "sets_only_apoptosis": [
+     438,
+     438,
+     431,
+     437,
+     431,
+     431,
+     431,
+     434,
+     438,
+     434,
+     406
+    ]
+   },
+   {
+    "study": "lihc_tcga_pan_can_atlas_2018",
+    "samples": 353,
+    "altered": 156,
+    "tp53_lost": 49,
+    "baseline_only_apoptosis": 69,
+    "sets_only_apoptosis": [
+     291,
+     290,
+     287,
+     291,
+     287,
+     287,
+     287,
+     287,
+     290,
+     288,
+     244
+    ]
+   },
+   {
+    "study": "luad_tcga_pan_can_atlas_2018",
+    "samples": 507,
+    "altered": 258,
+    "tp53_lost": 98,
+    "baseline_only_apoptosis": 60,
+    "sets_only_apoptosis": [
+     403,
+     403,
+     398,
+     403,
+     398,
+     397,
+     398,
+     398,
+     401,
+     400,
+     359
+    ]
+   },
+   {
+    "study": "lusc_tcga_pan_can_atlas_2018",
+    "samples": 469,
+    "altered": 328,
+    "tp53_lost": 138,
+    "baseline_only_apoptosis": 102,
+    "sets_only_apoptosis": [
+     324,
+     324,
+     319,
+     323,
+     319,
+     317,
+     319,
+     318,
+     322,
+     320,
+     244
+    ]
+   },
+   {
+    "study": "meso_tcga_pan_can_atlas_2018",
+    "samples": 82,
+    "altered": 17,
+    "tp53_lost": 4,
+    "baseline_only_apoptosis": 5,
+    "sets_only_apoptosis": [
+     74,
+     74,
+     74,
+     74,
+     74,
+     74,
+     74,
+     74,
+     74,
+     74,
+     71
+    ]
+   },
+   {
+    "study": "ov_tcga_pan_can_atlas_2018",
+    "samples": 398,
+    "altered": 293,
+    "tp53_lost": 136,
+    "baseline_only_apoptosis": 110,
+    "sets_only_apoptosis": [
+     252,
+     252,
+     245,
+     252,
+     246,
+     246,
+     246,
+     247,
+     252,
+     248,
+     164
+    ]
+   },
+   {
+    "study": "paad_tcga_pan_can_atlas_2018",
+    "samples": 175,
+    "altered": 69,
+    "tp53_lost": 41,
+    "baseline_only_apoptosis": 14,
+    "sets_only_apoptosis": [
+     130,
+     130,
+     128,
+     130,
+     128,
+     128,
+     128,
+     130,
+     130,
+     131,
+     119
+    ]
+   },
+   {
+    "study": "pcpg_tcga_pan_can_atlas_2018",
+    "samples": 161,
+    "altered": 14,
+    "tp53_lost": 2,
+    "baseline_only_apoptosis": 3,
+    "sets_only_apoptosis": [
+     154,
+     154,
+     153,
+     154,
+     153,
+     153,
+     153,
+     155,
+     155,
+     155,
+     152
+    ]
+   },
+   {
+    "study": "prad_tcga_pan_can_atlas_2018",
+    "samples": 489,
+    "altered": 212,
+    "tp53_lost": 38,
+    "baseline_only_apoptosis": 148,
+    "sets_only_apoptosis": [
+     439,
+     439,
+     439,
+     439,
+     439,
+     439,
+     439,
+     438,
+     441,
+     439,
+     331
+    ]
+   },
+   {
+    "study": "sarc_tcga_pan_can_atlas_2018",
+    "samples": 253,
+    "altered": 159,
+    "tp53_lost": 58,
+    "baseline_only_apoptosis": 42,
+    "sets_only_apoptosis": [
+     183,
+     183,
+     181,
+     183,
+     181,
+     181,
+     181,
+     182,
+     183,
+     182,
+     166
+    ]
+   },
+   {
+    "study": "skcm_tcga_pan_can_atlas_2018",
+    "samples": 363,
+    "altered": 169,
+    "tp53_lost": 29,
+    "baseline_only_apoptosis": 69,
+    "sets_only_apoptosis": [
+     322,
+     323,
+     316,
+     322,
+     316,
+     316,
+     316,
+     317,
+     320,
+     322,
+     272
+    ]
+   },
+   {
+    "study": "stad_tcga_pan_can_atlas_2018",
+    "samples": 434,
+    "altered": 254,
+    "tp53_lost": 82,
+    "baseline_only_apoptosis": 87,
+    "sets_only_apoptosis": [
+     336,
+     334,
+     333,
+     332,
+     333,
+     330,
+     333,
+     332,
+     336,
+     333,
+     255
+    ]
+   },
+   {
+    "study": "tgct_tcga_pan_can_atlas_2018",
+    "samples": 144,
+    "altered": 23,
+    "tp53_lost": 0,
+    "baseline_only_apoptosis": 3,
+    "sets_only_apoptosis": [
+     144,
+     144,
+     142,
+     144,
+     142,
+     142,
+     142,
+     142,
+     143,
+     143,
+     142
+    ]
+   },
+   {
+    "study": "thca_tcga_pan_can_atlas_2018",
+    "samples": 482,
+    "altered": 23,
+    "tp53_lost": 3,
+    "baseline_only_apoptosis": 7,
+    "sets_only_apoptosis": [
+     475,
+     474,
+     474,
+     475,
+     474,
+     474,
+     474,
+     474,
+     475,
+     474,
+     473
+    ]
+   },
+   {
+    "study": "thym_tcga_pan_can_atlas_2018",
+    "samples": 123,
+    "altered": 11,
+    "tp53_lost": 2,
+    "baseline_only_apoptosis": 0,
+    "sets_only_apoptosis": [
+     118,
+     118,
+     118,
+     118,
+     118,
+     118,
+     118,
+     118,
+     118,
+     118,
+     118
+    ]
+   },
+   {
+    "study": "ucec_tcga_pan_can_atlas_2018",
+    "samples": 509,
+    "altered": 406,
+    "tp53_lost": 51,
+    "baseline_only_apoptosis": 277,
+    "sets_only_apoptosis": [
+     423,
+     432,
+     408,
+     429,
+     408,
+     404,
+     408,
+     414,
+     435,
+     414,
+     170
+    ]
+   },
+   {
+    "study": "ucs_tcga_pan_can_atlas_2018",
+    "samples": 56,
+    "altered": 40,
+    "tp53_lost": 12,
+    "baseline_only_apoptosis": 18,
+    "sets_only_apoptosis": [
+     44,
+     44,
+     43,
+     44,
+     43,
+     43,
+     43,
+     43,
+     44,
+     43,
+     28
+    ]
+   },
+   {
+    "study": "uvm_tcga_pan_can_atlas_2018",
+    "samples": 80,
+    "altered": 9,
+    "tp53_lost": 0,
+    "baseline_only_apoptosis": 3,
+    "sets_only_apoptosis": [
+     79,
+     79,
+     78,
+     79,
+     78,
+     78,
+     78,
+     77,
+     78,
+     78,
+     77
+    ]
+   }
+  ],
+  "top_signatures": [
+   {
+    "signature": [
+     [
+      "p53",
+      0
+     ]
+    ],
+    "samples": 681,
+    "baseline": "no_stable_state",
+    "baseline_fates": [],
+    "sets_that_leave_only_apoptosis": [],
+    "specific_sets": [],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "PTEN",
+      0
+     ]
+    ],
+    "samples": 510,
+    "baseline": "only_apoptosis",
+    "baseline_fates": [
+     "apoptosis"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1"
+    ],
+    "specific_sets": null,
+    "specific_search": "not needed: the genotype alone leaves only apoptosis"
+   },
+   {
+    "signature": [
+     [
+      "RB",
+      0
+     ]
+    ],
+    "samples": 232,
+    "baseline": "only_apoptosis",
+    "baseline_fates": [
+     "apoptosis"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_sets": null,
+    "specific_search": "not needed: the genotype alone leaves only apoptosis"
+   },
+   {
+    "signature": [
+     [
+      "Myc",
+      1
+     ]
+    ],
+    "samples": 198,
+    "baseline": "only_apoptosis",
+    "baseline_fates": [
+     "apoptosis"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1"
+    ],
+    "specific_sets": null,
+    "specific_search": "not needed: the genotype alone leaves only apoptosis"
+   },
+   {
+    "signature": [
+     [
+      "hTERT",
+      1
+     ]
+    ],
+    "samples": 151,
+    "baseline": "other",
+    "baseline_fates": [
+     "apoptosis",
+     "arrest",
+     "autophagy",
+     "senescence"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_sets": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "Mdm2",
+      1
+     ]
+    ],
+    "samples": 144,
+    "baseline": "other",
+    "baseline_fates": [
+     "apoptosis",
+     "arrest",
+     "autophagy",
+     "senescence"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_sets": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "Wip1",
+      1
+     ]
+    ],
+    "samples": 89,
+    "baseline": "other",
+    "baseline_fates": [
+     "apoptosis",
+     "arrest",
+     "senescence"
+    ],
+    "sets_that_leave_only_apoptosis": [],
+    "specific_sets": [
+     "Cdc25 E1 + Sirt1 KO"
+    ],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "Myc",
+      1
+     ],
+     [
+      "p53",
+      0
+     ]
+    ],
+    "samples": 81,
+    "baseline": "other",
+    "baseline_fates": [
+     "unclassified"
+    ],
+    "sets_that_leave_only_apoptosis": [],
+    "specific_sets": [],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "PTEN",
+      0
+     ],
+     [
+      "p53",
+      0
+     ]
+    ],
+    "samples": 72,
+    "baseline": "no_stable_state",
+    "baseline_fates": [],
+    "sets_that_leave_only_apoptosis": [],
+    "specific_sets": [],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "DNA_PK",
+      1
+     ],
+     [
+      "Myc",
+      1
+     ],
+     [
+      "WWP1",
+      1
+     ],
+     [
+      "p53_INP1",
+      1
+     ]
+    ],
+    "samples": 71,
+    "baseline": "only_apoptosis",
+    "baseline_fates": [
+     "apoptosis"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1"
+    ],
+    "specific_sets": null,
+    "specific_search": "not needed: the genotype alone leaves only apoptosis"
+   },
+   {
+    "signature": [
+     [
+      "RB",
+      0
+     ],
+     [
+      "p53",
+      0
+     ]
+    ],
+    "samples": 70,
+    "baseline": "other",
+    "baseline_fates": [
+     "unclassified"
+    ],
+    "sets_that_leave_only_apoptosis": [],
+    "specific_sets": [],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "DNA_PK",
+      0
+     ]
+    ],
+    "samples": 66,
+    "baseline": "other",
+    "baseline_fates": [
+     "apoptosis",
+     "arrest",
+     "autophagy",
+     "senescence"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_sets": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "E2F1",
+      1
+     ]
+    ],
+    "samples": 64,
+    "baseline": "only_apoptosis",
+    "baseline_fates": [
+     "apoptosis"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1"
+    ],
+    "specific_sets": null,
+    "specific_search": "not needed: the genotype alone leaves only apoptosis"
+   },
+   {
+    "signature": [
+     [
+      "ATR",
+      1
+     ]
+    ],
+    "samples": 55,
+    "baseline": "other",
+    "baseline_fates": [
+     "apoptosis",
+     "arrest",
+     "autophagy",
+     "senescence"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_sets": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "PTEN",
+      0
+     ],
+     [
+      "RB",
+      0
+     ]
+    ],
+    "samples": 44,
+    "baseline": "only_apoptosis",
+    "baseline_fates": [
+     "apoptosis"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1"
+    ],
+    "specific_sets": null,
+    "specific_search": "not needed: the genotype alone leaves only apoptosis"
+   },
+   {
+    "signature": [
+     [
+      "Myc",
+      1
+     ],
+     [
+      "WWP1",
+      1
+     ],
+     [
+      "p53_INP1",
+      1
+     ]
+    ],
+    "samples": 38,
+    "baseline": "only_apoptosis",
+    "baseline_fates": [
+     "apoptosis"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1"
+    ],
+    "specific_sets": null,
+    "specific_search": "not needed: the genotype alone leaves only apoptosis"
+   },
+   {
+    "signature": [
+     [
+      "hTERT",
+      1
+     ],
+     [
+      "p53",
+      0
+     ]
+    ],
+    "samples": 37,
+    "baseline": "no_stable_state",
+    "baseline_fates": [],
+    "sets_that_leave_only_apoptosis": [],
+    "specific_sets": [],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "CHK1",
+      0
+     ]
+    ],
+    "samples": 36,
+    "baseline": "other",
+    "baseline_fates": [
+     "apoptosis",
+     "arrest",
+     "autophagy",
+     "senescence"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_sets": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "BCL2",
+      0
+     ]
+    ],
+    "samples": 34,
+    "baseline": "other",
+    "baseline_fates": [
+     "apoptosis",
+     "arrest",
+     "autophagy",
+     "senescence"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_sets": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "ATR",
+      0
+     ]
+    ],
+    "samples": 30,
+    "baseline": "other",
+    "baseline_fates": [
+     "apoptosis",
+     "arrest",
+     "autophagy",
+     "senescence"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_sets": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_search": "done, up to two literals"
+   }
+  ]
+ },
+ "r2": {
+  "samples": 9896,
+  "studies": 32,
+  "distinct_signatures": 739,
+  "altered": 5635,
+  "tp53_lost": 3815,
+  "baseline": {
+   "only_apoptosis": 1009,
+   "other": 6054,
+   "no_stable_state": 2833
+  },
+  "baseline_tp53_lost": {
+   "only_apoptosis": 0,
+   "other": 1005,
+   "no_stable_state": 2810
+  },
+  "baseline_tp53_intact": {
+   "only_apoptosis": 1009,
+   "other": 5049,
+   "no_stable_state": 23
+  },
+  "sets": [
+   {
+    "label": "E2F1 E1",
+    "all": {
+     "only_apoptosis": 5868,
+     "other": 3806,
+     "no_stable_state": 196,
+     "not_applicable": 26
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 3728,
+     "no_stable_state": 81,
+     "not_applicable": 6
+    },
+    "tp53_intact": {
+     "only_apoptosis": 5868,
+     "other": 78,
+     "no_stable_state": 115,
+     "not_applicable": 20
+    }
+   },
+   {
+    "label": "Myc E1",
+    "all": {
+     "only_apoptosis": 5875,
+     "other": 3808,
+     "no_stable_state": 204,
+     "not_applicable": 9
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 3727,
+     "no_stable_state": 87,
+     "not_applicable": 1
+    },
+    "tp53_intact": {
+     "only_apoptosis": 5875,
+     "other": 81,
+     "no_stable_state": 117,
+     "not_applicable": 8
+    }
+   },
+   {
+    "label": "PTEN KO",
+    "all": {
+     "only_apoptosis": 5814,
+     "other": 1144,
+     "no_stable_state": 2924,
+     "not_applicable": 14
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 1000,
+     "no_stable_state": 2807,
+     "not_applicable": 8
+    },
+    "tp53_intact": {
+     "only_apoptosis": 5814,
+     "other": 144,
+     "no_stable_state": 117,
+     "not_applicable": 6
+    }
+   },
+   {
+    "label": "RB KO",
+    "all": {
+     "only_apoptosis": 5871,
+     "other": 3799,
+     "no_stable_state": 201,
+     "not_applicable": 25
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 3709,
+     "no_stable_state": 86,
+     "not_applicable": 20
+    },
+    "tp53_intact": {
+     "only_apoptosis": 5871,
+     "other": 90,
+     "no_stable_state": 115,
+     "not_applicable": 5
+    }
+   },
+   {
+    "label": "TUG1 KO",
+    "all": {
+     "only_apoptosis": 5815,
+     "other": 1154,
+     "no_stable_state": 2927,
+     "not_applicable": 0
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 1005,
+     "no_stable_state": 2810,
+     "not_applicable": 0
+    },
+    "tp53_intact": {
+     "only_apoptosis": 5815,
+     "other": 149,
+     "no_stable_state": 117,
+     "not_applicable": 0
+    }
+   },
+   {
+    "label": "WWP1 E1",
+    "all": {
+     "only_apoptosis": 5800,
+     "other": 1148,
+     "no_stable_state": 2918,
+     "not_applicable": 30
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 1003,
+     "no_stable_state": 2801,
+     "not_applicable": 11
+    },
+    "tp53_intact": {
+     "only_apoptosis": 5800,
+     "other": 145,
+     "no_stable_state": 117,
+     "not_applicable": 19
+    }
+   },
+   {
+    "label": "miR221 E1",
+    "all": {
+     "only_apoptosis": 5815,
+     "other": 1154,
+     "no_stable_state": 2927,
+     "not_applicable": 0
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 1005,
+     "no_stable_state": 2810,
+     "not_applicable": 0
+    },
+    "tp53_intact": {
+     "only_apoptosis": 5815,
+     "other": 149,
+     "no_stable_state": 117,
+     "not_applicable": 0
+    }
+   },
+   {
+    "label": "AKT E1 + Cdc25 E1",
+    "all": {
+     "only_apoptosis": 5826,
+     "other": 3912,
+     "no_stable_state": 91,
+     "not_applicable": 67
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 3702,
+     "no_stable_state": 85,
+     "not_applicable": 28
+    },
+    "tp53_intact": {
+     "only_apoptosis": 5826,
+     "other": 210,
+     "no_stable_state": 6,
+     "not_applicable": 39
+    }
+   },
+   {
+    "label": "AKT E1 + Sirt1 E1",
+    "all": {
+     "only_apoptosis": 5870,
+     "other": 3863,
+     "no_stable_state": 82,
+     "not_applicable": 81
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 3717,
+     "no_stable_state": 63,
+     "not_applicable": 35
+    },
+    "tp53_intact": {
+     "only_apoptosis": 5870,
+     "other": 146,
+     "no_stable_state": 19,
+     "not_applicable": 46
+    }
+   },
+   {
+    "label": "AMPK_MAPK KO + Cdc25 E1",
+    "all": {
+     "only_apoptosis": 5848,
+     "other": 3922,
+     "no_stable_state": 101,
+     "not_applicable": 25
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 3709,
+     "no_stable_state": 95,
+     "not_applicable": 11
+    },
+    "tp53_intact": {
+     "only_apoptosis": 5848,
+     "other": 213,
+     "no_stable_state": 6,
+     "not_applicable": 14
+    }
+   },
+   {
+    "label": "AMPK_MAPK KO + Sirt1 E1",
+    "all": {
+     "only_apoptosis": 5060,
+     "other": 299,
+     "no_stable_state": 4497,
+     "not_applicable": 40
+    },
+    "tp53_lost": {
+     "only_apoptosis": 0,
+     "other": 154,
+     "no_stable_state": 3643,
+     "not_applicable": 18
+    },
+    "tp53_intact": {
+     "only_apoptosis": 5060,
+     "other": 145,
+     "no_stable_state": 854,
+     "not_applicable": 22
+    }
+   }
+  ],
+  "per_study": [
+   {
+    "study": "acc_tcga_pan_can_atlas_2018",
+    "samples": 89,
+    "altered": 40,
+    "tp53_lost": 17,
+    "baseline_only_apoptosis": 7,
+    "sets_only_apoptosis": [
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     70,
+     66
+    ]
+   },
+   {
+    "study": "blca_tcga_pan_can_atlas_2018",
+    "samples": 406,
+    "altered": 313,
+    "tp53_lost": 204,
+    "baseline_only_apoptosis": 50,
+    "sets_only_apoptosis": [
+     192,
+     192,
+     190,
+     192,
+     190,
+     190,
+     190,
+     190,
+     191,
+     192,
+     165
+    ]
+   },
+   {
+    "study": "brca_tcga_pan_can_atlas_2018",
+    "samples": 996,
+    "altered": 572,
+    "tp53_lost": 350,
+    "baseline_only_apoptosis": 111,
+    "sets_only_apoptosis": [
+     577,
+     579,
+     572,
+     578,
+     572,
+     570,
+     572,
+     577,
+     579,
+     578,
+     487
+    ]
+   },
+   {
+    "study": "cesc_tcga_pan_can_atlas_2018",
+    "samples": 278,
+    "altered": 124,
+    "tp53_lost": 26,
+    "baseline_only_apoptosis": 52,
+    "sets_only_apoptosis": [
+     247,
+     248,
+     246,
+     247,
+     246,
+     246,
+     246,
+     246,
+     247,
+     248,
+     209
+    ]
+   },
+   {
+    "study": "chol_tcga_pan_can_atlas_2018",
+    "samples": 36,
+    "altered": 11,
+    "tp53_lost": 4,
+    "baseline_only_apoptosis": 2,
+    "sets_only_apoptosis": [
+     32,
+     32,
+     31,
+     32,
+     31,
+     31,
+     31,
+     31,
+     31,
+     32,
+     30
+    ]
+   },
+   {
+    "study": "coadread_tcga_pan_can_atlas_2018",
+    "samples": 526,
+    "altered": 376,
+    "tp53_lost": 311,
+    "baseline_only_apoptosis": 28,
+    "sets_only_apoptosis": [
+     203,
+     202,
+     202,
+     202,
+     202,
+     201,
+     202,
+     202,
+     203,
+     202,
+     176
+    ]
+   },
+   {
+    "study": "dlbc_tcga_pan_can_atlas_2018",
+    "samples": 37,
+    "altered": 14,
+    "tp53_lost": 5,
+    "baseline_only_apoptosis": 3,
+    "sets_only_apoptosis": [
+     30,
+     31,
+     31,
+     30,
+     31,
+     31,
+     31,
+     31,
+     31,
+     31,
+     29
+    ]
+   },
+   {
+    "study": "esca_tcga_pan_can_atlas_2018",
+    "samples": 182,
+    "altered": 169,
+    "tp53_lost": 159,
+    "baseline_only_apoptosis": 5,
+    "sets_only_apoptosis": [
+     23,
+     23,
+     22,
+     23,
+     22,
+     21,
+     22,
+     23,
+     23,
+     23,
+     20
+    ]
+   },
+   {
+    "study": "gbm_tcga_pan_can_atlas_2018",
+    "samples": 378,
+    "altered": 233,
+    "tp53_lost": 124,
+    "baseline_only_apoptosis": 83,
+    "sets_only_apoptosis": [
+     254,
+     254,
+     252,
+     254,
+     252,
+     252,
+     252,
+     252,
+     254,
+     252,
+     178
+    ]
+   },
+   {
+    "study": "hnsc_tcga_pan_can_atlas_2018",
+    "samples": 496,
+    "altered": 399,
+    "tp53_lost": 349,
+    "baseline_only_apoptosis": 30,
+    "sets_only_apoptosis": [
+     146,
+     146,
+     142,
+     146,
+     142,
+     141,
+     142,
+     142,
+     145,
+     143,
+     120
+    ]
+   },
+   {
+    "study": "kich_tcga_pan_can_atlas_2018",
+    "samples": 65,
+    "altered": 29,
+    "tp53_lost": 21,
+    "baseline_only_apoptosis": 5,
+    "sets_only_apoptosis": [
+     44,
+     44,
+     44,
+     44,
+     44,
+     44,
+     44,
+     44,
+     44,
+     44,
+     39
+    ]
+   },
+   {
+    "study": "kirc_tcga_pan_can_atlas_2018",
+    "samples": 354,
+    "altered": 58,
+    "tp53_lost": 11,
+    "baseline_only_apoptosis": 12,
+    "sets_only_apoptosis": [
+     338,
+     338,
+     340,
+     338,
+     340,
+     340,
+     340,
+     340,
+     338,
+     340,
+     327
+    ]
+   },
+   {
+    "study": "kirp_tcga_pan_can_atlas_2018",
+    "samples": 274,
+    "altered": 25,
+    "tp53_lost": 7,
+    "baseline_only_apoptosis": 5,
+    "sets_only_apoptosis": [
+     266,
+     266,
+     263,
+     266,
+     263,
+     262,
+     263,
+     263,
+     264,
+     265,
+     261
+    ]
+   },
+   {
+    "study": "laml_tcga_pan_can_atlas_2018",
+    "samples": 190,
+    "altered": 24,
+    "tp53_lost": 16,
+    "baseline_only_apoptosis": 3,
+    "sets_only_apoptosis": [
+     174,
+     173,
+     174,
+     174,
+     174,
+     172,
+     174,
+     174,
+     174,
+     174,
+     171
+    ]
+   },
+   {
+    "study": "lgg_tcga_pan_can_atlas_2018",
+    "samples": 511,
+    "altered": 280,
+    "tp53_lost": 248,
+    "baseline_only_apoptosis": 18,
+    "sets_only_apoptosis": [
+     259,
+     259,
+     256,
+     259,
+     256,
+     256,
+     256,
+     258,
+     259,
+     258,
+     245
+    ]
+   },
+   {
+    "study": "lihc_tcga_pan_can_atlas_2018",
+    "samples": 353,
+    "altered": 193,
+    "tp53_lost": 113,
+    "baseline_only_apoptosis": 53,
+    "sets_only_apoptosis": [
+     230,
+     229,
+     227,
+     230,
+     227,
+     227,
+     227,
+     227,
+     229,
+     228,
+     195
+    ]
+   },
+   {
+    "study": "luad_tcga_pan_can_atlas_2018",
+    "samples": 507,
+    "altered": 334,
+    "tp53_lost": 256,
+    "baseline_only_apoptosis": 27,
+    "sets_only_apoptosis": [
+     247,
+     247,
+     244,
+     247,
+     244,
+     243,
+     244,
+     244,
+     246,
+     245,
+     224
+    ]
+   },
+   {
+    "study": "lusc_tcga_pan_can_atlas_2018",
+    "samples": 469,
+    "altered": 425,
+    "tp53_lost": 394,
+    "baseline_only_apoptosis": 15,
+    "sets_only_apoptosis": [
+     75,
+     75,
+     73,
+     74,
+     73,
+     72,
+     73,
+     73,
+     74,
+     74,
+     63
+    ]
+   },
+   {
+    "study": "meso_tcga_pan_can_atlas_2018",
+    "samples": 82,
+    "altered": 25,
+    "tp53_lost": 14,
+    "baseline_only_apoptosis": 4,
+    "sets_only_apoptosis": [
+     65,
+     65,
+     65,
+     65,
+     65,
+     65,
+     65,
+     65,
+     65,
+     65,
+     62
+    ]
+   },
+   {
+    "study": "ov_tcga_pan_can_atlas_2018",
+    "samples": 398,
+    "altered": 382,
+    "tp53_lost": 363,
+    "baseline_only_apoptosis": 8,
+    "sets_only_apoptosis": [
+     31,
+     31,
+     29,
+     31,
+     30,
+     30,
+     30,
+     30,
+     31,
+     30,
+     27
+    ]
+   },
+   {
+    "study": "paad_tcga_pan_can_atlas_2018",
+    "samples": 175,
+    "altered": 114,
+    "tp53_lost": 108,
+    "baseline_only_apoptosis": 0,
+    "sets_only_apoptosis": [
+     65,
+     65,
+     63,
+     65,
+     63,
+     63,
+     63,
+     64,
+     64,
+     65,
+     65
+    ]
+   },
+   {
+    "study": "pcpg_tcga_pan_can_atlas_2018",
+    "samples": 161,
+    "altered": 15,
+    "tp53_lost": 3,
+    "baseline_only_apoptosis": 3,
+    "sets_only_apoptosis": [
+     153,
+     153,
+     152,
+     153,
+     152,
+     152,
+     152,
+     154,
+     154,
+     154,
+     151
+    ]
+   },
+   {
+    "study": "prad_tcga_pan_can_atlas_2018",
+    "samples": 489,
+    "altered": 229,
+    "tp53_lost": 75,
+    "baseline_only_apoptosis": 130,
+    "sets_only_apoptosis": [
+     403,
+     403,
+     403,
+     403,
+     403,
+     403,
+     403,
+     401,
+     404,
+     402,
+     312
+    ]
+   },
+   {
+    "study": "sarc_tcga_pan_can_atlas_2018",
+    "samples": 253,
+    "altered": 183,
+    "tp53_lost": 108,
+    "baseline_only_apoptosis": 21,
+    "sets_only_apoptosis": [
+     137,
+     137,
+     134,
+     137,
+     134,
+     134,
+     134,
+     135,
+     137,
+     135,
+     125
+    ]
+   },
+   {
+    "study": "skcm_tcga_pan_can_atlas_2018",
+    "samples": 363,
+    "altered": 191,
+    "tp53_lost": 65,
+    "baseline_only_apoptosis": 66,
+    "sets_only_apoptosis": [
+     287,
+     288,
+     281,
+     287,
+     281,
+     281,
+     281,
+     282,
+     285,
+     287,
+     239
+    ]
+   },
+   {
+    "study": "stad_tcga_pan_can_atlas_2018",
+    "samples": 434,
+    "altered": 307,
+    "tp53_lost": 212,
+    "baseline_only_apoptosis": 49,
+    "sets_only_apoptosis": [
+     211,
+     209,
+     211,
+     209,
+     211,
+     209,
+     211,
+     210,
+     211,
+     211,
+     167
+    ]
+   },
+   {
+    "study": "tgct_tcga_pan_can_atlas_2018",
+    "samples": 144,
+    "altered": 24,
+    "tp53_lost": 1,
+    "baseline_only_apoptosis": 3,
+    "sets_only_apoptosis": [
+     143,
+     143,
+     141,
+     143,
+     141,
+     141,
+     141,
+     141,
+     142,
+     142,
+     141
+    ]
+   },
+   {
+    "study": "thca_tcga_pan_can_atlas_2018",
+    "samples": 482,
+    "altered": 23,
+    "tp53_lost": 3,
+    "baseline_only_apoptosis": 7,
+    "sets_only_apoptosis": [
+     475,
+     474,
+     474,
+     475,
+     474,
+     474,
+     474,
+     474,
+     475,
+     474,
+     473
+    ]
+   },
+   {
+    "study": "thym_tcga_pan_can_atlas_2018",
+    "samples": 123,
+    "altered": 14,
+    "tp53_lost": 5,
+    "baseline_only_apoptosis": 0,
+    "sets_only_apoptosis": [
+     115,
+     115,
+     115,
+     115,
+     115,
+     115,
+     115,
+     115,
+     115,
+     115,
+     115
+    ]
+   },
+   {
+    "study": "ucec_tcga_pan_can_atlas_2018",
+    "samples": 509,
+    "altered": 444,
+    "tp53_lost": 192,
+    "baseline_only_apoptosis": 203,
+    "sets_only_apoptosis": [
+     292,
+     300,
+     284,
+     298,
+     284,
+     281,
+     284,
+     286,
+     302,
+     286,
+     99
+    ]
+   },
+   {
+    "study": "ucs_tcga_pan_can_atlas_2018",
+    "samples": 56,
+    "altered": 56,
+    "tp53_lost": 51,
+    "baseline_only_apoptosis": 3,
+    "sets_only_apoptosis": [
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     2
+    ]
+   },
+   {
+    "study": "uvm_tcga_pan_can_atlas_2018",
+    "samples": 80,
+    "altered": 9,
+    "tp53_lost": 0,
+    "baseline_only_apoptosis": 3,
+    "sets_only_apoptosis": [
+     79,
+     79,
+     78,
+     79,
+     78,
+     78,
+     78,
+     77,
+     78,
+     78,
+     77
+    ]
+   }
+  ],
+  "top_signatures": [
+   {
+    "signature": [
+     [
+      "p53",
+      0
+     ]
+    ],
+    "samples": 1866,
+    "baseline": "no_stable_state",
+    "baseline_fates": [],
+    "sets_that_leave_only_apoptosis": [],
+    "specific_sets": [],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "PTEN",
+      0
+     ]
+    ],
+    "samples": 421,
+    "baseline": "only_apoptosis",
+    "baseline_fates": [
+     "apoptosis"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1"
+    ],
+    "specific_sets": null,
+    "specific_search": "not needed: the genotype alone leaves only apoptosis"
+   },
+   {
+    "signature": [
+     [
+      "Myc",
+      1
+     ],
+     [
+      "p53",
+      0
+     ]
+    ],
+    "samples": 207,
+    "baseline": "other",
+    "baseline_fates": [
+     "unclassified"
+    ],
+    "sets_that_leave_only_apoptosis": [],
+    "specific_sets": [],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "RB",
+      0
+     ],
+     [
+      "p53",
+      0
+     ]
+    ],
+    "samples": 189,
+    "baseline": "other",
+    "baseline_fates": [
+     "unclassified"
+    ],
+    "sets_that_leave_only_apoptosis": [],
+    "specific_sets": [],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "PTEN",
+      0
+     ],
+     [
+      "p53",
+      0
+     ]
+    ],
+    "samples": 161,
+    "baseline": "no_stable_state",
+    "baseline_fates": [],
+    "sets_that_leave_only_apoptosis": [],
+    "specific_sets": [],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "hTERT",
+      1
+     ],
+     [
+      "p53",
+      0
+     ]
+    ],
+    "samples": 119,
+    "baseline": "no_stable_state",
+    "baseline_fates": [],
+    "sets_that_leave_only_apoptosis": [],
+    "specific_sets": [],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "Mdm2",
+      1
+     ]
+    ],
+    "samples": 117,
+    "baseline": "other",
+    "baseline_fates": [
+     "apoptosis",
+     "arrest",
+     "autophagy",
+     "senescence"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_sets": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "RB",
+      0
+     ]
+    ],
+    "samples": 113,
+    "baseline": "only_apoptosis",
+    "baseline_fates": [
+     "apoptosis"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_sets": null,
+    "specific_search": "not needed: the genotype alone leaves only apoptosis"
+   },
+   {
+    "signature": [
+     [
+      "Wip1",
+      1
+     ]
+    ],
+    "samples": 74,
+    "baseline": "other",
+    "baseline_fates": [
+     "apoptosis",
+     "arrest",
+     "senescence"
+    ],
+    "sets_that_leave_only_apoptosis": [],
+    "specific_sets": [
+     "Cdc25 E1 + Sirt1 KO"
+    ],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "Myc",
+      1
+     ]
+    ],
+    "samples": 73,
+    "baseline": "only_apoptosis",
+    "baseline_fates": [
+     "apoptosis"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1"
+    ],
+    "specific_sets": null,
+    "specific_search": "not needed: the genotype alone leaves only apoptosis"
+   },
+   {
+    "signature": [
+     [
+      "hTERT",
+      1
+     ]
+    ],
+    "samples": 70,
+    "baseline": "other",
+    "baseline_fates": [
+     "apoptosis",
+     "arrest",
+     "autophagy",
+     "senescence"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_sets": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "ATR",
+      1
+     ],
+     [
+      "p53",
+      0
+     ]
+    ],
+    "samples": 55,
+    "baseline": "no_stable_state",
+    "baseline_fates": [],
+    "sets_that_leave_only_apoptosis": [],
+    "specific_sets": [],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "DNA_PK",
+      1
+     ],
+     [
+      "Myc",
+      1
+     ],
+     [
+      "WWP1",
+      1
+     ],
+     [
+      "p53_INP1",
+      1
+     ]
+    ],
+    "samples": 54,
+    "baseline": "only_apoptosis",
+    "baseline_fates": [
+     "apoptosis"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1"
+    ],
+    "specific_sets": null,
+    "specific_search": "not needed: the genotype alone leaves only apoptosis"
+   },
+   {
+    "signature": [
+     [
+      "E2F1",
+      1
+     ],
+     [
+      "p53",
+      0
+     ]
+    ],
+    "samples": 47,
+    "baseline": "other",
+    "baseline_fates": [
+     "unclassified"
+    ],
+    "sets_that_leave_only_apoptosis": [],
+    "specific_sets": [],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "BCL2",
+      0
+     ],
+     [
+      "p53",
+      0
+     ]
+    ],
+    "samples": 46,
+    "baseline": "no_stable_state",
+    "baseline_fates": [],
+    "sets_that_leave_only_apoptosis": [],
+    "specific_sets": [],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "DNA_PK",
+      0
+     ]
+    ],
+    "samples": 46,
+    "baseline": "other",
+    "baseline_fates": [
+     "apoptosis",
+     "arrest",
+     "autophagy",
+     "senescence"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_sets": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1",
+     "AMPK_MAPK KO + Sirt1 E1"
+    ],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "Mdm2",
+      1
+     ],
+     [
+      "p53",
+      0
+     ]
+    ],
+    "samples": 43,
+    "baseline": "no_stable_state",
+    "baseline_fates": [],
+    "sets_that_leave_only_apoptosis": [],
+    "specific_sets": [],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "PTEN",
+      0
+     ],
+     [
+      "RB",
+      0
+     ],
+     [
+      "p53",
+      0
+     ]
+    ],
+    "samples": 40,
+    "baseline": "other",
+    "baseline_fates": [
+     "unclassified"
+    ],
+    "sets_that_leave_only_apoptosis": [],
+    "specific_sets": [],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "Myc",
+      1
+     ],
+     [
+      "WWP1",
+      1
+     ],
+     [
+      "p53",
+      0
+     ],
+     [
+      "p53_INP1",
+      1
+     ]
+    ],
+    "samples": 34,
+    "baseline": "other",
+    "baseline_fates": [
+     "unclassified"
+    ],
+    "sets_that_leave_only_apoptosis": [],
+    "specific_sets": [],
+    "specific_search": "done, up to two literals"
+   },
+   {
+    "signature": [
+     [
+      "E2F1",
+      1
+     ]
+    ],
+    "samples": 31,
+    "baseline": "only_apoptosis",
+    "baseline_fates": [
+     "apoptosis"
+    ],
+    "sets_that_leave_only_apoptosis": [
+     "E2F1 E1",
+     "Myc E1",
+     "PTEN KO",
+     "RB KO",
+     "TUG1 KO",
+     "WWP1 E1",
+     "miR221 E1",
+     "AKT E1 + Cdc25 E1",
+     "AKT E1 + Sirt1 E1",
+     "AMPK_MAPK KO + Cdc25 E1"
+    ],
+    "specific_sets": null,
+    "specific_search": "not needed: the genotype alone leaves only apoptosis"
+   }
+  ]
+ }
+}

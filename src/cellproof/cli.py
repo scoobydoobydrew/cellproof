@@ -436,6 +436,49 @@ def compounds() -> None:
 
 
 @app.command()
+def sequences(
+    workers: int = typer.Option(6, help="Processes for the pair search."),
+    kinases: bool = typer.Option(True, help="Also search the five kinases of the brief in every order (a few minutes)."),
+    triples: bool = typer.Option(True, help="Also search every set of three knock-outs in every order (S2; tens of minutes)."),
+) -> None:
+    """Start-aware and sequential interventions (docs/sequential_protocol.md): write results/sequences.json. `make verify` only reads it."""
+    from cellproof.analysis.sequence_search import run
+
+    result = run(workers=workers, kinases=kinases, triples=triples)
+    v = result["validation"]
+    for death in ("settled", "visit"):
+        part = result[death]
+        s = part["summary"]
+        typer.echo(f"[{death}] radiation alone: all attractors {part['radiation_alone']['all_attractors']}, can survive in {part['radiation_alone']['reachable']}")
+        typer.echo(f"[{death}] H0 minimal sets {len(s['h0_minimal'])} (equal to the solver's: {s['h0_equals_solver']}), H1 minimal sets {len(s['h1_minimal'])} (H1 only: {s['h1_only']}), sequence-only pairs {len(s['sequence_only'])}")
+        if "kinases" in part:
+            typer.echo(f"[{death}] five kinases: {part['kinases']['sequences']} sequences, {part['kinases']['hits']} hits")
+    if "s2" in result:
+        s2 = result["s2"]
+        typer.echo(f"S2 ({s2['meaning']}): {s2['searched']} of {s2['triples']} sets of three knock-outs searched in {s2['sequences']} orders; hits as one stage {len(s2['h1_minimal'])}, sequence-only {len(s2['sequence_only'])}")
+    typer.echo(f"tissue V1 (settled): fates within reachable {v['v1_fates_within_reachable']}/{v['total']}, only apoptosis leaves few {v['v1_only_apoptosis_leaves_few']}/{v['total']}")
+    typer.echo(f"tissue V2 (visit): survival matches {v['v2_survival_matches']}/{v['total']}, fates visited {v['v2_fates_visited']}/{v['total']}")
+
+
+@app.command()
+def genotypes(
+    fetch: bool = typer.Option(False, help="First download the TCGA PanCancer Atlas alterations from cBioPortal and rebuild data/genotypes (needs the network)."),
+    workers: int = typer.Option(6, help="Processes for the genotype-specific searches."),
+) -> None:
+    """What the model says for tumour genotypes (docs/genotype_protocol.md): write results/genotypes.json from the stored table of signature counts.
+    `make verify` only reads it."""
+    from cellproof.genotype import outcomes, signatures
+
+    if fetch:
+        built = signatures.build()
+        typer.echo(f"{len(built['studies'])} studies, {sum(s['samples'] for s in built['studies'].values())} samples with mutation and copy-number data")
+    result = outcomes.run(workers=workers)
+    for rule in ("r1", "r2"):
+        r = result[rule]
+        typer.echo(f"{rule}: {r['samples']} samples, {r['distinct_signatures']} signatures, {r['altered']} with a forced node, {r['tp53_lost']} with TP53 lost; genotype alone: {r['baseline']}")
+
+
+@app.command()
 def tissue(
     force: bool = typer.Option(False, help="Run every condition again, also those that already have a result file."),
     workers: int = typer.Option(6, help="Simulations at the same time."),

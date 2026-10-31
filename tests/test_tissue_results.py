@@ -10,7 +10,7 @@ from cellproof.network.bnet import load_bnet
 from cellproof.network.logic import evaluate
 from cellproof.network.phenotypes import classify
 from cellproof.report.data import AGREE_BELOW
-from cellproof.tissue.experiments import SEED, misses
+from cellproof.tissue.experiments import SEED, misses, novel_sets
 from cellproof.tissue.maboss import start_state
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -43,6 +43,16 @@ def test_the_simulation_and_the_exact_solver_agree_on_every_set_and_the_solvers_
         assert r["alive_end"] / r["cells"] >= AGREE_BELOW, r["label"]
     longs = rows("long")
     assert len(longs) == len(rows("hit")) and all(r["alive_end"] == 0 for r in longs)  # slow, not stuck
+
+
+@pytest.mark.skipif(not (ROOT / "results" / "sequences.json").exists(), reason="results/sequences.json has not been written")
+def test_v3_the_sets_that_only_the_start_aware_analysis_finds_leave_no_cell_alive_as_predicted():
+    """docs/sequential_protocol.md, V3: the prediction (fewer than 1% alive at 72 h) was written down before these runs."""
+    stored = json.loads((ROOT / "results" / "sequences.json").read_text(encoding="utf-8"))["visit"]["summary"]["h1_only"]
+    novel = rows("novel")
+    assert [r["label"] for r in novel] == stored == ["AMPK_MAPK KO + CHK1 KO", "Cdc25 E1", "Sirt1 E1"]
+    assert all(r["alive_end"] / r["cells"] < AGREE_BELOW for r in novel)
+    assert all(fates(CHECKED, dict(s)) != {"apoptosis"} for s in novel_sets())  # the solver, which looks at every start, does not find them
 
 
 def test_every_run_accounts_for_every_cell_at_every_snapshot_and_the_layout_is_shared():
