@@ -1,0 +1,537 @@
+{
+ "models": {
+  "published": "data/base/gupta2023.bnet",
+  "unchecked": "data/models/naive_min2.bnet",
+  "checked": "data/models/repaired_min2.bnet"
+ },
+ "rows": [
+  {
+   "id": "hit_01",
+   "label": "E2F1 E1",
+   "literals": [
+    {
+     "node": "E2F1",
+     "value": 1,
+     "action": "switch_on",
+     "annotation": "E2F transcripition factor 1",
+     "kind": "protein",
+     "note": "",
+     "genes": [
+      {
+       "hgnc_id": "HGNC:3113",
+       "locus_group": "protein-coding gene",
+       "locus_type": "gene with protein product",
+       "name": "E2F transcription factor 1",
+       "symbol": "E2F1",
+       "uniprot_ids": [
+        "Q01094"
+       ]
+      }
+     ]
+    }
+   ],
+   "with_p53_lost": {
+    "fixed_points": 1,
+    "fates": [
+     "unclassified"
+    ],
+    "only_apoptosis": false
+   },
+   "only_apoptosis_in": {
+    "published": true,
+    "unchecked": false,
+    "checked": true
+   },
+   "knock_out_only": false,
+   "all_single_proteins": true
+  },
+  {
+   "id": "hit_02",
+   "label": "Myc E1",
+   "literals": [
+    {
+     "node": "Myc",
+     "value": 1,
+     "action": "switch_on",
+     "annotation": "MYC proto-oncogene",
+     "kind": "protein",
+     "note": "",
+     "genes": [
+      {
+       "hgnc_id": "HGNC:7553",
+       "locus_group": "protein-coding gene",
+       "locus_type": "gene with protein product",
+       "name": "MYC proto-oncogene, bHLH transcription factor",
+       "symbol": "MYC",
+       "uniprot_ids": [
+        "P01106"
+       ]
+      }
+     ]
+    }
+   ],
+   "with_p53_lost": {
+    "fixed_points": 1,
+    "fates": [
+     "unclassified"
+    ],
+    "only_apoptosis": false
+   },
+   "only_apoptosis_in": {
+    "published": true,
+    "unchecked": false,
+    "checked": true
+   },
+   "knock_out_only": false,
+   "all_single_proteins": true
+  },
+  {
+   "id": "hit_03",
+   "label": "PTEN KO",
+   "literals": [
+    {
+     "node": "PTEN",
+     "value": 0,
+     "action": "knock_out",
+     "annotation": "Phosphatase and tensin homolog",
+     "kind": "protein",
+     "note": "",
+     "genes": [
+      {
+       "hgnc_id": "HGNC:9588",
+       "locus_group": "protein-coding gene",
+       "locus_type": "gene with protein product",
+       "name": "phosphatase and tensin homolog",
+       "symbol": "PTEN",
+       "uniprot_ids": [
+        "P60484"
+       ]
+      }
+     ]
+    }
+   ],
+   "with_p53_lost": {
+    "fixed_points": 0,
+    "fates": [],
+    "only_apoptosis": false
+   },
+   "only_apoptosis_in": {
+    "published": true,
+    "unchecked": false,
+    "checked": true
+   },
+   "knock_out_only": true,
+   "all_single_proteins": true
+  },
+  {
+   "id": "hit_04",
+   "label": "RB KO",
+   "literals": [
+    {
+     "node": "RB",
+     "value": 0,
+     "action": "knock_out",
+     "annotation": "RB transcriptional corepressor 1",
+     "kind": "protein",
+     "note": "",
+     "genes": [
+      {
+       "hgnc_id": "HGNC:9884",
+       "locus_group": "protein-coding gene",
+       "locus_type": "gene with protein product",
+       "name": "RB transcriptional corepressor 1",
+       "symbol": "RB1",
+       "uniprot_ids": [
+        "P06400"
+       ]
+      }
+     ]
+    }
+   ],
+   "with_p53_lost": {
+    "fixed_points": 1,
+    "fates": [
+     "unclassified"
+    ],
+    "only_apoptosis": false
+   },
+   "only_apoptosis_in": {
+    "published": true,
+    "unchecked": false,
+    "checked": true
+   },
+   "knock_out_only": true,
+   "all_single_proteins": true
+  },
+  {
+   "id": "hit_05",
+   "label": "TUG1 KO",
+   "literals": [
+    {
+     "node": "TUG1",
+     "value": 0,
+     "action": "knock_out",
+     "annotation": "Long non-coding RNA - taurine up-regulated 1",
+     "kind": "non_coding_rna",
+     "note": "HGNC lists this gene as protein coding; the model's annotation says non-coding RNA, and the node stands for the RNA",
+     "genes": [
+      {
+       "hgnc_id": "HGNC:26066",
+       "locus_group": "protein-coding gene",
+       "locus_type": "gene with protein product",
+       "name": "taurine up-regulated 1",
+       "symbol": "TUG1",
+       "uniprot_ids": [
+        "A0A6I8PU40"
+       ]
+      }
+     ]
+    }
+   ],
+   "with_p53_lost": {
+    "fixed_points": 0,
+    "fates": [],
+    "only_apoptosis": false
+   },
+   "only_apoptosis_in": {
+    "published": true,
+    "unchecked": false,
+    "checked": true
+   },
+   "knock_out_only": true,
+   "all_single_proteins": false
+  },
+  {
+   "id": "hit_06",
+   "label": "WWP1 E1",
+   "literals": [
+    {
+     "node": "WWP1",
+     "value": 1,
+     "action": "switch_on",
+     "annotation": "WW domain containing E3 ubiquitin protein ligase 1",
+     "kind": "protein",
+     "note": "",
+     "genes": [
+      {
+       "hgnc_id": "HGNC:17004",
+       "locus_group": "protein-coding gene",
+       "locus_type": "gene with protein product",
+       "name": "WW domain containing E3 ubiquitin protein ligase 1",
+       "symbol": "WWP1",
+       "uniprot_ids": [
+        "Q9H0M0"
+       ]
+      }
+     ]
+    }
+   ],
+   "with_p53_lost": {
+    "fixed_points": 0,
+    "fates": [],
+    "only_apoptosis": false
+   },
+   "only_apoptosis_in": {
+    "published": true,
+    "unchecked": false,
+    "checked": true
+   },
+   "knock_out_only": false,
+   "all_single_proteins": true
+  },
+  {
+   "id": "hit_07",
+   "label": "miR221 E1",
+   "literals": [
+    {
+     "node": "miR221",
+     "value": 1,
+     "action": "switch_on",
+     "annotation": "microRNA 221",
+     "kind": "non_coding_rna",
+     "note": "",
+     "genes": [
+      {
+       "hgnc_id": "HGNC:31601",
+       "locus_group": "non-coding RNA",
+       "locus_type": "RNA, micro",
+       "name": "microRNA 221",
+       "symbol": "MIR221",
+       "uniprot_ids": null
+      }
+     ]
+    }
+   ],
+   "with_p53_lost": {
+    "fixed_points": 0,
+    "fates": [],
+    "only_apoptosis": false
+   },
+   "only_apoptosis_in": {
+    "published": true,
+    "unchecked": false,
+    "checked": true
+   },
+   "knock_out_only": false,
+   "all_single_proteins": false
+  },
+  {
+   "id": "hit_08",
+   "label": "AKT E1 + Cdc25 E1",
+   "literals": [
+    {
+     "node": "AKT",
+     "value": 1,
+     "action": "switch_on",
+     "annotation": "AKT serine/threonine kinase 1",
+     "kind": "protein",
+     "note": "",
+     "genes": [
+      {
+       "hgnc_id": "HGNC:391",
+       "locus_group": "protein-coding gene",
+       "locus_type": "gene with protein product",
+       "name": "AKT serine/threonine kinase 1",
+       "symbol": "AKT1",
+       "uniprot_ids": [
+        "P31749"
+       ]
+      }
+     ]
+    },
+    {
+     "node": "Cdc25",
+     "value": 1,
+     "action": "switch_on",
+     "annotation": "Cell division cycle 25c",
+     "kind": "protein",
+     "note": "",
+     "genes": [
+      {
+       "hgnc_id": "HGNC:1727",
+       "locus_group": "protein-coding gene",
+       "locus_type": "gene with protein product",
+       "name": "cell division cycle 25C",
+       "symbol": "CDC25C",
+       "uniprot_ids": [
+        "P30307"
+       ]
+      }
+     ]
+    }
+   ],
+   "with_p53_lost": {
+    "fixed_points": 1,
+    "fates": [
+     "unclassified"
+    ],
+    "only_apoptosis": false
+   },
+   "only_apoptosis_in": {
+    "published": true,
+    "unchecked": false,
+    "checked": true
+   },
+   "knock_out_only": false,
+   "all_single_proteins": true
+  },
+  {
+   "id": "hit_09",
+   "label": "AKT E1 + Sirt1 E1",
+   "literals": [
+    {
+     "node": "AKT",
+     "value": 1,
+     "action": "switch_on",
+     "annotation": "AKT serine/threonine kinase 1",
+     "kind": "protein",
+     "note": "",
+     "genes": [
+      {
+       "hgnc_id": "HGNC:391",
+       "locus_group": "protein-coding gene",
+       "locus_type": "gene with protein product",
+       "name": "AKT serine/threonine kinase 1",
+       "symbol": "AKT1",
+       "uniprot_ids": [
+        "P31749"
+       ]
+      }
+     ]
+    },
+    {
+     "node": "Sirt1",
+     "value": 1,
+     "action": "switch_on",
+     "annotation": "Sirtuin 1",
+     "kind": "protein",
+     "note": "",
+     "genes": [
+      {
+       "hgnc_id": "HGNC:14929",
+       "locus_group": "protein-coding gene",
+       "locus_type": "gene with protein product",
+       "name": "sirtuin 1",
+       "symbol": "SIRT1",
+       "uniprot_ids": [
+        "Q96EB6"
+       ]
+      }
+     ]
+    }
+   ],
+   "with_p53_lost": {
+    "fixed_points": 1,
+    "fates": [
+     "unclassified"
+    ],
+    "only_apoptosis": false
+   },
+   "only_apoptosis_in": {
+    "published": true,
+    "unchecked": false,
+    "checked": true
+   },
+   "knock_out_only": false,
+   "all_single_proteins": true
+  },
+  {
+   "id": "hit_10",
+   "label": "AMPK_MAPK KO + Cdc25 E1",
+   "literals": [
+    {
+     "node": "AMPK_MAPK",
+     "value": 0,
+     "action": "knock_out",
+     "annotation": "AMP-activated protein kinase/Mitogen-activated protein kinase",
+     "kind": "several_genes",
+     "note": "the node merges several genes (the model's annotation names more than one entity)",
+     "genes": [
+      {
+       "hgnc_id": "HGNC:9376",
+       "locus_group": "protein-coding gene",
+       "locus_type": "gene with protein product",
+       "name": "protein kinase AMP-activated catalytic subunit alpha 1",
+       "symbol": "PRKAA1",
+       "uniprot_ids": [
+        "Q13131"
+       ]
+      },
+      {
+       "hgnc_id": "HGNC:9377",
+       "locus_group": "protein-coding gene",
+       "locus_type": "gene with protein product",
+       "name": "protein kinase AMP-activated catalytic subunit alpha 2",
+       "symbol": "PRKAA2",
+       "uniprot_ids": [
+        "P54646"
+       ]
+      }
+     ]
+    },
+    {
+     "node": "Cdc25",
+     "value": 1,
+     "action": "switch_on",
+     "annotation": "Cell division cycle 25c",
+     "kind": "protein",
+     "note": "",
+     "genes": [
+      {
+       "hgnc_id": "HGNC:1727",
+       "locus_group": "protein-coding gene",
+       "locus_type": "gene with protein product",
+       "name": "cell division cycle 25C",
+       "symbol": "CDC25C",
+       "uniprot_ids": [
+        "P30307"
+       ]
+      }
+     ]
+    }
+   ],
+   "with_p53_lost": {
+    "fixed_points": 1,
+    "fates": [
+     "unclassified"
+    ],
+    "only_apoptosis": false
+   },
+   "only_apoptosis_in": {
+    "published": true,
+    "unchecked": false,
+    "checked": true
+   },
+   "knock_out_only": false,
+   "all_single_proteins": false
+  },
+  {
+   "id": "hit_11",
+   "label": "AMPK_MAPK KO + Sirt1 E1",
+   "literals": [
+    {
+     "node": "AMPK_MAPK",
+     "value": 0,
+     "action": "knock_out",
+     "annotation": "AMP-activated protein kinase/Mitogen-activated protein kinase",
+     "kind": "several_genes",
+     "note": "the node merges several genes (the model's annotation names more than one entity)",
+     "genes": [
+      {
+       "hgnc_id": "HGNC:9376",
+       "locus_group": "protein-coding gene",
+       "locus_type": "gene with protein product",
+       "name": "protein kinase AMP-activated catalytic subunit alpha 1",
+       "symbol": "PRKAA1",
+       "uniprot_ids": [
+        "Q13131"
+       ]
+      },
+      {
+       "hgnc_id": "HGNC:9377",
+       "locus_group": "protein-coding gene",
+       "locus_type": "gene with protein product",
+       "name": "protein kinase AMP-activated catalytic subunit alpha 2",
+       "symbol": "PRKAA2",
+       "uniprot_ids": [
+        "P54646"
+       ]
+      }
+     ]
+    },
+    {
+     "node": "Sirt1",
+     "value": 1,
+     "action": "switch_on",
+     "annotation": "Sirtuin 1",
+     "kind": "protein",
+     "note": "",
+     "genes": [
+      {
+       "hgnc_id": "HGNC:14929",
+       "locus_group": "protein-coding gene",
+       "locus_type": "gene with protein product",
+       "name": "sirtuin 1",
+       "symbol": "SIRT1",
+       "uniprot_ids": [
+        "Q96EB6"
+       ]
+      }
+     ]
+    }
+   ],
+   "with_p53_lost": {
+    "fixed_points": 0,
+    "fates": [],
+    "only_apoptosis": false
+   },
+   "only_apoptosis_in": {
+    "published": true,
+    "unchecked": false,
+    "checked": true
+   },
+   "knock_out_only": false,
+   "all_single_proteins": false
+  }
+ ]
+}

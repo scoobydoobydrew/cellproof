@@ -1,0 +1,170 @@
+{
+ "AKT1": {
+  "hgnc_id": "HGNC:391",
+  "locus_group": "protein-coding gene",
+  "locus_type": "gene with protein product",
+  "name": "AKT serine/threonine kinase 1",
+  "symbol": "AKT1",
+  "uniprot_ids": [
+   "P31749"
+  ]
+ },
+ "ATR": {
+  "hgnc_id": "HGNC:882",
+  "locus_group": "protein-coding gene",
+  "locus_type": "gene with protein product",
+  "name": "ATR checkpoint kinase",
+  "symbol": "ATR",
+  "uniprot_ids": [
+   "Q13535"
+  ]
+ },
+ "CDC25C": {
+  "hgnc_id": "HGNC:1727",
+  "locus_group": "protein-coding gene",
+  "locus_type": "gene with protein product",
+  "name": "cell division cycle 25C",
+  "symbol": "CDC25C",
+  "uniprot_ids": [
+   "P30307"
+  ]
+ },
+ "CHEK1": {
+  "hgnc_id": "HGNC:1925",
+  "locus_group": "protein-coding gene",
+  "locus_type": "gene with protein product",
+  "name": "checkpoint kinase 1",
+  "symbol": "CHEK1",
+  "uniprot_ids": [
+   "O14757"
+  ]
+ },
+ "CHEK2": {
+  "hgnc_id": "HGNC:16627",
+  "locus_group": "protein-coding gene",
+  "locus_type": "gene with protein product",
+  "name": "checkpoint kinase 2",
+  "symbol": "CHEK2",
+  "uniprot_ids": [
+   "O96017"
+  ]
+ },
+ "E2F1": {
+  "hgnc_id": "HGNC:3113",
+  "locus_group": "protein-coding gene",
+  "locus_type": "gene with protein product",
+  "name": "E2F transcription factor 1",
+  "symbol": "E2F1",
+  "uniprot_ids": [
+   "Q01094"
+  ]
+ },
+ "MIR221": {
+  "hgnc_id": "HGNC:31601",
+  "locus_group": "non-coding RNA",
+  "locus_type": "RNA, micro",
+  "name": "microRNA 221",
+  "symbol": "MIR221",
+  "uniprot_ids": null
+ },
+ "MYC": {
+  "hgnc_id": "HGNC:7553",
+  "locus_group": "protein-coding gene",
+  "locus_type": "gene with protein product",
+  "name": "MYC proto-oncogene, bHLH transcription factor",
+  "symbol": "MYC",
+  "uniprot_ids": [
+   "P01106"
+  ]
+ },
+ "PRKAA1": {
+  "hgnc_id": "HGNC:9376",
+  "locus_group": "protein-coding gene",
+  "locus_type": "gene with protein product",
+  "name": "protein kinase AMP-activated catalytic subunit alpha 1",
+  "symbol": "PRKAA1",
+  "uniprot_ids": [
+   "Q13131"
+  ]
+ },
+ "PRKAA2": {
+  "hgnc_id": "HGNC:9377",
+  "locus_group": "protein-coding gene",
+  "locus_type": "gene with protein product",
+  "name": "protein kinase AMP-activated catalytic subunit alpha 2",
+  "symbol": "PRKAA2",
+  "uniprot_ids": [
+   "P54646"
+  ]
+ },
+ "PRKDC": {
+  "hgnc_id": "HGNC:9413",
+  "locus_group": "protein-coding gene",
+  "locus_type": "gene with protein product",
+  "name": "protein kinase, DNA-activated, catalytic subunit",
+  "symbol": "PRKDC",
+  "uniprot_ids": [
+   "P78527"
+  ]
+ },
+ "PTEN": {
+  "hgnc_id": "HGNC:9588",
+  "locus_group": "protein-coding gene",
+  "locus_type": "gene with protein product",
+  "name": "phosphatase and tensin homolog",
+  "symbol": "PTEN",
+  "uniprot_ids": [
+   "P60484"
+  ]
+ },
+ "RB1": {
+  "hgnc_id": "HGNC:9884",
+  "locus_group": "protein-coding gene",
+  "locus_type": "gene with protein product",
+  "name": "RB transcriptional corepressor 1",
+  "symbol": "RB1",
+  "uniprot_ids": [
+   "P06400"
+  ]
+ },
+ "SIRT1": {
+  "hgnc_id": "HGNC:14929",
+  "locus_group": "protein-coding gene",
+  "locus_type": "gene with protein product",
+  "name": "sirtuin 1",
+  "symbol": "SIRT1",
+  "uniprot_ids": [
+   "Q96EB6"
+  ]
+ },
+ "TUG1": {
+  "hgnc_id": "HGNC:26066",
+  "locus_group": "protein-coding gene",
+  "locus_type": "gene with protein product",
+  "name": "taurine up-regulated 1",
+  "symbol": "TUG1",
+  "uniprot_ids": [
+   "A0A6I8PU40"
+  ]
+ },
+ "WEE1": {
+  "hgnc_id": "HGNC:12761",
+  "locus_group": "protein-coding gene",
+  "locus_type": "gene with protein product",
+  "name": "WEE1 G2 checkpoint kinase",
+  "symbol": "WEE1",
+  "uniprot_ids": [
+   "P30291"
+  ]
+ },
+ "WWP1": {
+  "hgnc_id": "HGNC:17004",
+  "locus_group": "protein-coding gene",
+  "locus_type": "gene with protein product",
+  "name": "WW domain containing E3 ubiquitin protein ligase 1",
+  "symbol": "WWP1",
+  "uniprot_ids": [
+   "Q9H0M0"
+  ]
+ }
+}

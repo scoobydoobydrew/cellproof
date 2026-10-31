@@ -1,0 +1,783 @@
+{
+ "chembl_release": "ChEMBL_37",
+ "queried": "2026-10-31",
+ "model": "data/models/repaired_min2.bnet",
+ "levels": "pChEMBL 6 = 1 micromolar or better, 5 = 10 micromolar, 4 = 100 micromolar",
+ "proteins": [
+  {
+   "symbol": "PTEN",
+   "name": "phosphatase and tensin homolog",
+   "hgnc_id": "HGNC:9588",
+   "uniprot": "P60484",
+   "node": "PTEN",
+   "why": "the solver would have to inhibit it",
+   "sets": [
+    "hit_03"
+   ],
+   "knock_out_alone_leaves": [
+    "apoptosis"
+   ],
+   "only_apoptosis": true,
+   "chembl": {
+    "uniprot": "P60484",
+    "chembl_target": {
+     "target_chembl_id": "CHEMBL2052032",
+     "pref_name": "Phosphatidylinositol 3,4,5-trisphosphate 3-phosphatase and dual-specificity protein phosphatase PTEN",
+     "organism": "Homo sapiens",
+     "target_type": "SINGLE PROTEIN"
+    },
+    "records": {
+     "all": 5,
+     "pchembl_4_or_more": 3,
+     "pchembl_5_or_more": 2,
+     "pchembl_6_or_more": 0
+    },
+    "at_1_micromolar_or_better": {
+     "compounds": 0,
+     "assay_types": {},
+     "records_mentioning_phosphorylation": 0
+    },
+    "most_potent": [
+     {
+      "compound": "CHEMBL2057662",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "8870.0",
+      "units": "nM",
+      "pchembl": 5.05,
+      "assay": "CHEMBL2061290",
+      "assay_type": "B",
+      "assay_description": "Inhibition of human PTEN using 3-O-Methylfluorescein phosphate as substrate incubated for 10 mins prior to substrate addition by fluorometry",
+      "document": "CHEMBL2057171",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL2000194",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "10000.0",
+      "units": "nM",
+      "pchembl": 5.0,
+      "assay": "CHEMBL2061290",
+      "assay_type": "B",
+      "assay_description": "Inhibition of human PTEN using 3-O-Methylfluorescein phosphate as substrate incubated for 10 mins prior to substrate addition by fluorometry",
+      "document": "CHEMBL2057171",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL301982",
+      "name": "CELASTROL",
+      "measure": "IC50",
+      "relation": "=",
+      "value": "13300.0",
+      "units": "nM",
+      "pchembl": 4.88,
+      "assay": "CHEMBL4372450",
+      "assay_type": "B",
+      "assay_description": "Inhibition of human PTEN (1 to 403 residues) expressed in Escherichia coli strain BL21(DE3) using DiFMUP as substrate preincubated for 10 mins followed by substrate addition and measured after 10 mins by fluorescence assay",
+      "document": "CHEMBL4371044",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     }
+    ]
+   }
+  },
+  {
+   "symbol": "RB1",
+   "name": "RB transcriptional corepressor 1",
+   "hgnc_id": "HGNC:9884",
+   "uniprot": "P06400",
+   "node": "RB",
+   "why": "the solver would have to inhibit it",
+   "sets": [
+    "hit_04"
+   ],
+   "knock_out_alone_leaves": [
+    "apoptosis"
+   ],
+   "only_apoptosis": true,
+   "chembl": {
+    "uniprot": "P06400",
+    "chembl_target": {
+     "target_chembl_id": "CHEMBL5288",
+     "pref_name": "Retinoblastoma-associated protein",
+     "organism": "Homo sapiens",
+     "target_type": "SINGLE PROTEIN"
+    },
+    "records": {
+     "all": 100,
+     "pchembl_4_or_more": 25,
+     "pchembl_5_or_more": 19,
+     "pchembl_6_or_more": 6
+    },
+    "at_1_micromolar_or_better": {
+     "compounds": 6,
+     "assay_types": {
+      "B": 6
+     },
+     "records_mentioning_phosphorylation": 6
+    },
+    "most_potent": [
+     {
+      "compound": "CHEMBL4446357",
+      "name": "EBVACICLIB",
+      "measure": "EC50",
+      "relation": "=",
+      "value": "19.0",
+      "units": "nM",
+      "pchembl": 7.72,
+      "assay": "CHEMBL5236943",
+      "assay_type": "B",
+      "assay_description": "Inhibition of RB1 phosphorylation in human OVCAR-3 cells assessed as reduction in phosphorylation at Serine 807/811 residue incubated for 1 hr by ELISA",
+      "document": "CHEMBL5236547",
+      "mentions_phosphorylation": true,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL388978",
+      "name": "STAUROSPORINE",
+      "measure": "IC50",
+      "relation": "=",
+      "value": "66.0",
+      "units": "nM",
+      "pchembl": 7.18,
+      "assay": "CHEMBL4034785",
+      "assay_type": "B",
+      "assay_description": "Inhibition of retinoblastoma protein phosphorylation in human MDA-MB-231 cells after 16 hrs by Hoechst 33342 staining based fluorescence assay",
+      "document": "CHEMBL4033649",
+      "mentions_phosphorylation": true,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL515631",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "200.0",
+      "units": "nM",
+      "pchembl": 6.7,
+      "assay": "CHEMBL1011869",
+      "assay_type": "B",
+      "assay_description": "Inhibition of retinoblastoma susceptibility gene product phosphorylation in human MCF7 cells after 24 hrs",
+      "document": "CHEMBL1153424",
+      "mentions_phosphorylation": true,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL5285163",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "270.0",
+      "units": "nM",
+      "pchembl": 6.57,
+      "assay": "CHEMBL5236943",
+      "assay_type": "B",
+      "assay_description": "Inhibition of RB1 phosphorylation in human OVCAR-3 cells assessed as reduction in phosphorylation at Serine 807/811 residue incubated for 1 hr by ELISA",
+      "document": "CHEMBL5236547",
+      "mentions_phosphorylation": true,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL490451",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "370.0",
+      "units": "nM",
+      "pchembl": 6.43,
+      "assay": "CHEMBL1011869",
+      "assay_type": "B",
+      "assay_description": "Inhibition of retinoblastoma susceptibility gene product phosphorylation in human MCF7 cells after 24 hrs",
+      "document": "CHEMBL1153424",
+      "mentions_phosphorylation": true,
+      "validity_comment": null
+     }
+    ]
+   }
+  },
+  {
+   "symbol": "ATR",
+   "name": "ATR checkpoint kinase",
+   "hgnc_id": "HGNC:882",
+   "uniprot": "Q13535",
+   "node": "ATR",
+   "why": "named in the project brief as a candidate radiosensitisation target, not found by the solver",
+   "sets": [],
+   "knock_out_alone_leaves": [
+    "apoptosis",
+    "arrest",
+    "autophagy",
+    "senescence"
+   ],
+   "only_apoptosis": false,
+   "chembl": {
+    "uniprot": "Q13535",
+    "chembl_target": {
+     "target_chembl_id": "CHEMBL5024",
+     "pref_name": "Serine/threonine-protein kinase ATR",
+     "organism": "Homo sapiens",
+     "target_type": "SINGLE PROTEIN"
+    },
+    "records": {
+     "all": 13997,
+     "pchembl_4_or_more": 4183,
+     "pchembl_5_or_more": 4145,
+     "pchembl_6_or_more": 3578
+    },
+    "at_1_micromolar_or_better": {
+     "compounds": 1659,
+     "assay_types": {
+      "B": 3578
+     },
+     "records_mentioning_phosphorylation": 132
+    },
+    "most_potent": [
+     {
+      "compound": "CHEMBL4285417",
+      "name": "CERALASERTIB",
+      "measure": "Ki",
+      "relation": "=",
+      "value": "0.06",
+      "units": "nM",
+      "pchembl": 10.22,
+      "assay": "CHEMBL5506838",
+      "assay_type": "B",
+      "assay_description": "Inhibition of ATR (unknown origin) by Morrison equation based analysis",
+      "document": "CHEMBL5505970",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL3355476",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "0.1",
+      "units": "nM",
+      "pchembl": 10.0,
+      "assay": "CHEMBL3372398",
+      "assay_type": "B",
+      "assay_description": "Inhibition of human ATR using ATP substrate measured after 3 hrs",
+      "document": "CHEMBL3352352",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL4444602",
+      "name": null,
+      "measure": "Ki",
+      "relation": "=",
+      "value": "0.14",
+      "units": "nM",
+      "pchembl": 9.85,
+      "assay": "CHEMBL4352750",
+      "assay_type": "B",
+      "assay_description": "Inhibition of recombinant human full-length N-terminal Flag epitope-tagged ATR expressed in HEK293T cells using ASELPASQPQPFSAKKK peptide as substrate measured after 24 hrs in presence of [gamma-33P] ATP by microbeta liquid scintillation counting analysis",
+      "document": "CHEMBL4350970",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL3989870",
+      "name": "BERZOSERTIB",
+      "measure": "Ki",
+      "relation": "=",
+      "value": "0.148",
+      "units": "nM",
+      "pchembl": 9.83,
+      "assay": "CHEMBL5735979",
+      "assay_type": "B",
+      "assay_description": "Inhibition Assay: Compounds can be screened for their ability to inhibit ATR kinase using a radioactive-phosphate incorporation assay. Assays are carried out in a mixture of 50 mM Tris/HCl (pH 7.5), 10 mM MgCl2 and 1 mM DTT. Final substrate concentrations are 10 μM [γ-33P]ATP (3mCi 33P ATP/mmol ATP, Perkin Elmer) and 800 μM target peptide (ASELPASQPQPFSAKKK).Assays are carried out at 25° C. in the presence of 5 nM full-length ATR. An assay stock buffer solution is prepared containing all of the reagents listed above, with the exception of ATP and the test compound of interest. 13.5 μL of the stock solution is placed in a 96 well plate followed by addition of 2 μL of DMSO stock containing serial dilutions of the test compound (typically starting from a final concentration of 15 μM with 3-fold serial dilutions) in duplicate (final DMSO concentration 7%). The plate is pre-incubated for 10 minutes at 25° C. and the reaction initiated by addition of 15 μL [γ-33P]ATP (final concentration 10 μM).The reaction is stopped after 24 hours by the addition of 30 μL 0.1M phosphoric acid containing 2 mM ATP. A multiscreen phosphocellulose filter 96-well plate (Millipore, Cat no. MAPHN0B50) is pretreated with 100 μL 0.2M phosphoric acid prior to the addition of 45 μL of the stopped assay mixture. The plate is washed with 5×200 μL 0.2M phosphoric acid. After drying, 100 μL Optiphase SuperMix liquid scintillation cocktail (Perkin Elmer) is added to the well prior to scintillation counting (1450 Microbeta Liquid Scintillation Counter, Wallac).",
+      "document": "CHEMBL5728075",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL4650286",
+      "name": "M4344",
+      "measure": "IC50",
+      "relation": "=",
+      "value": "0.15",
+      "units": "nM",
+      "pchembl": 9.82,
+      "assay": "CHEMBL5576163",
+      "assay_type": "B",
+      "assay_description": "Inhibition of ATR (unknown origin)",
+      "document": "CHEMBL5576037",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     }
+    ]
+   }
+  },
+  {
+   "symbol": "CHEK1",
+   "name": "checkpoint kinase 1",
+   "hgnc_id": "HGNC:1925",
+   "uniprot": "O14757",
+   "node": "CHK1",
+   "why": "named in the project brief as a candidate radiosensitisation target, not found by the solver",
+   "sets": [],
+   "knock_out_alone_leaves": [
+    "apoptosis",
+    "arrest",
+    "autophagy",
+    "senescence"
+   ],
+   "only_apoptosis": false,
+   "chembl": {
+    "uniprot": "O14757",
+    "chembl_target": {
+     "target_chembl_id": "CHEMBL4630",
+     "pref_name": "Serine/threonine-protein kinase Chk1",
+     "organism": "Homo sapiens",
+     "target_type": "SINGLE PROTEIN"
+    },
+    "records": {
+     "all": 9058,
+     "pchembl_4_or_more": 3428,
+     "pchembl_5_or_more": 3294,
+     "pchembl_6_or_more": 2802
+    },
+    "at_1_micromolar_or_better": {
+     "compounds": 2299,
+     "assay_types": {
+      "B": 2649,
+      "F": 153
+     },
+     "records_mentioning_phosphorylation": 369
+    },
+    "most_potent": [
+     {
+      "compound": "CHEMBL5747621",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "0.012",
+      "units": "nM",
+      "pchembl": 10.92,
+      "assay": "CHEMBL5736654",
+      "assay_type": "B",
+      "assay_description": "Kinase Inhibiting Activity Assay: Base Reaction buffer: 20 mM Hepes (pH 7.5), 10 mM MgCl2, 1 mM EGTA, 0.02% Brij35, 0.02 mg/ml BSA, 0.1 mM Na3VO4, 2 mM DTT, 1% DMSO    Required cofactors are added individually to each kinase reaction    Reaction Procedure:    (i) Prepare indicated substrate in freshly prepared Base Reaction Buffer    (ii) Deliver any required cofactors to the substrate solution above    (iii) Deliver indicated kinase into the substrate solution and gently mix    (iv) Deliver compounds in DMSO into the kinase reaction mixture    (v) Deliver 33P-ATP (specific activity 0.01 μCi/μl final) into the reaction mixture to initiate the reaction.    (vi) Incubate kinase reaction for 120 minutes at room temperature    (vii) Reactions are spotted onto P81 ion exchange paper (Whatman #3698-915)    (viii) Wash filters extensively in 0.1% phosphoric acid.    (ix) Dry filters and measure counts in scintillation counter    Kinase Information:    CHK-1HGenbank Accession # AF016582    Recombinant full length construct, N-terminal GST tagged, purified from insect cells.    No special measures were taken to activate this kinase.    Final concentration in assay=0.5 nM    Substrate: CHKtide    Peptide sequence: [KKKVSRSGLYRSPSMPENLNRPR]    Final concentration in assay=20 μM    No additional cofactors are added to the reaction mixture",
+      "document": "CHEMBL5728386",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL5944770",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "0.016",
+      "units": "nM",
+      "pchembl": 10.8,
+      "assay": "CHEMBL5734115",
+      "assay_type": "B",
+      "assay_description": "Kinase Inhibiting Activity Assay: Chk-1 Kinase Inhibiting ActivityThe compounds of the invention were tested for activity against Chk-1 kinase using the materials and protocols set out below.Reaction Buffer:Base Reaction buffer: 20 mM Hepes (pH 7.5), 10 mM MgCl2, 1 mM EGTA, 0.02% Brij35, 0.02 mg/ml BSA, 0.1 mM Na3VO4, 2 mM DTT, 1% DMSO*Required cofactors are added individually to each kinase reactionReaction Procedure:(i) Prepare indicated substrate in freshly prepared Base Reaction Buffer(ii) Deliver any required cofactors to the substrate solution above(iii) Deliver indicated kinase into the substrate solution and gently mix(iv) Deliver compounds in DMSO into the kinase reaction mixture(v) Deliver 33P-ATP (specific activity 0.01 μCi/μl final) into the reaction mixture to initiate the reaction.(vi) Incubate kinase reaction for 120 minutes at room temperature(vii) Reactions are spotted onto P81 ion exchange paper (Whatman #3698-915)(viii) Wash filters extensively in 0.1% phosphoric acid.(ix) Dry filters and measure counts in scintillation counterKinase Information:CHK-1 Genbank Accession # AF016582Recombinant full length construct, N-terminal GST tagged, purified from insect cells.No special measures were taken to activate this kinase.Final concentration in assay=0.5 nMSubstrate: CHKtidePeptide sequence: [KKKVSRSGLYRSPSMPENLNRPR]Final concentration in assay=20 μM",
+      "document": "CHEMBL5727147",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL5812486",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "0.016",
+      "units": "nM",
+      "pchembl": 10.8,
+      "assay": "CHEMBL5736654",
+      "assay_type": "B",
+      "assay_description": "Kinase Inhibiting Activity Assay: Base Reaction buffer: 20 mM Hepes (pH 7.5), 10 mM MgCl2, 1 mM EGTA, 0.02% Brij35, 0.02 mg/ml BSA, 0.1 mM Na3VO4, 2 mM DTT, 1% DMSO    Required cofactors are added individually to each kinase reaction    Reaction Procedure:    (i) Prepare indicated substrate in freshly prepared Base Reaction Buffer    (ii) Deliver any required cofactors to the substrate solution above    (iii) Deliver indicated kinase into the substrate solution and gently mix    (iv) Deliver compounds in DMSO into the kinase reaction mixture    (v) Deliver 33P-ATP (specific activity 0.01 μCi/μl final) into the reaction mixture to initiate the reaction.    (vi) Incubate kinase reaction for 120 minutes at room temperature    (vii) Reactions are spotted onto P81 ion exchange paper (Whatman #3698-915)    (viii) Wash filters extensively in 0.1% phosphoric acid.    (ix) Dry filters and measure counts in scintillation counter    Kinase Information:    CHK-1HGenbank Accession # AF016582    Recombinant full length construct, N-terminal GST tagged, purified from insect cells.    No special measures were taken to activate this kinase.    Final concentration in assay=0.5 nM    Substrate: CHKtide    Peptide sequence: [KKKVSRSGLYRSPSMPENLNRPR]    Final concentration in assay=20 μM    No additional cofactors are added to the reaction mixture",
+      "document": "CHEMBL5728386",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL6027444",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "0.016",
+      "units": "nM",
+      "pchembl": 10.8,
+      "assay": "CHEMBL5736654",
+      "assay_type": "B",
+      "assay_description": "Kinase Inhibiting Activity Assay: Base Reaction buffer: 20 mM Hepes (pH 7.5), 10 mM MgCl2, 1 mM EGTA, 0.02% Brij35, 0.02 mg/ml BSA, 0.1 mM Na3VO4, 2 mM DTT, 1% DMSO    Required cofactors are added individually to each kinase reaction    Reaction Procedure:    (i) Prepare indicated substrate in freshly prepared Base Reaction Buffer    (ii) Deliver any required cofactors to the substrate solution above    (iii) Deliver indicated kinase into the substrate solution and gently mix    (iv) Deliver compounds in DMSO into the kinase reaction mixture    (v) Deliver 33P-ATP (specific activity 0.01 μCi/μl final) into the reaction mixture to initiate the reaction.    (vi) Incubate kinase reaction for 120 minutes at room temperature    (vii) Reactions are spotted onto P81 ion exchange paper (Whatman #3698-915)    (viii) Wash filters extensively in 0.1% phosphoric acid.    (ix) Dry filters and measure counts in scintillation counter    Kinase Information:    CHK-1HGenbank Accession # AF016582    Recombinant full length construct, N-terminal GST tagged, purified from insect cells.    No special measures were taken to activate this kinase.    Final concentration in assay=0.5 nM    Substrate: CHKtide    Peptide sequence: [KKKVSRSGLYRSPSMPENLNRPR]    Final concentration in assay=20 μM    No additional cofactors are added to the reaction mixture",
+      "document": "CHEMBL5728386",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL5935192",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "0.019",
+      "units": "nM",
+      "pchembl": 10.72,
+      "assay": "CHEMBL5736654",
+      "assay_type": "B",
+      "assay_description": "Kinase Inhibiting Activity Assay: Base Reaction buffer: 20 mM Hepes (pH 7.5), 10 mM MgCl2, 1 mM EGTA, 0.02% Brij35, 0.02 mg/ml BSA, 0.1 mM Na3VO4, 2 mM DTT, 1% DMSO    Required cofactors are added individually to each kinase reaction    Reaction Procedure:    (i) Prepare indicated substrate in freshly prepared Base Reaction Buffer    (ii) Deliver any required cofactors to the substrate solution above    (iii) Deliver indicated kinase into the substrate solution and gently mix    (iv) Deliver compounds in DMSO into the kinase reaction mixture    (v) Deliver 33P-ATP (specific activity 0.01 μCi/μl final) into the reaction mixture to initiate the reaction.    (vi) Incubate kinase reaction for 120 minutes at room temperature    (vii) Reactions are spotted onto P81 ion exchange paper (Whatman #3698-915)    (viii) Wash filters extensively in 0.1% phosphoric acid.    (ix) Dry filters and measure counts in scintillation counter    Kinase Information:    CHK-1HGenbank Accession # AF016582    Recombinant full length construct, N-terminal GST tagged, purified from insect cells.    No special measures were taken to activate this kinase.    Final concentration in assay=0.5 nM    Substrate: CHKtide    Peptide sequence: [KKKVSRSGLYRSPSMPENLNRPR]    Final concentration in assay=20 μM    No additional cofactors are added to the reaction mixture",
+      "document": "CHEMBL5728386",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     }
+    ]
+   }
+  },
+  {
+   "symbol": "CHEK2",
+   "name": "checkpoint kinase 2",
+   "hgnc_id": "HGNC:16627",
+   "uniprot": "O96017",
+   "node": "CHK2",
+   "why": "named in the project brief as a candidate radiosensitisation target, not found by the solver",
+   "sets": [],
+   "knock_out_alone_leaves": [
+    "apoptosis",
+    "arrest",
+    "autophagy",
+    "senescence"
+   ],
+   "only_apoptosis": false,
+   "chembl": {
+    "uniprot": "O96017",
+    "chembl_target": {
+     "target_chembl_id": "CHEMBL2527",
+     "pref_name": "Serine/threonine-protein kinase Chk2",
+     "organism": "Homo sapiens",
+     "target_type": "SINGLE PROTEIN"
+    },
+    "records": {
+     "all": 4346,
+     "pchembl_4_or_more": 951,
+     "pchembl_5_or_more": 880,
+     "pchembl_6_or_more": 697
+    },
+    "at_1_micromolar_or_better": {
+     "compounds": 566,
+     "assay_types": {
+      "B": 554,
+      "F": 143
+     },
+     "records_mentioning_phosphorylation": 35
+    },
+    "most_potent": [
+     {
+      "compound": "CHEMBL1988594",
+      "name": null,
+      "measure": "Ki",
+      "relation": "=",
+      "value": "0.631",
+      "units": "nM",
+      "pchembl": 9.2,
+      "assay": "CHEMBL1963720",
+      "assay_type": "F",
+      "assay_description": "PUBCHEM_BIOASSAY: Navigating the Kinome. (Class of assay: other) Panel member name: CHEK2",
+      "document": "CHEMBL1201862",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL509032",
+      "name": "TAE-684",
+      "measure": "Ki",
+      "relation": "=",
+      "value": "1.259",
+      "units": "nM",
+      "pchembl": 8.9,
+      "assay": "CHEMBL1963720",
+      "assay_type": "F",
+      "assay_description": "PUBCHEM_BIOASSAY: Navigating the Kinome. (Class of assay: other) Panel member name: CHEK2",
+      "document": "CHEMBL1201862",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL1970203",
+      "name": null,
+      "measure": "Ki",
+      "relation": "=",
+      "value": "1.585",
+      "units": "nM",
+      "pchembl": 8.8,
+      "assay": "CHEMBL1963720",
+      "assay_type": "F",
+      "assay_description": "PUBCHEM_BIOASSAY: Navigating the Kinome. (Class of assay: other) Panel member name: CHEK2",
+      "document": "CHEMBL1201862",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL195041",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "2.0",
+      "units": "nM",
+      "pchembl": 8.7,
+      "assay": "CHEMBL942788",
+      "assay_type": "B",
+      "assay_description": "Inhibition of human recombinant Chk2",
+      "document": "CHEMBL1140567",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL5812190",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "2.0",
+      "units": "nM",
+      "pchembl": 8.7,
+      "assay": "CHEMBL5739230",
+      "assay_type": "B",
+      "assay_description": "Activity Test of Compounds in the CHK1 Coupled Reaction System: The compounds of the present disclosure used in the experiments were self-prepared, and their chemical names and structural formulas were shown in the preparation embodiments of each compound. The determination mixture containing embodiment compounds of the present disclosure and Chk1 and Chk2 kinases were incubated in a microtiter plate, and CHK1 inhibitor activity of compounds were tested by monitoring the phosphorylation of Chk1 and Chk2 kinases on a synthetic peptide substrate with a specific amino acid sequence (KKKVSRSGLYRSPSMPENLNRPR, SEQ ID NO: 1). The test was carried out on the KinaseProfiler protein kinase activity detection platform of Eurofins, and the experimental results were provided by the company. The procedure was as follows: Chk1 and Chk2 kinases were diluted with 20 mM MOPS (morpholinpropane sulfonic acid), 1 mM EDTA (ethylenediaminetetraacetic acid), 0.04% Brij-35, 5% glycerol, 0.1% 2-mercaptoethanol, 1 mg/mL BSA (bovine serum albumin) and added to the reaction system, and the reaction system contained the embodiment compounds, 8 mM MOPS pH 7.0, 0.2 mM EDTA, 200 sM polypeptide substrate (KKKVSRSGLYRSPSMPENLNRPR, SEQ ID NO: 1), 10 mM magnesium acetate and a certain concentration of [γ-33P]-ATP (the strength was about 500 cpm/pmol). A mixture solution of Mg2′ and ATP (adenosine triphosphate) was added to initiate the reaction and the reaction solution was incubated at room temperature for 40 min. 0.5% Phosphate buffer was added to terminate the reaction. 10 μL of the reaction solution was filtered four times on a continuous filter P30, washed three times with 0.425 phosphate buffer, and once with methanol, each wash for 4 min. The value was read with scintillation counting method after drying.",
+      "document": "CHEMBL5729683",
+      "mentions_phosphorylation": true,
+      "validity_comment": null
+     }
+    ]
+   }
+  },
+  {
+   "symbol": "WEE1",
+   "name": "WEE1 G2 checkpoint kinase",
+   "hgnc_id": "HGNC:12761",
+   "uniprot": "P30291",
+   "node": "Wee1",
+   "why": "named in the project brief as a candidate radiosensitisation target, not found by the solver",
+   "sets": [],
+   "knock_out_alone_leaves": [
+    "apoptosis",
+    "arrest",
+    "autophagy",
+    "senescence"
+   ],
+   "only_apoptosis": false,
+   "chembl": {
+    "uniprot": "P30291",
+    "chembl_target": {
+     "target_chembl_id": "CHEMBL5491",
+     "pref_name": "Wee1-like protein kinase",
+     "organism": "Homo sapiens",
+     "target_type": "SINGLE PROTEIN"
+    },
+    "records": {
+     "all": 3725,
+     "pchembl_4_or_more": 1632,
+     "pchembl_5_or_more": 1588,
+     "pchembl_6_or_more": 1441
+    },
+    "at_1_micromolar_or_better": {
+     "compounds": 1005,
+     "assay_types": {
+      "B": 1422,
+      "F": 18,
+      "T": 1
+     },
+     "records_mentioning_phosphorylation": 105
+    },
+    "most_potent": [
+     {
+      "compound": "CHEMBL5933715",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "0.1",
+      "units": "nM",
+      "pchembl": 10.0,
+      "assay": "CHEMBL5735757",
+      "assay_type": "B",
+      "assay_description": "Kinase Activity Assay: All reactions took place in 60 μL volumes in reaction buffer containing 40 mM Tris-HCl and 20 mM magnesium chloride, supplemented with 0.1 mg/mL bovine serum albumin and 2 mM DTT. Compounds were serially diluted in buffer and 5 μL of each concentration pipetted into a white 384 well plate (Sigma Aldrich M6186). A 5 μL aliquot of the Wee-1 enzyme was added to each well and the plate centrifuged for 1 min to ensure mixing of the enzyme and inhibitor. The plate was incubated at room temperature for 30 minutes before the addition of 2.0 μg/mL of substrate and 30 μM ATP in a 5 μL aliquot. The plate was centrifuged for one minute and incubated for 1 h at RT. 15 μL of ADP-Glo stop reagent was added to each well to quench the reaction and deplete unconverted ATP. The plate was incubated for a further 40 min in the dark at RT. 30 μL of ADP-Glo kinase detection reagent was added to each well, converting ADP to ATP, catalysing the generation of luciferin by luciferase. The plate was shaken for 1 min, and incubated in the dark for an additional hour.",
+      "document": "CHEMBL5727960",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL5831450",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "0.1",
+      "units": "nM",
+      "pchembl": 10.0,
+      "assay": "CHEMBL5735757",
+      "assay_type": "B",
+      "assay_description": "Kinase Activity Assay: All reactions took place in 60 μL volumes in reaction buffer containing 40 mM Tris-HCl and 20 mM magnesium chloride, supplemented with 0.1 mg/mL bovine serum albumin and 2 mM DTT. Compounds were serially diluted in buffer and 5 μL of each concentration pipetted into a white 384 well plate (Sigma Aldrich M6186). A 5 μL aliquot of the Wee-1 enzyme was added to each well and the plate centrifuged for 1 min to ensure mixing of the enzyme and inhibitor. The plate was incubated at room temperature for 30 minutes before the addition of 2.0 μg/mL of substrate and 30 μM ATP in a 5 μL aliquot. The plate was centrifuged for one minute and incubated for 1 h at RT. 15 μL of ADP-Glo stop reagent was added to each well to quench the reaction and deplete unconverted ATP. The plate was incubated for a further 40 min in the dark at RT. 30 μL of ADP-Glo kinase detection reagent was added to each well, converting ADP to ATP, catalysing the generation of luciferin by luciferase. The plate was shaken for 1 min, and incubated in the dark for an additional hour.",
+      "document": "CHEMBL5727960",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL5278196",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "0.1",
+      "units": "nM",
+      "pchembl": 10.0,
+      "assay": "CHEMBL5224836",
+      "assay_type": "B",
+      "assay_description": "Inhibition of Wee1 (unknown origin) incubated for 60 mins by LanthaScreen Eu-Kinase binding assay",
+      "document": "CHEMBL5223119",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL5876377",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "0.1",
+      "units": "nM",
+      "pchembl": 10.0,
+      "assay": "CHEMBL5735757",
+      "assay_type": "B",
+      "assay_description": "Kinase Activity Assay: All reactions took place in 60 μL volumes in reaction buffer containing 40 mM Tris-HCl and 20 mM magnesium chloride, supplemented with 0.1 mg/mL bovine serum albumin and 2 mM DTT. Compounds were serially diluted in buffer and 5 μL of each concentration pipetted into a white 384 well plate (Sigma Aldrich M6186). A 5 μL aliquot of the Wee-1 enzyme was added to each well and the plate centrifuged for 1 min to ensure mixing of the enzyme and inhibitor. The plate was incubated at room temperature for 30 minutes before the addition of 2.0 μg/mL of substrate and 30 μM ATP in a 5 μL aliquot. The plate was centrifuged for one minute and incubated for 1 h at RT. 15 μL of ADP-Glo stop reagent was added to each well to quench the reaction and deplete unconverted ATP. The plate was incubated for a further 40 min in the dark at RT. 30 μL of ADP-Glo kinase detection reagent was added to each well, converting ADP to ATP, catalysing the generation of luciferin by luciferase. The plate was shaken for 1 min, and incubated in the dark for an additional hour.",
+      "document": "CHEMBL5727960",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL4544916",
+      "name": null,
+      "measure": "Ki",
+      "relation": "=",
+      "value": "0.2",
+      "units": "nM",
+      "pchembl": 9.7,
+      "assay": "CHEMBL4388515",
+      "assay_type": "B",
+      "assay_description": "Binding affinity to wild type N-terminal GST-tagged human WEE1 catalytic domain (215 to 646 residues) expressed in baculovirus expression system measured after 1 hr by TR-FRET assay",
+      "document": "CHEMBL4387719",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     }
+    ]
+   }
+  },
+  {
+   "symbol": "PRKDC",
+   "name": "protein kinase, DNA-activated, catalytic subunit",
+   "hgnc_id": "HGNC:9413",
+   "uniprot": "P78527",
+   "node": "DNA_PK",
+   "why": "named in the project brief as a candidate radiosensitisation target, not found by the solver",
+   "sets": [],
+   "knock_out_alone_leaves": [
+    "apoptosis",
+    "arrest",
+    "autophagy",
+    "senescence"
+   ],
+   "only_apoptosis": false,
+   "chembl": {
+    "uniprot": "P78527",
+    "chembl_target": {
+     "target_chembl_id": "CHEMBL3142",
+     "pref_name": "DNA-dependent protein kinase catalytic subunit",
+     "organism": "Homo sapiens",
+     "target_type": "SINGLE PROTEIN"
+    },
+    "records": {
+     "all": 6653,
+     "pchembl_4_or_more": 2148,
+     "pchembl_5_or_more": 2089,
+     "pchembl_6_or_more": 1658
+    },
+    "at_1_micromolar_or_better": {
+     "compounds": 952,
+     "assay_types": {
+      "B": 1658
+     },
+     "records_mentioning_phosphorylation": 20
+    },
+    "most_potent": [
+     {
+      "compound": "CHEMBL4447991",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "0.07943",
+      "units": "nM",
+      "pchembl": 10.1,
+      "assay": "CHEMBL4403931",
+      "assay_type": "B",
+      "assay_description": "Inhibition of human HeLa cell-derived full length DNA-PK catalytic subunit using fluorescein-EPPLSQEAFADLWKK as substrate preincubated for 30 mins followed by substrate addition and measured after 40 mins TR-FRET assay",
+      "document": "CHEMBL4402552",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL5563688",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "0.1",
+      "units": "nM",
+      "pchembl": 10.0,
+      "assay": "CHEMBL5534404",
+      "assay_type": "B",
+      "assay_description": "Inhibition of human DNA-PK incubated for 30 mins in presence of Mg/ATP by HTRF method",
+      "document": "CHEMBL5532664",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL5566630",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "0.1",
+      "units": "nM",
+      "pchembl": 10.0,
+      "assay": "CHEMBL5534404",
+      "assay_type": "B",
+      "assay_description": "Inhibition of human DNA-PK incubated for 30 mins in presence of Mg/ATP by HTRF method",
+      "document": "CHEMBL5532664",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL5570653",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "0.11",
+      "units": "nM",
+      "pchembl": 9.96,
+      "assay": "CHEMBL5547050",
+      "assay_type": "B",
+      "assay_description": "Inhibition of human full-length DNA-PK using EPPLSQEAFADLWKK as substrate incubated for 60 mins in presence of ATP by ADP-Glo kinase assay",
+      "document": "CHEMBL5543136",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     },
+     {
+      "compound": "CHEMBL5180090",
+      "name": null,
+      "measure": "IC50",
+      "relation": "=",
+      "value": "0.12",
+      "units": "nM",
+      "pchembl": 9.92,
+      "assay": "CHEMBL5142862",
+      "assay_type": "B",
+      "assay_description": "Inhibition of DNA-PK (unknown origin) using EPPLSQEAFADLWKK peptide as substrate preincubated with compound for 30 mins followed by substrate addition and further incubated for 40 mins in presence of ATP by TR-FRET assay",
+      "document": "CHEMBL5137107",
+      "mentions_phosphorylation": false,
+      "validity_comment": null
+     }
+    ]
+   }
+  }
+ ]
+}
