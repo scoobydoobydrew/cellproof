@@ -447,10 +447,18 @@ def literature_block() -> dict | None:
         return None
     verdicts = ("agrees_in_direction", "contradicts", "mixed", "off_topic")
     papers = [{**p, "gene": gene} for gene, block in evidence["genes"].items() for p in block["papers"]]
+
+    def count(subset: list[dict]) -> dict:
+        return {v: sum(p["verdict"] == v for p in subset) for v in verdicts}
+
+    on = [p for p in papers if p["verdict"] != "off_topic"]
     return {"read_by": evidence["read_by"], "read_on": evidence["read_on"], "model_claim": evidence["model_claim"],
-            "counts": {v: sum(p["verdict"] == v for p in papers) for v in verdicts},
-            "per_gene": {gene: {v: sum(p["verdict"] == v for p in block["papers"]) for v in verdicts} for gene, block in evidence["genes"].items()},
-            "papers": [{k: p[k] for k in ("gene", "pmcid", "doi", "cite", "title", "context", "verdict", "fate_reported", "only_apoptosis_reported", "quotes", "note")} for p in papers]}
+            "waves": evidence["waves"], "designs": evidence["design"],
+            "counts": count(papers),
+            "per_gene": {gene: count(block["papers"]) for gene, block in evidence["genes"].items()},
+            "by_wave": {str(w): count([p for p in papers if p["wave"] == w]) for w in (1, 2)},
+            "by_design": {d: count([p for p in on if p["design"] == d]) for d in evidence["design"]},
+            "papers": [{k: p[k] for k in ("gene", "pmcid", "wave", "design", "doi", "cite", "title", "context", "verdict", "fate_reported", "only_apoptosis_reported", "quotes", "note")} for p in papers]}
 
 
 def collect() -> dict:

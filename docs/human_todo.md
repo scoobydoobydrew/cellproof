@@ -42,5 +42,8 @@ Left, in order of importance:
    (`git ls-files data/raw` must print nothing), and check the page once in a clean browser profile.
 4. **Optional**: a decision on whether the tissue beat goes in the three minutes (10 to 15 seconds; the script says what to say and
    what not to say).
+5. **Optional**: skim the 18 quotes of the literature check of PTEN and RB (`data/literature/pten_rb_evidence.json`, a minute each;
+   the page and `docs/literature_check.md` say that only code has checked them). Code confirms that every quote occurs in its paper;
+   whether the verdict that goes with it is fair is a reading task, like M4 and D4.
 
 Feature freeze for the assistant: Mon 2026-11-02 evening. After that only fixes, the README and the video.

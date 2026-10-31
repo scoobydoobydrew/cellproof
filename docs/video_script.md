@@ -76,4 +76,5 @@ falls. Say only what the section says: "a second, independent engine, with every
 exact solver on all 22 sets; it is not a prediction for any patient". Do not say "trial", "proof", "drug" or "safe". If this beat is in the video, the opening line also says that the simulator (PhysiBoSS) and
 the ChEMBL database existed before the week and that the translation of the network, the experiments and the checks are new. The
 numbers on screen come from `results/tissue/summary.json`; read them off the page. If PTEN or RB appears on screen, say that it is the model's
-answer: the literature check (`docs/literature_check.md`) is split for PTEN and thin for RB1, and no paper reports apoptosis as the only fate.
+answer: the literature check (`docs/literature_check.md`, 24 papers, 10 on topic) does not support it, since four papers agree with the model's direction and five
+contradict it, and no paper reports apoptosis as the only fate.

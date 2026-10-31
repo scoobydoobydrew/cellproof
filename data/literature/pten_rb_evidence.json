@@ -2,16 +2,27 @@
  "protocol": "docs/literature_check.md",
  "read_on": "2026-10-31",
  "read_by": "the assistant, not yet checked by a person; a code check confirms that every quote occurs in the paper",
+ "waves": {
+  "1": "the first six per gene, read before Amendment 1 (commits 2cd6d51 and ee579e4)",
+  "2": "ranks 7 to 12 per gene, listed by Amendment 1 (commit 2e8b74a) before any of their texts was downloaded, and read after it"
+ },
+ "design": {
+  "changed": "the gene was knocked down, knocked out, deleted or raised in the same cells",
+  "compared": "cell lines, tumours or patients that differ in the gene were compared",
+  "indirect": "the gene moved as a consequence of something else that was changed, or the paper only cites it"
+ },
  "model_claim": "After DNA damage, a cell without PTEN (hit_03) or without RB1 (hit_04) has apoptosis as its only stable end state (results/targets.json).",
  "genes": {
   "PTEN": {
    "papers": [
     {
      "pmcid": "PMC2914702",
+     "wave": 1,
      "doi": "10.1186/1471-2407-10-367",
      "cite": "Chun-Zhi Z et al. BMC cancer 2010",
      "title": "MicroRNA-221 and microRNA-222 regulate gastric carcinoma cell proliferation and radioresistance by targeting PTEN",
      "license": "cc by",
+     "design": "changed",
      "context": "Human gastric cancer cell line SGC7901; PTEN raised by knocking down miR-221/222 or by PTEN cDNA; clonogenic survival after radiation",
      "verdict": "contradicts",
      "fate_reported": "apoptosis (more, when PTEN is raised)",
@@ -32,10 +43,12 @@
     },
     {
      "pmcid": "PMC5627969",
+     "wave": 1,
      "doi": "10.1038/nature22965",
      "cite": "Kuchay S et al. Nature 2017",
      "title": "PTEN counteracts FBXL2 to promote IP3R3- and Ca&lt;sup&gt;2+&lt;/sup&gt;-mediated apoptosis limiting tumour growth",
      "license": "cc by",
+     "design": null,
      "context": "",
      "verdict": "off_topic",
      "fate_reported": null,
@@ -45,10 +58,12 @@
     },
     {
      "pmcid": "PMC3722247",
+     "wave": 1,
      "doi": "10.1371/journal.pone.0068543",
      "cite": "Roy S et al. PLoS ONE 2013",
      "title": "Difluorinated-curcumin (CDF) restores PTEN expression in colon cancer cells by down-regulating miR-21",
      "license": "cc0",
+     "design": null,
      "context": "",
      "verdict": "off_topic",
      "fate_reported": null,
@@ -58,10 +73,12 @@
     },
     {
      "pmcid": "PMC3614551",
+     "wave": 1,
      "doi": "10.1371/journal.pone.0060408",
      "cite": "Chatterjee P et al. PLoS ONE 2013",
      "title": "PARP inhibition sensitizes to low dose-rate radiation TMPRSS2-ERG fusion gene-expressing and PTEN-deficient prostate cancer cells",
      "license": "cc by",
+     "design": "compared",
      "context": "Human prostate cancer cell lines (PTEN-null PC3, LNCaP and C4-2 against PTEN-wild-type DU145), radiation together with the PARP inhibitor rucaparib",
      "verdict": "agrees_in_direction",
      "fate_reported": "senescence",
@@ -82,10 +99,12 @@
     },
     {
      "pmcid": "PMC6440033",
+     "wave": 1,
      "doi": "10.1186/s13046-019-1119-x",
      "cite": "Vahabi M et al. J Exp Clin Cancer Res 2019",
      "title": "miR-96-5p targets PTEN expression affecting radio-chemosensitivity of HNSCC cells",
      "license": "cc by",
+     "design": "changed",
      "context": "Human head and neck cancer cell lines; siRNA against PTEN; 2 Gy",
      "verdict": "contradicts",
      "fate_reported": "not reported (viability and colony assays)",
@@ -101,10 +120,12 @@
     },
     {
      "pmcid": "PMC5834544",
+     "wave": 1,
      "doi": "10.1038/s41598-018-22289-7",
      "cite": "Mansour WY et al. Scientific reports 2018",
      "title": "Loss of PTEN-assisted G2/M checkpoint impedes homologous recombination repair and enhances radio-curability and PARP inhibitor treatment response in prostate cancer",
      "license": "cc by",
+     "design": "changed",
      "context": "Human prostate cancer cells (DU145) after PTEN depletion, irradiation, and a tissue microarray of prostate cancer samples",
      "verdict": "agrees_in_direction",
      "fate_reported": "not reported (the mechanism given is impaired homologous recombination and G2/M checkpoint)",
@@ -122,6 +143,129 @@
       }
      ],
      "note": "PTEN-depleted cells were more radiosensitive. The paper itself cites an earlier study in which PTEN loss went with radioresistance, so the literature disagrees. It does not report apoptosis; the mechanism it gives is impaired homologous recombination and G2/M checkpoint."
+    },
+    {
+     "pmcid": "PMC6798410",
+     "wave": 2,
+     "doi": "10.1186/s12885-019-6177-0",
+     "cite": "Brito C et al. BMC cancer 2019",
+     "title": "Clinical insights gained by refining the 2016 WHO classification of diffuse gliomas with: EGFR amplification, TERT mutations, PTEN deletion and MGMT methylation",
+     "license": "cc by",
+     "design": "compared",
+     "context": "Patients with glioblastoma, IDH-wildtype, given radiotherapy alone: 74 with a PTEN deletion and 20 without; overall survival as the measure of response",
+     "verdict": "mixed",
+     "fate_reported": "not reported (overall survival of patients)",
+     "only_apoptosis_reported": false,
+     "quotes": [
+      {
+       "text": "The effect of PTEN deletion on response to therapy was inferred only in patients exposed to radiotherapy, since most patients submitted to chemo-radiotherapy had PTEN deleted.",
+       "where": "results",
+       "says": "The comparison could only be made among patients given radiotherapy alone."
+      },
+      {
+       "text": "According to our results, PTEN deletion had no predictive value in the response to radiotherapy (p = 0.258)",
+       "where": "results",
+       "says": "Tumours with and without the PTEN deletion did not differ in their response to radiotherapy."
+      }
+     ],
+     "note": "No difference in response to radiotherapy between tumours with and without the PTEN deletion (median survival 7 against 6 months, hazard ratio 0.74, 95% interval 0.45 to 1.24, p = 0.258 in the paper's table): no effect, so mixed. The measure is the survival of patients, the groups are unequal, and in the same paper the deletion goes with longer survival among all glioblastoma IDH-wildtype patients, which is a prognosis and not a response to radiation."
+    },
+    {
+     "pmcid": "PMC3315579",
+     "wave": 2,
+     "doi": "10.1371/journal.pone.0033684",
+     "cite": "Carico C et al. PLoS ONE 2012",
+     "title": "Loss of PTEN is not associated with poor survival in newly diagnosed glioblastoma patients of the temozolomide era",
+     "license": "cc by",
+     "design": null,
+     "context": "",
+     "verdict": "off_topic",
+     "fate_reported": null,
+     "only_apoptosis_reported": false,
+     "quotes": [],
+     "note": "Patients' overall survival by PTEN status in a cohort mostly given temozolomide with radiation: a prognosis, not a comparison of the response to radiation by PTEN status. The discussion cites a study in which PTEN-deficient glioma cells repaired temozolomide-induced breaks poorly and showed more apoptosis; that is cited, not measured here, and is not counted."
+    },
+    {
+     "pmcid": "PMC4441389",
+     "wave": 2,
+     "doi": "10.1371/journal.pone.0126149",
+     "cite": "He E et al. PLoS ONE 2015",
+     "title": "Fractionated Ionizing Radiation Promotes Epithelial-Mesenchymal Transition in Human Esophageal Cancer Cells through PTEN Deficiency-Mediated Akt Activation",
+     "license": "cc by",
+     "design": "indirect",
+     "context": "Human oesophageal squamous cancer cell line KYSE-150 and a radioresistant subline made by fractionated irradiation (a total of 37 Gy over two months); clonogenic survival after radiation. PTEN was lowered and raised only to study migration and markers of EMT",
+     "verdict": "contradicts",
+     "fate_reported": "not reported (colony survival, migration and invasion)",
+     "only_apoptosis_reported": false,
+     "quotes": [
+      {
+       "text": "In comparison to the parental cells, KYSE-150/RR cells showed an increase in post-IR colony survival, migration, and invasiveness.",
+       "where": "abstract",
+       "says": "The radioresistant subline survived radiation better than its parent."
+      },
+      {
+       "text": "Furthermore, a decrease in PTEN in KYSE-150/RR cells was observed.",
+       "where": "abstract",
+       "says": "The radioresistant subline had less PTEN."
+      }
+     ],
+     "note": "The cells that survived radiation better had less PTEN, the opposite direction of the model. But radiation itself lowered PTEN in the selected subline, many other things changed with it, and the text reports PTEN being lowered or raised only for migration and EMT markers, never for survival. It is an association, not a test of what losing PTEN does."
+    },
+    {
+     "pmcid": "PMC7145659",
+     "wave": 2,
+     "doi": "10.1093/nar/gkz1103",
+     "cite": "Sharma A et al. Nucleic acids research 2020",
+     "title": "USP14 is a deubiquitinase for Ku70 and critical determinant of non-homologous end joining repair in autophagy and PTEN-deficient cells",
+     "license": "cc by",
+     "design": null,
+     "context": "",
+     "verdict": "off_topic",
+     "fate_reported": null,
+     "only_apoptosis_reported": false,
+     "quotes": [],
+     "note": "Signalling and repair of DNA breaks (foci of repair proteins, activity of non-homologous end joining) in autophagy-deficient and PTEN-deficient cells. No apoptosis, cell death, survival or radiosensitivity of PTEN-deficient cells is reported, so no outcome the protocol compares."
+    },
+    {
+     "pmcid": "PMC6267624",
+     "wave": 2,
+     "doi": "10.2147/ott.s182573",
+     "cite": "Ma X et al. OncoTargets and therapy 2018",
+     "title": "LncRNA ANCR promotes proliferation and radiation resistance of nasopharyngeal carcinoma by inhibiting PTEN expression",
+     "license": "cc by-nc",
+     "design": "indirect",
+     "context": "Human nasopharyngeal carcinoma cell lines SUNE-1 and HONE-1; siRNA against the long non-coding RNA ANCR; colony survival after 0 to 8 Gy. PTEN was measured, not changed on its own",
+     "verdict": "contradicts",
+     "fate_reported": "not reported (colony survival)",
+     "only_apoptosis_reported": false,
+     "quotes": [
+      {
+       "text": "The results suggested that ANCR knockdown enhanced radiosensitivity of NPC cells",
+       "where": "results",
+       "says": "Silencing ANCR made the cells more sensitive to radiation."
+      },
+      {
+       "text": "We found that the expression of PTEN, a famous tumor suppressor, was greatly increased in ANCR knockdown SUNE-1 cells compared with NC control cell",
+       "where": "results",
+       "says": "The same cells had more PTEN."
+      }
+     ],
+     "note": "Cells with more PTEN were more sensitive to radiation, so cells with less PTEN were the more resistant: the opposite direction of the model. The change in PTEN came from silencing another gene, and the paper does not report lowering or raising PTEN on its own to test the radiation response, so the link rests on the authors' interpretation."
+    },
+    {
+     "pmcid": "PMC3909012",
+     "wave": 2,
+     "doi": "10.1371/journal.pone.0087052",
+     "cite": "Memmel S et al. PLoS ONE 2014",
+     "title": "Cell surface area and membrane folding in glioblastoma cell lines differing in PTEN and p53 status",
+     "license": "cc by",
+     "design": null,
+     "context": "",
+     "verdict": "off_topic",
+     "fate_reported": null,
+     "only_apoptosis_reported": false,
+     "quotes": [],
+     "note": "Membrane area and folding of five glioblastoma lines that differ in PTEN and p53; resistance to radiotherapy appears only in the background and a cited sensitivity to drugs. No response to radiation or DNA damage is measured."
     }
    ]
   },
@@ -129,10 +273,12 @@
    "papers": [
     {
      "pmcid": "PMC5412766",
+     "wave": 1,
      "doi": "10.15252/embj.201694571",
      "cite": "Biedermann S et al. The EMBO journal 2017",
      "title": "The retinoblastoma homolog RBR1 mediates localization of the repair protein RAD51 to DNA lesions in <i>Arabidopsis</i>",
      "license": "cc by-nc-nd",
+     "design": null,
      "context": "",
      "verdict": "off_topic",
      "fate_reported": null,
@@ -142,10 +288,12 @@
     },
     {
      "pmcid": "PMC3827056",
+     "wave": 1,
      "doi": "10.1371/journal.pone.0078641",
      "cite": "Robinson TJ et al. PLoS ONE 2013",
      "title": "RB1 status in triple negative breast cancer cells dictates response to radiation treatment and selective therapeutic drugs",
      "license": "cc by",
+     "design": "compared",
      "context": "Eight human triple-negative breast cancer cell lines (4 RB-positive, 4 RB-negative); gamma-irradiation, 5 to 10 Gy; MTT viability",
      "verdict": "agrees_in_direction",
      "fate_reported": "not reported (MTT viability assays and the cancer stem cell fraction)",
@@ -161,10 +309,12 @@
     },
     {
      "pmcid": "PMC2247029",
+     "wave": 1,
      "doi": "10.1038/bjc.1989.251",
      "cite": "Stratton MR et al. British journal of cancer 1989",
      "title": "Structural alterations of the RB1 gene in human soft tissue tumours",
      "license": "cc by",
+     "design": null,
      "context": "",
      "verdict": "off_topic",
      "fate_reported": null,
@@ -174,10 +324,12 @@
     },
     {
      "pmcid": "PMC3909110",
+     "wave": 1,
      "doi": "10.1371/journal.pone.0087453",
      "cite": "Walther J et al. PLoS ONE 2014",
      "title": "Efficient photodynamic therapy on human retinoblastoma cell lines",
      "license": "cc by",
+     "design": null,
      "context": "",
      "verdict": "off_topic",
      "fate_reported": null,
@@ -187,10 +339,12 @@
     },
     {
      "pmcid": "PMC4237942",
+     "wave": 1,
      "doi": "10.1186/1476-4598-13-182",
      "cite": "Rosemann M et al. Molecular cancer 2014",
      "title": "A Rb1 promoter variant with reduced activity contributes to osteosarcoma susceptibility in irradiated mice",
      "license": "cc by",
+     "design": null,
      "context": "",
      "verdict": "off_topic",
      "fate_reported": null,
@@ -200,10 +354,12 @@
     },
     {
      "pmcid": "PMC2394264",
+     "wave": 1,
      "doi": "10.1038/sj.bjc.6601063",
      "cite": "Agerbaek M et al. British journal of cancer 2003",
      "title": "Retinoblastoma protein expression is an independent predictor of both radiation response and survival in muscle-invasive bladder cancer",
      "license": "cc by",
+     "design": "compared",
      "context": "108 patients with muscle-invasive bladder cancer; pRB staining of the tumour before preoperative radiotherapy",
      "verdict": "agrees_in_direction",
      "fate_reported": "apoptosis (cited from earlier work); not measured in the patients' tumours",
@@ -221,6 +377,107 @@
       }
      ],
      "note": "Loss of pRB went with a better response to radiotherapy, the model's direction. It is an association in patients' tumours, not a controlled loss; the apoptosis sentence is the authors' citation of earlier work."
+    },
+    {
+     "pmcid": "PMC9237030",
+     "wave": 2,
+     "doi": "10.1038/s41419-022-04916-4",
+     "cite": "Li Y et al. Cell death & disease 2022",
+     "title": "Mice with Trp53 and Rb1 deficiency in chondrocytes spontaneously develop chondrosarcoma via overactivation of YAP signaling",
+     "license": "cc by",
+     "design": null,
+     "context": "",
+     "verdict": "off_topic",
+     "fate_reported": null,
+     "only_apoptosis_reported": false,
+     "quotes": [],
+     "note": "A mouse model of chondrosarcoma made by deleting Trp53 and Rb1 in cartilage cells, and the role of YAP signalling: tumour formation and survival of the mice. No response to radiation or DNA damage is reported."
+    },
+    {
+     "pmcid": "PMC5465815",
+     "wave": 2,
+     "doi": "10.1016/j.adro.2016.11.002",
+     "cite": "Mouw KW et al. Advances in radiation oncology 2017",
+     "title": "Analysis of patient outcomes following proton radiation therapy for retinoblastoma",
+     "license": "cc by-nc-nd",
+     "design": null,
+     "context": "",
+     "verdict": "off_topic",
+     "fate_reported": null,
+     "only_apoptosis_reported": false,
+     "quotes": [],
+     "note": "Long-term outcomes of proton radiation therapy in 12 patients with retinoblastoma (the disease); it does not examine what losing RB1 does."
+    },
+    {
+     "pmcid": "PMC5385017",
+     "wave": 2,
+     "doi": "10.1186/s12885-017-3249-x",
+     "cite": "Hoggard TM et al. BMC cancer 2017",
+     "title": "Myoepithelial carcinoma with RB1 mutation: remarkable chemosensitivity to carcinoma of unknown origin therapy",
+     "license": "cc by",
+     "design": null,
+     "context": "",
+     "verdict": "off_topic",
+     "fate_reported": null,
+     "only_apoptosis_reported": false,
+     "quotes": [],
+     "note": "A single case report: a metastatic myoepithelial carcinoma with an RB1 mutation responded to carboplatin and paclitaxel. One patient, no comparison with tumours that have RB1, and the response is to chemotherapy. The authors suggest that RB1 loss makes tumours chemosensitive, the model's direction; it is not counted."
+    },
+    {
+     "pmcid": "PMC11049397",
+     "wave": 2,
+     "doi": "10.3390/cells13080700",
+     "cite": "Mehta H et al. Cells 2024",
+     "title": "Probing the Effects of Retinoblastoma Binding Protein 6 (RBBP6) Knockdown on the Sensitivity of Cisplatin in Cervical Cancer Cells",
+     "license": "cc by",
+     "design": null,
+     "context": "",
+     "verdict": "off_topic",
+     "fate_reported": null,
+     "only_apoptosis_reported": false,
+     "quotes": [],
+     "note": "Knockdown of RBBP6 (retinoblastoma binding protein 6), a different gene from RB1, and the sensitivity of cervical cancer cells to cisplatin."
+    },
+    {
+     "pmcid": "PMC4220401",
+     "wave": 2,
+     "doi": "10.4103/0974-620x.142597",
+     "cite": "Yousef YA et al. Oman journal of ophthalmology 2014",
+     "title": "Resistant retinoblastoma in a 23-year-old patient",
+     "license": "cc by-nc-sa",
+     "design": null,
+     "context": "",
+     "verdict": "off_topic",
+     "fate_reported": null,
+     "only_apoptosis_reported": false,
+     "quotes": [],
+     "note": "A case report of retinoblastoma (the disease) in an adult, resistant to chemotherapy and plaque radiation; it does not examine RB1."
+    },
+    {
+     "pmcid": "PMC11237859",
+     "wave": 2,
+     "doi": "10.1016/j.clinsp.2024.100415",
+     "cite": "Ding W et al. Clinics (Sao Paulo, Brazil) 2024",
+     "title": "P53 and pRB induction improves response to radiation therapy in HPV-positive laryngeal squamous cell carcinoma",
+     "license": "cc by",
+     "design": "changed",
+     "context": "HPV-positive laryngeal squamous cell carcinoma cells; CRISPR/Cas9 knockout of RB1 (pRB) or of p53; clonogenic survival and apoptosis after radiation; xenograft tumours in mice given four fractions of 2 Gy",
+     "verdict": "contradicts",
+     "fate_reported": "apoptosis (less, after pRB knockout)",
+     "only_apoptosis_reported": false,
+     "quotes": [
+      {
+       "text": "Knockout of p53 or pRB led to radiation resistance and attenuated radiation-induced apoptosis in HPV+ LSCC cells.",
+       "where": "abstract",
+       "says": "Knocking out pRB made the cells resistant to radiation and cut radiation-induced apoptosis."
+      },
+      {
+       "text": "In vivo experiments showed similar results, where knockout of p53 or pRB decreased radiosensitivity in tumor-bearing mice.",
+       "where": "abstract",
+       "says": "The same happened to tumours in mice."
+      }
+     ],
+     "note": "The cleanest test among the papers read: the gene was knocked out in the same cells, in culture and in mice, and the cells became more resistant to radiation with less apoptosis, the opposite direction of the model. The cells are HPV-positive laryngeal cancer cells, so the result may not carry over to other cells."
     }
    ]
   }

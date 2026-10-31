@@ -213,13 +213,33 @@ def literature_section() -> str:
     rows = [(gene, p) for gene, block in evidence["genes"].items() for p in block["papers"]]
     count = Counter(p["verdict"] for _, p in rows)
     on = [(g, p) for g, p in rows if p["verdict"] != "off_topic"]
-    lines = [head, "", f"{len(rows)} papers read under a protocol fixed before reading (`docs/literature_check.md`): the first six open-access, non-review papers per gene in Europe PMC's citation order. "
+
+    def tally(papers: list[tuple[str, dict]]) -> list[int]:
+        c = Counter(p["verdict"] for _, p in papers)
+        return [len(papers), len(papers) - c["off_topic"], c["agrees_in_direction"], c["contradicts"], c["mixed"]]
+
+    lines = [head, "",
+             f"{len(rows)} papers read under a protocol fixed before reading (`docs/literature_check.md`): the open-access, non-review papers in Europe PMC's citation order, "
+             "six per gene in a first wave and, after the first wave had been read and published, six more per gene by the same rule (a second wave, Amendment 1, "
+             "decided after seeing the first-wave verdicts, so both waves are shown). "
              f"{len(on)} were on topic: {count['agrees_in_direction']} agree with the direction of the model (without the gene, less survival or more apoptosis), {count['contradicts']} contradict it, "
-             f"{count['mixed']} are mixed; {count['off_topic']} were off topic and are listed with their reason in `data/literature/pten_rb_evidence.json`. "
+             f"{count['mixed']} are mixed or show no difference; {count['off_topic']} were off topic and are listed with their reason in `data/literature/pten_rb_evidence.json`. "
              f"{sum(p['only_apoptosis_reported'] for _, p in on)} of the {len(on)} report apoptosis as the only fate, so the finer claim of the model is not confirmed by any of them. "
-             f"Read by {evidence['read_by']}.", "", "| gene | paper | verdict | fate reported | context |", "|---|---|---|---|---|"]
+             f"Read by {evidence['read_by']}.", "",
+             "| gene | wave | papers read | on topic | agree | contradict | mixed |", "|---|---|---|---|---|---|---|"]
+    for gene in evidence["genes"]:
+        mine = [(g, p) for g, p in rows if g == gene]
+        for label, subset in (("1 (first six)", [r for r in mine if r[1]["wave"] == 1]), ("2 (next six)", [r for r in mine if r[1]["wave"] == 2]), ("both", mine)):
+            lines.append(f"| {gene} | {label} | " + " | ".join(str(n) for n in tally(subset)) + " |")
+    lines += ["", "By how the gene was varied in the on-topic papers (the indirect designs are the weakest):", "",
+              "| design | what it means | papers | agree | contradict | mixed |", "|---|---|---|---|---|---|"]
+    for design, meaning in evidence["design"].items():
+        mine = [r for r in on if r[1]["design"] == design]
+        _, _, agree, contradict, mixed = tally(mine)
+        lines.append(f"| {design} | {meaning} | {len(mine)} | {agree} | {contradict} | {mixed} |")
+    lines += ["", "| gene | wave | paper | design | verdict | fate reported | context |", "|---|---|---|---|---|---|---|"]
     for gene, p in on:
-        lines.append(f"| {gene} | {p['cite']} ({p['pmcid']}) | {p['verdict'].replace('_', ' ')} | {p['fate_reported']} | {p['context']} |")
+        lines.append(f"| {gene} | {p['wave']} | {p['cite']} ({p['pmcid']}) | {p['design']} | {p['verdict'].replace('_', ' ')} | {p['fate_reported']} | {p['context']} |")
     return "\n".join(lines) + "\n"
 
 

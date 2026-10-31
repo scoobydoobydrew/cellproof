@@ -713,6 +713,7 @@ canvas.scene { position: absolute; inset: 0; width: 100%; height: 100%; display:
 #tTail { max-width: 760px; }
 #tChart text, #tTail text { fill: var(--fg-3); font-family: var(--mono); font-size: 11px; }
 .t-note { font-size: 14px; max-width: 78ch; margin-top: 8px; }
+.t-note summary { cursor: pointer; }
 .tbl td.num, .tbl th.num { text-align: right; font-variant-numeric: tabular-nums; }
 .tbl tr.sel td { background: var(--raised); }
 .t-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 14px; }

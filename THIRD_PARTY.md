@@ -67,9 +67,11 @@ run is made at run time by patching the one of PhysiBoSS's cell-lines sample, re
   3.0 Unported (as stated in the ChEMBL interface documentation, read 2026-10-31). `results/compounds.json` is a small snapshot
   (record counts and the five most potent records per protein, with their ChEMBL ids) and therefore carries the same terms:
   attribute ChEMBL and share alike. The ChEMBL release is stored in the file.
-- Literature check of PTEN and RB loss (`docs/literature_check.md`): 12 open-access papers found through the Europe PMC REST API under a fixed
-  protocol; their licences (CC BY, CC0 or CC BY-NC-ND, per paper) are in `data/literature/pten_rb_evidence.json`. Only quotes of at most 40 words,
-  with attribution, are kept (none from the one CC BY-NC-ND paper, which was set aside as off topic); the full texts are in `data/raw/literature`
+- Literature check of PTEN and RB loss (`docs/literature_check.md`): 24 open-access papers found through the Europe PMC REST API under a fixed
+  protocol and one amendment; their licences (CC BY, CC0, CC BY-NC, CC BY-NC-SA or CC BY-NC-ND, per paper) are in `data/literature/pten_rb_evidence.json`.
+  Only quotes of at most 40 words, with attribution, are kept. No quote is taken from a paper under a NoDerivatives or ShareAlike licence (all of those
+  were set aside as off topic). Two quotes come from one CC BY-NC paper (PMC6267624, Ma et al. 2018): they are short, attributed and used in a
+  non-commercial research prototype; remove them if the repository is ever reused commercially. The full texts are in `data/raw/literature`
   (git-ignored) and are not redistributed.
 - HGNC (REST `fetch/symbol`, CC0): symbol, name, HGNC id, locus group and UniProt ids of the genes in the solver's sets, cached in
   `data/ontology/hgnc_targets.json`.

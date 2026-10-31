@@ -3,7 +3,8 @@
   "PTEN": "TITLE:PTEN AND ABSTRACT:(radiation OR irradiation OR irradiated OR radiosensiti* OR radioresistan* OR radiotherapy) AND ABSTRACT:(loss OR deficien* OR null OR knockdown OR silencing OR mutation OR inhibit* OR deletion OR knockout) AND OPEN_ACCESS:y NOT (PUB_TYPE:\"review\" OR PUB_TYPE:\"Review\" OR TITLE:Retracted OR TITLE:Correction OR TITLE:Erratum OR TITLE:Retraction)",
   "RB1": "TITLE:(RB1 OR retinoblastoma OR pRB) AND ABSTRACT:(radiation OR irradiation OR irradiated OR radiosensiti* OR radioresistan* OR radiotherapy) AND ABSTRACT:(loss OR deficien* OR null OR knockdown OR silencing OR inactivation OR deletion OR knockout) AND OPEN_ACCESS:y NOT (PUB_TYPE:\"review\" OR PUB_TYPE:\"Review\" OR TITLE:Retracted OR TITLE:Correction OR TITLE:Erratum OR TITLE:Retraction)"
  },
- "per_gene": 6,
+ "first_wave": 6,
+ "per_gene": 12,
  "candidates": {
   "PTEN": [
    {
@@ -13,6 +14,8 @@
     "year": "2010",
     "cited_by": 312,
     "license": "cc by",
+    "rank": 1,
+    "wave": 1,
     "taken": true
    },
    {
@@ -22,6 +25,8 @@
     "year": "2017",
     "cited_by": 209,
     "license": "cc by",
+    "rank": 2,
+    "wave": 1,
     "taken": true
    },
    {
@@ -31,6 +36,8 @@
     "year": "2013",
     "cited_by": 118,
     "license": "cc0",
+    "rank": 3,
+    "wave": 1,
     "taken": true
    },
    {
@@ -40,6 +47,8 @@
     "year": "2013",
     "cited_by": 93,
     "license": "cc by",
+    "rank": 4,
+    "wave": 1,
     "taken": true
    },
    {
@@ -49,6 +58,8 @@
     "year": "2019",
     "cited_by": 67,
     "license": "cc by",
+    "rank": 5,
+    "wave": 1,
     "taken": true
    },
    {
@@ -58,6 +69,8 @@
     "year": "2018",
     "cited_by": 64,
     "license": "cc by",
+    "rank": 6,
+    "wave": 1,
     "taken": true
    },
    {
@@ -67,7 +80,9 @@
     "year": "2019",
     "cited_by": 60,
     "license": "cc by",
-    "taken": false
+    "rank": 7,
+    "wave": 2,
+    "taken": true
    },
    {
     "pmcid": "PMC3315579",
@@ -76,7 +91,9 @@
     "year": "2012",
     "cited_by": 53,
     "license": "cc by",
-    "taken": false
+    "rank": 8,
+    "wave": 2,
+    "taken": true
    },
    {
     "pmcid": "PMC4441389",
@@ -85,7 +102,9 @@
     "year": "2015",
     "cited_by": 48,
     "license": "cc by",
-    "taken": false
+    "rank": 9,
+    "wave": 2,
+    "taken": true
    },
    {
     "pmcid": "PMC7145659",
@@ -94,7 +113,9 @@
     "year": "2020",
     "cited_by": 46,
     "license": "cc by",
-    "taken": false
+    "rank": 10,
+    "wave": 2,
+    "taken": true
    },
    {
     "pmcid": "PMC6267624",
@@ -103,7 +124,9 @@
     "year": "2018",
     "cited_by": 41,
     "license": "cc by-nc",
-    "taken": false
+    "rank": 11,
+    "wave": 2,
+    "taken": true
    },
    {
     "pmcid": "PMC3909012",
@@ -112,7 +135,9 @@
     "year": "2014",
     "cited_by": 38,
     "license": "cc by",
-    "taken": false
+    "rank": 12,
+    "wave": 2,
+    "taken": true
    },
    {
     "pmcid": "PMC4884961",
@@ -121,6 +146,8 @@
     "year": "2016",
     "cited_by": 35,
     "license": "cc by",
+    "rank": 13,
+    "wave": 0,
     "taken": false
    },
    {
@@ -130,6 +157,8 @@
     "year": "2017",
     "cited_by": 28,
     "license": "cc by",
+    "rank": 14,
+    "wave": 0,
     "taken": false
    },
    {
@@ -139,6 +168,8 @@
     "year": "2013",
     "cited_by": 27,
     "license": "cc by",
+    "rank": 15,
+    "wave": 0,
     "taken": false
    },
    {
@@ -148,6 +179,8 @@
     "year": "2021",
     "cited_by": 23,
     "license": "cc by",
+    "rank": 16,
+    "wave": 0,
     "taken": false
    },
    {
@@ -157,6 +190,8 @@
     "year": "2020",
     "cited_by": 23,
     "license": "cc by",
+    "rank": 17,
+    "wave": 0,
     "taken": false
    },
    {
@@ -166,6 +201,8 @@
     "year": "2018",
     "cited_by": 22,
     "license": "cc by",
+    "rank": 18,
+    "wave": 0,
     "taken": false
    },
    {
@@ -175,6 +212,8 @@
     "year": "2016",
     "cited_by": 22,
     "license": "cc by",
+    "rank": 19,
+    "wave": 0,
     "taken": false
    },
    {
@@ -184,6 +223,8 @@
     "year": "2022",
     "cited_by": 20,
     "license": "cc by",
+    "rank": 20,
+    "wave": 0,
     "taken": false
    },
    {
@@ -193,6 +234,8 @@
     "year": "2020",
     "cited_by": 19,
     "license": "cc by",
+    "rank": 21,
+    "wave": 0,
     "taken": false
    },
    {
@@ -202,6 +245,8 @@
     "year": "2016",
     "cited_by": 19,
     "license": "cc by",
+    "rank": 22,
+    "wave": 0,
     "taken": false
    },
    {
@@ -211,6 +256,8 @@
     "year": "2022",
     "cited_by": 18,
     "license": "cc by",
+    "rank": 23,
+    "wave": 0,
     "taken": false
    },
    {
@@ -220,6 +267,8 @@
     "year": "2019",
     "cited_by": 18,
     "license": "cc by",
+    "rank": 24,
+    "wave": 0,
     "taken": false
    },
    {
@@ -229,6 +278,8 @@
     "year": "2020",
     "cited_by": 16,
     "license": "cc by",
+    "rank": 25,
+    "wave": 0,
     "taken": false
    },
    {
@@ -238,6 +289,8 @@
     "year": "2020",
     "cited_by": 16,
     "license": "cc by",
+    "rank": 26,
+    "wave": 0,
     "taken": false
    },
    {
@@ -247,6 +300,8 @@
     "year": "2022",
     "cited_by": 15,
     "license": "cc by",
+    "rank": 27,
+    "wave": 0,
     "taken": false
    },
    {
@@ -256,6 +311,8 @@
     "year": "2021",
     "cited_by": 15,
     "license": "cc by",
+    "rank": 28,
+    "wave": 0,
     "taken": false
    },
    {
@@ -265,6 +322,8 @@
     "year": "2011",
     "cited_by": 15,
     "license": "cc by",
+    "rank": 29,
+    "wave": 0,
     "taken": false
    },
    {
@@ -274,6 +333,8 @@
     "year": "2009",
     "cited_by": 15,
     "license": "cc by",
+    "rank": 30,
+    "wave": 0,
     "taken": false
    },
    {
@@ -283,6 +344,8 @@
     "year": "2019",
     "cited_by": 14,
     "license": "cc by-sa",
+    "rank": 31,
+    "wave": 0,
     "taken": false
    },
    {
@@ -292,6 +355,8 @@
     "year": "2021",
     "cited_by": 13,
     "license": "cc by",
+    "rank": 32,
+    "wave": 0,
     "taken": false
    },
    {
@@ -301,6 +366,8 @@
     "year": "2022",
     "cited_by": 11,
     "license": "cc by",
+    "rank": 33,
+    "wave": 0,
     "taken": false
    },
    {
@@ -310,6 +377,8 @@
     "year": "2021",
     "cited_by": 11,
     "license": "cc by",
+    "rank": 34,
+    "wave": 0,
     "taken": false
    },
    {
@@ -319,6 +388,8 @@
     "year": "2018",
     "cited_by": 11,
     "license": "cc by-nc-sa",
+    "rank": 35,
+    "wave": 0,
     "taken": false
    },
    {
@@ -328,6 +399,8 @@
     "year": "2019",
     "cited_by": 10,
     "license": "cc by",
+    "rank": 36,
+    "wave": 0,
     "taken": false
    },
    {
@@ -337,6 +410,8 @@
     "year": "2023",
     "cited_by": 9,
     "license": "cc by",
+    "rank": 37,
+    "wave": 0,
     "taken": false
    },
    {
@@ -346,6 +421,8 @@
     "year": "2020",
     "cited_by": 9,
     "license": "cc by",
+    "rank": 38,
+    "wave": 0,
     "taken": false
    },
    {
@@ -355,6 +432,8 @@
     "year": "2024",
     "cited_by": 7,
     "license": "cc by-nc",
+    "rank": 39,
+    "wave": 0,
     "taken": false
    },
    {
@@ -364,6 +443,8 @@
     "year": "2023",
     "cited_by": 7,
     "license": "cc by",
+    "rank": 40,
+    "wave": 0,
     "taken": false
    }
   ],
@@ -375,6 +456,8 @@
     "year": "2017",
     "cited_by": 78,
     "license": "cc by-nc-nd",
+    "rank": 1,
+    "wave": 1,
     "taken": true
    },
    {
@@ -384,6 +467,8 @@
     "year": "2013",
     "cited_by": 74,
     "license": "cc by",
+    "rank": 2,
+    "wave": 1,
     "taken": true
    },
    {
@@ -393,6 +478,8 @@
     "year": "2009",
     "cited_by": 72,
     "license": null,
+    "rank": null,
+    "wave": 0,
     "taken": false
    },
    {
@@ -402,6 +489,8 @@
     "year": "1989",
     "cited_by": 58,
     "license": "cc by",
+    "rank": 3,
+    "wave": 1,
     "taken": true
    },
    {
@@ -411,6 +500,8 @@
     "year": "2014",
     "cited_by": 20,
     "license": "cc by",
+    "rank": 4,
+    "wave": 1,
     "taken": true
    },
    {
@@ -420,6 +511,8 @@
     "year": "2014",
     "cited_by": 16,
     "license": "cc by",
+    "rank": 5,
+    "wave": 1,
     "taken": true
    },
    {
@@ -429,6 +522,8 @@
     "year": "2003",
     "cited_by": 15,
     "license": "cc by",
+    "rank": 6,
+    "wave": 1,
     "taken": true
    },
    {
@@ -438,7 +533,9 @@
     "year": "2022",
     "cited_by": 12,
     "license": "cc by",
-    "taken": false
+    "rank": 7,
+    "wave": 2,
+    "taken": true
    },
    {
     "pmcid": "PMC5465815",
@@ -447,7 +544,9 @@
     "year": "2017",
     "cited_by": 11,
     "license": "cc by-nc-nd",
-    "taken": false
+    "rank": 8,
+    "wave": 2,
+    "taken": true
    },
    {
     "pmcid": "PMC5385017",
@@ -456,7 +555,9 @@
     "year": "2017",
     "cited_by": 11,
     "license": "cc by",
-    "taken": false
+    "rank": 9,
+    "wave": 2,
+    "taken": true
    },
    {
     "pmcid": "PMC11049397",
@@ -465,7 +566,9 @@
     "year": "2024",
     "cited_by": 4,
     "license": "cc by",
-    "taken": false
+    "rank": 10,
+    "wave": 2,
+    "taken": true
    },
    {
     "pmcid": "PMC4220401",
@@ -474,7 +577,9 @@
     "year": "2014",
     "cited_by": 3,
     "license": "cc by-nc-sa",
-    "taken": false
+    "rank": 11,
+    "wave": 2,
+    "taken": true
    },
    {
     "pmcid": "PMC11237859",
@@ -483,7 +588,9 @@
     "year": "2024",
     "cited_by": 1,
     "license": "cc by",
-    "taken": false
+    "rank": 12,
+    "wave": 2,
+    "taken": true
    },
    {
     "pmcid": "PMC9997022",
@@ -492,6 +599,8 @@
     "year": "2023",
     "cited_by": 1,
     "license": "cc by",
+    "rank": 13,
+    "wave": 0,
     "taken": false
    },
    {
@@ -501,6 +610,8 @@
     "year": "2026",
     "cited_by": 0,
     "license": "cc by-nc-nd",
+    "rank": 14,
+    "wave": 0,
     "taken": false
    },
    {
@@ -510,6 +621,8 @@
     "year": "2025",
     "cited_by": 0,
     "license": null,
+    "rank": null,
+    "wave": 0,
     "taken": false
    }
   ]

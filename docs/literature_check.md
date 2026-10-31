@@ -1,7 +1,8 @@
 # Literature check: does losing PTEN or RB1 agree with the papers?
 
-Status 2026-10-31. A first reading, by the assistant, of what open-access papers report about two of the solver's answers. The
-quotes are checked by code against the papers (`python -m cellproof.cli literature`); a person has not yet checked the readings.
+Status 2026-10-31. A reading, by the assistant, of what open-access papers report about two of the solver's answers: a first wave of
+six papers per gene and a second wave of six more (Amendment 1, below). The quotes are checked by code against the papers
+(`python -m cellproof.cli literature`); a person has not yet checked the readings.
 The evidence is in `data/literature/pten_rb_evidence.json`, the candidate lists in `data/literature/pten_rb_candidates.json`
 and the counts in `results/RESULTS.md`.
 
@@ -18,7 +19,8 @@ finer claim ("only apoptosis").
    held-out source papers, in Europe PMC's citation order. PTEN: the gene in the title, and in the abstract radiation or
    radiosensitivity together with loss, deficiency, knockdown, silencing, mutation, inhibition, deletion or knockout. RB1: the same
    with RB1, retinoblastoma or pRB in the title (the exact queries are in `src/cellproof/eval/literature.py`).
-2. Take the first six papers per gene that meet those conditions. Nothing else decides which papers are read.
+2. Take the first six papers per gene that meet those conditions. Nothing else decides which papers are read. (Amendment 1 below
+   adds six more per gene by the same rule.)
 3. For each paper decide whether it reports what loss or inhibition of the **human or mammalian gene** does to the response of cells
    to radiation or DNA damage (apoptosis, cell death, survival, sensitivity). If not, it is `off_topic` and the reason is written
    down; it is **not replaced**, so that the choice of papers cannot depend on what they say.
@@ -71,44 +73,92 @@ unchanged: an off-topic paper is recorded with its reason and not replaced. The 
   and without the gene, or with it lowered or raised, and reports their response to radiation or DNA damage. A patient survival
   figure with no such contrast is off topic, and the reason is written down.
 
+**Log after reading** (the second wave was downloaded and read after commit `2e8b74a`).
+- Eight of the twelve second-wave papers were off topic, three of them on PTEN and five on RB1; the reasons are in the data file.
+- After reading the second wave, a `design` field (`changed`, `compared` or `indirect`) and a `wave` field were added to every
+  paper of both waves, because two second-wave papers moved PTEN only indirectly and the counts should say so. This was decided
+  with the second wave in view. It changes no verdict, quote or note.
+- No first-wave verdict, quote or note was changed. `tests/test_literature.py` fixes the first-wave verdicts and the second-wave
+  list as they were when each was written down.
+- The counts of the second wave moved against the model's direction (see below). The first-wave counts are shown next to the
+  combined ones in `results/RESULTS.md` and on the report page.
+
 ## What was found
 
-12 papers read; 6 on topic, 6 set aside.
+24 papers read in two waves of six per gene; 10 on topic, 14 set aside. The numbers below are in `results/RESULTS.md`, computed from
+the evidence file.
 
-| gene | paper | verdict | fate reported | what it says |
-|---|---|---|---|---|
-| PTEN | Chun-Zhi Z et al., BMC Cancer 2010 (PMC2914702) | contradicts | apoptosis, more of it when PTEN is raised | Raising PTEN in gastric cancer cells made them more radiosensitive and more apoptotic, so low PTEN goes with less of both. The evidence is by restoring PTEN, not by removing it |
-| PTEN | Chatterjee P et al., PLoS ONE 2013 (PMC3614551) | agrees in direction | senescence | PTEN-null prostate cancer lines lost more clonogenic survival after radiation with a PARP inhibitor, through senescence. Different cell lines, plus a drug |
-| PTEN | Vahabi M et al., J Exp Clin Cancer Res 2019 (PMC6440033) | contradicts | not reported | Silencing PTEN in head and neck cancer cells made them more resistant to radiation |
-| PTEN | Mansour WY et al., Sci Rep 2018 (PMC5834544) | agrees in direction | not reported (repair and G2/M checkpoint) | PTEN depletion made prostate cancer cells more radiosensitive; the paper itself cites an earlier study in which PTEN loss went with radioresistance |
-| RB1 | Robinson TJ et al., PLoS ONE 2013 (PMC3827056) | agrees in direction | not reported (viability) | RB-negative triple-negative breast cancer lines were more sensitive to radiation than RB-positive ones |
-| RB1 | Agerbaek M et al., Br J Cancer 2003 (PMC2394264) | agrees in direction | cited from earlier work: apoptosis | Loss of pRB staining predicted a better response to radiotherapy in bladder cancer patients; an association, not a controlled loss |
+| gene | wave | papers read | on topic | agree | contradict | mixed |
+|---|---|---|---|---|---|---|
+| PTEN | 1 (first six) | 6 | 4 | 2 | 2 | 0 |
+| PTEN | 2 (next six) | 6 | 3 | 0 | 2 | 1 |
+| PTEN | both | 12 | 7 | 2 | 4 | 1 |
+| RB1 | 1 (first six) | 6 | 2 | 2 | 0 | 0 |
+| RB1 | 2 (next six) | 6 | 1 | 0 | 1 | 0 |
+| RB1 | both | 12 | 3 | 2 | 1 | 0 |
 
-Set aside as off topic (the reason of each is in the data file): PMC5627969 (photodynamic therapy), PMC3722247 (chemo-resistant
-colon cancer cells and a curcumin analogue), PMC5412766 (the plant homologue RBR1), PMC2247029 (a 1989 report of gene
-alterations in tumours), PMC3909110 (photodynamic therapy of retinoblastoma cell lines) and PMC4237942 (susceptibility to
+The ten on-topic papers. `design` says how the gene was varied: **changed** (knocked down, knocked out, deleted or raised in the
+same cells), **compared** (cell lines, tumours or patients that differ in the gene) or **indirect** (the gene moved as a consequence
+of something else that was changed).
+
+| gene | wave | paper | design | verdict | fate reported | what it says |
+|---|---|---|---|---|---|---|
+| PTEN | 1 | Chun-Zhi Z et al., BMC Cancer 2010 (PMC2914702) | changed | contradicts | apoptosis, more of it when PTEN is raised | Raising PTEN in gastric cancer cells made them more radiosensitive and more apoptotic, so low PTEN goes with less of both. The evidence is by restoring PTEN, not by removing it |
+| PTEN | 1 | Chatterjee P et al., PLoS ONE 2013 (PMC3614551) | compared | agrees in direction | senescence | PTEN-null prostate cancer lines lost more clonogenic survival after radiation with a PARP inhibitor, through senescence. Different cell lines, plus a drug |
+| PTEN | 1 | Vahabi M et al., J Exp Clin Cancer Res 2019 (PMC6440033) | changed | contradicts | not reported | Silencing PTEN in head and neck cancer cells made them more resistant to radiation |
+| PTEN | 1 | Mansour WY et al., Sci Rep 2018 (PMC5834544) | changed | agrees in direction | not reported (repair and G2/M checkpoint) | PTEN depletion made prostate cancer cells more radiosensitive; the paper itself cites an earlier study in which PTEN loss went with radioresistance |
+| PTEN | 2 | Brito C et al., BMC Cancer 2019 (PMC6798410) | compared | mixed | not reported (overall survival of patients) | Among glioblastoma patients given radiotherapy alone (74 with a PTEN deletion, 20 without) the paper reports no predictive value of the deletion for the response (p = 0.258). Patients, survival as the measure |
+| PTEN | 2 | He E et al., PLoS ONE 2015 (PMC4441389) | indirect | contradicts | not reported (colony survival) | An oesophageal cancer subline made radioresistant by repeated radiation survived radiation better and had less PTEN; PTEN was changed only to study migration, never survival. An association |
+| PTEN | 2 | Ma X et al., OncoTargets Ther 2018 (PMC6267624) | indirect | contradicts | not reported (colony survival) | Silencing the non-coding RNA ANCR made nasopharyngeal cancer cells more radiosensitive and raised PTEN; PTEN itself was not changed alone, so the link is the authors' interpretation |
+| RB1 | 1 | Robinson TJ et al., PLoS ONE 2013 (PMC3827056) | compared | agrees in direction | not reported (viability) | RB-negative triple-negative breast cancer lines were more sensitive to radiation than RB-positive ones |
+| RB1 | 1 | Agerbaek M et al., Br J Cancer 2003 (PMC2394264) | compared | agrees in direction | cited from earlier work: apoptosis | Loss of pRB staining predicted a better response to radiotherapy in bladder cancer patients; an association, not a controlled loss |
+| RB1 | 2 | Ding W et al., Clinics 2024 (PMC11237859) | changed | contradicts | apoptosis, less after the knockout | CRISPR knockout of RB1 in HPV-positive laryngeal cancer cells made them radioresistant with less radiation-induced apoptosis, and the same happened to tumours in mice. The only paper in which RB1 itself was knocked out |
+
+By design, over both genes: changed 4 papers (1 agrees, 3 contradict), compared 4 (3 agree, 1 mixed), indirect 2 (both contradict).
+
+Set aside as off topic (the reason of each is in the data file). First wave: PMC5627969 (photodynamic therapy), PMC3722247
+(chemo-resistant colon cancer cells and a curcumin analogue), PMC5412766 (the plant homologue RBR1), PMC2247029 (a 1989 report of
+gene alterations in tumours), PMC3909110 (photodynamic therapy of retinoblastoma cell lines) and PMC4237942 (susceptibility to
 radiation-induced osteosarcoma in mice with a low-activity Rb1 promoter variant: tumour induction, not the fate of irradiated
-cells).
+cells). Second wave: PMC3315579 (patients' survival by PTEN status, a prognosis and not a response to radiation), PMC7145659 (repair
+signalling in PTEN-deficient cells, with no survival or sensitivity measured), PMC3909012 (membrane area of glioblastoma lines),
+PMC9237030 (a mouse model of chondrosarcoma from deleting Trp53 and Rb1), PMC5465815 (outcomes of proton therapy for the disease
+retinoblastoma), PMC5385017 (one case report of a tumour with an RB1 mutation that responded to chemotherapy), PMC11049397 (RBBP6,
+a different gene) and PMC4220401 (a case report of the disease in an adult).
 
 ## What it says about the model
 
-- **RB1.** Both papers that are on topic point the way the model does: without RB, more sensitivity to radiation. Two papers are
-  thin evidence, one of them an association in patients' tumours, and neither measures apoptosis as the end state.
-- **PTEN.** The literature read here is split two against two. Two papers point the way the model does, but through
-  senescence and impaired repair, not apoptosis; one of them reports senescence in PTEN-deficient cells, a state the model says
-  a damaged cell without PTEN cannot reach. Two papers report the opposite direction. One of the agreeing papers cites an earlier
-  study with radioresistance. So "PTEN loss leaves only apoptosis" is not supported by this reading, and the direction itself is
-  contested.
-- **Neither.** No paper reports apoptosis as the only fate, which none could be expected to.
+- **RB1.** Three of the twelve papers are on topic. Two (first wave) compared RB-negative lines or tumours with RB-positive ones and
+  found more sensitivity to radiation without RB, the model's direction. One (second wave) knocked RB1 out in the same cells, in
+  culture and in mice, and found radioresistance and less apoptosis, the opposite direction, in the only paper where RB1 itself was
+  changed. So for RB1 the direction is also contested, and the best-designed test of the three points against the model.
+- **PTEN.** Seven of the twelve are on topic: two agree (through senescence, and through impaired repair, not apoptosis; one reports
+  senescence in PTEN-deficient cells, a state the model says a damaged cell without PTEN cannot reach), four contradict and one
+  finds no difference. The first wave alone was two against two; the second wave added two contradicting papers, both indirect, and
+  one without a difference. Where PTEN itself was changed in the same cells, one paper agrees and two contradict. One of the agreeing
+  papers cites an earlier study with radioresistance.
+- **Neither.** No paper reports apoptosis as the only fate, which none could be expected to. So the finer claim of the model, that
+  these losses leave only apoptosis, is not supported by anything read, and the direction it implies is supported by four of the ten
+  on-topic papers and contradicted by five. These are counts, not a vote: the cells, the stresses and the way the gene was changed
+  differ.
+- **What the second wave did.** It moved the picture against the model's direction, mostly through papers with a weak design
+  (indirect or patient survival) and one with the strongest (RB1 knocked out). Because it was decided after seeing the first
+  wave, the first-wave counts are shown next to the combined ones everywhere.
 
 ## Limits
 
-- Six papers per gene, picked by a fixed rule, is small. Six of the twelve were off topic, which is what the rule does by design
-  (it does not replace them). A different query or a different number would give a different set; the candidate lists
-  (`data/literature/pten_rb_candidates.json`) include papers beyond the first six that bear on the question and were not read.
-- The papers are about cancer cell lines and one set of patients' tumours, and about different stresses (radiation alone, radiation
-  with a drug). Cell types and the way the gene was lost (knockdown, null line, raised expression) differ and are noted per paper.
+- Twelve papers per gene, picked by a fixed rule, is small, and 14 of the 24 were off topic, which is what the rule does by design
+  (it does not replace them). RB1 has only 14 qualifying papers in all, so its second wave reaches nearly the end of the list. For
+  PTEN the stored list holds the first 40 hits of the search; many papers beyond rank 12 have titles that look closer to the question
+  and were not read. A different query or a different number would give a different set.
+- The second wave was decided after the first-wave verdicts were seen. The rule fixed which papers were read, and what was
+  decided is listed in Amendment 1, but the decision to read more was not blind to the first results. The `design` field was added
+  after the second wave was read, because two of its papers moved the gene only indirectly; it changes no verdict.
+- The papers are about cancer cell lines, tumours and one clinical cohort, and about different stresses (radiation alone, radiation
+  with a drug). Cell types and the way the gene was changed (knockdown, null line, raised expression, selected subline) differ and are
+  noted per paper.
 - The papers were read by the assistant, from the abstract and the passages that name the gene together with radiation or an
-  outcome. The verdicts are judgements. The quotes can be checked in a minute each.
+  outcome. The verdicts are judgements. The 18 quotes can be checked in a minute each, and code has checked that each one occurs in
+  its paper; a person has not read the papers.
 - Open-access papers with a Creative Commons licence only; the closed literature is not read.
 - Nothing here says that either gene is a target worth acting on. It says whether the model's direction is contradicted.

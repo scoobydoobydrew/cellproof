@@ -179,19 +179,23 @@
   const lit = DS && DS.literature, litCard = $("#litCard");
   if (!lit) litCard.hidden = true;
   else {
-    const on = lit.papers.filter((p) => p.verdict !== "off_topic"), off = lit.papers.filter((p) => p.verdict === "off_topic"), C = lit.counts, G = lit.per_gene;
+    const on = lit.papers.filter((p) => p.verdict !== "off_topic"), off = lit.papers.filter((p) => p.verdict === "off_topic"), C = lit.counts, G = lit.per_gene, W1 = lit.by_wave["1"], D = lit.by_design.changed;
     const VERDICT = { agrees_in_direction: ["good", "agrees in direction"], contradicts: ["bad", "contradicts"], mixed: ["", "mixed"] };
+    const DESIGN = { changed: "gene changed in the same cells", compared: "lines or tumours compared", indirect: "indirect" };
     const genes = Object.keys(G), senescence = on.filter((p) => /senescence/i.test(p.fate_reported || "")).length;
     const split = (v) => genes.map((g) => `${G[g][v]} for ${g}`).join(" and ");
     litCard.innerHTML = `<h3>Does the literature agree?</h3>
       <p class="muted t-note">The model says that after DNA damage a cell without PTEN, or without RB1, ends in apoptosis and nothing else. Papers speak of survival and radiosensitivity, so only the <em>direction</em> can be compared. ` +
-      `The first six open-access papers per gene in Europe PMC's citation order were read under a rule fixed beforehand: ${on.length} of ${lit.papers.length} were on topic. ${C.agrees_in_direction} agree with the direction of the model (${split("agrees_in_direction")}), ` +
-      `${C.contradicts} contradict it (${split("contradicts")}). ${on.every((p) => !p.only_apoptosis_reported) ? "None reports apoptosis as the only fate" : "Some report apoptosis as the only fate"}` +
+      `Open-access papers in Europe PMC's citation order were read under a rule fixed beforehand: six per gene, then, because that was too few, six more by the same rule (decided after the first results, so both waves are shown). ` +
+      `${on.length} of ${lit.papers.length} were on topic. ${C.agrees_in_direction} agree with the direction of the model (${split("agrees_in_direction")}), ` +
+      `${C.contradicts} contradict it (${split("contradicts")})${C.mixed ? `, ${C.mixed} found no difference (${split("mixed")})` : ""}. The first six per gene alone gave ${W1.agrees_in_direction} agreeing and ${W1.contradicts} contradicting. ` +
+      `Where the gene itself was changed in the same cells (knocked down, knocked out, deleted or raised), ${D.agrees_in_direction} agree and ${D.contradicts} contradict. ` +
+      `${on.every((p) => !p.only_apoptosis_reported) ? "None reports apoptosis as the only fate" : "Some report apoptosis as the only fate"}` +
       `${senescence ? `, and ${senescence} reports senescence in cells without the gene` : ""}. Read by the assistant; every quote is checked by code against its paper; a person has not yet checked them.</p>
       <div class="scroll-x"><table class="tbl"><thead><tr><th>Gene</th><th>Paper</th><th>Verdict</th><th>Fate reported</th><th>What it says</th></tr></thead><tbody>` +
-      on.map((p) => `<tr><td><b>${esc(p.gene)}</b></td><td><a href="https://pmc.ncbi.nlm.nih.gov/articles/${esc(p.pmcid)}/" target="_blank" rel="noopener">${esc(p.cite)}</a><div class="t-sub">${esc(p.context)}</div></td>` +
+      on.map((p) => `<tr><td><b>${esc(p.gene)}</b></td><td><a href="https://pmc.ncbi.nlm.nih.gov/articles/${esc(p.pmcid)}/" target="_blank" rel="noopener">${esc(p.cite)}</a><div class="t-sub">wave ${p.wave} · ${esc(DESIGN[p.design])} · ${esc(p.context)}</div></td>` +
         `<td>${tag(...VERDICT[p.verdict])}</td><td>${esc(p.fate_reported || "")}</td><td>${esc(p.note)}</td></tr>`).join("") + `</tbody></table></div>` +
-      `<p class="muted t-note">Read and set aside as off topic (${off.length}), each with its reason in the data file: ${off.map((p) => `${esc(p.cite)} (${esc(p.gene)})`).join("; ")}.</p>`;
+      `<details class="muted t-note"><summary>Read and set aside as off topic (${off.length})</summary>Each with its reason in the data file: ${off.map((p) => `${esc(p.cite)} (${esc(p.gene)})`).join("; ")}.</details>`;
   }
 
   /* ---------- what this does not show ---------- */

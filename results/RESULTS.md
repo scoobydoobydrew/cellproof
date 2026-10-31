@@ -181,16 +181,37 @@ ChEMBL ChEMBL_37, queried 2026-10-31. Nothing is predicted: each count is a numb
 
 ## Literature check: does losing PTEN or RB1 agree with the papers?
 
-12 papers read under a protocol fixed before reading (`docs/literature_check.md`): the first six open-access, non-review papers per gene in Europe PMC's citation order. 6 were on topic: 4 agree with the direction of the model (without the gene, less survival or more apoptosis), 2 contradict it, 0 are mixed; 6 were off topic and are listed with their reason in `data/literature/pten_rb_evidence.json`. 0 of the 6 report apoptosis as the only fate, so the finer claim of the model is not confirmed by any of them. Read by the assistant, not yet checked by a person; a code check confirms that every quote occurs in the paper.
+24 papers read under a protocol fixed before reading (`docs/literature_check.md`): the open-access, non-review papers in Europe PMC's citation order, six per gene in a first wave and, after the first wave had been read and published, six more per gene by the same rule (a second wave, Amendment 1, decided after seeing the first-wave verdicts, so both waves are shown). 10 were on topic: 4 agree with the direction of the model (without the gene, less survival or more apoptosis), 5 contradict it, 1 are mixed or show no difference; 14 were off topic and are listed with their reason in `data/literature/pten_rb_evidence.json`. 0 of the 10 report apoptosis as the only fate, so the finer claim of the model is not confirmed by any of them. Read by the assistant, not yet checked by a person; a code check confirms that every quote occurs in the paper.
 
-| gene | paper | verdict | fate reported | context |
-|---|---|---|---|---|
-| PTEN | Chun-Zhi Z et al. BMC cancer 2010 (PMC2914702) | contradicts | apoptosis (more, when PTEN is raised) | Human gastric cancer cell line SGC7901; PTEN raised by knocking down miR-221/222 or by PTEN cDNA; clonogenic survival after radiation |
-| PTEN | Chatterjee P et al. PLoS ONE 2013 (PMC3614551) | agrees in direction | senescence | Human prostate cancer cell lines (PTEN-null PC3, LNCaP and C4-2 against PTEN-wild-type DU145), radiation together with the PARP inhibitor rucaparib |
-| PTEN | Vahabi M et al. J Exp Clin Cancer Res 2019 (PMC6440033) | contradicts | not reported (viability and colony assays) | Human head and neck cancer cell lines; siRNA against PTEN; 2 Gy |
-| PTEN | Mansour WY et al. Scientific reports 2018 (PMC5834544) | agrees in direction | not reported (the mechanism given is impaired homologous recombination and G2/M checkpoint) | Human prostate cancer cells (DU145) after PTEN depletion, irradiation, and a tissue microarray of prostate cancer samples |
-| RB1 | Robinson TJ et al. PLoS ONE 2013 (PMC3827056) | agrees in direction | not reported (MTT viability assays and the cancer stem cell fraction) | Eight human triple-negative breast cancer cell lines (4 RB-positive, 4 RB-negative); gamma-irradiation, 5 to 10 Gy; MTT viability |
-| RB1 | Agerbaek M et al. British journal of cancer 2003 (PMC2394264) | agrees in direction | apoptosis (cited from earlier work); not measured in the patients' tumours | 108 patients with muscle-invasive bladder cancer; pRB staining of the tumour before preoperative radiotherapy |
+| gene | wave | papers read | on topic | agree | contradict | mixed |
+|---|---|---|---|---|---|---|
+| PTEN | 1 (first six) | 6 | 4 | 2 | 2 | 0 |
+| PTEN | 2 (next six) | 6 | 3 | 0 | 2 | 1 |
+| PTEN | both | 12 | 7 | 2 | 4 | 1 |
+| RB1 | 1 (first six) | 6 | 2 | 2 | 0 | 0 |
+| RB1 | 2 (next six) | 6 | 1 | 0 | 1 | 0 |
+| RB1 | both | 12 | 3 | 2 | 1 | 0 |
+
+By how the gene was varied in the on-topic papers (the indirect designs are the weakest):
+
+| design | what it means | papers | agree | contradict | mixed |
+|---|---|---|---|---|---|
+| changed | the gene was knocked down, knocked out, deleted or raised in the same cells | 4 | 1 | 3 | 0 |
+| compared | cell lines, tumours or patients that differ in the gene were compared | 4 | 3 | 0 | 1 |
+| indirect | the gene moved as a consequence of something else that was changed, or the paper only cites it | 2 | 0 | 2 | 0 |
+
+| gene | wave | paper | design | verdict | fate reported | context |
+|---|---|---|---|---|---|---|
+| PTEN | 1 | Chun-Zhi Z et al. BMC cancer 2010 (PMC2914702) | changed | contradicts | apoptosis (more, when PTEN is raised) | Human gastric cancer cell line SGC7901; PTEN raised by knocking down miR-221/222 or by PTEN cDNA; clonogenic survival after radiation |
+| PTEN | 1 | Chatterjee P et al. PLoS ONE 2013 (PMC3614551) | compared | agrees in direction | senescence | Human prostate cancer cell lines (PTEN-null PC3, LNCaP and C4-2 against PTEN-wild-type DU145), radiation together with the PARP inhibitor rucaparib |
+| PTEN | 1 | Vahabi M et al. J Exp Clin Cancer Res 2019 (PMC6440033) | changed | contradicts | not reported (viability and colony assays) | Human head and neck cancer cell lines; siRNA against PTEN; 2 Gy |
+| PTEN | 1 | Mansour WY et al. Scientific reports 2018 (PMC5834544) | changed | agrees in direction | not reported (the mechanism given is impaired homologous recombination and G2/M checkpoint) | Human prostate cancer cells (DU145) after PTEN depletion, irradiation, and a tissue microarray of prostate cancer samples |
+| PTEN | 2 | Brito C et al. BMC cancer 2019 (PMC6798410) | compared | mixed | not reported (overall survival of patients) | Patients with glioblastoma, IDH-wildtype, given radiotherapy alone: 74 with a PTEN deletion and 20 without; overall survival as the measure of response |
+| PTEN | 2 | He E et al. PLoS ONE 2015 (PMC4441389) | indirect | contradicts | not reported (colony survival, migration and invasion) | Human oesophageal squamous cancer cell line KYSE-150 and a radioresistant subline made by fractionated irradiation (a total of 37 Gy over two months); clonogenic survival after radiation. PTEN was lowered and raised only to study migration and markers of EMT |
+| PTEN | 2 | Ma X et al. OncoTargets and therapy 2018 (PMC6267624) | indirect | contradicts | not reported (colony survival) | Human nasopharyngeal carcinoma cell lines SUNE-1 and HONE-1; siRNA against the long non-coding RNA ANCR; colony survival after 0 to 8 Gy. PTEN was measured, not changed on its own |
+| RB1 | 1 | Robinson TJ et al. PLoS ONE 2013 (PMC3827056) | compared | agrees in direction | not reported (MTT viability assays and the cancer stem cell fraction) | Eight human triple-negative breast cancer cell lines (4 RB-positive, 4 RB-negative); gamma-irradiation, 5 to 10 Gy; MTT viability |
+| RB1 | 1 | Agerbaek M et al. British journal of cancer 2003 (PMC2394264) | compared | agrees in direction | apoptosis (cited from earlier work); not measured in the patients' tumours | 108 patients with muscle-invasive bladder cancer; pRB staining of the tumour before preoperative radiotherapy |
+| RB1 | 2 | Ding W et al. Clinics (Sao Paulo, Brazil) 2024 (PMC11237859) | changed | contradicts | apoptosis (less, after pRB knockout) | HPV-positive laryngeal squamous cell carcinoma cells; CRISPR/Cas9 knockout of RB1 (pRB) or of p53; clonogenic survival and apoptosis after radiation; xenograft tumours in mice given four fractions of 2 Gy |
 
 ## Scaling of the exact checker (M6)
 

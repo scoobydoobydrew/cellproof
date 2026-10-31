@@ -108,11 +108,14 @@ accessions, so a model that takes a protein sequence or accession can be attache
 The honest summary is that the solver's answers survive a second, independent engine, and that they do not lead to a drug.
 That is a result about this one published model, not about biology: the sets are statements about a Boolean abstraction, and
 whether any is real is for the lab. PTEN and RB are named in the model as genes whose loss leaves only apoptosis after
-damage. A first reading of the literature under a fixed protocol (`docs/literature_check.md`, 12 papers, 6 on topic) found: for RB1 both
-on-topic papers point the way the model does; for PTEN two papers do (through senescence and impaired repair, not apoptosis) and two
-report the opposite, and one of the agreeing papers cites an earlier study with radioresistance. No paper reports apoptosis as the
-only fate. So the finer claim of the model is not supported, and for PTEN even the direction is contested; nothing about either gene
-as a target should be said outside this repository beyond that.
+damage. A reading of the literature under a fixed protocol (`docs/literature_check.md`: 24 open-access papers in two waves of six per
+gene, the second wave decided after the first results; 10 on topic) found that no paper reports apoptosis as the only fate, and that
+the direction itself is contested: four of the ten agree with the model's direction, five contradict it and one shows no difference.
+For RB1 the two papers that agree compared lines or tumours, while the only paper in which RB1 itself was knocked out found
+radioresistance and less apoptosis; for PTEN two papers agree (through senescence and impaired repair, not apoptosis) and four
+contradict. The first wave alone had been two against two for PTEN and two for the model's direction for RB1; the second moved the
+picture, and the first-wave counts are kept next to the combined ones. So the finer claim of the model is not supported, and nothing
+about either gene as a target should be said outside this repository beyond that.
 
 ## 4. Reproduce
 
