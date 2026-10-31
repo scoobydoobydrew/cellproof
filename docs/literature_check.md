@@ -30,6 +30,47 @@ finer claim ("only apoptosis").
 The two queries were run, the candidate lists stored and the six papers per gene fixed by the rule before any text was read. The titles of the
 first hits had been seen by then (a first run only printed them); the rule, not the reader, picks the papers.
 
+## Amendment 1: a second wave of six papers per gene
+
+Written 2026-10-31, **after** the first wave had been read and published (commits `2cd6d51` and `ee579e4`), and committed before any text
+of the second wave was downloaded or read.
+
+**Why.** The first wave left too little to say anything: six of its twelve papers were off topic, so RB1 had two on-topic papers and
+PTEN four, split two against two. The project owner agreed to read more. This was decided **after seeing the first-wave verdicts**, so
+the combined result is less clean than the first wave alone, and both are shown side by side everywhere.
+
+**What.** The same rule with a larger number: ranks 7 to 12 of the qualifying papers (a Creative Commons licence, a PMC id, not a
+held-out source) in the candidate lists that were committed in `2cd6d51`. Those lists are Europe PMC's citation order on
+2026-10-31 and were fixed before any of these texts were downloaded; the selection does not search again. Steps 1, 3, 4 and 5 are
+unchanged: an off-topic paper is recorded with its reason and not replaced. The papers, listed before any of them was read:
+
+| gene | rank | paper | year | cited by | licence | title as listed |
+|---|---|---|---|---|---|---|
+| PTEN | 7 | PMC6798410 | 2019 | 60 | cc by | Clinical insights gained by refining the 2016 WHO classification of diffuse gliomas with: EGFR amplification, TERT mutations, PTEN deletion and MGMT methylation |
+| PTEN | 8 | PMC3315579 | 2012 | 53 | cc by | Loss of PTEN is not associated with poor survival in newly diagnosed glioblastoma patients of the temozolomide era |
+| PTEN | 9 | PMC4441389 | 2015 | 48 | cc by | Fractionated Ionizing Radiation Promotes Epithelial-Mesenchymal Transition in Human Esophageal Cancer Cells through PTEN Deficiency-Mediated Akt Activation |
+| PTEN | 10 | PMC7145659 | 2020 | 46 | cc by | USP14 is a deubiquitinase for Ku70 and critical determinant of non-homologous end joining repair in autophagy and PTEN-deficient cells |
+| PTEN | 11 | PMC6267624 | 2018 | 41 | cc by-nc | LncRNA ANCR promotes proliferation and radiation resistance of nasopharyngeal carcinoma by inhibiting PTEN expression |
+| PTEN | 12 | PMC3909012 | 2014 | 38 | cc by | Cell surface area and membrane folding in glioblastoma cell lines differing in PTEN and p53 status |
+| RB1 | 7 | PMC9237030 | 2022 | 12 | cc by | Mice with Trp53 and Rb1 deficiency in chondrocytes spontaneously develop chondrosarcoma via overactivation of YAP signaling |
+| RB1 | 8 | PMC5465815 | 2017 | 11 | cc by-nc-nd | Analysis of patient outcomes following proton radiation therapy for retinoblastoma |
+| RB1 | 9 | PMC5385017 | 2017 | 11 | cc by | Myoepithelial carcinoma with RB1 mutation: remarkable chemosensitivity to carcinoma of unknown origin therapy |
+| RB1 | 10 | PMC11049397 | 2024 | 4 | cc by | Probing the Effects of Retinoblastoma Binding Protein 6 (RBBP6) Knockdown on the Sensitivity of Cisplatin in Cervical Cancer Cells |
+| RB1 | 11 | PMC4220401 | 2014 | 3 | cc by-nc-sa | Resistant retinoblastoma in a 23-year-old patient |
+| RB1 | 12 | PMC11237859 | 2024 | 1 | cc by | P53 and pRB induction improves response to radiation therapy in HPV-positive laryngeal squamous cell carcinoma |
+
+**Rules for this amendment.**
+- One extension, of a size fixed now. No further paper is read under this protocol; a later extension would be written here as
+  Amendment 2 with its reason.
+- Nothing read in the second wave changes a first-wave verdict or quote. If one is changed anyway, the change and its reason are
+  listed in this log.
+- The titles of every stored candidate, also those beyond rank 12, had been seen when this was written, and some look closer to the
+  question than the second wave does. The rule is kept anyway, because choosing by title would let the reader pick the papers.
+  RB1 has only 14 qualifying papers in all, so its second wave reaches almost the end of the list.
+- This restates step 3 and keeps every first-wave decision as it was: a paper is on topic only if it compares cells or tumours with
+  and without the gene, or with it lowered or raised, and reports their response to radiation or DNA damage. A patient survival
+  figure with no such contrast is off topic, and the reason is written down.
+
 ## What was found
 
 12 papers read; 6 on topic, 6 set aside.
