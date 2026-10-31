@@ -437,7 +437,49 @@ def downstream_block() -> dict | None:
     rows = [{"id": r["id"], "label": r["label"], "knock_out_only": r["knock_out_only"], "only_apoptosis_in": r["only_apoptosis_in"], "with_p53_lost": r["with_p53_lost"],
              "literals": [{"node": p["node"], "action": p["action"], "kind": p["kind"], "note": p["note"],
                            "genes": [{k: g[k] for k in ("symbol", "name", "hgnc_id", "uniprot_ids")} for g in p["genes"]]} for p in r["literals"]]} for r in targets["rows"]]
-    return {"targets": rows, "compounds": compounds, "literature": literature_block()}
+    return {"targets": rows, "compounds": compounds, "literature": literature_block(), "sequences": sequences_block(), "genotypes": genotypes_block()}
+
+
+def sequences_block() -> dict | None:
+    """Start-aware and sequential analysis as the page shows it (results/sequences.json, with the tissue's check of the sets it found)."""
+    d = _read(ROOT / "results" / "sequences.json")
+    if not d:
+        return None
+    tissue = _read(ROOT / "results" / "tissue" / "summary.json") or {"rows": [], "settings": {"max_time": 0}}
+
+    def part(p: dict) -> dict:
+        s = p["summary"]
+        alone = {tuple(r["literal"]) for r in p["singles"] if r["h1"]}
+        some_order = [r for r in p["pairs"] if (r["h2_ab"] or r["h2_ba"]) and not r["h1"]]  # hits only when the changes are made one after the other
+        from cellproof.analysis.interventions import describe
+
+        at_once = [describe(tuple(tuple(l) for l in r["literals"])) for r in p["pairs"] if r["h1"] and not (r["h2_ab"] or r["h2_ba"])]  # hits only when made together
+        return {"survive": p["radiation_alone"]["reachable"], "h2_only": len(some_order), "h2_only_with_single_hit": sum(any(tuple(l) in alone for l in r["literals"]) for r in some_order), "at_once_only": at_once, "at_once_stuck": sorted({f for r in p["pair_details"] if (r["h1"] and not (r["h2_ab"] or r["h2_ba"])) for key in ("ab_fates", "ba_fates") for f in r[key]["after_stage_1"] if f != "apoptosis"}), "h0": len(s["h0_minimal"]), "h0_equals_solver": s["h0_equals_solver"], "h1": len(s["h1_minimal"]), "h1_only": s["h1_only"],
+                "pairs": s["pairs"], "pairs_h1": s["pairs_h1"], "pairs_h2": s["pairs_h2_either_order"], "sequence_only": len(s["sequence_only"]),
+                "kinases": {"nodes": p["kinases"]["nodes"], "sequences": p["kinases"]["sequences"], "hits": p["kinases"]["hits"], "fate_sets": p["kinases"]["fate_sets"]}}
+
+    v = d["validation"]
+    return {"all_attractors": d["settled"]["radiation_alone"]["all_attractors"], "settled": part(d["settled"]), "visit": part(d["visit"]),
+            "validation": {k: v[k] for k in ("agree_below", "total", "v1_fates_within_reachable", "v1_only_apoptosis_leaves_few", "v2_survival_matches", "v2_fates_visited")}
+                          | {"v1_failed": [r["name"] for r in v["conditions"] if not r["v1_fates_within_reachable"]]},
+            "novel": [{"label": r["label"], "alive": r["alive_end"], "cells": r["cells"]} for r in tissue["rows"] if r["group"] == "novel"], "hours": tissue["settings"]["max_time"] / 60,
+            "s2": {k: d["s2"][k] for k in ("triples", "searched", "sequences")} | {"hits": len(d["s2"]["h1_minimal"]), "sequence_only": len(d["s2"]["sequence_only"])} if "s2" in d else None}
+
+
+def genotypes_block() -> dict | None:
+    """Tumour genotypes as constraints on the model as the page shows them (results/genotypes.json): counts under R1 and R2 and the most frequent signatures."""
+    d = _read(ROOT / "results" / "genotypes.json")
+    if not d:
+        return None
+
+    def rule(r: dict) -> dict:
+        return {"samples": r["samples"], "studies": r["studies"], "signatures": r["distinct_signatures"], "altered": r["altered"], "tp53_lost": r["tp53_lost"], "baseline": r["baseline"], "alone_lost_only_apoptosis": r["baseline_tp53_lost"]["only_apoptosis"],
+                "searched": len(r["top_signatures"]), "searched_tp53_lost": sum(["p53", 0] in t["signature"] for t in r["top_signatures"]),
+                "searched_tp53_lost_found": sum(bool(t["specific_sets"]) for t in r["top_signatures"] if ["p53", 0] in t["signature"]),
+                "sets": [{"label": s["label"], "all": s["all"]["only_apoptosis"], "intact": s["tp53_intact"]["only_apoptosis"], "lost": s["tp53_lost"]["only_apoptosis"]} for s in r["sets"]],
+                "top": [{k: t[k] for k in ("signature", "samples", "baseline", "baseline_fates", "specific_sets")} | {"works": len(t["sets_that_leave_only_apoptosis"])} for t in r["top_signatures"][:10]]}
+
+    return {"queried": d["source"]["queried"], "nodes": len(d["nodes"]), "r1": rule(d["r1"]), "r2": rule(d["r2"])}
 
 
 def literature_block() -> dict | None:

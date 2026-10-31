@@ -52,9 +52,31 @@ def test_the_chemistry_block_names_the_solvers_proteins_first_and_flags_assays_t
     assert all(p["only_apoptosis"] for p in (by["PTEN"], by["RB1"])) and not any(by[s]["only_apoptosis"] for s in ("ATR", "CHEK1", "CHEK2", "WEE1", "PRKDC"))
 
 
+@pytest.mark.skipif(not (ROOT / "results" / "sequences.json").exists() or not (ROOT / "results" / "genotypes.json").exists(), reason="results/sequences.json or results/genotypes.json has not been written")
+def test_the_sequence_and_genotype_blocks_state_only_what_the_stored_files_say():
+    blocks = downstream_block()
+    sq, gt = blocks["sequences"], blocks["genotypes"]
+    stored = json.loads((ROOT / "results" / "sequences.json").read_text(encoding="utf-8"))
+    assert sq["validation"]["total"] == 23 and sq["validation"]["v1_fates_within_reachable"] == 15 and sq["validation"]["v2_survival_matches"] == 23
+    assert sq["validation"]["v1_failed"] == ["hit_03", "hit_05", "hit_06", "hit_07", "miss_01", "miss_02", "miss_03", "miss_07"]
+    assert sq["settled"]["survive"] == ["apoptosis", "senescence"] and sq["visit"]["survive"] == ["senescence"] and sq["all_attractors"] == ["apoptosis", "arrest", "autophagy", "senescence"]
+    for death in ("settled", "visit"):
+        assert sq[death]["h2_only"] == sq[death]["h2_only_with_single_hit"] and sq[death]["sequence_only"] == 0  # what the page says about pairs that work only in some order
+        assert sq[death]["h1_only"] == stored[death]["summary"]["h1_only"]
+    assert [r["alive"] for r in sq["novel"]] == [0, 0, 0] and all(r["cells"] == 1663 for r in sq["novel"]) and sq["hours"] == 72
+    assert sq["visit"]["at_once_only"] == ["AMPK_MAPK KO + CHK1 KO"] and sq["visit"]["at_once_stuck"] == ["senescence"]  # the sentence of the card about the pair that works only at once
+    assert sq["s2"] == {"triples": 1771, "searched": 1122, "sequences": 14586, "hits": 0, "sequence_only": 0}
+    g = json.loads((ROOT / "results" / "genotypes.json").read_text(encoding="utf-8"))
+    assert gt["r1"]["samples"] == gt["r2"]["samples"] == 9896 and gt["r1"]["tp53_lost"] == g["r1"]["tp53_lost"] and len(gt["r1"]["sets"]) == 11
+    assert gt["r1"]["searched"] == gt["r2"]["searched"] == 20 and (gt["r1"]["searched_tp53_lost"], gt["r2"]["searched_tp53_lost"]) == (5, 11)
+    assert gt["r1"]["searched_tp53_lost_found"] == gt["r2"]["searched_tp53_lost_found"] == 0 and gt["r1"]["alone_lost_only_apoptosis"] == 0  # the sentences of the genotype card
+    assert all(s["lost"] == 0 for r in ("r1", "r2") for s in gt[r]["sets"])
+
+
 def test_the_page_has_the_tissue_section_and_its_script_is_part_of_the_build():
     head, body, script = parts({"x": 1})
     assert 'id="tissue"' in body and 'id="tCanvas"' in body and 'id="downCard"' in body and "Tissue what-if" in script
+    assert 'id="seqCard"' in body and 'id="genoCard"' in body and "Does the order of the changes matter?" in script and "Do the answers survive a tumour's genotype?" in script
     assert (WEB / "tissue.js").read_text(encoding="utf-8").startswith("/* Tissue what-if.")
     page = (WEB / "tissue.js").read_text(encoding="utf-8")
     for word in ("clinical trial", "proof", "patient"):

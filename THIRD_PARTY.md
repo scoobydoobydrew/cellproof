@@ -75,11 +75,25 @@ run is made at run time by patching the one of PhysiBoSS's cell-lines sample, re
   (git-ignored) and are not redistributed.
 - HGNC (REST `fetch/symbol`, CC0): symbol, name, HGNC id, locus group and UniProt ids of the genes in the solver's sets, cached in
   `data/ontology/hgnc_targets.json`.
+- cBioPortal public API (`https://www.cbioportal.org/api`, no key) and the TCGA PanCancer Atlas studies it serves (`docs/genotype_protocol.md`):
+  somatic mutations and GISTIC copy-number calls of 22 genes for 9,896 tumour samples. Data licence: ODC Open Database License, with attribution to
+  the original studies (cBioPortal FAQ, read 2026-10-31). To be cited: Cerami et al. 2012 (Cancer Discov), Gao et al. 2013 (Sci Signal), de Bruijn et al.
+  2023 (Cancer Res) and the TCGA PanCancer Atlas (Hoadley et al. 2018, Cell). The raw responses are cached in `data/raw/cbioportal` (git-ignored); what is committed
+  is `data/genotypes/tcga_pancan_signatures.json`, counts of genotype signatures per study with no sample or patient identifier (a test checks that no TCGA
+  barcode is in the file).
+- Two papers the project owner supplied are the source of ideas, not of code or data: Mandon et al., "Algorithms for the Sequential Reprogramming of Boolean
+  Networks", IEEE/ACM TCBB 2019 (not open access; read from a copy, nothing copied; `docs/sequential_protocol.md` implements a special case with AEON, not their
+  algorithm or tool), and Montagud et al., "Patient-specific Boolean models of signalling networks guide personalised treatments", eLife 2022 (CC BY;
+  `docs/genotype_protocol.md` follows only the idea of forcing the nodes of altered genes; none of its code, models or data is used).
 
 ## Considered and not used
 
 - DrugBank: academic downloads need an application and its terms do not allow redistributing the data (terms read on
   2026-10-31 at trust.drugbank.com), so it could neither be committed nor reproduced by someone else.
+- Sgariglia et al., "Optimizing therapeutic targets for breast cancer using boolean network models", Computational Biology and Chemistry 109, 108022 (2024),
+  supplied by the project owner and read in full: its way of picking targets (modules of the network and Dijkstra shortest paths from five known targets to the
+  apoptosis genes, in a 131-node model of one cell line whose functions were tuned to one published experiment) is a heuristic with no guarantee, while the
+  exhaustive solver here already searches every set of up to two changes in seconds. It was not implemented.
 - MSF-DTA (Ma et al., IEEE JBHI 27(4):2128-2137, 2023, doi 10.1109/JBHI.2023.3240305): no public code or weights were found
   (searched on 2026-10-31), so it could not be run. See `docs/downstream_notes.md` for why no other drug-affinity model was
   substituted.

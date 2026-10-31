@@ -28,7 +28,7 @@ commits the files.
 ## Where things stand (updated 2026-10-31) and what is left until the submission
 
 Done by the assistant and checked by tests: the pipeline, the audit, the report page, the tissue what-if, the target list, the
-ChEMBL snapshot, the click page for the two reading tasks, the secret scan of the new files (clean on 2026-10-31; run it again
+ChEMBL snapshot, the click page for the two reading tasks, the literature check of PTEN and RB (24 papers), the start-aware and sequential analysis and the genotype study (each with a protocol committed before its results), the secret scan of the new files (clean on 2026-10-31; run it again
 the moment before the repository is made public), `THIRD_PARTY.md` (new entries for PhysiBoSS, MaBoSS, ChEMBL, HGNC use,
 and what was considered and not used).
 

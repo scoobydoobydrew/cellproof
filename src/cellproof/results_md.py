@@ -243,6 +243,107 @@ def literature_section() -> str:
     return "\n".join(lines) + "\n"
 
 
+def sequences_section() -> str:
+    from cellproof.analysis.interventions import describe
+
+    head = "## Sequences of interventions and the start-aware analysis (docs/sequential_protocol.md)"
+    d = _load(ROOT / "results" / "sequences.json")
+    if not d:
+        return f"{head}\n\nNot run yet (`python -m cellproof.cli sequences`).\n"
+    v, s0, s1 = d["validation"], d["settled"], d["visit"]
+    summary = _load(ROOT / "results" / "tissue" / "summary.json") or {"rows": []}
+    novel = [r for r in summary["rows"] if r["group"] == "novel"]
+    pct = lambda n, m: f"{100 * n / m:.1f}%"  # noqa: E731
+    failed = [r["name"] for r in v["conditions"] if not r["v1_fates_within_reachable"]]
+    at_once = lambda part: [describe(tuple(tuple(l) for l in r["literals"])) for r in part["pairs"] if r["h1"] and not (r["h2_ab"] or r["h2_ba"])]  # noqa: E731
+
+    def stuck(part: dict) -> list[str]:
+        """The surviving fates after the first change, in either order, of the pairs that work only at once."""
+        names = {frozenset(tuple(l) for l in r["literals"]) for r in part["pairs"] if r["h1"] and not (r["h2_ab"] or r["h2_ba"])}
+        found = {f for r in part["pair_details"] if frozenset(tuple(l) for l in r["literals"]) in names for key in ("ab_fates", "ba_fates") for f in r[key]["after_stage_1"] if f != "apoptosis"}
+        return sorted(found)
+    lines = [head, "",
+             "Exact symbolic reachability and attractors (AEON) of the checked 34-node network, asynchronous updating, from the healthy cell at the moment of irradiation, "
+             "under two meanings of \"dead\": `settled` (a cell is dead when it has settled in an apoptosis fixed point; the protocol as first written) and `visit` "
+             "(dead as soon as it enters any apoptosis state, which is what the tissue simulation implements; added by Amendment 1 after the first validation failed). "
+             "H0 is the solver's question over all attractors, H1 the same from the healthy start, H2 an ordered list of stages with settling in between.", "",
+             "| | settled | visit |", "|---|---|---|",
+             f"| radiation alone: attractors that exist | {', '.join(s0['radiation_alone']['all_attractors'])} | same |",
+             f"| radiation alone: fates a cell can end in, from a healthy start | {', '.join(s0['radiation_alone']['reachable'])} | {', '.join(s1['radiation_alone']['reachable'])} (the only one it can survive in) |",
+             f"| minimal sets under H0 | {len(s0['summary']['h0_minimal'])}, equal to the solver's: {s0['summary']['h0_equals_solver']} | {len(s1['summary']['h0_minimal'])} |",
+             f"| minimal sets under H1 | {len(s0['summary']['h1_minimal'])} | {len(s1['summary']['h1_minimal'])} |",
+             f"| found by H1 and not by the solver | {', '.join(s0['summary']['h1_only'])} | {', '.join(s1['summary']['h1_only'])} |",
+             f"| pairs of literals: hits as one stage / hits in some order | {s0['summary']['pairs_h1']} / {s0['summary']['pairs_h2_either_order']} of {s0['summary']['pairs']} | {s1['summary']['pairs_h1']} / {s1['summary']['pairs_h2_either_order']} of {s1['summary']['pairs']} |",
+             f"| **sequence-only pairs** (a hit in some order, not as one stage, no literal a hit alone) | {len(s0['summary']['sequence_only'])} | {len(s1['summary']['sequence_only'])} |",
+             f"| **pairs that work only when both changes are made at once** (a hit as one stage, in neither order) | {', '.join(at_once(s0)) or 'none'} | {', '.join(at_once(s1)) or 'none'} |",
+             f"| the five kinases of the brief, knocked out: sequences tried / hits | {s0['kinases']['sequences']} / {s0['kinases']['hits']} | {s1['kinases']['sequences']} / {s1['kinases']['hits']} |",
+             *([f"| three knock-outs on three nodes (S2): sets searched (the rest contain a smaller hit) / ordered lists of stages / hits as one stage / sequence-only | not run | "
+                f"{d['s2']['searched']:,} of {d['s2']['triples']:,} / {d['s2']['sequences']:,} / {len(d['s2']['h1_minimal'])} / {len(d['s2']['sequence_only'])} |"] if "s2" in d else []),
+             "", "Every pair that is a hit in some order but not as one stage contains a literal that is a hit alone (the first stage already left no cell alive), so settling in between "
+             "adds nothing in this model that one stage does not find."
+             + (f" The reverse happens {len(at_once(s1))} time{'s' if len(at_once(s1)) != 1 else ''}: {', '.join(at_once(s1))} works only when the changes are made at once, because in either order "
+                f"the first change leaves cells that settle in {', '.join(stuck(s1)) or 'a surviving state'} and the second no longer moves them (the fates after each stage are in `pair_details` of `results/sequences.json`)." if at_once(s1) else "")
+             + " The fates the five kinases leave, over all their sequences:", "",
+             "| meaning | fates reachable and survivable | sequences |", "|---|---|---|"]
+    for death, part in (("settled", s0), ("visit", s1)):
+        for f in part["kinases"]["fate_sets"]:
+            lines.append(f"| {death} | {', '.join(f['fates']) or 'none'} | {f['sequences']} |")
+    lines += ["", f"**Against the tissue runs** ({v['total']} conditions: radiation alone, the solver's 11 sets, 11 rejected sets). "
+              f"V1, fixed before any result, `settled`: the simulated fates are reachable attractor fates in {v['v1_fates_within_reachable']} of {v['total']} (**failed** for {', '.join(failed)}); "
+              f"where no cell can survive fewer than {100 * v['agree_below']:g}% are alive, {v['v1_only_apoptosis_leaves_few']} of {v['total']}. "
+              f"V2, added after V1 had failed, `visit`: the exact analysis says a cell can survive exactly when {100 * v['agree_below']:g}% or more are alive, {v['v2_survival_matches']} of {v['total']}; "
+              f"every simulated fate is the phenotype of a reachable state, {v['v2_fates_visited']} of {v['total']}."]
+    if novel:
+        lines += ["", f"V3, a prediction written down before the runs: the {len(novel)} sets that H1 finds and the solver does not leave no cell alive. Tissue result after "
+                  f"{summary['settings']['max_time'] / 60:g} h: " + "; ".join(f"{r['label']}: {r['alive_end']} of {r['cells']:,} alive" for r in novel) + ". "
+                  "Both engines run the same Boolean rules, so this checks the translation and the two analyses against each other, not the biology."]
+    lines += ["", "| tissue condition | simulated fates | share alive | exact, settled: attractor fates | exact, visit: can survive in | V1 | V2 |", "|---|---|---|---|---|---|---|"]
+    for r in v["conditions"]:
+        lines.append(f"| {r['name']}: {r['label']} | {', '.join(r['simulated_fates'])} | {pct(round(r['alive_share'] * 1000), 1000)} | {', '.join(r['settled_reachable'])} | "
+                     f"{', '.join(r['visit_survivors']) or 'no cell'} | {'ok' if r['v1_fates_within_reachable'] else 'failed'} | {'ok' if r['v2_survival_matches'] and r['v2_fates_visited'] else 'failed'} |")
+    return "\n".join(lines) + "\n"
+
+
+def genotypes_section() -> str:
+    head = "## Tumour genotypes as constraints on the model (docs/genotype_protocol.md)"
+    d = _load(ROOT / "results" / "genotypes.json")
+    if not d:
+        return f"{head}\n\nNot run yet (`python -m cellproof.cli genotypes`).\n"
+    r1, r2 = d["r1"], d["r2"]
+    pct = lambda n, m: f"{n:,} ({100 * n / m:.1f}%)"  # noqa: E731
+    lines = [head, "",
+             f"{r1['samples']:,} tumour samples with mutation and copy-number data from {r1['studies']} TCGA PanCancer Atlas studies (cBioPortal, queried {d['source']['queried']}; "
+             f"{d['source']['licence']}). A node is forced to 0 by a homozygous deletion or a truncating mutation of its gene and to 1 by a high-level amplification, "
+             f"{len(d['nodes'])} nodes can carry a genotype, everything else (missense, shallow copy number, expression) is ignored. R1 is that rule; R2 also counts every protein-changing "
+             "TP53 mutation as a loss, a deliberately broad bound. Counts of signatures are stored, never a sample or a person. "
+             "A share of samples is a statement about a model constrained by a crude rule, not about tumours or people.", "",
+             "| | R1 | R2 |", "|---|---|---|",
+             f"| distinct signatures | {r1['distinct_signatures']} | {r2['distinct_signatures']} |",
+             f"| samples with at least one forced node | {pct(r1['altered'], r1['samples'])} | {pct(r2['altered'], r2['samples'])} |",
+             f"| samples with TP53 lost | {pct(r1['tp53_lost'], r1['samples'])} | {pct(r2['tp53_lost'], r2['samples'])} |",
+             f"| the genotype alone leaves only apoptosis | {pct(r1['baseline']['only_apoptosis'], r1['samples'])} | {pct(r2['baseline']['only_apoptosis'], r2['samples'])} |",
+             f"| the genotype alone leaves no stable state (the network oscillates) | {pct(r1['baseline']['no_stable_state'], r1['samples'])} | {pct(r2['baseline']['no_stable_state'], r2['samples'])} |",
+             f"| of those with TP53 lost, only apoptosis | {r1['baseline_tp53_lost']['only_apoptosis']} | {r2['baseline_tp53_lost']['only_apoptosis']} |",
+             "", "Each of the solver's 11 sets on top of the genotype: samples for which the cell then has only apoptosis (a set that asks for the opposite of what the genotype forces is not applicable and does not count).", "",
+             "| set | R1, all samples | R1, TP53 not lost | R1, TP53 lost | R2, all samples | R2, TP53 not lost | R2, TP53 lost | not applicable, R1 |", "|---|---|---|---|---|---|---|---|"]
+    for a, b in zip(r1["sets"], r2["sets"]):
+        lines.append(f"| {a['label']} | {pct(a['all']['only_apoptosis'], r1['samples'])} | {pct(a['tp53_intact']['only_apoptosis'], r1['samples'] - r1['tp53_lost'])} | {a['tp53_lost']['only_apoptosis']} of {r1['tp53_lost']} | "
+                     f"{pct(b['all']['only_apoptosis'], r2['samples'])} | {pct(b['tp53_intact']['only_apoptosis'], r2['samples'] - r2['tp53_lost'])} | {b['tp53_lost']['only_apoptosis']} of {r2['tp53_lost']} | {a['all']['not_applicable']} |")
+    for rule, r in (("R1", r1), ("R2", r2)):
+        lines += ["", f"The most frequent signatures under {rule}, with the exhaustive search for sets of up to two literals on the network with the genotype forced "
+                      "(none is needed where the genotype alone already leaves only apoptosis):", "",
+                  "| samples | forced nodes (- off, + on) | the genotype alone | solver sets that still work | sets found for this genotype |", "|---|---|---|---|---|"]
+        for t in r["top_signatures"]:
+            sig = " ".join(f"{n}{'-' if v == 0 else '+'}" for n, v in t["signature"])
+            found = "not needed" if t["specific_sets"] is None else ("none" if not t["specific_sets"] else (f"{len(t['specific_sets'])} (the solver's)" if len(t["specific_sets"]) == 11 else "; ".join(t["specific_sets"])))
+            alone = "only apoptosis" if t["baseline"] == "only_apoptosis" else ("no stable state" if t["baseline"] == "no_stable_state" else ", ".join(t["baseline_fates"]))
+            lines.append(f"| {t['samples']} | {sig} | {alone} | {len(t['sets_that_leave_only_apoptosis'])} of 11 | {found} |")
+    lines += ["", "Per study under R1:", "", "| study | samples | with a forced node | TP53 lost | genotype alone: only apoptosis | best of the 11 sets: only apoptosis |", "|---|---|---|---|---|---|"]
+    for s in r1["per_study"]:
+        lines.append(f"| {s['study'].removesuffix('_tcga_pan_can_atlas_2018')} | {s['samples']} | {s['altered']} | {s['tp53_lost']} | {s['baseline_only_apoptosis']} | {max(s['sets_only_apoptosis'])} |")
+    return "\n".join(lines) + "\n"
+
+
 def scaling_section() -> str:
     rows = _load(ROOT / "results" / "scaling.json")
     if not rows:
@@ -261,5 +362,5 @@ def scaling_section() -> str:
 
 def render() -> str:
     parts = ["# Results", "", "Generated by `python -m cellproof.cli verify` from cached model outputs; do not edit by hand.", "",
-             extraction_section(), augmentation_section(), heldout_section(), interventions_section(), search_section(), labels_section(), checks_section(), tissue_section(), compounds_section(), literature_section(), scaling_section()]
+             extraction_section(), augmentation_section(), heldout_section(), interventions_section(), search_section(), labels_section(), checks_section(), tissue_section(), sequences_section(), genotypes_section(), compounds_section(), literature_section(), scaling_section()]
     return "\n".join(parts)

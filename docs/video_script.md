@@ -78,3 +78,12 @@ the ChEMBL database existed before the week and that the translation of the netw
 numbers on screen come from `results/tissue/summary.json`; read them off the page. If PTEN or RB appears on screen, say that it is the model's
 answer: the literature check (`docs/literature_check.md`, 24 papers, 10 on topic) does not support it, since four papers agree with the model's direction and five
 contradict it, and no paper reports apoptosis as the only fate.
+
+**Optional second beat (10 to 15 seconds, only if the first one is shown): predicted before, confirmed in the tissue.** Scroll to "Does the
+order of the changes matter?". Say only: "an exact analysis that starts from a healthy cell found three more sets than the solver, and
+predicted before any simulation that none of the cells would survive them; the tissue simulation then left none of 1,663 alive in each".
+If asked about the first validation, say that it was written before the results, failed for 8 of 23 conditions because the two engines
+mean different things by "dead", and was amended afterwards and labelled as such. Say that no pair of changes, and no order of the five
+kinases named in the brief, works only in a particular order in this model. Do not say "proved", "therapy", "treatment" or "personalised". The
+genotype card ("Do the answers survive a tumour's genotype?") is a statement about the model's dependence on p53 measured on public tumour
+counts, never about a person.

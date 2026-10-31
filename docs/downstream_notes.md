@@ -57,7 +57,8 @@ solver rejects, drawn with a fixed seed (misses); radiation alone with two other
 **Findings worth saying.**
 - Under radiation alone a few cells survive, and every survivor is in senescence. The model has four stable end states
   (arrest, senescence, autophagy, apoptosis), but a healthy cell under equal rates reaches only two of them, here and in the plain
-  simulation. The other two appear only under some interventions among the misses. So "a damaged cell can pause, age, recycle
+  simulation, and exact reachability from the healthy start (section 4) says the same: only apoptosis and senescence can be reached
+  at all. The other two appear only under some interventions among the misses. So "a damaged cell can pause, age, recycle
   itself or die" is true of the model's stable states; it is not true of what happens to most cells.
 - The fate mix hardly depends on the apoptosis rate over three orders of magnitude.
 - Misses behave as the solver says they would: some leave about as many cells as radiation alone, some leave most or all.
@@ -94,7 +95,8 @@ Nothing is predicted. `results/compounds.json` is the snapshot (it needs the net
   filter them out silently.
 - The kinases the brief names have thousands of records each, and the model does not say that knocking any of them out alone
   leaves only apoptosis (the table in `results/RESULTS.md` gives what it does say). So where the solver points there is no
-  chemistry, and where the chemistry is the solver does not point.
+  chemistry, and where the chemistry is the solver does not point, with one exception that appeared later (section 4): the start-aware
+  analysis finds CHK1 knocked out together with AMPK_MAPK, a node that merges two entities and has no single protein to inhibit.
 
 **Why no drug-affinity model (MSF-DTA or another) was run.** (a) The MSF-DTA paper (Ma et al., IEEE JBHI 2023) has no public
 code or weights that could be found, and a reimplementation from an abstract would not be MSF-DTA. (b) A model of drug-target
@@ -117,12 +119,58 @@ contradict. The first wave alone had been two against two for PTEN and two for t
 picture, and the first-wave counts are kept next to the combined ones. So the finer claim of the model is not supported, and nothing
 about either gene as a target should be said outside this repository beyond that.
 
-## 4. Reproduce
+## 4. Does the order of the changes matter? (`docs/sequential_protocol.md`)
+
+The idea is Mandon et al. (IEEE/ACM TCBB 2019): waiting between perturbations lets the dynamics prepare the ground. The protocol was
+written before any result and committed; Amendment 1, written after the first results, is in the same file. The code is
+`src/cellproof/analysis/sequential.py` (exact forward reachability and attractors with AEON; a special case of their framework, not
+their tool) and `sequence_search.py`; `python -m cellproof.cli sequences` writes `results/sequences.json`.
+
+**Findings.**
+- From a healthy cell at the moment of irradiation only two of the four stable states can be reached (apoptosis, senescence), and a
+  cell can survive in one (senescence). That is the tissue run's finding, now exact. The solver's question (all attractors, from any
+  start) is stricter; its 11 minimal sets are reproduced exactly by the all-attractor reading.
+- The start-aware reading finds three more minimal sets: AMPK_MAPK KO with CHK1 KO, Cdc25 forced on, Sirt1 forced on. This was
+  predicted before they were simulated, and in the tissue none of 1,663 cells was alive after 72 h in each (V3). Both engines run the
+  same Boolean rules, so this checks the translation and the two analyses against each other, not the biology.
+- **Sequences find nothing new.** Of 1,012 pairs of changes none works only in a particular order: every pair that works in some
+  order but not at once contains a change that works alone (the first stage already left no cell alive). None of the 1,081 orders
+  and groupings of the five kinases named in the brief (ATR, CHK1, CHK2, WEE1, DNA-PK knocked out) leaves only apoptosis; they end
+  in no response at all (an unclassified stable state) or in senescence. Of the 1,771 sets of three knock-outs on three nodes, 1,122 contain no smaller set that already works; all 14,586 ways of applying them (at once, or in any order and grouping into stages) were searched under the meaning the simulation implements, and none leaves only apoptosis.
+- **Ordering can also hurt.** One pair works only when both changes are made at once (AMPK_MAPK KO with CHK1 KO): in either order the first change leaves cells that settle in senescence, a stable state, and the second no longer moves them. In this model a later change cannot reach a cell that has already settled in senescence, so the only sequences that could matter act before the cells commit.
+- **The first validation failed.** V1, written before any result, held for 15 of 23 tissue conditions, because the simulation commits
+  a cell to death the first time it touches an apoptosis state while the protocol asked for a settled apoptosis state. V2, with the
+  simulation's meaning, was added after seeing that and holds for 23 of 23; V3 is its out-of-sample test. Both are reported.
+
+**Limits.** Permanent changes made one after the other with the cell left to settle in between; no changes that are released again,
+no fixed delays, no kinetics, and nobody can watch a cell settle. A negative result here is about that restricted kind of sequence
+in this model.
+
+## 5. Tumour genotypes as constraints on the model (`docs/genotype_protocol.md`)
+
+The idea is Montagud et al. (eLife 2022): force the nodes of altered genes to tailor a Boolean model to a sample. Only the discrete
+part is done, by a rule fixed before any outcome (deleted or truncated: off; high-level amplification: on; everything else ignored;
+R2 also counts every protein-changing TP53 mutation as a loss, as a bound), on 9,896 TCGA PanCancer Atlas tumour samples from the
+cBioPortal API. Only counts of signatures are stored. `python -m cellproof.cli genotypes [--fetch]` writes `results/genotypes.json`.
+
+**Findings.** TP53 is lost in 14.2% (R1) to 38.6% (R2) of the samples, and for none of them does any of the 11 sets leave only
+apoptosis; for the 20 most frequent genotypes of each rule no set of up to two changes does either where TP53 is lost. With TP53
+intact each set works in about 95% to 96.5% of the samples (one in 80.4%). In 17.6% of the samples (R1) the genotype alone already
+leaves only apoptosis in the model (PTEN lost, RB1 lost, MYC or E2F1 amplified): the model's answer for exactly the two genes the
+literature check does not support. For PPM1D amplified none of the 11 sets works and one other set does (Cdc25 on with Sirt1 off).
+
+**Limits.** 22 of the 34 nodes can carry a genotype; missense effects and expression are ignored; the model is one DNA damage
+network, not a model of any of the 32 cancer types; a bulk sample is a mixture of cells. It is a statement about how the model's
+answers depend on genotype, never about a person.
+
+## 6. Reproduce
 
 ```bash
 bash scripts/physiboss_setup.sh          # once, in WSL or Linux: clones and builds PhysiBoSS v2.2.3 (outside the repository)
 python -m cellproof.cli tissue           # runs the conditions (about 30 minutes on 22 cores), writes results/tissue/
 python -m cellproof.cli targets          # results/targets.json (HGNC, cached)
 python -m cellproof.cli compounds        # results/compounds.json (ChEMBL; needs the network)
+python -m cellproof.cli sequences        # results/sequences.json (exact, tens of minutes on several cores; no network)
+python -m cellproof.cli genotypes --fetch   # data/genotypes (cBioPortal, needs the network) and results/genotypes.json; without --fetch only the second
 python -m cellproof.cli verify           # rebuilds every table, including these, from the stored files
 ```

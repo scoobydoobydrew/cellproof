@@ -8,7 +8,7 @@
   section.hidden = false;
   const F = TS.facts, N = F.cells, spacing = TS.settings.spacing, H = F.hours;
   const byName = Object.fromEntries(TS.conditions.map((c) => [c.name, c]));
-  const shown = TS.conditions.filter((c) => c.frames && ["radiation", "hit", "miss"].includes(c.group));
+  const shown = TS.conditions.filter((c) => c.frames && ["radiation", "hit", "miss", "novel"].includes(c.group));
   const STATE = ["undecided", "arrest", "senescence", "autophagy", "committed to apoptosis", "gone"];
   const VARS = ["--f-proliferation", "--f-arrest", "--f-senescence", "--f-autophagy", "--f-apoptosis", "--line"];
   const hours = (minutes) => Math.round(minutes / 6) / 10;
@@ -44,7 +44,7 @@
   const sel = $("#tCond"), slider = $("#tTime"), play = $("#tPlay");
   let cond = byName.radiation_only, k = Math.max(0, shown[0].times.findIndex((m) => m >= 540)), timer = null;
 
-  [["radiation", "No intervention"], ["hit", "The solver's sets: leave only apoptosis"], ["miss", "Sets of the same size that the solver rejects"]].forEach(([group, label]) => {
+  [["radiation", "No intervention"], ["hit", "The solver's sets: leave only apoptosis"], ["miss", "Sets of the same size that the solver rejects"], ["novel", "Found only when the start is taken into account (predicted before the runs)"]].forEach(([group, label]) => {
     const og = document.createElement("optgroup");
     og.label = label;
     shown.filter((c) => c.group === group).forEach((c) => { const o = document.createElement("option"); o.value = c.name; o.textContent = group === "radiation" ? "Radiation only" : c.label; og.appendChild(o); });
@@ -114,13 +114,13 @@
   } else $("#tTail").closest(".card").hidden = true;
 
   /* ---------- the table ---------- */
-  const GROUP = { radiation: "no intervention", hit: "solver accepts", miss: "solver rejects", rate: "no intervention, other apoptosis rate" };
+  const GROUP = { radiation: "no intervention", hit: "solver accepts", miss: "solver rejects", rate: "no intervention, other apoptosis rate", novel: "start-aware analysis accepts, solver does not" };
   const rows = TS.rows.filter((r) => r.group !== "long");
   $("#tableNote").textContent = `After ${H} h. "Agrees" means the simulation and the solver say the same: fewer than ${100 * F.agree_below}% of the cells alive for a set the solver accepts, at least ${100 * F.agree_below}% for one it rejects.`;
   $("#tTable").innerHTML = `<thead><tr><th>Set</th><th>Solver</th><th class="num">Alive</th><th>How they stand</th><th class="num">Hours to 90% dead</th><th>Agrees</th></tr></thead><tbody>` +
     rows.map((r) => {
       const share = r.alive_end / r.cells;
-      const verdict = r.group === "hit" ? (share < F.agree_below ? tag("good", "agrees") : tag("bad", "differs")) : r.group === "miss" ? (share >= F.agree_below ? tag("good", "agrees") : tag("bad", "differs")) : "";
+      const verdict = r.group === "hit" || r.group === "novel" ? (share < F.agree_below ? tag("good", "agrees") : tag("bad", "differs")) : r.group === "miss" ? (share >= F.agree_below ? tag("good", "agrees") : tag("bad", "differs")) : "";
       const stand = [["undecided", r.none], ["arrest", r.arrest], ["senescence", r.senescence], ["autophagy", r.autophagy]].filter(([, n]) => n).map(([w, n]) => `${fmt(n)} ${w}`).join(", ");
       return `<tr data-name="${esc(r.name)}"><td>${esc(r.label)}</td><td>${esc(GROUP[r.group])}</td><td class="num">${fmt(r.alive_end)}</td><td>${esc(stand || "none alive")}</td>` +
         `<td class="num">${r.minutes_to_90_percent_dead == null ? "not within " + H : hours(r.minutes_to_90_percent_dead)}</td><td>${verdict}</td></tr>`;
@@ -196,6 +196,57 @@
       on.map((p) => `<tr><td><b>${esc(p.gene)}</b></td><td><a href="https://pmc.ncbi.nlm.nih.gov/articles/${esc(p.pmcid)}/" target="_blank" rel="noopener">${esc(p.cite)}</a><div class="t-sub">wave ${p.wave} · ${esc(DESIGN[p.design])} · ${esc(p.context)}</div></td>` +
         `<td>${tag(...VERDICT[p.verdict])}</td><td>${esc(p.fate_reported || "")}</td><td>${esc(p.note)}</td></tr>`).join("") + `</tbody></table></div>` +
       `<details class="muted t-note"><summary>Read and set aside as off topic (${off.length})</summary>Each with its reason in the data file: ${off.map((p) => `${esc(p.cite)} (${esc(p.gene)})`).join("; ")}.</details>`;
+  }
+
+  /* ---------- does the order of the changes matter? ---------- */
+  const SQ = DS && DS.sequences, seqCard = $("#seqCard");
+  if (!SQ) seqCard.hidden = true;
+  else {
+    const S = SQ.settled, V = SQ.visit, VAL = SQ.validation, K = S.kinases, novel = SQ.novel;
+    const same = JSON.stringify(S.h1_only) === JSON.stringify(V.h1_only) && S.sequence_only === V.sequence_only && K.hits === V.kinases.hits;
+    seqCard.innerHTML = `<h3>Does the order of the changes matter?</h3>
+      <p class="muted t-note">Mandon and colleagues (2019) showed that waiting between changes can open routes that changing everything at once does not. It is checked here exactly, on this model, in two steps: first from the healthy cell at the moment of irradiation instead of from every possible state, then with the genes changed one after another and the cell left to settle in between. ` +
+      `A cell counts as dead when it first touches an apoptosis state, as in the tissue simulation${same ? "; counting it dead only once it has settled in one gives the same sets" : ""}.</p>
+      <div class="stats" id="seqStats" style="margin:14px 0"></div>
+      <p class="muted t-note">Against the tissue runs (${VAL.total} conditions): the first check, written before any result, held for ${VAL.v1_fates_within_reachable} of ${VAL.total} (${VAL.v1_failed.length} failed, because it compared where cells end with what the simulation passes through). ` +
+      `The second, added after seeing that and labelled so, uses the simulation's own meaning of death and holds for ${VAL.v2_survival_matches} of ${VAL.total}. Both engines run the same Boolean rules, so this checks the two analyses against each other, not the biology.</p>
+      <p class="muted t-note">Not modelled: changes that are released again, fixed delays, drug kinetics, and the fact that nobody can watch a cell settle. Every result is about this one model.</p>`;
+    $("#seqStats").replaceChildren(...[
+      [`${S.survive.length} of ${SQ.all_attractors.length}`, `stable states a healthy irradiated cell can reach at all: ${S.survive.join(" and ")}. The other ${SQ.all_attractors.length - S.survive.length} (${SQ.all_attractors.filter((a) => !S.survive.includes(a)).join(", ")}) exist but cannot be reached from a healthy start; the tissue run reached the same two. A cell can survive in only ${V.survive.length === 1 ? "one of them: " + V.survive[0] : V.survive.join(", ")}.`],
+      [`+${V.h1_only.length}`, `sets that only the start-aware analysis finds: ${V.h1_only.join("; ")}.${novel.length ? ` Predicted before the runs; in the tissue ${novel.every((r) => r.alive === 0) ? `none of the ${fmt(novel[0].cells)} cells was alive after ${SQ.hours} h, for any of the three` : novel.map((r) => `${fmt(r.alive)} of ${fmt(r.cells)}`).join(", ") + " cells were alive after " + SQ.hours + " h"}.` : ""}`],
+      [`${V.sequence_only}`, `pairs of changes, among ${fmt(V.pairs)}, that work only in a particular order. ${fmt(V.h2_only)} pairs work in some order but not at once${V.h2_only === V.h2_only_with_single_hit ? ", and each of them contains a change that works alone" : ""}. ${V.at_once_only.length ? `The reverse happens ${V.at_once_only.length === 1 ? "once" : V.at_once_only.length + " times"}: ${V.at_once_only.join("; ")} works only when both are made at once, because in either order the first leaves cells that settle in ${V.at_once_stuck.join(", ") || "a surviving state"} and the second no longer moves them.` : ""}`],
+      [`${K.hits} of ${fmt(K.sequences)}`, `orders and groupings of the five kinases named in the project brief (${K.nodes.join(", ")}), each knocked out, leave only apoptosis.`],
+      ...(SQ.s2 ? [[`${SQ.s2.hits + SQ.s2.sequence_only} of ${fmt(SQ.s2.sequences)}`, `orders and groupings of three knock-outs (every set of three on three nodes that contains no smaller set that already works: ${fmt(SQ.s2.searched)} of ${fmt(SQ.s2.triples)}) that leave only apoptosis, at once or one after the other.`]] : []),
+    ].map(([n, t]) => h(`<div class="stat"><b>${esc(n)}</b><span>${esc(t)}</span></div>`)));
+  }
+
+  /* ---------- do the answers survive a tumour's genotype? ---------- */
+  const GT = DS && DS.genotypes, genoCard = $("#genoCard");
+  if (!GT) genoCard.hidden = true;
+  else {
+    const a = GT.r1, b = GT.r2, share = (n, m) => `${(100 * n / m).toFixed(1)}%`, intact = (r) => r.samples - r.tp53_lost;
+    const noneLost = [a, b].every((r) => r.sets.every((s) => s.lost === 0));
+    const best = a.sets.reduce((m, s) => (s.intact > m.intact ? s : m), a.sets[0]);
+    const SIG = (sig) => sig.map(([n, v]) => `${n}${v ? "+" : "−"}`).join(" ");
+    const FOUND = (t) => (t.specific_sets == null ? "not needed" : !t.specific_sets.length ? "none" : t.specific_sets.length === a.sets.length ? "the same 11" : t.specific_sets.join("; "));
+    const ALONE = (t) => (t.baseline === "only_apoptosis" ? "only apoptosis" : t.baseline === "no_stable_state" ? "no stable state" : t.baseline_fates.join(", "));
+    genoCard.innerHTML = `<h3>Do the answers survive a tumour's genotype?</h3>
+      <p class="muted t-note">The 11 sets were found for an otherwise normal cell. Here the genes that public tumour data call deleted, truncated or amplified are first forced in the model by a rule fixed beforehand (missense changes and expression are ignored), and the 11 sets are tried on top. ` +
+      `${fmt(a.samples)} tumour samples from ${a.studies} TCGA studies are counted, never followed, and nothing here is about a person: it shows how the model's answers depend on genotype. R1 is the rule. R2 also counts every protein-changing TP53 mutation as a loss, a deliberately broad bound, because R1 undercounts TP53.</p>
+      <div class="stats" id="genoStats" style="margin:14px 0"></div>
+      <div class="scroll-x"><table class="tbl" id="genoSets"></table></div>
+      <p class="muted t-note" style="margin-top:14px">The most frequent genotypes under R1 (− off, + on), with an exhaustive search for sets of up to two changes on the network with the genotype forced.</p>
+      <div class="scroll-x"><table class="tbl" id="genoTop"></table></div>
+      <p class="muted t-note">Not modelled: missense effects, expression, subclones, the tissue, any dose. A bulk sample is a mixture of cells, and the model is one published network.</p>`;
+    $("#genoStats").replaceChildren(...[
+      [`${share(a.tp53_lost, a.samples)}–${share(b.tp53_lost, b.samples)}`, `of samples have TP53 lost (R1 to R2). ${noneLost ? "For none of them does any of the 11 sets leave only apoptosis" : "Some sets still work for some of them"}, and among the ${a.searched} most frequent genotypes of each rule (${a.searched_tp53_lost} with TP53 lost under R1, ${b.searched_tp53_lost} under R2) ${a.searched_tp53_lost_found + b.searched_tp53_lost_found === 0 ? "no set of up to two changes works for any of those" : "some TP53-lost ones have a set of up to two changes"}.`],
+      [share(a.baseline.only_apoptosis, a.samples), `of samples (R1) need no change in the model: the genotype alone already leaves only apoptosis${a.alone_lost_only_apoptosis === 0 ? ", and every one of them has TP53" : ""}.`],
+      [share(best.intact, intact(a)), `of the samples with TP53 not lost (R1): the best of the 11 sets (${best.label}) then leaves only apoptosis. The rest carry other forced nodes under which that set does not apply or no longer works.`],
+    ].map(([n, t]) => h(`<div class="stat"><b>${esc(n)}</b><span>${esc(t)}</span></div>`)));
+    $("#genoSets").innerHTML = `<thead><tr><th>Set</th><th class="num">R1, all samples</th><th class="num">R1, TP53 not lost</th><th class="num">R1, TP53 lost</th><th class="num">R2, all samples</th><th class="num">R2, TP53 lost</th></tr></thead><tbody>` +
+      a.sets.map((s, i) => `<tr><td>${esc(s.label)}</td><td class="num">${share(s.all, a.samples)}</td><td class="num">${share(s.intact, intact(a))}</td><td class="num">${fmt(s.lost)}</td><td class="num">${share(b.sets[i].all, b.samples)}</td><td class="num">${fmt(b.sets[i].lost)}</td></tr>`).join("") + "</tbody>";
+    $("#genoTop").innerHTML = `<thead><tr><th class="num">Samples</th><th>Forced nodes</th><th>The genotype alone</th><th class="num">Of the 11 sets that still work</th><th>Sets found for this genotype</th></tr></thead><tbody>` +
+      a.top.map((t) => `<tr><td class="num">${fmt(t.samples)}</td><td>${esc(SIG(t.signature))}</td><td>${esc(ALONE(t))}</td><td class="num">${t.works}</td><td>${esc(FOUND(t))}</td></tr>`).join("") + "</tbody>";
   }
 
   /* ---------- what this does not show ---------- */

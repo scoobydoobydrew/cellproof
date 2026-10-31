@@ -126,3 +126,19 @@ This is a research prototype that ranks hypotheses for lab testing. It makes no 
   For RB1 the one paper that knocked RB1 out went against the model; for PTEN two agree (through senescence and repair, not apoptosis)
   and four contradict. No paper reports apoptosis as the only fate. Twelve papers per gene, of which more than half were off topic, is a
   small sample.
+- The start-aware and sequential analysis (`docs/sequential_protocol.md`) is exact for one model and one start (the healthy cell at
+  the moment of irradiation, every update order allowed). It has two meanings of "dead" because the first, written before any result,
+  failed its check against the tissue for 8 of 23 conditions (the simulation commits a cell to death the first time it touches an
+  apoptosis state; the protocol asked for a settled apoptosis state). The second meaning, which the simulation implements, agrees
+  with it on all 23, but it was added after seeing the failure and is labelled so. It was then tested out of sample: three sets
+  that only it finds, predicted before the runs, left no cell alive in the tissue. Both engines run the same Boolean rules, so this
+  checks the two analyses against each other and not the biology.
+- Sequences here are permanent changes made one after the other, with the cell left to settle in between. Changes that are released
+  again, fixed delays, drug kinetics and the fact that nobody can watch a cell settle are not modelled, so a negative result on
+  sequences is a statement about this restricted kind of sequence in this model, not about Mandon et al.'s method in general.
+- One of the three sets only the start-aware analysis finds is AMPK_MAPK KO with CHK1 KO. The node AMPK_MAPK merges two entities of
+  the base model, so there is no single protein to inhibit, and no chemistry was looked up for it.
+- The genotype study (`docs/genotype_protocol.md`) forces only the 22 nodes that stand for one protein-coding gene, by a rule that
+  ignores missense changes and expression, on public tumour counts that are mixtures of cells and not about any person. TP53 loss is
+  14.2% under the narrow rule and 38.6% under the broad one, which shows how much the rule decides. Where the model says a genotype
+  needs no change (PTEN or RB1 lost), the literature check does not support the model's direction for those genes.

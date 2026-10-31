@@ -162,6 +162,182 @@ A disc of 1,663 cells (300 micron radius), every cell running the checked 34-nod
 | long_hit_09 | AKT E1 + Sirt1 E1, 240 h | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
 | long_hit_10 | AMPK_MAPK KO + Cdc25 E1, 240 h | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
 | long_hit_11 | AMPK_MAPK KO + Sirt1 E1, 240 h | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| novel_01 | AMPK_MAPK KO + CHK1 KO | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| novel_02 | Cdc25 E1 | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| novel_03 | Sirt1 E1 | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+
+## Sequences of interventions and the start-aware analysis (docs/sequential_protocol.md)
+
+Exact symbolic reachability and attractors (AEON) of the checked 34-node network, asynchronous updating, from the healthy cell at the moment of irradiation, under two meanings of "dead": `settled` (a cell is dead when it has settled in an apoptosis fixed point; the protocol as first written) and `visit` (dead as soon as it enters any apoptosis state, which is what the tissue simulation implements; added by Amendment 1 after the first validation failed). H0 is the solver's question over all attractors, H1 the same from the healthy start, H2 an ordered list of stages with settling in between.
+
+| | settled | visit |
+|---|---|---|
+| radiation alone: attractors that exist | apoptosis, arrest, autophagy, senescence | same |
+| radiation alone: fates a cell can end in, from a healthy start | apoptosis, senescence | senescence (the only one it can survive in) |
+| minimal sets under H0 | 11, equal to the solver's: True | 11 |
+| minimal sets under H1 | 10 | 10 |
+| found by H1 and not by the solver | AMPK_MAPK KO + CHK1 KO, Cdc25 E1, Sirt1 E1 | AMPK_MAPK KO + CHK1 KO, Cdc25 E1, Sirt1 E1 |
+| pairs of literals: hits as one stage / hits in some order | 285 / 360 of 1012 | 292 / 360 of 1012 |
+| **sequence-only pairs** (a hit in some order, not as one stage, no literal a hit alone) | 0 | 0 |
+| **pairs that work only when both changes are made at once** (a hit as one stage, in neither order) | AMPK_MAPK KO + CHK1 KO | AMPK_MAPK KO + CHK1 KO |
+| the five kinases of the brief, knocked out: sequences tried / hits | 1081 / 0 | 1081 / 0 |
+| three knock-outs on three nodes (S2): sets searched (the rest contain a smaller hit) / ordered lists of stages / hits as one stage / sequence-only | not run | 1,122 of 1,771 / 14,586 / 0 / 0 |
+
+Every pair that is a hit in some order but not as one stage contains a literal that is a hit alone (the first stage already left no cell alive), so settling in between adds nothing in this model that one stage does not find. The reverse happens 1 time: AMPK_MAPK KO + CHK1 KO works only when the changes are made at once, because in either order the first change leaves cells that settle in senescence and the second no longer moves them (the fates after each stage are in `pair_details` of `results/sequences.json`). The fates the five kinases leave, over all their sequences:
+
+| meaning | fates reachable and survivable | sequences |
+|---|---|---|
+| settled | unclassified | 808 |
+| settled | senescence | 250 |
+| settled | apoptosis, senescence | 23 |
+| visit | unclassified | 808 |
+| visit | senescence | 273 |
+
+**Against the tissue runs** (23 conditions: radiation alone, the solver's 11 sets, 11 rejected sets). V1, fixed before any result, `settled`: the simulated fates are reachable attractor fates in 15 of 23 (**failed** for hit_03, hit_05, hit_06, hit_07, miss_01, miss_02, miss_03, miss_07); where no cell can survive fewer than 1% are alive, 23 of 23. V2, added after V1 had failed, `visit`: the exact analysis says a cell can survive exactly when 1% or more are alive, 23 of 23; every simulated fate is the phenotype of a reachable state, 23 of 23.
+
+V3, a prediction written down before the runs: the 3 sets that H1 finds and the solver does not leave no cell alive. Tissue result after 72 h: AMPK_MAPK KO + CHK1 KO: 0 of 1,663 alive; Cdc25 E1: 0 of 1,663 alive; Sirt1 E1: 0 of 1,663 alive. Both engines run the same Boolean rules, so this checks the translation and the two analyses against each other, not the biology.
+
+| tissue condition | simulated fates | share alive | exact, settled: attractor fates | exact, visit: can survive in | V1 | V2 |
+|---|---|---|---|---|---|---|
+| radiation_only: radiation only | senescence, apoptosis | 6.4% | apoptosis, senescence | senescence | ok | ok |
+| hit_01: E2F1 E1 | apoptosis | 0.0% | apoptosis | no cell | ok | ok |
+| hit_02: Myc E1 | apoptosis | 0.0% | apoptosis | no cell | ok | ok |
+| hit_03: PTEN KO | senescence, apoptosis | 0.5% | apoptosis | no cell | failed | ok |
+| hit_04: RB KO | apoptosis | 0.0% | apoptosis | no cell | ok | ok |
+| hit_05: TUG1 KO | senescence, apoptosis | 0.4% | apoptosis | no cell | failed | ok |
+| hit_06: WWP1 E1 | senescence, apoptosis | 0.5% | apoptosis | no cell | failed | ok |
+| hit_07: miR221 E1 | senescence, apoptosis | 0.7% | apoptosis | no cell | failed | ok |
+| hit_08: AKT E1 + Cdc25 E1 | apoptosis | 0.0% | apoptosis | no cell | ok | ok |
+| hit_09: AKT E1 + Sirt1 E1 | apoptosis | 0.0% | apoptosis | no cell | ok | ok |
+| hit_10: AMPK_MAPK KO + Cdc25 E1 | apoptosis | 0.0% | apoptosis | no cell | ok | ok |
+| hit_11: AMPK_MAPK KO + Sirt1 E1 | apoptosis | 0.0% | apoptosis | no cell | ok | ok |
+| miss_01: AKT KO + ATM_pH2AX KO | arrest | 100.0% | oscillation | oscillation | failed | ok |
+| miss_02: AKT KO + miR221 KO | arrest, autophagy, apoptosis | 42.5% | arrest, autophagy | arrest, autophagy | failed | ok |
+| miss_03: ATM_pH2AX KO + PTEN E1 | senescence | 100.0% | oscillation | oscillation | failed | ok |
+| miss_04: ATM_pH2AX E1 + Mdm2 KO | senescence, apoptosis | 4.0% | apoptosis, senescence | senescence | ok | ok |
+| miss_05: ATM_pH2AX E1 + PUMA E1 | senescence, apoptosis | 4.6% | apoptosis, senescence | senescence | ok | ok |
+| miss_06: ATR E1 + Mdm2 KO | senescence, apoptosis | 6.6% | apoptosis, senescence | senescence | ok | ok |
+| miss_07: BCL2 E1 + TUG1 KO | senescence | 100.0% | unclassified | unclassified | failed | ok |
+| miss_08: CHK2 E1 + PUMA KO | senescence, apoptosis | 2.0% | apoptosis, senescence | senescence | ok | ok |
+| miss_09: Cdc25 KO + Wee1 E1 | senescence, apoptosis | 26.5% | apoptosis, senescence | senescence | ok | ok |
+| miss_10: Sirt1 KO + hTERT E1 | senescence, apoptosis | 53.0% | apoptosis, senescence | senescence | ok | ok |
+| miss_11: TUG1 E1 + p53_INP1 E1 | senescence, apoptosis | 5.2% | apoptosis, senescence | senescence | ok | ok |
+
+## Tumour genotypes as constraints on the model (docs/genotype_protocol.md)
+
+9,896 tumour samples with mutation and copy-number data from 32 TCGA PanCancer Atlas studies (cBioPortal, queried 2026-10-31; ODC Open Database License, attribution to the original studies (cBioPortal FAQ, read 2026-10-31)). A node is forced to 0 by a homozygous deletion or a truncating mutation of its gene and to 1 by a high-level amplification, 22 nodes can carry a genotype, everything else (missense, shallow copy number, expression) is ignored. R1 is that rule; R2 also counts every protein-changing TP53 mutation as a loss, a deliberately broad bound. Counts of signatures are stored, never a sample or a person. A share of samples is a statement about a model constrained by a crude rule, not about tumours or people.
+
+| | R1 | R2 |
+|---|---|---|
+| distinct signatures | 727 | 739 |
+| samples with at least one forced node | 4,453 (45.0%) | 5,635 (56.9%) |
+| samples with TP53 lost | 1,408 (14.2%) | 3,815 (38.6%) |
+| the genotype alone leaves only apoptosis | 1,744 (17.6%) | 1,009 (10.2%) |
+| the genotype alone leaves no stable state (the network oscillates) | 1,080 (10.9%) | 2,833 (28.6%) |
+| of those with TP53 lost, only apoptosis | 0 | 0 |
+
+Each of the solver's 11 sets on top of the genotype: samples for which the cell then has only apoptosis (a set that asks for the opposite of what the genotype forces is not applicable and does not count).
+
+| set | R1, all samples | R1, TP53 not lost | R1, TP53 lost | R2, all samples | R2, TP53 not lost | R2, TP53 lost | not applicable, R1 |
+|---|---|---|---|---|---|---|---|
+| E2F1 E1 | 8,181 (82.7%) | 8,181 (96.4%) | 0 of 1408 | 5,868 (59.3%) | 5,868 (96.5%) | 0 of 3815 | 26 |
+| Myc E1 | 8,189 (82.8%) | 8,189 (96.5%) | 0 of 1408 | 5,875 (59.4%) | 5,875 (96.6%) | 0 of 3815 | 9 |
+| PTEN KO | 8,089 (81.7%) | 8,089 (95.3%) | 0 of 1408 | 5,814 (58.8%) | 5,814 (95.6%) | 0 of 3815 | 14 |
+| RB KO | 8,176 (82.6%) | 8,176 (96.3%) | 0 of 1408 | 5,871 (59.3%) | 5,871 (96.5%) | 0 of 3815 | 25 |
+| TUG1 KO | 8,090 (81.8%) | 8,090 (95.3%) | 0 of 1408 | 5,815 (58.8%) | 5,815 (95.6%) | 0 of 3815 | 0 |
+| WWP1 E1 | 8,070 (81.5%) | 8,070 (95.1%) | 0 of 1408 | 5,800 (58.6%) | 5,800 (95.4%) | 0 of 3815 | 30 |
+| miR221 E1 | 8,090 (81.8%) | 8,090 (95.3%) | 0 of 1408 | 5,815 (58.8%) | 5,815 (95.6%) | 0 of 3815 | 0 |
+| AKT E1 + Cdc25 E1 | 8,108 (81.9%) | 8,108 (95.5%) | 0 of 1408 | 5,826 (58.9%) | 5,826 (95.8%) | 0 of 3815 | 67 |
+| AKT E1 + Sirt1 E1 | 8,182 (82.7%) | 8,182 (96.4%) | 0 of 1408 | 5,870 (59.3%) | 5,870 (96.5%) | 0 of 3815 | 81 |
+| AMPK_MAPK KO + Cdc25 E1 | 8,138 (82.2%) | 8,138 (95.9%) | 0 of 1408 | 5,848 (59.1%) | 5,848 (96.2%) | 0 of 3815 | 25 |
+| AMPK_MAPK KO + Sirt1 E1 | 6,822 (68.9%) | 6,822 (80.4%) | 0 of 1408 | 5,060 (51.1%) | 5,060 (83.2%) | 0 of 3815 | 40 |
+
+The most frequent signatures under R1, with the exhaustive search for sets of up to two literals on the network with the genotype forced (none is needed where the genotype alone already leaves only apoptosis):
+
+| samples | forced nodes (- off, + on) | the genotype alone | solver sets that still work | sets found for this genotype |
+|---|---|---|---|---|
+| 681 | p53- | no stable state | 0 of 11 | none |
+| 510 | PTEN- | only apoptosis | 10 of 11 | not needed |
+| 232 | RB- | only apoptosis | 11 of 11 | not needed |
+| 198 | Myc+ | only apoptosis | 10 of 11 | not needed |
+| 151 | hTERT+ | apoptosis, arrest, autophagy, senescence | 11 of 11 | 11 (the solver's) |
+| 144 | Mdm2+ | apoptosis, arrest, autophagy, senescence | 11 of 11 | 11 (the solver's) |
+| 89 | Wip1+ | apoptosis, arrest, senescence | 0 of 11 | Cdc25 E1 + Sirt1 KO |
+| 81 | Myc+ p53- | unclassified | 0 of 11 | none |
+| 72 | PTEN- p53- | no stable state | 0 of 11 | none |
+| 71 | DNA_PK+ Myc+ WWP1+ p53_INP1+ | only apoptosis | 10 of 11 | not needed |
+| 70 | RB- p53- | unclassified | 0 of 11 | none |
+| 66 | DNA_PK- | apoptosis, arrest, autophagy, senescence | 11 of 11 | 11 (the solver's) |
+| 64 | E2F1+ | only apoptosis | 10 of 11 | not needed |
+| 55 | ATR+ | apoptosis, arrest, autophagy, senescence | 11 of 11 | 11 (the solver's) |
+| 44 | PTEN- RB- | only apoptosis | 10 of 11 | not needed |
+| 38 | Myc+ WWP1+ p53_INP1+ | only apoptosis | 10 of 11 | not needed |
+| 37 | hTERT+ p53- | no stable state | 0 of 11 | none |
+| 36 | CHK1- | apoptosis, arrest, autophagy, senescence | 11 of 11 | 11 (the solver's) |
+| 34 | BCL2- | apoptosis, arrest, autophagy, senescence | 11 of 11 | 11 (the solver's) |
+| 30 | ATR- | apoptosis, arrest, autophagy, senescence | 11 of 11 | 11 (the solver's) |
+
+The most frequent signatures under R2, with the exhaustive search for sets of up to two literals on the network with the genotype forced (none is needed where the genotype alone already leaves only apoptosis):
+
+| samples | forced nodes (- off, + on) | the genotype alone | solver sets that still work | sets found for this genotype |
+|---|---|---|---|---|
+| 1866 | p53- | no stable state | 0 of 11 | none |
+| 421 | PTEN- | only apoptosis | 10 of 11 | not needed |
+| 207 | Myc+ p53- | unclassified | 0 of 11 | none |
+| 189 | RB- p53- | unclassified | 0 of 11 | none |
+| 161 | PTEN- p53- | no stable state | 0 of 11 | none |
+| 119 | hTERT+ p53- | no stable state | 0 of 11 | none |
+| 117 | Mdm2+ | apoptosis, arrest, autophagy, senescence | 11 of 11 | 11 (the solver's) |
+| 113 | RB- | only apoptosis | 11 of 11 | not needed |
+| 74 | Wip1+ | apoptosis, arrest, senescence | 0 of 11 | Cdc25 E1 + Sirt1 KO |
+| 73 | Myc+ | only apoptosis | 10 of 11 | not needed |
+| 70 | hTERT+ | apoptosis, arrest, autophagy, senescence | 11 of 11 | 11 (the solver's) |
+| 55 | ATR+ p53- | no stable state | 0 of 11 | none |
+| 54 | DNA_PK+ Myc+ WWP1+ p53_INP1+ | only apoptosis | 10 of 11 | not needed |
+| 47 | E2F1+ p53- | unclassified | 0 of 11 | none |
+| 46 | BCL2- p53- | no stable state | 0 of 11 | none |
+| 46 | DNA_PK- | apoptosis, arrest, autophagy, senescence | 11 of 11 | 11 (the solver's) |
+| 43 | Mdm2+ p53- | no stable state | 0 of 11 | none |
+| 40 | PTEN- RB- p53- | unclassified | 0 of 11 | none |
+| 34 | Myc+ WWP1+ p53- p53_INP1+ | unclassified | 0 of 11 | none |
+| 31 | E2F1+ | only apoptosis | 10 of 11 | not needed |
+
+Per study under R1:
+
+| study | samples | with a forced node | TP53 lost | genotype alone: only apoptosis | best of the 11 sets: only apoptosis |
+|---|---|---|---|---|---|
+| acc | 89 | 37 | 11 | 8 | 76 |
+| blca | 406 | 268 | 72 | 111 | 316 |
+| brca | 996 | 493 | 137 | 200 | 771 |
+| cesc | 278 | 118 | 10 | 60 | 263 |
+| chol | 36 | 8 | 1 | 2 | 35 |
+| coadread | 526 | 216 | 94 | 65 | 417 |
+| dlbc | 37 | 12 | 3 | 3 | 33 |
+| esca | 182 | 124 | 63 | 29 | 113 |
+| gbm | 378 | 186 | 32 | 119 | 346 |
+| hnsc | 496 | 286 | 159 | 62 | 336 |
+| kich | 65 | 20 | 10 | 5 | 55 |
+| kirc | 354 | 53 | 5 | 13 | 346 |
+| kirp | 274 | 20 | 2 | 5 | 271 |
+| laml | 190 | 19 | 9 | 3 | 180 |
+| lgg | 511 | 152 | 57 | 42 | 438 |
+| lihc | 353 | 156 | 49 | 69 | 291 |
+| luad | 507 | 258 | 98 | 60 | 403 |
+| lusc | 469 | 328 | 138 | 102 | 324 |
+| meso | 82 | 17 | 4 | 5 | 74 |
+| ov | 398 | 293 | 136 | 110 | 252 |
+| paad | 175 | 69 | 41 | 14 | 131 |
+| pcpg | 161 | 14 | 2 | 3 | 155 |
+| prad | 489 | 212 | 38 | 148 | 441 |
+| sarc | 253 | 159 | 58 | 42 | 183 |
+| skcm | 363 | 169 | 29 | 69 | 323 |
+| stad | 434 | 254 | 82 | 87 | 336 |
+| tgct | 144 | 23 | 0 | 3 | 144 |
+| thca | 482 | 23 | 3 | 7 | 475 |
+| thym | 123 | 11 | 2 | 0 | 118 |
+| ucec | 509 | 406 | 51 | 277 | 435 |
+| ucs | 56 | 40 | 12 | 18 | 44 |
+| uvm | 80 | 9 | 0 | 3 | 79 |
 
 ## From the solver's targets to measured chemistry (ChEMBL)
 
