@@ -381,5 +381,16 @@ def label_sample(
     typer.echo(f"{len(rows)} claims written to {out}; labels allowed: {', '.join(LABELS)}")
 
 
+@app.command()
+def label(
+    port: int = typer.Option(8765, help="Local port; 0 picks a free one."),
+    browser: bool = typer.Option(True, "--browser/--no-browser", help="Open the page in the default browser."),
+) -> None:
+    """Open the local page where a person labels the M4 sample and checks the D4 held-out quotes. Nothing is pre-filled."""
+    from cellproof.eval.label_tool import serve
+
+    serve(port, browser)
+
+
 if __name__ == "__main__":
     app()

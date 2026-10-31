@@ -1,6 +1,10 @@
 PY ?= python
 
-.PHONY: test smoke verify extract
+.PHONY: test smoke verify extract label
+
+# The two reading tasks only a person can do (M4 labels, D4 quote checks): a local page, every click saved at once.
+label:
+	$(PY) -m cellproof.cli label
 
 test:
 	$(PY) -m pytest -m "not live"

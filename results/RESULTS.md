@@ -107,6 +107,10 @@ muse-spark-1.3 (reasoning effort minimal) was asked, without any tool, for ten s
 
 TBD: 0 of 50 sampled claims have been labelled by a human.
 
+## Held-out claims checked by a person (D4)
+
+TBD: 0 of 23 held-out claims have been checked by a human, so every M1 number is provisional.
+
 ## Scaling of the exact checker (M6)
 
 Fixed points (mpbn) and asynchronous attractors (AEON) of one network, 30 s limit per network, measured on the machine that wrote `results/scaling.json`. `random` networks are hard on purpose; `cascade` adds downstream chains to the base network.

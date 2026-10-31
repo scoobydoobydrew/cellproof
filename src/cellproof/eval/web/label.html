@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CellProof reading tasks</title>
+<style>
+  :root {
+    --bg: #f6f3ee; --card: #fffdf9; --fg: #1f1b16; --muted: #6d655b; --line: #ddd5c8;
+    --accent: #3b5bdb; --accent-fg: #fff; --ok: #2b8a3e; --bad: #c92a2a; --warn: #b36b00; --mark: #fff0a8; --src: #d0ebff; --tgt: #ffe3e3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #17140f; --card: #211d17; --fg: #f0ebe3; --muted: #a49b8d; --line: #3a342b;
+      --accent: #748ffc; --accent-fg: #11131f; --ok: #69db7c; --bad: #ff8787; --warn: #ffc078; --mark: #5c4a00; --src: #1c3b57; --tgt: #5a2a2a; color-scheme: dark; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.5 system-ui, "Segoe UI", sans-serif; }
+  header { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between;
+    padding: 14px max(16px, 3vw); border-bottom: 1px solid var(--line); background: var(--card); }
+  h1 { margin: 0; font-size: 1rem; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tabs button { font: inherit; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--fg); cursor: pointer; }
+  .tabs button[aria-selected="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+  main { max-width: 56rem; margin: 0 auto; padding: 20px max(16px, 3vw) 48px; }
+  .task { color: var(--muted); margin: 0 0 16px; max-width: 65ch; }
+  .bar { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; margin: 0 0 18px; }
+  .bar i { display: block; height: 100%; background: var(--ok); width: 0; transition: width .25s; }
+  article { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: clamp(16px, 3vw, 28px); }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--muted); font-size: .85rem; margin-bottom: 10px; }
+  .meta a { color: var(--accent); }
+  h2 { font-size: clamp(1.25rem, 2.6vw, 1.6rem); line-height: 1.3; margin: 4px 0 14px; text-wrap: balance; }
+  h2 .eff { display: inline-block; padding: 0 .5em; border-radius: 6px; background: var(--line); font-size: .85em; }
+  h2 .sub { display: block; font-size: .9rem; font-weight: 400; color: var(--muted); margin-top: 6px; }
+  blockquote { margin: 0 0 6px; padding: 12px 16px; border-left: 4px solid var(--accent); background: color-mix(in srgb, var(--accent) 7%, transparent);
+    font: 1.05rem/1.65 Georgia, "Times New Roman", serif; border-radius: 0 8px 8px 0; }
+  blockquote mark.q { background: var(--mark); color: inherit; padding: .05em .15em; border-radius: 3px; font-weight: 600; }
+  blockquote .s { background: var(--src); border-radius: 3px; padding: 0 .1em; }
+  blockquote .t { background: var(--tgt); border-radius: 3px; padding: 0 .1em; }
+  .where { color: var(--muted); font-size: .85rem; margin: 0 0 18px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
+  .chip { font-size: .8rem; padding: 2px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); }
+  .choices { display: grid; gap: 8px; }
+  .choices button { display: grid; grid-template-columns: 2rem 1fr; gap: 2px 10px; align-items: start; text-align: left; font: inherit; color: var(--fg);
+    padding: 10px 14px; border: 1.5px solid var(--line); border-radius: 10px; background: transparent; cursor: pointer; }
+  .choices button:hover { border-color: var(--accent); }
+  .choices button[aria-pressed="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); }
+  .choices kbd { grid-row: span 2; align-self: center; font: 600 .85rem ui-monospace, monospace; border: 1px solid var(--line); border-radius: 6px; padding: 2px 0; text-align: center; color: var(--muted); }
+  .choices b { font-weight: 600; }
+  .choices small { color: var(--muted); }
+  .note { display: block; margin-top: 14px; font-size: .85rem; color: var(--muted); }
+  .note input { width: 100%; margin-top: 4px; font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--fg); }
+  .steps { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 16px; }
+  .steps button { font: inherit; padding: 8px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--fg); cursor: pointer; }
+  .steps .go { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+  .dots { display: flex; flex-wrap: wrap; gap: 4px; flex: 1; min-width: 12rem; }
+  .dots button { width: 14px; height: 14px; padding: 0; border-radius: 4px; border: 1px solid var(--line); background: transparent; }
+  .dots button.done { background: var(--ok); border-color: var(--ok); }
+  .dots button.cur { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .keys, .toast { color: var(--muted); font-size: .85rem; margin: 12px 0 0; }
+  .toast { min-height: 1.4em; } .toast.err { color: var(--bad); font-weight: 600; } .toast.done { color: var(--ok); font-weight: 600; }
+  .gone { display: none; }
+</style>
+</head>
+<body>
+<header>
+  <h1>CellProof reading tasks</h1>
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab-m4" aria-selected="true">M4 · extracted claims <span id="count-m4"></span></button>
+    <button role="tab" id="tab-d4" aria-selected="false">D4 · held-out claims <span id="count-d4"></span></button>
+  </div>
+</header>
+<main>
+  <p class="task" id="task"></p>
+  <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+  <article id="card">
+    <div class="meta" id="meta"></div>
+    <h2 id="claim"></h2>
+    <div class="chips" id="chips"></div>
+    <blockquote id="quote"></blockquote>
+    <p class="where" id="where"></p>
+    <div class="choices" id="choices"></div>
+    <label class="note">Note (optional)<input id="note" type="text" maxlength="400" autocomplete="off"></label>
+  </article>
+  <div class="steps">
+    <button id="prev">&larr; Back</button>
+    <button id="next">Next &rarr;</button>
+    <button id="open" class="go">Next unlabelled &crarr;</button>
+    <div class="dots" id="dots"></div>
+  </div>
+  <p class="keys">Keys: 1 to 5 choose (D4: 1 to 3) &middot; &larr; &rarr; move &middot; Enter next unlabelled &middot; choosing the same answer again clears it. Every click is saved at once.</p>
+  <p class="toast" id="toast" role="status"></p>
+</main>
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const S = { tab: "m4", i: 0, data: null };
+
+const TASKS = {
+  m4: {
+    field: "label",
+    intro: "Each card is a claim that an AI extracted from a paper, with the sentence it quoted. Judge only the sentence and the claim: does the sentence say it? " +
+           "Only “correct” counts towards the accuracy; the other four just record what went wrong.",
+    choices: [
+      ["correct", "Correct", "The sentence states this mechanism: the source acts on the target in this direction (“requires”: the source needs the target)."],
+      ["wrong_direction", "Wrong direction", "Right pair of molecules, but the effect is the opposite (activates vs inhibits) or source and target are swapped."],
+      ["wrong_entity", "Wrong entity", "A name does not match what the sentence talks about (another molecule, or something that is not a molecule)."],
+      ["not_a_mechanism", "Not a mechanism", "The sentence reports an outcome, a correlation or a method, not one molecule acting on another."],
+      ["quote_does_not_support", "Quote does not support it", "The sentence does not say this at all, whatever it is about."],
+    ],
+  },
+  d4: {
+    field: "verdict",
+    intro: "Each card is a held-out result written down before any network was scored. Read the quote from the paper: does it support the statement, with the stated polarity " +
+           "(present, absent, increased, ...)? You are not judging the model, only the reading. Do not edit anything: a wrong claim is reported to the assistant and logged as an amendment.",
+    choices: [
+      ["supports", "Quote supports the claim", "The quote says what the statement says, with the polarity given."],
+      ["does_not_support", "Quote does not support it", "The quote says something else, or the opposite, or less than the statement claims. Add a note saying why."],
+      ["unsure", "Cannot tell", "The quote is ambiguous without more of the paper. Add a note."],
+    ],
+  },
+};
+
+function rows() { return S.data[S.tab]; }
+function done(row) { return Boolean((row[TASKS[S.tab].field] || "").trim()); }
+function esc(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+function toast(text, kind) { const t = $("toast"); t.textContent = text; t.className = "toast" + (kind ? " " + kind : ""); }
+
+function paint(el, paragraph, quote, names) {
+  el.textContent = "";
+  const text = paragraph || quote;
+  const at = paragraph ? paragraph.toLowerCase().indexOf(quote.toLowerCase()) : 0;
+  const parts = at >= 0 ? [[text.slice(0, at), false], [text.slice(at, at + quote.length), true], [text.slice(at + quote.length), false]] : [[text, false]];
+  const re = names.length ? new RegExp("(" + names.map(esc).join("|") + ")", "gi") : null;
+  for (const [chunk, isQuote] of parts) {
+    if (!chunk) continue;
+    const box = document.createElement(isQuote || !paragraph ? "mark" : "span");
+    if (isQuote || !paragraph) box.className = "q";
+    const pieces = re ? chunk.split(re) : [chunk];
+    pieces.forEach((piece, k) => {
+      if (re && k % 2 === 1) {
+        const b = document.createElement("span");
+        b.className = piece.toLowerCase() === names[0].toLowerCase() ? "s" : "t";
+        b.textContent = piece; box.appendChild(b);
+      } else box.appendChild(document.createTextNode(piece));
+    });
+    el.appendChild(box);
+  }
+}
+
+function chip(text) { const c = document.createElement("span"); c.className = "chip"; c.textContent = text; return c; }
+
+function render() {
+  const task = TASKS[S.tab], list = rows(), row = list[S.i];
+  $("task").textContent = task.intro;
+  for (const t of ["m4", "d4"]) {
+    $("tab-" + t).setAttribute("aria-selected", String(t === S.tab));
+    const n = S.data[t].filter((r) => (r[TASKS[t].field] || "").trim()).length;
+    $("count-" + t).textContent = `${n}/${S.data[t].length}`;
+  }
+  const n = list.filter(done).length;
+  $("bar").style.width = (100 * n / list.length) + "%";
+  $("meta").textContent = "";
+  const claim = $("claim"), chips = $("chips");
+  claim.textContent = ""; chips.textContent = "";
+  const counter = document.createElement("span"); counter.textContent = `${S.i + 1} of ${list.length}  ·  ${row.id}`;
+  const link = document.createElement("a"); link.href = row.link; link.target = "_blank"; link.rel = "noopener"; link.textContent = `${row.pmcid} (open the paper)`;
+  $("meta").append(counter, link);
+  let names = [];
+  if (S.tab === "m4") {
+    names = [row.source, row.target];
+    claim.append(document.createTextNode(row.source + " "));
+    const eff = document.createElement("span"); eff.className = "eff"; eff.textContent = row.effect; claim.append(eff, document.createTextNode(" " + row.target));
+    const sub = document.createElement("span"); sub.className = "sub";
+    sub.textContent = `Context given by the AI: ${row.context}  ·  section: ${row.location}`; claim.append(sub);
+    paint($("quote"), row.paragraph, row.evidence_quote, names);
+    $("where").textContent = row.paragraph ? "The highlighted sentence is the quote; the rest is the paragraph around it. Blue: the source, red: the target." : "The paper text is not on this machine; only the quote is shown.";
+  } else {
+    claim.textContent = row.statement;
+    const sub = document.createElement("span"); sub.className = "sub";
+    const nodes = Object.entries(row.perturbation.nodes).map(([k, v]) => `${k} set to ${v}`).join(", ");
+    sub.textContent = `${row.cite}  ·  ${row.locator}  ·  ${row.context}`; claim.append(sub);
+    chips.append(chip("stimulus: " + row.stimulus), chip("perturbation: " + (nodes || "none")));
+    for (const [k, v] of Object.entries(row.details)) chips.append(chip(`${k}: ${typeof v === "object" ? JSON.stringify(v) : v}`));
+    paint($("quote"), row.paragraph, row.quote, []);
+    $("where").textContent = row.paragraph ? "The highlighted sentence is the quote; the rest is the paragraph around it." : "The paper text is not on this machine; only the quote is shown.";
+  }
+  const box = $("choices"); box.textContent = "";
+  task.choices.forEach(([value, title, help], k) => {
+    const b = document.createElement("button");
+    b.setAttribute("aria-pressed", String(row[task.field] === value));
+    const key = document.createElement("kbd"); key.textContent = String(k + 1);
+    const t = document.createElement("b"); t.textContent = title;
+    const h = document.createElement("small"); h.textContent = help;
+    b.append(key, t, h); b.onclick = () => choose(value); box.appendChild(b);
+  });
+  $("note").value = row.note || "";
+  const dots = $("dots"); dots.textContent = "";
+  list.forEach((r, k) => {
+    const d = document.createElement("button"); d.title = r.id; d.setAttribute("aria-label", r.id);
+    d.className = (done(r) ? "done " : "") + (k === S.i ? "cur" : ""); d.onclick = () => { S.i = k; render(); }; dots.appendChild(d);
+  });
+}
+
+async function save(row, value, note) {
+  const task = TASKS[S.tab];
+  const response = await fetch("/api/" + S.tab, { method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: row.id, [task.field]: value, note }) });
+  const body = await response.json();
+  if (!response.ok) throw new Error(body.error || response.statusText);
+  row[task.field] = value; row.note = note;
+  return body.done;
+}
+
+async function choose(value) {
+  const task = TASKS[S.tab], row = rows()[S.i];
+  const next = row[task.field] === value ? "" : value;
+  try { const count = await save(row, next, $("note").value); toast(next ? "Saved." : "Cleared.");
+    render();
+    if (next) { if (count === rows().length) { toast(`All ${count} are done. Tell Claude: it checks the file and commits it.`, "done"); return; } setTimeout(() => step("open"), 280); }
+  } catch (e) { toast("Not saved: " + e.message, "err"); }
+}
+
+async function commitNote() {
+  const task = TASKS[S.tab], row = rows()[S.i], note = $("note").value;
+  if (note === (row.note || "")) return;
+  try { await save(row, row[task.field] || "", note); toast("Note saved."); } catch (e) { toast("Not saved: " + e.message, "err"); }
+}
+
+function step(kind) {
+  const list = rows();
+  if (kind === "prev") S.i = Math.max(0, S.i - 1);
+  else if (kind === "next") S.i = Math.min(list.length - 1, S.i + 1);
+  else { for (let k = 1; k <= list.length; k++) { const j = (S.i + k) % list.length; if (!done(list[j])) { S.i = j; break; } } }
+  render();
+}
+
+function switchTo(tab) {
+  S.tab = tab; const list = rows(); const first = list.findIndex((r) => !done(r)); S.i = first < 0 ? 0 : first;
+  try { sessionStorage.setItem("tab", tab); } catch (e) {}
+  toast(""); render();
+}
+
+$("tab-m4").onclick = () => switchTo("m4"); $("tab-d4").onclick = () => switchTo("d4");
+$("prev").onclick = () => step("prev"); $("next").onclick = () => step("next"); $("open").onclick = () => step("open");
+$("note").addEventListener("change", commitNote);
+$("note").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); e.target.blur(); } });
+document.addEventListener("keydown", (e) => {
+  if (e.target.tagName === "INPUT" || e.ctrlKey || e.metaKey || e.altKey) return;
+  const choices = TASKS[S.tab].choices;
+  if (/^[1-9]$/.test(e.key) && Number(e.key) <= choices.length) choose(choices[Number(e.key) - 1][0]);
+  else if (e.key === "ArrowLeft") step("prev"); else if (e.key === "ArrowRight") step("next"); else if (e.key === "Enter") step("open");
+});
+
+fetch("/api/state").then((r) => r.json()).then((data) => {
+  S.data = data; let tab = "m4";
+  try { tab = sessionStorage.getItem("tab") || "m4"; } catch (e) {}
+  switchTo(tab === "d4" ? "d4" : "m4");
+}).catch((e) => toast("Could not load: " + e.message, "err"));
+</script>
+</body>
+</html>
