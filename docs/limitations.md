@@ -120,5 +120,7 @@ This is a research prototype that ranks hypotheses for lab testing. It makes no 
   was followed and the disagreement is written next to the target.
 - Every one of the solver's sets depends on p53: with p53 knocked out, none leaves only apoptosis and a damaged cell has no stable
   state at all (`with_p53_lost` in `results/targets.json`). Nothing here says what would happen in a cell without p53.
-- PTEN and RB are named by the model as genes whose loss leaves only apoptosis after damage. Whether that agrees with what is
-  known about them was not checked against a source here; it must be before anything about it is said outside this repository.
+- PTEN and RB are named by the model as genes whose loss leaves only apoptosis after damage. A first reading of 12 open-access
+  papers under a fixed protocol (`docs/literature_check.md`; read by the assistant, not yet by a person) found, for RB1, the model's
+  direction in both on-topic papers; for PTEN, two papers in the model's direction (through senescence and repair, not apoptosis) and
+  two against it. No paper reports apoptosis as the only fate. Six papers per gene is a small sample.

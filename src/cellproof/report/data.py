@@ -437,7 +437,20 @@ def downstream_block() -> dict | None:
     rows = [{"id": r["id"], "label": r["label"], "knock_out_only": r["knock_out_only"], "only_apoptosis_in": r["only_apoptosis_in"], "with_p53_lost": r["with_p53_lost"],
              "literals": [{"node": p["node"], "action": p["action"], "kind": p["kind"], "note": p["note"],
                            "genes": [{k: g[k] for k in ("symbol", "name", "hgnc_id", "uniprot_ids")} for g in p["genes"]]} for p in r["literals"]]} for r in targets["rows"]]
-    return {"targets": rows, "compounds": compounds}
+    return {"targets": rows, "compounds": compounds, "literature": literature_block()}
+
+
+def literature_block() -> dict | None:
+    """The literature check of PTEN loss and RB loss as the page shows it: counts per verdict and per gene, and every paper with its quotes."""
+    evidence = _read(ROOT / "data" / "literature" / "pten_rb_evidence.json")
+    if not evidence:
+        return None
+    verdicts = ("agrees_in_direction", "contradicts", "mixed", "off_topic")
+    papers = [{**p, "gene": gene} for gene, block in evidence["genes"].items() for p in block["papers"]]
+    return {"read_by": evidence["read_by"], "read_on": evidence["read_on"], "model_claim": evidence["model_claim"],
+            "counts": {v: sum(p["verdict"] == v for p in papers) for v in verdicts},
+            "per_gene": {gene: {v: sum(p["verdict"] == v for p in block["papers"]) for v in verdicts} for gene, block in evidence["genes"].items()},
+            "papers": [{k: p[k] for k in ("gene", "pmcid", "doi", "cite", "title", "context", "verdict", "fate_reported", "only_apoptosis_reported", "quotes", "note")} for p in papers]}
 
 
 def collect() -> dict:

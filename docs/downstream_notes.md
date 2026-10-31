@@ -107,9 +107,12 @@ accessions, so a model that takes a protein sequence or accession can be attache
 
 The honest summary is that the solver's answers survive a second, independent engine, and that they do not lead to a drug.
 That is a result about this one published model, not about biology: the sets are statements about a Boolean abstraction, and
-whether any is real is for the lab. PTEN and RB are named in the model as regulators whose loss leaves only apoptosis after
-damage; whether that matches what is known about those genes was not checked against a source here and must be before anything
-is said about it outside this repository.
+whether any is real is for the lab. PTEN and RB are named in the model as genes whose loss leaves only apoptosis after
+damage. A first reading of the literature under a fixed protocol (`docs/literature_check.md`, 12 papers, 6 on topic) found: for RB1 both
+on-topic papers point the way the model does; for PTEN two papers do (through senescence and impaired repair, not apoptosis) and two
+report the opposite, and one of the agreeing papers cites an earlier study with radioresistance. No paper reports apoptosis as the
+only fate. So the finer claim of the model is not supported, and for PTEN even the direction is contested; nothing about either gene
+as a target should be said outside this repository beyond that.
 
 ## 4. Reproduce
 

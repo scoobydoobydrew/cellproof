@@ -179,6 +179,19 @@ ChEMBL ChEMBL_37, queried 2026-10-31. Nothing is predicted: each count is a numb
 | WEE1 | named in the project brief as a candidate radiosensitisation target, not found by the solver | apoptosis, arrest, autophagy, senescence | 3725 | 1441 | 1005 | 105 | CHEMBL5933715: IC50 0.1 nM (pChEMBL 10.00) |
 | PRKDC | named in the project brief as a candidate radiosensitisation target, not found by the solver | apoptosis, arrest, autophagy, senescence | 6653 | 1658 | 952 | 20 | CHEMBL4447991: IC50 0.07943 nM (pChEMBL 10.10) |
 
+## Literature check: does losing PTEN or RB1 agree with the papers?
+
+12 papers read under a protocol fixed before reading (`docs/literature_check.md`): the first six open-access, non-review papers per gene in Europe PMC's citation order. 6 were on topic: 4 agree with the direction of the model (without the gene, less survival or more apoptosis), 2 contradict it, 0 are mixed; 6 were off topic and are listed with their reason in `data/literature/pten_rb_evidence.json`. 0 of the 6 report apoptosis as the only fate, so the finer claim of the model is not confirmed by any of them. Read by the assistant, not yet checked by a person; a code check confirms that every quote occurs in the paper.
+
+| gene | paper | verdict | fate reported | context |
+|---|---|---|---|---|
+| PTEN | Chun-Zhi Z et al. BMC cancer 2010 (PMC2914702) | contradicts | apoptosis (more, when PTEN is raised) | Human gastric cancer cell line SGC7901; PTEN raised by knocking down miR-221/222 or by PTEN cDNA; clonogenic survival after radiation |
+| PTEN | Chatterjee P et al. PLoS ONE 2013 (PMC3614551) | agrees in direction | senescence | Human prostate cancer cell lines (PTEN-null PC3, LNCaP and C4-2 against PTEN-wild-type DU145), radiation together with the PARP inhibitor rucaparib |
+| PTEN | Vahabi M et al. J Exp Clin Cancer Res 2019 (PMC6440033) | contradicts | not reported (viability and colony assays) | Human head and neck cancer cell lines; siRNA against PTEN; 2 Gy |
+| PTEN | Mansour WY et al. Scientific reports 2018 (PMC5834544) | agrees in direction | not reported (the mechanism given is impaired homologous recombination and G2/M checkpoint) | Human prostate cancer cells (DU145) after PTEN depletion, irradiation, and a tissue microarray of prostate cancer samples |
+| RB1 | Robinson TJ et al. PLoS ONE 2013 (PMC3827056) | agrees in direction | not reported (MTT viability assays and the cancer stem cell fraction) | Eight human triple-negative breast cancer cell lines (4 RB-positive, 4 RB-negative); gamma-irradiation, 5 to 10 Gy; MTT viability |
+| RB1 | Agerbaek M et al. British journal of cancer 2003 (PMC2394264) | agrees in direction | apoptosis (cited from earlier work); not measured in the patients' tumours | 108 patients with muscle-invasive bladder cancer; pRB staining of the tumour before preoperative radiotherapy |
+
 ## Scaling of the exact checker (M6)
 
 Fixed points (mpbn) and asynchronous attractors (AEON) of one network, 30 s limit per network, measured on the machine that wrote `results/scaling.json`. `random` networks are hard on purpose; `cascade` adds downstream chains to the base network.
