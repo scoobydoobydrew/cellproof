@@ -1,89 +1,64 @@
 # Demo video script (3 minutes)
 
-Record from `results/report.html` (open the file in a browser) and a terminal running `make verify`. Everything on screen
-comes from cached model outputs, so there is no live-API risk. Numbers below are the ones in `results/RESULTS.md` at the time
-of writing; read them off the page when recording, do not trust this file.
+Record from `results/report.html` (open the file in a browser) and a terminal running `make verify`. Everything on screen comes from
+cached model outputs, so there is no live-API risk. Numbers below are the ones the page shows at the time of writing; read them off the
+page when recording, do not trust this file.
 
-Before recording: the page speaks English and Greek and remembers the last choice (a browser set to Greek opens it in
-Greek). Press **EN** in the top bar, then reload once to check. The page is dark or light by system setting; the top-bar moon
-button switches it.
+Before recording: the page speaks English and Greek and remembers the last choice (a browser set to Greek opens it in Greek). Press
+**EN** in the top bar, then reload once to check. The top-bar moon button switches light and dark for the technical part; the story is
+always dark. The story fades each scene in when it comes into view, so scroll a little slower than you talk and give each scene a second
+to appear. Do not click while a scene is playing, except where the script says so.
 
-**0:00 to 0:15. The one line (say it and show it).**
-"Before this week: a published 30-gene model of how a cell responds to DNA damage, open-access papers, and open-source
-solvers. Built this week: an agent where Muse Spark reads the papers and proposes rules, and an exact solver decides which
-ones the model can take."
+**0:00 to 0:15. The one line (say it over the DNA, three beats loop).**
+"Before this week: a published 30-gene model of how a cell responds to DNA damage, open-access papers, and open-source solvers. Built this
+week: an agent where Muse Spark reads the papers and proposes rules, and an exact solver decides which ones the model can take."
+The header plays "Radiation breaks DNA", "Not every damaged cell dies", "Flip the right genes, and every cell dies". Let it play; do not
+read the captions out. Keep the pointer off the header (it stands still while the pointer is over it). Then press **Start the story**.
 
-The top of the page plays a story of about 50 seconds (each beat stays long enough to read) over a close-up of DNA, in six beats that loop: a ray breaks the DNA
-("Radiation breaks DNA"); a dish of cells takes four fates ("Not every damaged cell dies"); two gene switches flip and every cell
-of a fresh dish dies ("Flip the right genes", the goal: a combination of genes to switch off, or on); new rules keep coming and
-each can change which combinations work ("New rules change which genes to flip": a rule is a link between two genes; a small
-network of genes where papers arrive one after another and each brings a link, with the 11 combinations of the published list
-as dots under it: unchecked, two of the links make the dots go out, none of the old ones is left and a few others appear, with the
-number of known experiments that model breaks; then each rule is checked first, one is struck out, the old ones come back; the
-genes' placement and the cards are illustration, the counts and which dot goes out are the solver's); a field of dots, one per
-combination of one or two genes, which zooms out as sets of up to five genes are counted, with the NP-hard note and its source;
-the AI's guesses judged by the solver, then the solver's scan leaving a few glowing dots ("The AI proposes. The solver decides.").
-Reload the page so that it starts on the first beat, let it play under the one line above (do not read the captions out), then
-press *Play*. Keep the mouse pointer off the header while it plays: it stands still while the pointer is over its words or
-pictures (a pause mark shows next to the little bars), and it carries on when the pointer leaves. The little bars under the
-words jump to a beat, and the pointer over them does not hold it. Say it plainly if asked: the solver alone does solve this small
-model in seconds; what it cannot do is read the papers, and the count of candidates explodes as the model or the sets grow. And
-the AI alone is not useless: asked directly for the genes, it was right for most of its guesses and found some of the 11, but
-nothing checks it, a quarter of its guesses were wrong, and its edits to the model, unchecked, break 7 or 8 of the 10 known
-experiments. Read the exact counts off the scoreboard, they are computed when the page is built.
+**0:15 to 1:55. The story (six scenes and a close; about 15 seconds each; one sentence each).**
+1. *A tumour is a crowd of cells.* "Radiation hits every cell. In our virtual tumour, a computer simulation, 107 of 1,663 are still alive
+   after three days." (Read the exact numbers off the page.)
+2. *Inside each cell, genes switch each other on and off.* "A cell is a little circuit. Different switch positions, different fate:
+   pause, age, recycle itself, die. Cut the right switches and only death is left."
+3. *Too many to try in a lab.* "Which genes? A thousand combinations for two genes, over a million for five, and each one is an
+   experiment. Our exact solver tried every one of one or two genes in about five seconds and found eleven that leave only death."
+4. *An AI reads. A checker checks.* "The AI reads 36 papers and proposes new links in the circuit. An AI can be wrong with confidence, so
+   an exact solver replays ten known experiments before any link is kept: without it, seven or eight break; with it, none."
+5. *Back to the virtual tumour.* Click the four buttons in turn: "Radiation only: some survive. One switch the checker picked: none are
+   left. A switch it rejected: many survive, so it does not say yes to everything. And a recipe our exact analysis predicted before the
+   simulation ran: none left, in all three." Say that two independent engines agree on 22 of 22 cases and that they run the same rules,
+   so this checks one against the other, not the biology.
+6. *Every tumour has its own genes.* "Each dot is one of 9,896 real tumour samples from public data. We forced each sample's genetic
+   changes into the model and asked again. For most samples a recipe still works, but when the gene p53 is lost, none does: between 14 and
+   39 of every 100 samples, depending on how strictly we count. Every recipe we found relies on p53." Click the second button to show the
+   range. Say once that this is a statement about the model, not about any person.
+7. *What this is, and what it isn't.* Read the three cards, quickly: checked exactly, a model of a cell and not of a person, and not better
+   than the published model on outcomes it never saw.
+Do not say "patient", "therapy", "treatment", "personalised", "proof", "trial", "cure" or "safe" (the second card says "no treatment, no
+dose, no medical advice", in the negative, and that is the only place). Say "tumour samples", "recipes", "hypotheses for the lab",
+"a model of a cell".
 
-**0:15 to 1:20. The bench (press *Play the 60-second story*; talk over the captions, do not read them out).**
-The page walks through by itself, in plain words, one idea at a time (the captions are on the stage; each says what the
-picture shows, nothing needs a glossary):
-1. "Radiation damages the DNA of a cell." (the dish)
-2. "Then every cell picks one fate: it pauses, ages, recycles itself or dies." (the dish is irradiated; which fates are possible
-   is the solver's exact answer, not a simulation)
-3. "Switch off one gene, TUG1, and every cell dies. Finding genes like this is the goal." (the paper reports this one)
-4. "Inside the cell, genes switch each other on and off. This is our model of it." (the poster view)
-5. "But the model is missing links that the papers know. An AI reads 36 papers and finds them. One new link: CHK1 switches off
-   CDC25C."
-6. "Is the AI right? An exact checker, the solver, replays 10 experiments with known results. Three of them now come out wrong:
-   the AI's link was not safe."
-7. "The AI sees which ones, and rewrites the link. Now all ten come out right. The checker decided, not the AI."
-8. "Honest limit: on 10 outcomes from papers the AI never read, the model is no better than before." Then: "The AI proposes.
-   The solver decides."
+**1:55 to 2:35. The technical part (press **The technical part**, then the bench or the notebook).**
+- Bench: press the top-bar **Bench demo** (it plays a 60-second walk-through; show a few seconds): an AI's link breaks three known
+  experiments, the AI rewrites it, all ten pass: "the checker decided, not the AI". Mention that the AI once offered a rule that passed
+  every test but changed nothing, and the checker refused it as vacuous.
+- Evidence: the heat map ("without the solver, 7 to 8 of ten known behaviours break; with it, none") and "47% of the edits taken from papers
+  contradict the published model".
+- Audit, said straight: "The published model can answer 8 of the 10 scoreable outcomes. In 4 of them it has no stable state, so those
+  verdicts are artifacts. On the other 4 it gets 2 right, the same as ignoring the perturbation. So this does not show better prediction.
+  It shows where a published model and the literature disagree, and it does so automatically."
+- If asked about the literature check: 24 open-access papers, 10 on topic, none reports apoptosis as the only fate, and the model's
+  direction for PTEN and RB1 is contested (4 agree, 5 contradict, 1 no difference). If PTEN or RB appears on screen, say it is the model's
+  answer, not a recommendation.
+- If asked about the first validation of the sequence analysis: it was written before the results, failed for 8 of 23 conditions because
+  the two engines mean different things by "dead", and was amended afterwards and labelled as such; the amended one holds on 23 of 23 and
+  was then tested out of sample on three recipes (none of 1,663 cells alive). No pair of changes, and no order of the five kinases named in
+  the brief, works only in a particular order in this model.
 
-If there is time, say one line about the sixth step, the hunt: "The solver knows all eleven ways to leave only death; two of
-them are what the paper reports. Click genes and find them." Show one discovery (TUG1 out), then stop.
-
-**1:20 to 2:00. Why you can trust it (scroll to the notebook).**
-- "The cell": click *TUG1 knocked out*, then *p53 knocked out* ("no stable state: the network oscillates").
-- "Case files": the CHK1 case is preselected. Show the papers, the template, the solver's counterexample, then the
-  repair attempts. Click *ATR activates ATM/γH2AX*: "Here its first answer passed the cases but changed nothing, so the solver
-  refused it as vacuous. The second one changed a prediction."
-
-**2:00 to 2:30. The result (scroll to "Evidence").**
-- Heat map: "Without the solver, 7 to 8 of ten known behaviours break. With it, none."
-- "47% of the edits taken from papers contradict the published model."
-- Audit table: say it straight. "The published model can answer 8 of the 10 scoreable outcomes. In 4 of them it has no
-  stable state, so those verdicts are artifacts. On the other 4 it gets 2 right, the same as ignoring the perturbation. The
-  added kinases change none of the verdicts. So this does not show better prediction. It shows where a published model
-  and the literature disagree, and it does so automatically."
-
-**2:30 to 3:00. Reproducibility and limits.**
+**2:35 to 3:00. Reproducibility and limits.**
 - Terminal: `make verify`, which rebuilds every number with no API call.
-- Limits, on screen: ten scoreable claims, written by me and not yet checked by a person; the model's repairs can pass the
-  checks without being biologically right; no medical claims. "These are hypotheses for the lab."
-
-**Optional beat, if the three minutes allow it (10 to 15 seconds): the tissue what-if.** Scroll to "Does the answer hold in a
-crowd of cells?", pick *PTEN KO* in the list and press *Play*: the cells of a virtual tissue die one by one while the curve
-falls. Say only what the section says: "a second, independent engine, with every cell running the network, agrees with the
-exact solver on all 22 sets; it is not a prediction for any patient". Do not say "trial", "proof", "drug" or "safe". If this beat is in the video, the opening line also says that the simulator (PhysiBoSS) and
-the ChEMBL database existed before the week and that the translation of the network, the experiments and the checks are new. The
-numbers on screen come from `results/tissue/summary.json`; read them off the page. If PTEN or RB appears on screen, say that it is the model's
-answer: the literature check (`docs/literature_check.md`, 24 papers, 10 on topic) does not support it, since four papers agree with the model's direction and five
-contradict it, and no paper reports apoptosis as the only fate.
-
-**Optional second beat (10 to 15 seconds, only if the first one is shown): predicted before, confirmed in the tissue.** Scroll to "Does the
-order of the changes matter?". Say only: "an exact analysis that starts from a healthy cell found three more sets than the solver, and
-predicted before any simulation that none of the cells would survive them; the tissue simulation then left none of 1,663 alive in each".
-If asked about the first validation, say that it was written before the results, failed for 8 of 23 conditions because the two engines
-mean different things by "dead", and was amended afterwards and labelled as such. Say that no pair of changes, and no order of the five
-kinases named in the brief, works only in a particular order in this model. Do not say "proved", "therapy", "treatment" or "personalised". The
-genotype card ("Do the answers survive a tumour's genotype?") is a statement about the model's dependence on p53 measured on public tumour
-counts, never about a person.
+- Limits, on screen (scroll to **Limits**): ten scoreable held-out claims, written by me and not yet checked by a person; the model's
+  repairs can pass the checks without being biologically right; Boolean networks have no dose and no time; no medical claims. "These are
+  hypotheses for the lab."
+- If the simulator PhysiBoSS and the ChEMBL database, the cBioPortal API and TCGA data appear in the opening line, say that they existed
+  before the week and that the translation of the network, the experiments, the checks and the studies are new.

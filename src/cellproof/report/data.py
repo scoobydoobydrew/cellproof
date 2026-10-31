@@ -473,7 +473,7 @@ def genotypes_block() -> dict | None:
         return None
 
     def rule(r: dict) -> dict:
-        return {"samples": r["samples"], "studies": r["studies"], "signatures": r["distinct_signatures"], "altered": r["altered"], "tp53_lost": r["tp53_lost"], "baseline": r["baseline"], "alone_lost_only_apoptosis": r["baseline_tp53_lost"]["only_apoptosis"],
+        return {"samples": r["samples"], "studies": r["studies"], "signatures": r["distinct_signatures"], "altered": r["altered"], "tp53_lost": r["tp53_lost"], "any_works": r["any_set_works"], "baseline": r["baseline"], "alone_lost_only_apoptosis": r["baseline_tp53_lost"]["only_apoptosis"],
                 "searched": len(r["top_signatures"]), "searched_tp53_lost": sum(["p53", 0] in t["signature"] for t in r["top_signatures"]),
                 "searched_tp53_lost_found": sum(bool(t["specific_sets"]) for t in r["top_signatures"] if ["p53", 0] in t["signature"]),
                 "sets": [{"label": s["label"], "all": s["all"]["only_apoptosis"], "intact": s["tp53_intact"]["only_apoptosis"], "lost": s["tp53_lost"]["only_apoptosis"]} for s in r["sets"]],

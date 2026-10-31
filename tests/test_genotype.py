@@ -87,5 +87,8 @@ def test_the_stored_results_say_what_the_protocol_reports():
             if ["p53", 0] in top["signature"]:
                 assert top["specific_sets"] == [], top["signature"]  # no set of up to two literals, for any of the most frequent TP53-lost genotypes
     assert d["r1"]["tp53_lost"] == 1408 and d["r2"]["tp53_lost"] == 3815 and d["r1"]["altered"] == 4453
+    for rule, works in (("r1", 8236), ("r2", 5907)):  # the three kinds of dot on the page: a set works, TP53 intact but none works, TP53 lost
+        r = d[rule]
+        assert r["any_set_works"] == works and r["any_set_works_tp53_lost"] == 0 and 0 < r["samples"] - r["tp53_lost"] - r["any_set_works"] < 300
     wip1 = next(t for t in d["r1"]["top_signatures"] if t["signature"] == [["Wip1", 1]])
     assert wip1["sets_that_leave_only_apoptosis"] == [] and wip1["specific_sets"] == ["Cdc25 E1 + Sirt1 KO"]  # a genotype for which the 11 sets fail and one other exists

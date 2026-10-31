@@ -235,6 +235,8 @@ V3, a prediction written down before the runs: the 3 sets that H1 finds and the 
 | the genotype alone leaves only apoptosis | 1,744 (17.6%) | 1,009 (10.2%) |
 | the genotype alone leaves no stable state (the network oscillates) | 1,080 (10.9%) | 2,833 (28.6%) |
 | of those with TP53 lost, only apoptosis | 0 | 0 |
+| at least one of the 11 sets leaves only apoptosis (on top of the genotype) | 8,236 (83.2%) | 5,907 (59.7%) |
+| TP53 not lost, but none of the 11 sets works | 252 (2.5%) | 174 (1.8%) |
 
 Each of the solver's 11 sets on top of the genotype: samples for which the cell then has only apoptosis (a set that asks for the opposite of what the genotype forces is not applicable and does not count).
 

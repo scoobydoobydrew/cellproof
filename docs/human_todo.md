@@ -23,7 +23,7 @@ commits the files.
    `THIRD_PARTY.md`, and check that no full paper text is committed (they live in `data/raw`, which is ignored).
 4. **The video:** its first line must say what pre-existed and what was built this week (the brief, rule 9). Record it from
    `make verify` output, which replays cached model outputs and needs no network. Set the page to English (the **EN**
-   button) before recording; `docs/video_script.md` has the beat sheet around the page's *Play* button.
+   button) before recording; `docs/video_script.md` has the scene-by-scene sheet for the story that opens the page.
 
 ## Where things stand (updated 2026-10-31) and what is left until the submission
 

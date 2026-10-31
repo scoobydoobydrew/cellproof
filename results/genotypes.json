@@ -80,6 +80,8 @@
   "distinct_signatures": 727,
   "altered": 4453,
   "tp53_lost": 1408,
+  "any_set_works": 8236,
+  "any_set_works_tp53_lost": 0,
   "baseline": {
    "only_apoptosis": 1744,
    "other": 7072,
@@ -1604,6 +1606,8 @@
   "distinct_signatures": 739,
   "altered": 5635,
   "tp53_lost": 3815,
+  "any_set_works": 5907,
+  "any_set_works_tp53_lost": 0,
   "baseline": {
    "only_apoptosis": 1009,
    "other": 6054,

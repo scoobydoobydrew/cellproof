@@ -43,8 +43,8 @@
   /* ---------------------------------------------------------------- texts */
   const TEXT = {
     en: {
-      "nav.bench": "Bench", "play.short": "▶ Play", "play.stop": "■ Stop",
-      "hero.sr": () => `CellProof: radiation breaks DNA and a damaged cell does not always die. The goal is a combination of genes to switch off, or on, that leaves only death. ${DRIFT ? `New rules keep coming and each can change which genes to flip: ${DR.rules} new rules from ${DR.papers} papers, added without checking, replaced all ${DR.published} combinations that worked with ${DR.unchecked.sets} others, while with each rule checked first the same ${DR.checked.sets} stayed. ` : ""}There are ${num(HERO.total)} combinations of one or two genes, ${num(HERO.sizes[4])} of up to five, and controlling a Boolean network is NP-hard in general (Akutsu et al. 2007). ${HERO.ai ? `Asked directly, an AI named ${HERO.ai.distinct} sets, ${HERO.ai.works} were right and it found ${HERO.ai.minimal_hits} of the ${HERO.ai.minimal} candidates. ` : ""}${UNCH ? `Its unchecked edits to the model break ${range(...UNCH)} of 10 known experiments. ` : ""}An exact solver finds all of them here but cannot read the papers. Together: ${HERO.found} candidates for the lab and ${CHK} of 10 known experiments broken. Hypotheses for experiments, not treatments.`,
+      "nav.story": "Story", "nav.bench": "Bench", "play.short": "▶ Bench demo", "play.stop": "■ Stop",
+      "hero.sr": () => "CellProof: radiation breaks DNA and a damaged cell does not always die. The goal is a combination of genes to switch off, or on, that leaves only death. Below, a short story in plain words, then the technical part. Hypotheses for experiments, not treatments.",
       "hero.sa": () => `<b>AI alone:</b> ${joined([HERO.ai && `${HERO.ai.works} of ${HERO.ai.distinct} guesses right, ${HERO.ai.minimal_hits} of the ${HERO.ai.minimal} candidates found`, UNCH && `its edits break ${range(...UNCH)} of 10 known experiments`])}`,
       "hero.sb": () => `<b>Solver alone:</b> finds all ${HERO.found} and checks them, but cannot read the papers${HERO.proj["5"] ? `; ≈ ${dur(HERO.proj["5"])} for 5 changes (projected)` : ""}`,
       "hero.sc": () => `<b>Together:</b> ${HERO.found} candidates for the lab (${PAPER_SETS} in the base paper, the rest computed), ${CHK} of 10 known experiments broken`,
@@ -61,8 +61,10 @@
       "hero.b5": "The AI proposes. The solver <em>decides.</em>", "hero.n5": "candidates left",
       "unit.s": "s", "unit.min": "min", "unit.h": "h",
       "hero.tag": "Illustration, not to scale. Hypotheses for experiments, not treatments.", "hero.step": (i, n) => `Part ${i} of ${n}`,
-      "hero.play": (n, s) => `▶ Play the ${s}-second story`, "hero.try": "Try it yourself",
+      "hero.play": "Start the story ↓", "hero.try": "The technical part",
       "bench.eyebrow": "The test bench", "bench.h2": "Five steps. One circuit. The checker decides.",
+      "tech.eyebrow": "The technical part", "tech.h2": "Everything above, with every number and every check.",
+      "tech.lede": "A test bench you can click, the cell with all of its genes, how the agent works, every rule it judged and the audit. In English. All of it is read from the files the pipeline wrote.",
       "ctl.damage": "DNA damage",
       "scale.dish": "Dish", "scale.circuit": "Cell", "irr.go": "Irradiate", "irr.again": "Irradiate again", "irr.replay": "Replay",
       "vial.none": "No change", "vial.tug1": "Switch off TUG1", "vial.mir": "Switch on miR-221", "vial.p53": "Remove p53", "cmp.paper": "Paper: known result",
@@ -116,8 +118,8 @@
       "cap.11": "Honest limit: on 10 outcomes from papers the AI never read, the model is no better than before.", "cap.12": "The AI proposes. The solver decides.",
     },
     el: {
-      "nav.bench": "Εργαστήριο", "play.short": "▶ Παίξε", "play.stop": "■ Στοπ",
-      "hero.sr": () => `CellProof: η ακτινοβολία σπάει το DNA και ένα κύτταρο με βλάβη δεν πεθαίνει πάντα. Ο στόχος είναι ένας συνδυασμός γονιδίων να σβήσουν, ή να ανάψουν, ώστε να μείνει μόνο ο θάνατος. ${DRIFT ? `Νέοι κανόνες βγαίνουν συνέχεια και ο καθένας μπορεί να αλλάξει ποια γονίδια θα γυρίσεις: ${DR.rules} νέοι κανόνες από ${DR.papers} papers, χωρίς έλεγχο, αντικατέστησαν όλους τους ${DR.published} συνδυασμούς που δούλευαν με ${DR.unchecked.sets} άλλους, ενώ όταν κάθε κανόνας ελέγχθηκε πρώτα έμειναν οι ίδιοι ${DR.checked.sets}. ` : ""}Υπάρχουν ${num(HERO.total)} συνδυασμοί ενός ή δύο γονιδίων, ${num(HERO.sizes[4])} με έως πέντε, και ο έλεγχος ενός δικτύου Boole είναι γενικά NP-hard (Akutsu et al. 2007). ${HERO.ai ? `Όταν ρωτήθηκε απευθείας, ένα AI ονόμασε ${HERO.ai.distinct} σύνολα, τα ${HERO.ai.works} ήταν σωστά και βρήκε ${HERO.ai.minimal_hits} από τις ${HERO.ai.minimal} υποψήφιες. ` : ""}${UNCH ? `Οι ανέλεγκτες αλλαγές του στο μοντέλο χαλάνε ${range(...UNCH)} από 10 γνωστά πειράματα. ` : ""}Ένας ακριβής solver τις βρίσκει όλες εδώ αλλά δεν μπορεί να διαβάσει τα papers. Μαζί: ${HERO.found} υποψήφιες για το εργαστήριο και ${CHK} από 10 γνωστά πειράματα χαλασμένα. Υποθέσεις για πειράματα, όχι θεραπείες.`,
+      "nav.story": "Η ιστορία", "nav.bench": "Εργαστήριο", "play.short": "▶ Demo εργαστηρίου", "play.stop": "■ Στοπ",
+      "hero.sr": () => "CellProof: η ακτινοβολία σπάει το DNA και ένα κύτταρο με βλάβη δεν πεθαίνει πάντα. Ο στόχος είναι ένας συνδυασμός γονιδίων να σβήσουν, ή να ανάψουν, ώστε να μείνει μόνο ο θάνατος. Παρακάτω, μια σύντομη ιστορία με απλά λόγια, και μετά το τεχνικό μέρος. Υποθέσεις για πειράματα, όχι θεραπείες.",
       "hero.sa": () => `<b>Μόνο AI:</b> ${joined([HERO.ai && `${HERO.ai.works} από ${HERO.ai.distinct} εικασίες σωστές, βρήκε ${HERO.ai.minimal_hits} από τις ${HERO.ai.minimal} υποψήφιες`, UNCH && `οι αλλαγές του χαλάνε ${range(...UNCH)} από 10 γνωστά πειράματα`])}`,
       "hero.sb": () => `<b>Μόνο solver:</b> βρίσκει και τις ${HERO.found} και τις ελέγχει, αλλά δεν διαβάζει τα papers${HERO.proj["5"] ? `· ≈ ${dur(HERO.proj["5"])} για 5 αλλαγές (εκτίμηση)` : ""}`,
       "hero.sc": () => `<b>Μαζί:</b> ${HERO.found} υποψήφιες για το εργαστήριο (${PAPER_SETS} στο βασικό paper, οι άλλες υπολογισμένες), ${CHK} από 10 γνωστά πειράματα χαλασμένα`,
@@ -134,8 +136,10 @@
       "hero.b5": "Το AI προτείνει. Ο solver <em>αποφασίζει.</em>", "hero.n5": "υποψήφιες έμειναν",
       "unit.s": "δλ", "unit.min": "λ", "unit.h": "ώ",
       "hero.tag": "Εικονογράφηση, όχι υπό κλίμακα. Υποθέσεις για πειράματα, όχι θεραπείες.", "hero.step": (i, n) => `Μέρος ${i} από ${n}`,
-      "hero.play": (n, s) => `▶ Παίξε την ιστορία (${s} δλ)`, "hero.try": "Δοκίμασέ το",
+      "hero.play": "Ξεκίνα την ιστορία ↓", "hero.try": "Το τεχνικό μέρος",
       "bench.eyebrow": "Το εργαστήριο δοκιμών", "bench.h2": "Πέντε βήματα. Ένα κύκλωμα. Αποφασίζει ο ελεγκτής.",
+      "tech.eyebrow": "Το τεχνικό μέρος", "tech.h2": "Όλα τα παραπάνω, με κάθε αριθμό και κάθε έλεγχο.",
+      "tech.lede": "Ένα εργαστήριο δοκιμών που μπορείς να πατήσεις, το κύτταρο με όλα τα γονίδιά του, πώς δουλεύει ο agent, κάθε κανόνας που έκρινε και ο έλεγχος. Στα αγγλικά. Όλα διαβάζονται από τα αρχεία που έγραψε το pipeline.",
       "ctl.damage": "Βλάβη DNA",
       "scale.dish": "Τρυβλίο", "scale.circuit": "Κύτταρο", "irr.go": "Ακτινοβόληση", "irr.again": "Ξανά ακτινοβόληση", "irr.replay": "Επανάληψη",
       "vial.none": "Καμία αλλαγή", "vial.tug1": "Σβήσε το TUG1", "vial.mir": "Άναψε το miR-221", "vial.p53": "Βγάλε το p53", "cmp.paper": "Paper: γνωστό αποτέλεσμα",
@@ -580,7 +584,7 @@
   }
   $("#bStop").addEventListener("click", stop);
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && st.playing) stop(); });
-  for (const id of ["playTop", "playHero"]) $("#" + id).addEventListener("click", play);
+  $("#playTop").addEventListener("click", play);
 
   /* ---------------------------------------------------------------- language */
   let heroApi = null;  /* set by the header at the end of this file */
@@ -605,7 +609,7 @@
      it moves only while it is on screen, and the little bars under the words jump to any beat */
   (function heroStory() {
     const hero = $("#top"), cvH = $("#heroMol"), cvS = $("#heroStory"); if (!hero || !cvH || !cvS) return;
-    const FULL = HERO.total && HERO.found && HERO.sizes.every(Boolean) && DRIFT, lite = innerWidth < 700, BEATS = FULL ? 6 : 3, DUR = [5500, 6500, 8500, 11000, 10000, 11500].slice(0, BEATS), dots = $$("#hDots button");
+    const FULL = HERO.total && HERO.found && HERO.sizes.every(Boolean) && DRIFT, lite = innerWidth < 700, BEATS = 3, DUR = [5500, 6500, 8500, 11000, 10000, 11500].slice(0, BEATS), dots = $$("#hDots button");
     let beat = 0, timer = 0, hitT = 0, seen = true, shown = -1, shownStage = 0, held = false, due = 0, since = 0;
     dots.forEach((d, i) => { d.hidden = i >= BEATS; });
     const paint = (n) => { shown = n; const el = $(`.beat[data-b="${beat + 1}"] [data-count]`, hero); if (el && n >= 0) el.textContent = num(n); };

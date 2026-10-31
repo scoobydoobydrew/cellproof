@@ -45,21 +45,17 @@ All numbers are produced by `make verify` and written to [`results/RESULTS.md`](
 [`docs/limitations.md`](docs/limitations.md).
 
 **The interactive report is [`results/report.html`](results/report.html)** (open it in a browser; `python -m cellproof.cli report`
-rebuilds it). The top of the page is a story of about 50 seconds (long enough to read, and it stands still while the mouse pointer is over its words or pictures) told over a close-up of DNA, in six beats: radiation breaks DNA; a
-damaged cell can pause, age, recycle itself or die, so not every one dies; the goal, a combination of genes to switch off, or on,
-that leaves only death; new rules keep coming and each can change which combinations work (a small network of genes: papers
-bring links one after another, and the combinations of the published list stop working as the pipeline's own edits are
-replayed one by one, unchecked; then each rule is checked first and the same combinations stay, next to the number of known
-experiments each model breaks); the search for it explodes with the number of genes changed at once (controlling a Boolean network is
-NP-hard in general, Akutsu et al. 2007); the AI alone, the solver alone and the two together, ending with the exact solver's
-shortlist (every count, time and verdict is computed when the page is built, not typed in; times for larger sets are projections
-and say so). Below it is a test bench in five clickable steps (the
-cells, a patch from the literature, ten known experiments, the AI's repair, a check against held-out outcomes) and a sixth, a
-game: find every way to leave only death. The stage shows a dish of cells that react to radiation, and the same network drawn
-as a pathway poster (a cell whose membrane takes the radiation, named gene pills, golden arrows that switch on, teal bars that
-switch off); there is a 60-second automatic walk-through and the texts are in English and Greek. Below it is the lab notebook
-with every number and case file. Every lamp, every fate a cell takes in the dish and every pill that is lit is the exact solver's
-answer; the pictures themselves are illustration (see `docs/limitations.md`). The headline numbers, each also in `results/RESULTS.md`:
+rebuilds it). Its first part is a short story in plain words, in English or Greek (the **EN / ΕΛ** button), with no gene names. Over a close-up
+of DNA it says that radiation breaks DNA, that not every damaged cell dies, and that the goal is a few genes to switch so that every cell does.
+Six scenes with simple drawings follow: a tumour is a crowd of cells (a real simulation of 1,663 cells, replayed); each cell is a circuit of
+genes that decides its fate; which switches to flip is too many combinations to try in a lab (the count explodes, with the solver's answers
+glowing among them); an AI reads and a checker checks (the same ten known experiments, with and without the checker); the same crowd again
+with the checker's switches applied, including three recipes that were predicted before the simulation and then confirmed; and 9,896 public tumour
+samples as one dot each, showing that every recipe relies on one gene (p53) and what share of samples have lost it. A short close says what this
+is and is not. After a marked gate comes the technical part, in English: a test bench in five clickable steps and a hunt for every way to leave
+only death, the interactive cell with all of its genes, the agent, every rule it judged, the evidence, the tissue, sequence and genotype studies and
+the limits. Every number on the page is computed when it is built, never typed in; the pictures are illustration unless they say that they
+are the simulation or public counts (see `docs/limitations.md`). The headline numbers, each also in `results/RESULTS.md`:
 
 | | |
 |---|---|

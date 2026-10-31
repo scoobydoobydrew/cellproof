@@ -324,6 +324,8 @@ def genotypes_section() -> str:
              f"| the genotype alone leaves only apoptosis | {pct(r1['baseline']['only_apoptosis'], r1['samples'])} | {pct(r2['baseline']['only_apoptosis'], r2['samples'])} |",
              f"| the genotype alone leaves no stable state (the network oscillates) | {pct(r1['baseline']['no_stable_state'], r1['samples'])} | {pct(r2['baseline']['no_stable_state'], r2['samples'])} |",
              f"| of those with TP53 lost, only apoptosis | {r1['baseline_tp53_lost']['only_apoptosis']} | {r2['baseline_tp53_lost']['only_apoptosis']} |",
+             f"| at least one of the 11 sets leaves only apoptosis (on top of the genotype) | {pct(r1['any_set_works'], r1['samples'])} | {pct(r2['any_set_works'], r2['samples'])} |",
+             f"| TP53 not lost, but none of the 11 sets works | {pct(r1['samples'] - r1['tp53_lost'] - r1['any_set_works'], r1['samples'])} | {pct(r2['samples'] - r2['tp53_lost'] - r2['any_set_works'], r2['samples'])} |",
              "", "Each of the solver's 11 sets on top of the genotype: samples for which the cell then has only apoptosis (a set that asks for the opposite of what the genotype forces is not applicable and does not count).", "",
              "| set | R1, all samples | R1, TP53 not lost | R1, TP53 lost | R2, all samples | R2, TP53 not lost | R2, TP53 lost | not applicable, R1 |", "|---|---|---|---|---|---|---|---|"]
     for a, b in zip(r1["sets"], r2["sets"]):

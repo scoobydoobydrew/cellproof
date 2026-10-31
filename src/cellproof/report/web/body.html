@@ -2,7 +2,7 @@
   <div class="wrap">
     <a class="brand" href="#top">CellProof <small>hackathon build</small></a>
     <nav aria-label="Sections">
-      <a href="#bench" data-i18n="nav.bench">Bench</a><a href="#model">The cell</a><a href="#agent">The agent</a><a href="#cases">Case files</a><a href="#evidence">Evidence</a><a href="#tissue">Tissue</a><a href="#limits">Limits</a>
+      <a href="#story" data-i18n="nav.story">Story</a><a href="#bench" data-i18n="nav.bench">Bench</a><a href="#model">The cell</a><a href="#agent">The agent</a><a href="#cases">Case files</a><a href="#evidence">Evidence</a><a href="#tissue">Tissue</a><a href="#limits">Limits</a>
     </nav>
     <button class="btn small" id="playTop" type="button" data-i18n="play.short">▶ Play</button>
     <button class="iconbtn" id="lang" type="button" aria-label="English / Ελληνικά" title="English / Ελληνικά"><span id="langTxt">ΕΛ</span></button>
@@ -64,12 +64,125 @@
     <div class="hero-foot">
       <div class="hero-dots" id="hDots" role="group" aria-label="Story"><button type="button"></button><button type="button"></button><button type="button"></button><button type="button"></button><button type="button"></button><button type="button"></button><span class="hero-hold" aria-hidden="true"></span></div>
       <div class="cta">
-        <button class="btn primary" id="playHero" type="button" data-i18n="hero.play">▶ Play the story</button>
-        <a class="btn" href="#bench" data-i18n="hero.try">Try it yourself</a>
+        <a class="btn primary" href="#story" data-i18n="hero.play">Start the story ↓</a>
+        <a class="btn" href="#tech" data-i18n="hero.try">The technical part</a>
       </div>
     </div>
   </div>
   <div class="hero-tag" aria-hidden="true" data-i18n="hero.tag">Illustration, not to scale. Hypotheses for experiments, not treatments.</div>
+</section>
+
+<section class="story" id="story" aria-label="The story">
+  <div class="scene" data-scene="crowd">
+    <div class="wrap">
+      <div class="s-copy">
+        <div class="s-eyebrow" data-s="crowd.e"></div>
+        <h2 class="s-big" data-sh="crowd.h"></h2>
+        <p class="s-sub" data-s="crowd.p"></p>
+        <div class="s-count"><b id="cAlive">0</b><span id="cLine"></span></div>
+        <p class="s-note" data-s="crowd.n"></p>
+      </div>
+      <div class="s-fig">
+        <div class="s-canvas"><canvas id="sCrowd" role="img"></canvas><i class="s-zap" aria-hidden="true"></i></div>
+        <div class="s-key" id="cKey"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scene flip" data-scene="circuit">
+    <div class="wrap">
+      <div class="s-copy">
+        <div class="s-eyebrow" data-s="circ.e"></div>
+        <h2 class="s-big" data-sh="circ.h"></h2>
+        <p class="s-sub" data-s="circ.p"></p>
+        <p class="s-note" data-s="circ.n"></p>
+      </div>
+      <div class="s-fig">
+        <svg id="sCircuit" viewBox="0 0 460 340" role="img"></svg>
+        <p class="s-cap" id="cCap" aria-live="off"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="scene" data-scene="search">
+    <div class="wrap">
+      <div class="s-copy">
+        <div class="s-eyebrow" data-s="srch.e"></div>
+        <h2 class="s-big" data-sh="srch.h"></h2>
+        <p class="s-sub" data-s="srch.p"></p>
+        <div class="s-count"><b id="sCount">0</b><span id="sStage"></span></div>
+        <p class="s-note" id="sStageNote"></p>
+      </div>
+      <div class="s-fig"><div class="s-canvas"><canvas id="sSearch" role="img"></canvas></div></div>
+    </div>
+  </div>
+
+  <div class="scene flip" data-scene="helpers">
+    <div class="wrap">
+      <div class="s-copy">
+        <div class="s-eyebrow" data-s="help.e"></div>
+        <h2 class="s-big" data-sh="help.h"></h2>
+        <p class="s-sub" data-s="help.p"></p>
+        <p class="s-note" data-s="help.n"></p>
+      </div>
+      <div class="s-fig"><div class="helpers" id="sHelpers"></div></div>
+    </div>
+  </div>
+
+  <div class="scene" data-scene="tissue">
+    <div class="wrap">
+      <div class="s-copy">
+        <div class="s-eyebrow" data-s="tis.e"></div>
+        <h2 class="s-big" data-sh="tis.h"></h2>
+        <p class="s-sub" data-s="tis.p"></p>
+        <div class="s-count"><b id="tAlive">0</b><span id="tLine"></span></div>
+        <p class="s-note" id="tNote2"></p>
+      </div>
+      <div class="s-fig">
+        <div class="s-pick" id="tPick" role="group"></div>
+        <div class="s-canvas"><canvas id="sTissue" role="img"></canvas></div>
+        <div class="s-key" id="tKey"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scene flip" data-scene="tumours">
+    <div class="wrap">
+      <div class="s-copy">
+        <div class="s-eyebrow" data-s="gen.e"></div>
+        <h2 class="s-big" data-sh="gen.h"></h2>
+        <p class="s-sub" data-s="gen.p"></p>
+        <div class="s-count"><b id="gLost">0</b><span id="gLine"></span></div>
+        <p class="s-note" data-s="gen.n"></p>
+      </div>
+      <div class="s-fig">
+        <div class="s-pick" id="gPick" role="group"></div>
+        <div class="s-canvas"><canvas id="sWaffle" role="img"></canvas></div>
+        <div class="s-key" id="gKey"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scene closing" data-scene="honest">
+    <div class="wrap">
+      <div class="s-copy">
+        <div class="s-eyebrow" data-s="hon.e"></div>
+        <h2 class="s-big" data-sh="hon.h"></h2>
+      </div>
+      <ul class="s-cards" id="hCards"></ul>
+      <div class="cta"><a class="btn primary" href="#tech" data-s="hon.go"></a></div>
+    </div>
+  </div>
+</section>
+
+<section id="tech" class="tech-gate">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow" data-i18n="tech.eyebrow">The technical part</div>
+      <h2 class="h2" data-i18n="tech.h2">Everything above, with every number and every check.</h2>
+      <p class="lede" data-i18n="tech.lede">A test bench you can click, the cell with all of its genes, how the agent works, every rule it judged and the audit. In English. All of it is read from the files the pipeline wrote.</p>
+    </div>
+  </div>
 </section>
 
 <section id="bench" class="band bench-sec">

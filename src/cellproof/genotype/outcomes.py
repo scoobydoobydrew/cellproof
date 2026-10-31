@@ -117,8 +117,12 @@ def aggregate(table: dict, rule: str, evaluator: Evaluator, specific: dict[Signa
                     "sets_that_leave_only_apoptosis": [describe(evaluator.sets[k]) for k, label in enumerate(rows[sig]["sets"]) if label == "only_apoptosis"],
                     "specific_sets": None if found is None else [describe(s) for s in found],
                     "specific_search": "not needed: the genotype alone leaves only apoptosis" if found is None else "done, up to two literals"})
+    def works(sig: Signature) -> bool:
+        return any(label == "only_apoptosis" for label in rows[sig]["sets"])  # at least one of the 11 sets leaves only apoptosis on top of this genotype
+
     return {"samples": sum(pooled.values()), "studies": len(per_study), "distinct_signatures": len(pooled), "altered": sum(n for sig, n in pooled.items() if sig),
             "tp53_lost": sum(n for sig, n in pooled.items() if lost(sig)),
+            "any_set_works": sum(n for sig, n in pooled.items() if works(sig)), "any_set_works_tp53_lost": sum(n for sig, n in pooled.items() if works(sig) and lost(sig)),
             "baseline": tally(pick(pooled), None), "baseline_tp53_lost": tally(pick(pooled, lost), None), "baseline_tp53_intact": tally(pick(pooled, lambda s: not lost(s)), None),
             "sets": sets, "per_study": studies, "top_signatures": top}
 
