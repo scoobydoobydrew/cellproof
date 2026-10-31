@@ -24,3 +24,23 @@ commits the files.
 4. **The video:** its first line must say what pre-existed and what was built this week (the brief, rule 9). Record it from
    `make verify` output, which replays cached model outputs and needs no network. Set the page to English (the **EN**
    button) before recording; `docs/video_script.md` has the beat sheet around the page's *Play* button.
+
+## Where things stand (updated 2026-10-31) and what is left until the submission
+
+Done by the assistant and checked by tests: the pipeline, the audit, the report page, the tissue what-if, the target list, the
+ChEMBL snapshot, the click page for the two reading tasks, the secret scan of the new files (clean on 2026-10-31; run it again
+the moment before the repository is made public), `THIRD_PARTY.md` (new entries for PhysiBoSS, MaBoSS, ChEMBL, HGNC use,
+and what was considered and not used).
+
+Left, in order of importance:
+1. **M4 and D4** (`make label`): about 25 and 15 minutes. Without M4 the extraction accuracy stays "TBD" in the README, which is
+   honest but a visible gap. Tell the assistant when a tab shows all done; it computes the numbers and commits the files.
+2. **The video**, recorded from the page and `make verify` (see `docs/video_script.md`). The first line must say what pre-existed and
+   what was built this week; if the tissue beat is shown, add that the simulator PhysiBoSS and the ChEMBL database existed and
+   that the translation of the network, the experiments and the checks are new.
+3. **Before the repository is public**: secret scan again, read `THIRD_PARTY.md` once, check that no paper text is committed
+   (`git ls-files data/raw` must print nothing), and check the page once in a clean browser profile.
+4. **Optional**: a decision on whether the tissue beat goes in the three minutes (10 to 15 seconds; the script says what to say and
+   what not to say).
+
+Feature freeze for the assistant: Mon 2026-11-02 evening. After that only fixes, the README and the video.

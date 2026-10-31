@@ -6,8 +6,9 @@ Meta Global AI Developer Hackathon, Indie track, "Push the Frontier". A research
 testing and gives no medical advice.
 
 > **What pre-existed and what was built this week.** Pre-existing: the published 30-node Boolean model of the DNA damage
-> response (Gupta et al. 2023, CC BY), the open-access papers, and the open-source solvers (clingo, mpbn, AEON, pyboolnet) and
-> libraries listed in `THIRD_PARTY.md`. Built during the hackathon, in this repository only: everything in `src/`, `tests/`,
+> response (Gupta et al. 2023, CC BY), the open-access papers, the open-source solvers (clingo, mpbn, AEON, pyboolnet), the
+> PhysiBoSS simulator with its MaBoSS engine, the open ChEMBL database, and the libraries listed in `THIRD_PARTY.md`. Built
+> during the hackathon, in this repository only: everything in `src/`, `tests/`,
 > `data/` (except the base model's rules, generated from its supplement by `src/cellproof/network/gupta2023.py`), `scripts/`
 > and `docs/`.
 
@@ -66,6 +67,8 @@ answer; the pictures themselves are illustration (see `docs/limitations.md`). Th
 | The same search, AI alone (Muse Spark, no tools, minimal reasoning, 3 requests) | 13 of 17 distinct guesses leave only death (a random candidate: 21%), 4 of the 11 minimal sets found, none checked; see `docs/limitations.md` |
 | Held-out audit: 23 claims, 10 scoreable | published model 3 correct, 5 wrong, 2 not expressible; augmented networks 4 correct, 6 wrong; a rule that ignores the perturbation 5 correct |
 | Exact checker on 400-node chains | stable states in milliseconds, 13 s in all; random networks time out from 50 nodes |
+| Tissue what-if: 1,663 irradiated cells in PhysiBoSS, 72 h (extension) | the simulation agrees with the exact solver on 22 of 22 sets: the 11 solver sets leave at most 12 cells alive (none in 7 of them) and reach 0 by 240 h, the 11 rejected sets of the same size leave at least 34; radiation alone leaves 107 cells, all senescent |
+| Solver targets and ChEMBL chemistry (extension) | 3 of the 11 sets are knock-outs (PTEN, RB, TUG1); PTEN has 5 activity records and none at 1 micromolar, and the 6 strong records of RB1 all read out its phosphorylation in cells; the 5 kinases named in the brief have 566 to 2,299 compounds at 1 micromolar, but knocking out any of them alone leaves all four end states |
 | Extraction accuracy (M4) | TBD: needs 50 claims labelled by a person |
 
 **What the audit says.** The augmented networks do not predict the held-out outcomes better than the published model: none of
@@ -78,6 +81,14 @@ itself, an automatic comparison of a published model with the literature that al
 and the solver loop that keeps added mechanisms from breaking what the model already gets right. Ten scoreable claims
 cannot show an improvement either way.
 
+**Taking the answers downstream (extension, `docs/downstream_notes.md`).** The solver's sets were run in a virtual tissue (PhysiBoSS,
+an existing simulator of many cells) and turned into a list of targets with measured chemistry from ChEMBL. The tissue is a
+second, independent check of the solver, not a prediction about any patient: no signals between cells, no drug, no dose, no
+division, rates that are choices. The chemistry step ends where it does for a reason that is itself a result: where the solver
+points there is no chemistry (PTEN, RB1), and where the chemistry is (ATR, CHK1, WEE1, DNA-PK) this model does not point. No
+drug-affinity model was run: MSF-DTA has no public code that could be found, and its inputs would be missing for these targets.
+Every answer also depends on p53: with p53 knocked out, none of the 11 sets leaves only apoptosis (`results/RESULTS.md`).
+
 ## Reproduce
 
 ```bash
@@ -85,7 +96,11 @@ python -m venv .venv && .venv/bin/pip install -e .[dev]      # Python 3.11+
 make test      # unit tests, no network
 make verify    # rebuilds every table from cached model outputs; no API call, no cost; a cache miss is an error
 make extract   # the only target that spends money: calls the Meta Model API for requests not yet in cache/
+make label     # local page for the two reading tasks only a person can do (M4 labels, D4 quote checks)
 ```
+
+The tissue what-if needs PhysiBoSS, which `make verify` does not: `bash scripts/physiboss_setup.sh` builds it once (WSL or Linux,
+g++ and make only), `python -m cellproof.cli tissue` re-runs the conditions, `python -m cellproof.cli compounds` asks ChEMBL again.
 
 `.env` holds `MODEL_API_KEY` (never committed; see `.env.example`). Standard model IDs only, never `-contributor`.
 
@@ -100,7 +115,9 @@ src/cellproof/
   verify/            exact checker, acceptance rules, Muse Spark repair
   network/           bnet reader, base network from its supplement, phenotype definitions, Boolean logic
   analysis/          fixed points and attractors, scaling measurements
-  eval/              held-out set, scoring, report
+  eval/              held-out set, scoring, report, the click page for M4 and D4
+  tissue/            PhysiBoSS tissue what-if: network translation, settings, WSL runner, output parser, experiments
+  targets/           the solver's sets as targets (HGNC) and ChEMBL measured chemistry
 data/                base network, verification cases, held-out set (frozen), extractions, models, HGNC cache
 docs/                protocol of the held-out set, limitations, notes on the Meta API and the extraction
 ```
@@ -109,5 +126,9 @@ docs/                protocol of the held-out set, limitations, notes on the Met
 
 - The held-out set (23 claims, 10 scoreable) was frozen before any network was scored; its history is in
   `docs/heldout_protocol.md`. A human has not yet checked that each quote supports its claim, so M1 is provisional.
-- Extraction accuracy (M4) needs 50 claims labelled by a person (`data/labels/m4_sample.csv`) and is TBD until then.
+- Extraction accuracy (M4) needs 50 claims labelled by a person (`data/labels/m4_sample.csv`) and is TBD until then. `make label`
+  opens a page where each click is saved; nothing in it is pre-filled and no model is called.
+- The tissue and chemistry steps are an extension and a second check of the solver. They say nothing about drugs, patients,
+  efficacy, safety or secondary cancers (`docs/downstream_notes.md`), and a Boolean model of one published network decides
+  every set they start from.
 - Third-party code and data are declared in `THIRD_PARTY.md`; paper texts are downloaded, not redistributed.

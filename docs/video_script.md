@@ -69,3 +69,10 @@ them are what the paper reports. Click genes and find them." Show one discovery 
 - Terminal: `make verify`, which rebuilds every number with no API call.
 - Limits, on screen: ten scoreable claims, written by me and not yet checked by a person; the model's repairs can pass the
   checks without being biologically right; no medical claims. "These are hypotheses for the lab."
+
+**Optional beat, if the three minutes allow it (10 to 15 seconds): the tissue what-if.** Scroll to "Does the answer hold in a
+crowd of cells?", pick *PTEN KO* in the list and press *Play*: the cells of a virtual tissue die one by one while the curve
+falls. Say only what the section says: "a second, independent engine, with every cell running the network, agrees with the
+exact solver on all 22 sets; it is not a prediction for any patient". Do not say "trial", "proof", "drug" or "safe". If this beat is in the video, the opening line also says that the simulator (PhysiBoSS) and
+the ChEMBL database existed before the week and that the translation of the network, the experiments and the checks are new. The
+numbers on screen come from `results/tissue/summary.json`; read them off the page.

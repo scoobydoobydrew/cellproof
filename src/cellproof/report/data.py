@@ -375,6 +375,71 @@ def check_seconds(rules: dict[str, str]) -> float:
     return round(best, 1)
 
 
+AGREE_BELOW = 0.01  # a set the solver accepts should leave fewer than this share of the cells alive after 72 hours; one it rejects, at least this share
+
+
+def _rle(frame: str) -> str:
+    """Run-length coding: each run is its digit, its length and a comma, so '0000115' becomes '04,12,51,' (the page decodes it)."""
+    out, i = [], 0
+    while i < len(frame):
+        j = i
+        while j < len(frame) and frame[j] == frame[i]:
+            j += 1
+        out.append(f"{frame[i]}{j - i},")
+        i = j
+    return "".join(out)
+
+
+def tissue_block() -> dict | None:
+    """The tissue experiments as the page shows them: the layout, every condition's counts over time and (all but the long runs) its
+    animation frames, and the facts the text states, each computed here from those runs."""
+    folder = ROOT / "results" / "tissue"
+    summary = _read(folder / "summary.json")
+    if not summary:
+        return None
+    runs = {row["name"]: _read(folder / f"{row['name']}.json") for row in summary["rows"]}
+    runs = {k: v for k, v in runs.items() if v}
+    shown = [r for r in runs.values() if "frames" in r]
+    if not shown:
+        return None
+    cells = shown[0]["cells"]
+    conditions = []
+    for row in summary["rows"]:
+        run = runs.get(row["name"])
+        if run:
+            conditions.append({"name": row["name"], "group": row["group"], "label": row["label"], "times": run["times"], "alive": run["alive"], "counts": run["counts"],
+                               "wall_seconds": run.get("wall_seconds"), **({"frames": [_rle(f) for f in run["frames"]]} if "frames" in run else {})})
+    by = {c["name"]: c for c in conditions}
+    hits = [c for c in conditions if c["group"] == "hit"]
+    misses = [c for c in conditions if c["group"] == "miss"]
+    longs = [c for c in conditions if c["group"] == "long"]
+    radiation = by["radiation_only"]
+    end = radiation["counts"][-1]
+    facts = {
+        "cells": cells, "hours": radiation["times"][-1] / 60,
+        "radiation": {"alive": radiation["alive"][-1], "dead": end[4] + end[5], "senescent": end[2], "arrest": end[1], "autophagy": end[3], "undecided": end[0]},
+        "hits": {"count": len(hits), "none_alive": sum(c["alive"][-1] == 0 for c in hits), "most_alive": max(c["alive"][-1] for c in hits),
+                 "agree": sum(c["alive"][-1] / cells < AGREE_BELOW for c in hits)},
+        "misses": {"count": len(misses), "fewest_alive": min(c["alive"][-1] for c in misses), "agree": sum(c["alive"][-1] / cells >= AGREE_BELOW for c in misses)},
+        "long": {"count": len(longs), "hours": longs[0]["times"][-1] / 60 if longs else None, "none_alive": sum(c["alive"][-1] == 0 for c in longs)},
+        "agree_below": AGREE_BELOW,
+        "rates": {c["name"]: c["alive"][-1] for c in conditions if c["group"] == "rate"},
+    }
+    return {"settings": summary["settings"], "positions": [[round(x), round(y)] for x, y, _ in shown[0]["positions"]], "conditions": conditions, "facts": facts,
+            "rows": summary["rows"]}
+
+
+def downstream_block() -> dict | None:
+    """The solver's answers as targets, and what ChEMBL holds for the proteins among them (files written by `cellproof targets` and `compounds`)."""
+    targets, compounds = _read(ROOT / "results" / "targets.json"), _read(ROOT / "results" / "compounds.json")
+    if not targets:
+        return None
+    rows = [{"id": r["id"], "label": r["label"], "knock_out_only": r["knock_out_only"], "only_apoptosis_in": r["only_apoptosis_in"], "with_p53_lost": r["with_p53_lost"],
+             "literals": [{"node": p["node"], "action": p["action"], "kind": p["kind"], "note": p["note"],
+                           "genes": [{k: g[k] for k in ("symbol", "name", "hgnc_id", "uniprot_ids")} for g in p["genes"]]} for p in r["literals"]]} for r in targets["rows"]]
+    return {"targets": rows, "compounds": compounds}
+
+
 def collect() -> dict:
     rules = {k: load_bnet(path) for k, (label, path) in NETWORKS.items() if path.exists()}
     base_edges = {(s, t, sign) for s, t, sign in influence_edges(rules["published"])}
@@ -415,6 +480,8 @@ def collect() -> dict:
         "interventions": interventions(rules),
         "llm_search": llm_search_block(rules["augmented"]),
         "scaling": _read(ROOT / "results" / "scaling.json"),
+        "tissue": tissue_block(),
+        "downstream": downstream_block(),
         "api": api_usage(),
         "labels": {"sampled": len(label_rows), "labelled": sum(1 for r in label_rows if r["label"].strip())},
     }

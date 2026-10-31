@@ -41,3 +41,39 @@ Licenses below were read from each package's installed metadata on 2026-10-29.
   is used only to find and check quotes and is not stored in the repository.
 - Held-out source papers (`data/heldout`, seven papers, listed with their licences in the item file): only short
   factual claims with a locator are kept; no text is copied.
+
+## Built outside Python (cloned and compiled, never vendored or committed)
+
+`scripts/physiboss_setup.sh` clones PhysiBoSS into `~/cellproof_external` (outside this repository, in WSL or any Linux) and
+builds it with g++ and make; no sudo and no new Python dependency (the tissue and ChEMBL steps use the standard library only).
+Licences were read from the `licenses/` folder of the PhysiBoSS checkout on 2026-10-31 (the GitHub licence field of the
+repository is empty).
+
+| Component | Version | License | Source | Role |
+|---|---|---|---|---|
+| PhysiBoSS | 2.2.3 (tag v2.2.3, commit 514efcfce9d099f800e1d6cef1aa59a6f45b27c5) | BSD 3-Clause (it is an add-on of PhysiCell) | https://github.com/PhysiBoSS/PhysiBoSS | Simulator of many cells in which each cell runs a MaBoSS Boolean network (Ponce-de-Leon et al., npj Syst Biol Appl 2023) |
+| PhysiCell | 1.14.0, inside PhysiBoSS | BSD 3-Clause, Copyright 2016-2021 Paul Macklin and the PhysiCell Project | https://github.com/MathCancer/PhysiCell | Agent-based cell simulator |
+| BioFVM | inside PhysiBoSS | BSD 3-Clause, Copyright 2015-2021 Paul Macklin and the BioFVM Project | (same) | Diffusion solver (unused here: no substance diffuses in these runs) |
+| pugixml | inside PhysiBoSS | MIT, Copyright 2006-2015 Arseny Kapoulkine | https://pugixml.org | XML reader |
+| libMaBoSS | MaBoSS v2.5.6, prebuilt `libMaBoSS-linux64.tar.gz` (4,494,731 bytes, sha256 `15b27c676f02b2c0c0689de066716c0c38ea9451e62b37e614e4b5c33dc2f636`) | BSD 3-Clause, Copyright 2011-2023 Institut Curie | https://github.com/sysbio-curie/MaBoSS/releases/tag/v2.5.6 | Stochastic Boolean engine. PhysiBoSS's own build downloads it and does not check a checksum; the one above was computed on 2026-10-31 |
+
+Two files of ours are copied over the PhysiBoSS build: `src/cellproof/tissue/physiboss/custom.cpp` and `custom.h`. Their calls
+follow the template project of PhysiCell; nothing else of PhysiCell's code is in this repository. The settings file of each
+run is made at run time by patching the one of PhysiBoSS's cell-lines sample, read from the installed copy.
+
+## More services and data
+
+- ChEMBL web services (`https://www.ebi.ac.uk/chembl/api/data`, no key). Data licence: Creative Commons Attribution-ShareAlike
+  3.0 Unported (as stated in the ChEMBL interface documentation, read 2026-10-31). `results/compounds.json` is a small snapshot
+  (record counts and the five most potent records per protein, with their ChEMBL ids) and therefore carries the same terms:
+  attribute ChEMBL and share alike. The ChEMBL release is stored in the file.
+- HGNC (REST `fetch/symbol`, CC0): symbol, name, HGNC id, locus group and UniProt ids of the genes in the solver's sets, cached in
+  `data/ontology/hgnc_targets.json`.
+
+## Considered and not used
+
+- DrugBank: academic downloads need an application and its terms do not allow redistributing the data (terms read on
+  2026-10-31 at trust.drugbank.com), so it could neither be committed nor reproduced by someone else.
+- MSF-DTA (Ma et al., IEEE JBHI 27(4):2128-2137, 2023, doi 10.1109/JBHI.2023.3240305): no public code or weights were found
+  (searched on 2026-10-31), so it could not be run. See `docs/downstream_notes.md` for why no other drug-affinity model was
+  substituted.

@@ -111,6 +111,74 @@ TBD: 0 of 50 sampled claims have been labelled by a human.
 
 TBD: 0 of 23 held-out claims have been checked by a human, so every M1 number is provisional.
 
+## Tissue what-if (PhysiBoSS, M7)
+
+A disc of 1,663 cells (300 micron radius), every cell running the checked 34-node network inside PhysiBoSS, irradiated at time 0 and followed for 72 h (240 h for the long runs). Cells do not divide or signal to each other; time and rates are choices (`docs/downstream_notes.md`), so only which end states are reached, and how robustly, is read from it.
+
+| | |
+|---|---|
+| radiation alone: cells alive after 72 h | 107 of 1,663 (107 senescent, 0 in arrest, 0 autophagy, 0 undecided) |
+| the solver's 11 sets: no cell alive after 72 h | 7 of 11; the others leave at most 12 cells |
+| the same sets run for 240 h: no cell alive | 11 of 11 |
+| 11 sets of the same size that the solver rejects: fewest cells alive after 72 h | 34 |
+| simulation and exact solver agree (fewer than 1% alive for an accepted set, at least that for a rejected one) | 22 of 22 |
+| radiation alone with other apoptosis rates: cells alive | unit: 110, slow: 107 (default: 107) |
+
+| condition | set | alive at the end | undecided | arrest | senescence | autophagy | dead | hours to 90% dead |
+|---|---|---|---|---|---|---|---|---|
+| radiation_only | radiation only | 107 | 0 | 0 | 107 | 0 | 1556 | 12 |
+| hit_01 | E2F1 E1 | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| hit_02 | Myc E1 | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| hit_03 | PTEN KO | 8 | 7 | 0 | 1 | 0 | 1655 | 12 |
+| hit_04 | RB KO | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| hit_05 | TUG1 KO | 7 | 4 | 0 | 3 | 0 | 1656 | 12 |
+| hit_06 | WWP1 E1 | 9 | 3 | 0 | 6 | 0 | 1654 | 12 |
+| hit_07 | miR221 E1 | 12 | 5 | 0 | 7 | 0 | 1651 | 12 |
+| hit_08 | AKT E1 + Cdc25 E1 | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| hit_09 | AKT E1 + Sirt1 E1 | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| hit_10 | AMPK_MAPK KO + Cdc25 E1 | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| hit_11 | AMPK_MAPK KO + Sirt1 E1 | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| miss_01 | AKT KO + ATM_pH2AX KO | 1663 | 1242 | 421 | 0 | 0 | 0 | not reached |
+| miss_02 | AKT KO + miR221 KO | 707 | 0 | 235 | 0 | 472 | 956 | not reached |
+| miss_03 | ATM_pH2AX KO + PTEN E1 | 1663 | 1090 | 0 | 573 | 0 | 0 | not reached |
+| miss_04 | ATM_pH2AX E1 + Mdm2 KO | 66 | 0 | 0 | 66 | 0 | 1597 | 9 |
+| miss_05 | ATM_pH2AX E1 + PUMA E1 | 77 | 0 | 0 | 77 | 0 | 1586 | 9 |
+| miss_06 | ATR E1 + Mdm2 KO | 109 | 0 | 0 | 109 | 0 | 1554 | 12 |
+| miss_07 | BCL2 E1 + TUG1 KO | 1663 | 1658 | 0 | 5 | 0 | 0 | not reached |
+| miss_08 | CHK2 E1 + PUMA KO | 34 | 0 | 0 | 34 | 0 | 1629 | 9 |
+| miss_09 | Cdc25 KO + Wee1 E1 | 440 | 0 | 0 | 440 | 0 | 1223 | not reached |
+| miss_10 | Sirt1 KO + hTERT E1 | 882 | 1 | 0 | 881 | 0 | 781 | not reached |
+| miss_11 | TUG1 E1 + p53_INP1 E1 | 86 | 0 | 0 | 86 | 0 | 1577 | 12 |
+| rate_unit | radiation only, apoptosis rate 0.0166667 per minute | 110 | 0 | 0 | 110 | 0 | 1553 | 15 |
+| rate_slow | radiation only, apoptosis rate 0.00166667 per minute | 107 | 1 | 0 | 106 | 0 | 1556 | 39 |
+| long_hit_01 | E2F1 E1, 240 h | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| long_hit_02 | Myc E1, 240 h | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| long_hit_03 | PTEN KO, 240 h | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| long_hit_04 | RB KO, 240 h | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| long_hit_05 | TUG1 KO, 240 h | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| long_hit_06 | WWP1 E1, 240 h | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| long_hit_07 | miR221 E1, 240 h | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| long_hit_08 | AKT E1 + Cdc25 E1, 240 h | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| long_hit_09 | AKT E1 + Sirt1 E1, 240 h | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| long_hit_10 | AMPK_MAPK KO + Cdc25 E1, 240 h | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+| long_hit_11 | AMPK_MAPK KO + Sirt1 E1, 240 h | 0 | 0 | 0 | 0 | 0 | 1663 | 12 |
+
+## From the solver's targets to measured chemistry (ChEMBL)
+
+The solver's 11 minimal sets need 3 knock-outs (PTEN KO, RB KO, TUG1 KO) and 8 sets with a gene switched on. Allowing up to three knock-outs at once adds no set (`tests/test_targets.py`). Every set depends on p53: in a cell with p53 knocked out, 11 of the 11 sets no longer leave only apoptosis (5 have no stable state at all, the others one that matches none of the four fates).
+
+ChEMBL ChEMBL_37, queried 2026-10-31. Nothing is predicted: each count is a number of measured activity records. pChEMBL 6 means 1 micromolar or better.
+
+| protein | why listed | knocked out alone, the model leaves | records (all) | records at pChEMBL 6 or more | compounds at pChEMBL 6 or more | of those records, assays that mention phosphorylation (a readout in cells) | most potent record |
+|---|---|---|---|---|---|---|---|
+| PTEN | the solver would have to inhibit it | apoptosis | 5 | 0 | 0 | 0 | CHEMBL2057662: IC50 8870.0 nM (pChEMBL 5.05) |
+| RB1 | the solver would have to inhibit it | apoptosis | 100 | 6 | 6 | 6 | EBVACICLIB: EC50 19.0 nM (pChEMBL 7.72) |
+| ATR | named in the project brief as a candidate radiosensitisation target, not found by the solver | apoptosis, arrest, autophagy, senescence | 13997 | 3578 | 1659 | 132 | CERALASERTIB: Ki 0.06 nM (pChEMBL 10.22) |
+| CHEK1 | named in the project brief as a candidate radiosensitisation target, not found by the solver | apoptosis, arrest, autophagy, senescence | 9058 | 2802 | 2299 | 369 | CHEMBL5747621: IC50 0.012 nM (pChEMBL 10.92) |
+| CHEK2 | named in the project brief as a candidate radiosensitisation target, not found by the solver | apoptosis, arrest, autophagy, senescence | 4346 | 697 | 566 | 35 | CHEMBL1988594: Ki 0.631 nM (pChEMBL 9.20) |
+| WEE1 | named in the project brief as a candidate radiosensitisation target, not found by the solver | apoptosis, arrest, autophagy, senescence | 3725 | 1441 | 1005 | 105 | CHEMBL5933715: IC50 0.1 nM (pChEMBL 10.00) |
+| PRKDC | named in the project brief as a candidate radiosensitisation target, not found by the solver | apoptosis, arrest, autophagy, senescence | 6653 | 1658 | 952 | 20 | CHEMBL4447991: IC50 0.07943 nM (pChEMBL 10.10) |
+
 ## Scaling of the exact checker (M6)
 
 Fixed points (mpbn) and asynchronous attractors (AEON) of one network, 30 s limit per network, measured on the machine that wrote `results/scaling.json`. `random` networks are hard on purpose; `cascade` adds downstream chains to the base network.

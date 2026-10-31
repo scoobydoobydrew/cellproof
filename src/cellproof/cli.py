@@ -197,6 +197,8 @@ def verify() -> None:
         search_baseline(calls=recorded["calls"], model=recorded["model"], effort=recorded["effort"], network=Path(f"data/models/{recorded['network']}.bnet"),
                         out=recorded_path, timeout=60.0, retries=4, budget=recorded["summary"]["max_output_tokens"],
                         stalled=",".join(str(s) for s in recorded.get("stalled_seeds", [])))
+    typer.echo("== targets of the solver's sets (HGNC, from the cache)")
+    targets()
     from cellproof.report.build import write as write_report
     from cellproof.results_md import render
 
@@ -379,6 +381,55 @@ def label_sample(
         writer.writeheader()
         writer.writerows(rows)
     typer.echo(f"{len(rows)} claims written to {out}; labels allowed: {', '.join(LABELS)}")
+
+
+@app.command()
+def targets() -> None:
+    """Write results/targets.json: the solver's minimal sets as a list of targets, with what each node is and its HGNC identifiers.
+    Calls only HGNC (cached in data/ontology/hgnc_targets.json); no model call."""
+    from cellproof.targets.table import target_table
+
+    table = target_table()
+    out = Path("results/targets.json")
+    out.write_text(json.dumps(table, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    for row in table["rows"]:
+        kinds = ", ".join(f"{p['node']}={p['kind']}" for p in row["literals"])
+        typer.echo(f"{row['id']}  {row['label']:28s} knock-out only: {row['knock_out_only']!s:5}  {kinds}")
+    typer.echo(f"wrote {out}")
+
+
+@app.command()
+def compounds() -> None:
+    """Write results/compounds.json: what ChEMBL holds on the proteins the solver would have to inhibit, and on the DNA damage response
+    kinases the project brief names. Calls ChEMBL and HGNC; the committed file is the snapshot and `make verify` only reads it."""
+    from cellproof.targets.compounds import write
+
+    result = write(Path("results/compounds.json"))
+    typer.echo(f"ChEMBL {result['chembl_release']}, queried {result['queried']}")
+    for p in result["proteins"]:
+        c = p["chembl"] or {}
+        strong = (c.get("at_1_micromolar_or_better") or {}).get("compounds")
+        typer.echo(f"{p['symbol']:7s} KO alone leaves {','.join(p['knock_out_alone_leaves']):36s} ChEMBL records {c.get('records')}  compounds at 1 uM or better: {strong}")
+
+
+@app.command()
+def tissue(
+    force: bool = typer.Option(False, help="Run every condition again, also those that already have a result file."),
+    workers: int = typer.Option(6, help="Simulations at the same time."),
+) -> None:
+    """Run the tissue experiments in PhysiBoSS (inside WSL; scripts/physiboss_setup.sh builds it) and write results/tissue/summary.json.
+    `make verify` only reads these files."""
+    from dataclasses import asdict
+
+    from cellproof.network.bnet import load_bnet
+    from cellproof.tissue.experiments import BASE_SETTINGS, run_all, table
+    from cellproof.tissue.run import OUT, template_xml
+
+    rules = load_bnet("data/models/repaired_min2.bnet")
+    results = run_all(rules, template_xml(), force=force, workers=workers)
+    summary = {"model": "data/models/repaired_min2.bnet", "settings": asdict(BASE_SETTINGS), "rows": table(results)}
+    (OUT / "summary.json").write_text(json.dumps(summary, indent=1) + "\n", encoding="utf-8")
+    typer.echo(f"wrote {OUT / 'summary.json'}")
 
 
 @app.command()

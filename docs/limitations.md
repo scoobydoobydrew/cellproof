@@ -95,3 +95,30 @@ This is a research prototype that ranks hypotheses for lab testing. It makes no 
   baseline are the guard. A human has not yet checked that each quote supports its claim (D4); until then all M1 numbers are provisional.
 - No claim in the held-out set tests the DNA-PK node.
 - Scaling (M6) was measured on synthetic networks and on cascades added to the base network; no larger published model was tried.
+
+**The tissue what-if and the chemistry step (extension, `docs/downstream_notes.md`)**
+- The tissue is many independent cells: the network has no input from neighbours, so no signal, bystander effect or gradient is
+  modelled, and the cells neither divide nor move. It counts deaths and fates.
+- An intervention is a gene fixed on or off from the first minute. No drug, dose, uptake or timing is modelled, so the
+  simulation cannot say how any compound would act. "Proving that a therapy kills a tumour and spares healthy tissue" is
+  something this model cannot show and the project does not claim.
+- Time is a choice (one model time unit is one hour) and every gene flips at the same rate. Under those rates a healthy,
+  irradiated cell reaches only two of the model's four stable end states (apoptosis and senescence); the other two appear only
+  under some interventions. Other rates could change the shares.
+- Each condition is one stochastic realisation. With 1,663 cells a share has a binomial error of up to about 1.2 percentage
+  points. A rerun with the same seed reproduced 23 of 24 conditions exactly; the variant with a finite apoptosis rate
+  differed by one cell (PhysiCell draws random numbers in parallel loops).
+- There is no mutation process, so nothing is said about secondary cancers, and no tumour-versus-healthy comparison is made.
+- The agreement between the simulation and the exact solver uses a threshold fixed in advance (fewer than 1% of the cells
+  alive after 72 h for an accepted set). It checks the translation and the search against each other; it is not a validation of
+  the biology.
+- The chemistry counts are ChEMBL records of one release (ChEMBL_37, queried 2026-10-31); a compound missing there may exist
+  elsewhere. pChEMBL mixes IC50, Ki, Kd and EC50 and assays of different kinds; the flag for assays that mention
+  phosphorylation is a text match on the assay description, not a classification (for RB1 it marks all six strong records, and each
+  says that RB1 phosphorylation was inhibited in cells; for a kinase it may mark a substrate's phosphorylation instead).
+- TUG1 is a non-coding RNA in the base model, while HGNC now lists a protein-coding gene of that name. The model's own annotation
+  was followed and the disagreement is written next to the target.
+- Every one of the solver's sets depends on p53: with p53 knocked out, none leaves only apoptosis and a damaged cell has no stable
+  state at all (`with_p53_lost` in `results/targets.json`). Nothing here says what would happen in a cell without p53.
+- PTEN and RB are named by the model as genes whose loss leaves only apoptosis after damage. Whether that agrees with what is
+  known about them was not checked against a source here; it must be before anything about it is said outside this repository.

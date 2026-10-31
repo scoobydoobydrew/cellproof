@@ -459,7 +459,7 @@ footer pre { margin: 0; font-family: var(--mono); font-size: 13px; background: v
 /* the stage is as large as the window allows, so that the dish, its tools and the lamps are all on screen together */
 .b-left { display: grid; gap: 12px; min-width: 0; width: clamp(440px, calc((100vh - 330px) * 1.445), 780px); }
 .b-side { display: grid; gap: 14px; min-width: 0; }
-@media (min-width: 1021px) and (min-height: 680px) { .b-left { position: sticky; top: 76px; } }
+@media (min-width: 1061px) and (min-height: 680px) { .b-left { position: sticky; top: 76px; } }
 .b-stagebox { position: relative; border: 1px solid var(--line); border-radius: 22px; background: radial-gradient(110% 80% at 50% 0%, var(--raised), var(--surface) 70%); box-shadow: var(--shadow); overflow: hidden; }
 .b-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
 .b-scale { display: inline-flex; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
@@ -669,7 +669,7 @@ canvas.scene { position: absolute; inset: 0; width: 100%; height: 100%; display:
   #bNet .pz-node.clamp .pz-label, #bNet .pz-node.new .pz-label, #bNet .pz-node.spot .pz-label { display: block; }
 }
 
-@media (max-width: 1020px) {
+@media (max-width: 1060px) {  /* the two columns need about 1060 px; between 1021 and 1060 the page used to scroll sideways by a few pixels */
   .bench { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   .b-left { width: auto; }
   /* on a narrow screen the lamps stay under the top bar while the panel scrolls, so a click below still shows its result above */
@@ -696,3 +696,24 @@ canvas.scene { position: absolute; inset: 0; width: 100%; height: 100%; display:
   .vial .tube { width: 22px; height: 40px; }
   .irr { padding: 10px 16px; font-size: 14px; }
 }
+
+/* tissue what-if: the frames PhysiBoSS wrote, replayed */
+#tissue[hidden] { display: none; }
+.t-ctl { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-bottom: 16px; }
+.t-pick { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--fg-2); }
+.t-pick select { font: inherit; padding: 7px 10px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: var(--fg); max-width: 100%; }
+.t-ctl input[type=range] { flex: 1 1 220px; min-width: 160px; accent-color: var(--accent); }
+.t-ctl output { font-family: var(--mono); font-size: 13px; color: var(--fg-2); min-width: 5.5em; }
+.t-stage { display: grid; grid-template-columns: minmax(260px, 500px) minmax(0, 1fr); gap: 24px; align-items: start; }
+@media (max-width: 860px) { .t-stage { grid-template-columns: minmax(0, 1fr); } }
+#tCanvas { display: block; width: 100%; aspect-ratio: 1; border-radius: 16px; background: var(--bg-2); border: 1px solid var(--line); }
+.t-now { font-size: 14.5px; display: grid; gap: 4px; margin-bottom: 12px; }
+.t-now b { font-family: var(--display); font-weight: 400; font-size: 36px; line-height: 1; }
+#tChart svg, #tTail svg { width: 100%; height: auto; display: block; }
+#tTail { max-width: 760px; }
+#tChart text, #tTail text { fill: var(--fg-3); font-family: var(--mono); font-size: 11px; }
+.t-note { font-size: 14px; max-width: 78ch; margin-top: 8px; }
+.tbl td.num, .tbl th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.tbl tr.sel td { background: var(--raised); }
+.t-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 14px; }
+.t-sub { font-size: 13px; color: var(--fg-3); }

@@ -2,7 +2,7 @@
   <div class="wrap">
     <a class="brand" href="#top">CellProof <small>hackathon build</small></a>
     <nav aria-label="Sections">
-      <a href="#bench" data-i18n="nav.bench">Bench</a><a href="#model">The cell</a><a href="#agent">The agent</a><a href="#cases">Case files</a><a href="#evidence">Evidence</a><a href="#limits">Limits</a>
+      <a href="#bench" data-i18n="nav.bench">Bench</a><a href="#model">The cell</a><a href="#agent">The agent</a><a href="#cases">Case files</a><a href="#evidence">Evidence</a><a href="#tissue">Tissue</a><a href="#limits">Limits</a>
     </nav>
     <button class="btn small" id="playTop" type="button" data-i18n="play.short">▶ Play</button>
     <button class="iconbtn" id="lang" type="button" aria-label="English / Ελληνικά" title="English / Ελληνικά"><span id="langTxt">ΕΛ</span></button>
@@ -234,6 +234,44 @@
       <h3>Does the checker scale?</h3>
       <div id="scaling"></div>
     </div>
+  </div>
+</section>
+
+<section id="tissue" class="band" hidden>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Tissue what-if</div>
+      <h2 class="h2">Does the answer hold in a crowd of cells?</h2>
+      <p class="lede" id="tissueLede"></p>
+    </div>
+
+    <div class="stats" id="tissueStats" style="margin:0 0 22px"></div>
+
+    <div class="card" id="tissueCard" style="margin-bottom:22px">
+      <div class="t-ctl">
+        <label class="t-pick">Set <select id="tCond"></select></label>
+        <button class="btn small" id="tPlay" type="button">Play</button>
+        <input type="range" id="tTime" min="0" max="1" value="0" step="1" aria-label="Time in the tissue">
+        <output id="tClock"></output>
+      </div>
+      <div class="t-stage">
+        <canvas id="tCanvas" role="img" aria-label="The cells of a virtual tissue after radiation, coloured by what each one has become"></canvas>
+        <div>
+          <div class="t-now" id="tNow"></div>
+          <div id="tChart"></div>
+          <div class="legend" id="tChartLegend"></div>
+        </div>
+      </div>
+      <div class="legend" id="tLegend"></div>
+      <p class="muted t-note" id="tNote"></p>
+    </div>
+
+    <div class="card" style="margin-bottom:22px"><h3 id="tailTitle"></h3><p class="muted t-note" id="tailNote"></p><div id="tTail"></div></div>
+    <div class="card" style="margin-bottom:22px"><h3>Every condition</h3><p class="muted t-note" id="tableNote"></p><div class="scroll-x"><table class="tbl" id="tTable"></table></div></div>
+
+    <div class="card" id="downCard" style="margin-bottom:22px"></div>
+
+    <div class="limits" id="tissueLimits"></div>
   </div>
 </section>
 

@@ -151,6 +151,58 @@ def checks_section() -> str:
     return "\n".join(lines) + "\n"
 
 
+def tissue_section() -> str:
+    from cellproof.report.data import tissue_block
+
+    block = tissue_block()
+    head = "## Tissue what-if (PhysiBoSS, M7)"
+    if not block:
+        return f"{head}\n\nNot run yet (`python -m cellproof.cli tissue`; it needs PhysiBoSS built by `scripts/physiboss_setup.sh`).\n"
+    f, s = block["facts"], block["settings"]
+    total, agree = f["hits"]["count"] + f["misses"]["count"], f["hits"]["agree"] + f["misses"]["agree"]
+    lines = [head, "",
+             f"A disc of {f['cells']:,} cells ({s['radius']:g} micron radius), every cell running the checked 34-node network inside PhysiBoSS, irradiated at time 0 and "
+             f"followed for {f['hours']:g} h ({f['long']['hours']:g} h for the long runs). Cells do not divide or signal to each other; time and rates are choices "
+             "(`docs/downstream_notes.md`), so only which end states are reached, and how robustly, is read from it.", "", "| | |", "|---|---|",
+             f"| radiation alone: cells alive after {f['hours']:g} h | {f['radiation']['alive']} of {f['cells']:,} ({f['radiation']['senescent']} senescent, {f['radiation']['arrest']} in arrest, {f['radiation']['autophagy']} autophagy, {f['radiation']['undecided']} undecided) |",
+             f"| the solver's {f['hits']['count']} sets: no cell alive after {f['hours']:g} h | {f['hits']['none_alive']} of {f['hits']['count']}; the others leave at most {f['hits']['most_alive']} cells |",
+             f"| the same sets run for {f['long']['hours']:g} h: no cell alive | {f['long']['none_alive']} of {f['long']['count']} |",
+             f"| {f['misses']['count']} sets of the same size that the solver rejects: fewest cells alive after {f['hours']:g} h | {f['misses']['fewest_alive']} |",
+             f"| simulation and exact solver agree (fewer than {100 * f['agree_below']:g}% alive for an accepted set, at least that for a rejected one) | {agree} of {total} |",
+             f"| radiation alone with other apoptosis rates: cells alive | {', '.join(f'{k.removeprefix('rate_')}: {v}' for k, v in f['rates'].items())} (default: {f['radiation']['alive']}) |",
+             "", "| condition | set | alive at the end | undecided | arrest | senescence | autophagy | dead | hours to 90% dead |", "|---|---|---|---|---|---|---|---|---|"]
+    for r in block["rows"]:
+        t90 = "not reached" if r["minutes_to_90_percent_dead"] is None else f"{r['minutes_to_90_percent_dead'] / 60:g}"
+        lines.append(f"| {r['name']} | {r['label']} | {r['alive_end']} | {r['none']} | {r['arrest']} | {r['senescence']} | {r['autophagy']} | {r['dead']} | {t90} |")
+    return "\n".join(lines) + "\n"
+
+
+def compounds_section() -> str:
+    head = "## From the solver's targets to measured chemistry (ChEMBL)"
+    data = _load(ROOT / "results" / "compounds.json")
+    targets = _load(ROOT / "results" / "targets.json")
+    if not targets:
+        return f"{head}\n\nNot run yet (`python -m cellproof.cli targets`).\n"
+    knock = [r for r in targets["rows"] if r["knock_out_only"]]
+    lines = [head, "", f"The solver's {len(targets['rows'])} minimal sets need {len(knock)} knock-outs ({', '.join(r['label'] for r in knock)}) and {len(targets['rows']) - len(knock)} sets with a gene switched on. "
+             "Allowing up to three knock-outs at once adds no set (`tests/test_targets.py`). Every set depends on p53: in a cell with p53 knocked out, "
+             f"{sum(not r['with_p53_lost']['only_apoptosis'] for r in targets['rows'])} of the {len(targets['rows'])} sets no longer leave only apoptosis "
+             f"({sum(r['with_p53_lost']['fixed_points'] == 0 for r in targets['rows'])} have no stable state at all, the others one that matches none of the four fates)."]
+    if not data:
+        return "\n".join(lines) + "\n"
+    lines += ["", f"ChEMBL {data['chembl_release']}, queried {data['queried']}. Nothing is predicted: each count is a number of measured activity records. "
+              "pChEMBL 6 means 1 micromolar or better.", "",
+              "| protein | why listed | knocked out alone, the model leaves | records (all) | records at pChEMBL 6 or more | compounds at pChEMBL 6 or more | of those records, assays that mention phosphorylation (a readout in cells) | most potent record |", "|---|---|---|---|---|---|---|---|"]
+    for p in data["proteins"]:
+        c = p["chembl"] or {}
+        top = (c.get("most_potent") or [None])[0]
+        best = f"{top['name'] or top['compound']}: {top['measure']} {top['value']} {top['units']} (pChEMBL {top['pchembl']:.2f})" if top else "none"
+        strong = c.get("at_1_micromolar_or_better", {})
+        lines.append(f"| {p['symbol']} | {p['why']} | {', '.join(p['knock_out_alone_leaves'])} | {(c.get('records') or {}).get('all', 'no entry')} | "
+                     f"{(c.get('records') or {}).get('pchembl_6_or_more', '')} | {strong.get('compounds', '')} | {strong.get('records_mentioning_phosphorylation', '')} | {best} |")
+    return "\n".join(lines) + "\n"
+
+
 def scaling_section() -> str:
     rows = _load(ROOT / "results" / "scaling.json")
     if not rows:
@@ -169,5 +221,5 @@ def scaling_section() -> str:
 
 def render() -> str:
     parts = ["# Results", "", "Generated by `python -m cellproof.cli verify` from cached model outputs; do not edit by hand.", "",
-             extraction_section(), augmentation_section(), heldout_section(), interventions_section(), search_section(), labels_section(), checks_section(), scaling_section()]
+             extraction_section(), augmentation_section(), heldout_section(), interventions_section(), search_section(), labels_section(), checks_section(), tissue_section(), compounds_section(), scaling_section()]
     return "\n".join(parts)
