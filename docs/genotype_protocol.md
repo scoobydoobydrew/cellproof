@@ -51,10 +51,16 @@ For every distinct signature S, and for the empty signature:
 
 - **Alone:** the fates of the damaged cell with S forced, by the solver's own function (`analysis.interventions.fates`, complete
   fixed-point enumeration): only apoptosis, no stable state (the network oscillates), or something else.
-- **With each of the 11 solver sets P:** the same with S and P forced together. Where P and S name the same node, P wins (the
-  intervention overrides the genotype).
+- **With each of the 11 solver sets P:** the same with S and P forced together. A set is **not applicable** to a signature if one of
+  its literals asks for the opposite value of a node the genotype already forces (a gene that is deleted cannot be switched on);
+  a literal that asks for the value the genotype already forces changes nothing. Not applicable counts as not leaving only apoptosis
+  in the share of all samples, and the share among applicable samples is reported next to it. (Written first as "the intervention
+  overrides the genotype"; changed the same day, before any outcome was computed, because overriding a deleted gene is not
+  something an intervention can do.)
 - **Genotype-specific search:** for the most frequent distinct signatures (the 20 most frequent non-empty ones, by count over all
-  studies), the exhaustive search of `analysis.interventions.minimal_sets` up to two literals on the network with S forced.
+  studies, under R1 and under R2), the exhaustive search of `analysis.interventions.minimal_sets` up to two literals on the network
+  with S forced, over the nodes that S does not force and that are not readouts. If S alone already leaves only apoptosis, no
+  search is needed and that is recorded.
 
 Reported: how many samples carry at least one mapped alteration; per set, the share of samples for which S and P together leave only
 apoptosis, in all samples and separately for TP53 lost and TP53 not lost, under R1 and R2; per study the same in short; the
