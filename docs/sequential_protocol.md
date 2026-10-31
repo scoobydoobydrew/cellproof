@@ -73,3 +73,41 @@ By construction H0 implies H1, and a one-stage H2 is H1; tests check both.
 - Not modelled: temporary pulses that are released again, fixed delays, drug kinetics, and the fact that nobody can watch a cell settle.
   "Wait until settled" is an idealisation.
 - Nothing is called a schedule, a therapy, a treatment or a proof.
+
+## Amendment 1: a second meaning of "dead", written after the first results were seen
+
+The protocol above was run once as written (the `settled` meaning of dead). Recorded here before anything is changed:
+
+- Radiation alone: all four attractors exist, and from the healthy start exactly two (apoptosis and senescence) can be reached, the
+  same two the tissue run reached.
+- H0 gives the 11 minimal sets of the solver exactly (the all-attractor reading reproduces the fixed-point search).
+- H1 gives 10 minimal sets: nine single literals (the seven of H0 plus Cdc25 forced on and Sirt1 forced on) and one pair
+  (AMPK_MAPK KO with CHK1 KO) that H0 does not find. The other four pairs of H0 contain one of the new single literals.
+- Sequence-only pairs: none. Of 1,012 pairs, 285 are hits as one stage and 360 in some order, and every pair that is a hit only in
+  some order contains a literal that is a hit alone (the first stage already killed every cell). For the five kinases of the brief
+  there are 1,081 sequences (every subset, every ordering and splitting into stages) and none is a hit.
+- **V1 failed.** Its second criterion held for 23 of 23 conditions, its first (the simulated fates must be attractor fates the exact
+  analysis can reach) for 15 of 23. The eight: PTEN KO, TUG1 KO, WWP1 forced on and miR221 forced on show a few senescent cells
+  (0.4% to 0.7% alive) at the end of the 72 h run although the only reachable attractor is apoptosis (the earlier 240 h runs of these
+  four reach zero, so those cells were still on their way); AKT KO with ATM KO and ATM KO with PTEN forced on have a cycle as their only
+  attractor, whose states light the simulation's fate readouts while it turns; BCL2 forced on with TUG1 KO has one unclassified fixed
+  point and the simulation shows senescent cells; AKT KO with miR221 KO ends in arrest or autophagy by the exact analysis while the
+  simulation also shows dead cells.
+
+The reading of the failure: the simulation reports what a cell passes through, V1 compared it with where cells end, and the two
+engines also mean different things by "dead". The simulation commits a cell to death the first time its apoptosis node switches on,
+even if the cell would later have left that state; the protocol asked for an apoptosis fixed point. This is a mismatch of
+definitions, not a proof that either engine is wrong, but it is also not a pass, and V1 stays reported as it came out.
+
+What is added now, decided with these results in view (so labelled as such):
+
+1. A second meaning, **`visit`**: a cell is dead as soon as it enters any state that `classify` calls apoptosis, and it survives if it
+   can reach an attractor with no apoptosis state without touching one. This is what the simulation implements. Every search
+   (S1, S3 and V) is run under both meanings and both are reported; the `settled` results are not replaced.
+2. **V2**, with the `visit` meaning: the exact analysis says a cell can survive exactly when the share alive at the end of the stored
+   run is 1% or more (two-sided, the check of the earlier 22-of-22 comparison), and every fate the simulation shows must be the
+   phenotype of some state that is reachable from the start at all (transient states included).
+3. **V3**, an out-of-sample test of the exact analysis by the simulation: every set that H1 finds under either meaning and the solver
+   does not find (the H1-only sets) is run in the tissue with the settings of the 22 runs. The prediction is the exact one under
+   `visit`: no survivor means fewer than 1% alive at 72 h, survivors means 1% or more. It is written down here before the runs.
+   Sequences cannot be run in the tissue (the network is fixed for a whole run in this setup); that is a limit, said plainly.
