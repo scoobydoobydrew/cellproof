@@ -7,3 +7,6 @@ __pycache__/
 *.egg-info/
 data/raw/
 results/.cache/
+
+# Tissue simulation: PhysiBoSS runs happen in WSL; only the small parsed results are committed.
+results/tissue/staging/

@@ -24,10 +24,11 @@ def fates(rules: dict[str, str], setting: dict[str, int]) -> set[str | None]:
     return {classify(fp) for fp in fixed_points(perturb(rules, {"DNA_damage": 1, **setting}))}
 
 
-def minimal_sets(rules: dict[str, str], max_size: int = 2, target: frozenset[str] = frozenset({"apoptosis"})) -> list[tuple[Literal, ...]]:
-    """Minimal sets of literals after which the damaged network's fixed points are exactly the `target` fates."""
+def minimal_sets(rules: dict[str, str], max_size: int = 2, target: frozenset[str] = frozenset({"apoptosis"}), values: tuple[int, ...] = (0, 1)) -> list[tuple[Literal, ...]]:
+    """Minimal sets of literals after which the damaged network's fixed points are exactly the `target` fates. `values` limits what a
+    literal may do: (0,) offers only knock-outs, which is what an inhibitor could imitate."""
     nodes = sorted(n for n in rules if n not in READOUT_NODES)
-    literals = [(n, v) for n in nodes for v in (0, 1)]
+    literals = [(n, v) for n in nodes for v in values]
     found: list[frozenset[Literal]] = []
     for size in range(1, max_size + 1):
         for combo in combinations(literals, size):
