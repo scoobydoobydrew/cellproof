@@ -84,7 +84,8 @@ about twenty-five seconds cut from the header beats to stay inside three minutes
 1. `#intro-short`, about 47 seconds. Each idea has a background drawn by the page, in the manner of a glowing render: a person on a cliff facing a
    universe of galaxies for "a feeling you get when you believe in something before anyone else does"; a luminous helix in the universe for the term
    *solitary conviction* and its definition; seven days that fill for "a platform that looked impossible to build in one week"; the point that aims for a
-   star and lands on the moon for "We aimed for the stars. We landed on the moon."; and at the end the name over a network of lit cells with three
+   star and lands on the moon for "We aimed for the stars: a cure for cancer. We landed on the moon: a platform that helps labs choose which tests to
+   run first. A small step on the way."; and at the end the name over a network of lit cells with three
    lines, large and slow: the field (cancer biology: how cells respond to radiation), the problem (cell models are incomplete, and nobody can check every
    idea from the papers by hand) and where it helps (an AI proposes, an exact solver checks, researchers get candidates to test in the lab), and the caption
    of what pre-existed and what was built this week.

@@ -48,18 +48,20 @@
      Nothing here states a result; it ends on the sentence that says what pre-existed and what was built this week. */
   const TERM_EN = "<b>Solitary conviction</b>A state where you believe in something without having evidence that it would work.";
   const TERM_EL = "<b>Solitary conviction</b>Η κατάσταση όπου πιστεύεις σε κάτι χωρίς να έχεις απόδειξη ότι θα δουλέψει.";
+  const STARS_EN = "We aimed for the <em>stars:</em> a cure for cancer.", MOON_EN = "We landed on the <em>moon:</em> a platform that helps labs choose which tests to run first.<small>A small step on the way.</small>";
+  const STARS_EL = "Στοχεύσαμε στα <em>αστέρια:</em> τη θεραπεία του καρκίνου.", MOON_EL = "Προσγειωθήκαμε στη <em>Σελήνη:</em> μια πλατφόρμα που βοηθά τα εργαστήρια να διαλέξουν ποιες δοκιμές να τρέξουν πρώτες.<small>Ένα μικρό βήμα στον δρόμο.</small>";
   const EN = {
     short: [[0, "There is a feeling you get when you believe in something <em>before anyone else does.</em>", "cosmos"], [7.5, TERM_EN, "dna", "term"],
       [16, "We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week.", "week"],
-      [25, "We aimed for the <em>stars.</em> We landed on the <em>moon.</em>", "moon"]],
+      [25, STARS_EN, "moon"], [28.2, MOON_EN, "moon"]],
     full: [[0, "Biology is drowning in <em>noise.</em>", "noise"], [4.5, "A flood of papers. Endless experiments. Too many gene switches to <em>ever try them all.</em>", "noise"], [10.5, "Trial and error is not enough.", "noise"],
       [15.5, "There is a feeling you get when you believe in something <em>before anyone else does.</em>", "cosmos"], [23, TERM_EN, "dna", "term"],
       [31, "We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week.", "week"],
-      [40, "We aimed for the <em>stars.</em> We landed on the <em>moon.</em>", "moon"],
-      [46.5, "A cell is a <em>circuit.</em> Genes switch each other on and off.", "circuit"], [51.5, `${genes} genes, each on or off: a logic circuit that can be checked.`, "circuit"],
-      [56.5, "But the circuit is incomplete. The papers know links that it is missing.", "circuit-link"], [62, "An AI can read the papers. It cannot tell whether a new link <em>breaks</em> the circuit.", "circuit-link"],
-      [68, "An exact solver can check the circuit. It cannot <em>read.</em>", "circuit-scan"], [73.5, "CellProof joins them. The AI proposes. The solver <em>decides.</em>", "circuit-scan"],
-      [79, "What is left is tested on a virtual tumour.", "tumour"], [84, "We did not find a cure for cancer. We built a way to ask <em>how</em>, exactly.", "dna"]],
+      [40, STARS_EN, "moon"], [43.2, MOON_EN, "moon"],
+      [49.7, "A cell is a <em>circuit.</em> Genes switch each other on and off.", "circuit"], [54.7, `${genes} genes, each on or off: a logic circuit that can be checked.`, "circuit"],
+      [59.7, "But the circuit is incomplete. The papers know links that it is missing.", "circuit-link"], [65.2, "An AI can read the papers. It cannot tell whether a new link <em>breaks</em> the circuit.", "circuit-link"],
+      [71.2, "An exact solver can check the circuit. It cannot <em>read.</em>", "circuit-scan"], [76.7, "CellProof joins them. The AI proposes. The solver <em>decides.</em>", "circuit-scan"],
+      [82.2, "What is left is tested on a virtual tumour.", "tumour"], [87.2, "We did not find a cure for cancer. We built a way to ask <em>how</em>, exactly.", "dna"]],
     what: [["The field", "Cancer biology: how cells respond to radiation."], ["The problem", "Cell models are incomplete, and nobody can check every idea from the papers by hand."],
       ["How it helps", "An AI proposes, an exact solver checks, and researchers get candidates to test in the lab."]],
     tag: "From shared uncertainty to solitary conviction.",
@@ -68,15 +70,15 @@
   const EL = {
     short: [[0, "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι <em>πριν από κάθε άλλον.</em>", "cosmos"], [7.5, TERM_EL, "dna", "term"],
       [16, "Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα.", "week"],
-      [25, "Στοχεύσαμε στα <em>αστέρια.</em> Προσγειωθήκαμε στη <em>Σελήνη.</em>", "moon"]],
+      [25, STARS_EL, "moon"], [28.2, MOON_EL, "moon"]],
     full: [[0, "Η βιολογία πνίγεται στον <em>θόρυβο.</em>", "noise"], [4.5, "Χείμαρρος άρθρων. Ατελείωτα πειράματα. Υπερβολικά πολλοί συνδυασμοί γονιδίων για να τους <em>δοκιμάσεις όλους.</em>", "noise"], [10.5, "Η δοκιμή και το λάθος δεν αρκούν.", "noise"],
       [15.5, "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι <em>πριν από κάθε άλλον.</em>", "cosmos"], [23, TERM_EL, "dna", "term"],
       [31, "Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα.", "week"],
-      [40, "Στοχεύσαμε στα <em>αστέρια.</em> Προσγειωθήκαμε στη <em>Σελήνη.</em>", "moon"],
-      [46.5, "Ένα κύτταρο είναι ένα <em>κύκλωμα.</em> Τα γονίδια ανάβουν και σβήνουν το ένα το άλλο.", "circuit"], [51.5, `${genes} γονίδια, το καθένα αναμμένο ή σβηστό: ένα λογικό κύκλωμα που μπορεί να ελεγχθεί.`, "circuit"],
-      [56.5, "Αλλά το κύκλωμα είναι ελλιπές. Τα papers ξέρουν συνδέσεις που του λείπουν.", "circuit-link"], [62, "Ένα AI μπορεί να διαβάσει τα papers. Δεν ξέρει αν μια νέα σύνδεση <em>χαλάει</em> το κύκλωμα.", "circuit-link"],
-      [68, "Ένας ακριβής solver μπορεί να ελέγξει το κύκλωμα. Δεν μπορεί να <em>διαβάσει.</em>", "circuit-scan"], [73.5, "Το CellProof τους ενώνει. Το AI προτείνει. Ο solver <em>αποφασίζει.</em>", "circuit-scan"],
-      [79, "Ό,τι μένει δοκιμάζεται σε έναν εικονικό όγκο.", "tumour"], [84, "Δεν βρήκαμε τη θεραπεία του καρκίνου. Φτιάξαμε έναν τρόπο να ρωτάμε <em>πώς</em>, με ακρίβεια.", "dna"]],
+      [40, STARS_EL, "moon"], [43.2, MOON_EL, "moon"],
+      [49.7, "Ένα κύτταρο είναι ένα <em>κύκλωμα.</em> Τα γονίδια ανάβουν και σβήνουν το ένα το άλλο.", "circuit"], [54.7, `${genes} γονίδια, το καθένα αναμμένο ή σβηστό: ένα λογικό κύκλωμα που μπορεί να ελεγχθεί.`, "circuit"],
+      [59.7, "Αλλά το κύκλωμα είναι ελλιπές. Τα papers ξέρουν συνδέσεις που του λείπουν.", "circuit-link"], [65.2, "Ένα AI μπορεί να διαβάσει τα papers. Δεν ξέρει αν μια νέα σύνδεση <em>χαλάει</em> το κύκλωμα.", "circuit-link"],
+      [71.2, "Ένας ακριβής solver μπορεί να ελέγξει το κύκλωμα. Δεν μπορεί να <em>διαβάσει.</em>", "circuit-scan"], [76.7, "Το CellProof τους ενώνει. Το AI προτείνει. Ο solver <em>αποφασίζει.</em>", "circuit-scan"],
+      [82.2, "Ό,τι μένει δοκιμάζεται σε έναν εικονικό όγκο.", "tumour"], [87.2, "Δεν βρήκαμε τη θεραπεία του καρκίνου. Φτιάξαμε έναν τρόπο να ρωτάμε <em>πώς</em>, με ακρίβεια.", "dna"]],
     what: [["Ο τομέας", "Βιολογία του καρκίνου: πώς αντιδρούν τα κύτταρα στην ακτινοβολία."], ["Το πρόβλημα", "Τα μοντέλα των κυττάρων είναι ελλιπή, και κανείς δεν μπορεί να ελέγξει με το χέρι κάθε ιδέα από τα papers."],
       ["Πού βοηθά", "Ένα AI προτείνει, ένας ακριβής solver ελέγχει, και οι ερευνητές παίρνουν υποψήφιες αλλαγές για δοκιμή στο εργαστήριο."]],
     tag: "From shared uncertainty to solitary conviction.",
