@@ -2,8 +2,9 @@
   <div class="wrap">
     <a class="brand" href="#top">CellProof <small>hackathon build</small></a>
     <nav aria-label="Sections">
-      <a href="#bench" data-i18n="nav.bench">Demo</a><a href="#search" data-i18n="nav.search">Search</a><a href="#model">The cell</a><a href="#agent">The agent</a><a href="#cases">Case files</a><a href="#evidence">Evidence</a><a href="#tissue">Tissue</a><a href="#limits">Limits</a>
+      <a href="#bench" data-i18n="nav.bench">Demo</a><a href="#search" data-i18n="nav.search">Search</a><a href="#tech" data-i18n="nav.tech">Technical</a>
     </nav>
+    <button class="names-btn" id="namesBtn" type="button" aria-pressed="false"><i aria-hidden="true"></i><span class="nb-long" data-i18n="names.btn">Real names</span><span class="nb-short" data-i18n="names.short">Names</span></button>
     <button class="btn small" id="playTop" type="button" data-i18n="play.short">▶ Play</button>
     <button class="iconbtn" id="lang" type="button" aria-label="English / Ελληνικά" title="English / Ελληνικά"><span id="langTxt">ΕΛ</span></button>
     <button class="iconbtn" id="theme" type="button" aria-label="Switch between light and dark theme" title="Switch theme">
@@ -54,23 +55,23 @@
         <p class="b-big" data-i18n-html="hero.b4">Which combination? The search <em>explodes.</em></p>
         <div class="b-num"><b data-count>0</b><span data-i18n="hero.n4">combinations to try</span></div>
         <p class="b-sub b-stage" data-stage-text></p>
-        <p class="b-chip" data-i18n-html="hero.np"><b>NP-hard</b> in general · Akutsu et al. 2007</p>
+        <p class="b-chip" data-i18n-html="hero.np" data-tech><b>NP-hard</b> in general · Akutsu et al. 2007</p>
       </div>
       <div class="beat" data-b="6">
         <p class="b-q" data-i18n="hero.q6"></p>
         <p class="b-big" data-i18n-html="hero.b5">The AI proposes. The solver <em>decides.</em></p>
         <div class="b-num"><b data-count>0</b><span data-i18n="hero.n5">candidates left</span></div>
         <ul class="b-score">
-          <li class="mid"><i>!</i><span data-i18n-html="hero.sa">AI alone</span></li>
-          <li class="mid"><i>!</i><span data-i18n-html="hero.sb">Solver alone</span></li>
-          <li class="yes"><i>✓</i><span data-i18n-html="hero.sc">Together</span></li>
+          <li class="mid"><i>!</i><div><span data-i18n-html="hero.sa">AI alone</span><span class="sqs"></span></div></li>
+          <li class="mid"><i>!</i><div><span data-i18n-html="hero.sb">Solver alone</span></div></li>
+          <li class="yes"><i>✓</i><div><span data-i18n-html="hero.sc">Together</span><span class="sqs"></span></div></li>
         </ul>
       </div>
       <div class="beat" data-b="7">
         <p class="b-q" data-i18n="hero.q7"></p>
         <p class="b-big" data-i18n-html="hero.b7">Now, a virtual <em>tumour.</em></p>
         <p class="b-sub" data-i18n="hero.s7">A computer simulation of a tumour. One dot is one cell.</p>
-        <p class="b-sub b-fine" data-i18n="hero.n7">A simulation (PhysiBoSS). An illustration of the model, not a prediction for any person.</p>
+        <p class="b-sub b-fine" data-i18n="hero.n7">A computer simulation. An illustration of the model, not a prediction for any person.</p>
       </div>
       <div class="beat" data-b="8">
         <p class="b-q" data-i18n="hero.q8"></p>
@@ -88,6 +89,23 @@
     </div>
   </div>
   <div class="hero-tag" aria-hidden="true" data-i18n="hero.tag">Illustration, not to scale. Hypotheses for experiments, not treatments.</div>
+</section>
+
+<section id="how" class="how" aria-label="How it works">
+  <div class="wrap">
+    <div class="how-head">
+      <div class="eyebrow" data-i18n="how.eyebrow">How it works</div>
+      <h2 class="how-h" data-i18n-html="how.h">An AI <em>reads.</em> A solver <em>checks.</em> A virtual tumour <em>tests.</em></h2>
+    </div>
+    <ol class="how-flow" id="howFlow">
+      <li class="how-step" style="--k:0"><svg class="how-ic" viewBox="0 0 64 64" aria-hidden="true"><rect x="12" y="12" width="26" height="34" rx="4" transform="rotate(-9 25 29)"/><rect x="21" y="12" width="26" height="34" rx="4" transform="rotate(5 34 29)"/><rect x="25" y="16" width="26" height="36" rx="4"/><path d="M31 29h14M31 36h14M31 43h9"/></svg><b>0</b><span class="how-l" data-i18n="how.s1">papers read</span><small data-i18n="how.s1b">by the AI</small></li>
+      <li class="how-step" style="--k:1"><svg class="how-ic" viewBox="0 0 64 64" aria-hidden="true"><circle cx="13" cy="47" r="5"/><circle cx="32" cy="15" r="5"/><circle cx="51" cy="45" r="5"/><path d="M16 43L29 19M35 19L48 41"/><path d="M19 47H45" stroke-dasharray="4 4"/></svg><b>0</b><span class="how-l" data-i18n="how.s2">links proposed</span><small data-i18n="how.s2b">from the papers</small></li>
+      <li class="how-step" style="--k:2"><svg class="how-ic" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8l20 7v15c0 14-9 22-20 27C21 52 12 44 12 30V15z"/><path d="M22 31l7 7 14-15"/></svg><b>0</b><span class="how-l" data-i18n="how.s3">known experiments</span><small></small></li>
+      <li class="how-step" style="--k:3"><svg class="how-ic" viewBox="0 0 64 64" aria-hidden="true"><g fill="currentColor" stroke="none"><circle cx="12" cy="14" r="2.2"/><circle cx="22" cy="14" r="2.2"/><circle cx="32" cy="14" r="2.2"/><circle cx="12" cy="24" r="2.2"/><circle cx="22" cy="24" r="2.2"/><circle cx="12" cy="34" r="2.2"/></g><circle cx="38" cy="36" r="13"/><path d="M47.5 45.5L58 56"/></svg><b>0</b><span class="how-l" data-i18n="how.s4">changes tried</span><small data-i18n="how.s4b">exactly, in seconds</small></li>
+      <li class="how-step" style="--k:4"><svg class="how-ic" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="22"/><g fill="currentColor" stroke="none"><circle cx="24" cy="24" r="2.8"/><circle cx="36" cy="22" r="2.8"/><circle cx="43" cy="33" r="2.8"/><circle cx="29" cy="35" r="2.8"/><circle cx="38" cy="43" r="2.8"/><circle cx="22" cy="41" r="2.8"/></g></svg><b>0</b><span class="how-l" data-i18n="how.s5">virtual cells</span><small data-i18n="how.s5b">radiation, 72 hours</small></li>
+      <li class="how-step" style="--k:5"><svg class="how-ic" viewBox="0 0 64 64" aria-hidden="true"><path d="M26 8h12M28 8v16L14 49c-2 4 0 8 5 8h26c5 0 7-4 5-8L36 24V8"/><path d="M20 42h24"/><g fill="currentColor" stroke="none"><circle cx="29" cy="49" r="2"/><circle cx="37" cy="46" r="1.6"/></g></svg><b>0</b><span class="how-l" data-i18n="how.s6">candidates</span><small data-i18n="how.s6b">to test in the lab</small></li>
+    </ol>
+  </div>
 </section>
 
 <section id="bench" class="band bench-sec">
@@ -170,6 +188,26 @@
   </div>
 </section>
 
+<section id="honest" class="honest" aria-label="What this is">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="hon.e">In short</div>
+    <h2 class="h2" data-i18n-html="hon.h">What this is, and <em>what it isn't.</em></h2>
+    <ul class="hon-cards">
+      <li class="yes"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><span data-i18n="hon.c0">Every candidate is checked exactly by a solver, and every number on this page is computed from files in the repository.</span></li>
+      <li class="mid"><i>!</i><span data-i18n="hon.c1">It is a model of a cell, not of a person: no treatment, no dose, no medical advice. Hypotheses for the lab.</span></li>
+      <li class="mid"><i>!</i><span data-i18n="hon.c2">On outcomes it never saw, the model is no better than the published one. We show that too, outcome by outcome.</span></li>
+    </ul>
+    <div class="cta"><button class="btn primary" id="techGo" type="button" data-tech-toggle aria-expanded="false" aria-controls="tech" data-i18n="tech.go">Open the technical part ↓</button></div>
+  </div>
+</section>
+
+<div id="tech" class="tech" data-open="0">
+  <div class="tech-body"><div class="tech-inner">
+    <div class="wrap tech-head">
+      <div class="eyebrow" data-i18n="tech.eyebrow">The technical part</div>
+      <p class="lede" data-i18n="tech.lede">In English, with the real gene names.</p>
+      <button class="btn small" type="button" data-tech-toggle aria-expanded="false" aria-controls="tech" data-i18n="tech.close">Close the technical part ↑</button>
+    </div>
 <section id="notebook">
   <div class="wrap">
     <div class="sec-head">
@@ -338,6 +376,8 @@
     <div class="limits" id="limitsGrid"></div>
   </div>
 </section>
+  </div></div>
+</div>
 </main>
 
 <div class="wrap"><footer>

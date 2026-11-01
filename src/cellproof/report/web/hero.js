@@ -373,10 +373,10 @@ function makeStory(cv, opt = {}) {
   const DR = opt.drift || null, HALO_RED = soft(RED);
   const POS = { DNA_damage: [0.08, 0.5], ATR: [0.28, 0.08], DNA_PK: [0.28, 0.92], ATM_pH2AX: [0.45, 0.5], CHK1: [0.62, 0.08], CHK2: [0.62, 0.92], p53: [0.75, 0.62], Cdc25: [0.9, 0.08], Cdc2_CycB: [0.9, 0.4], p21: [0.88, 0.92] };
   const START = 1400, SMALL = 260, BIG = 1300, SWEEP = 900, linkKey = (e) => e.join("|");
-  const nodes = DR ? DR.nodes.map((n, i, all) => ({ ...n, pos: POS[n.id] || [0.5 + 0.42 * Math.cos((i / all.length) * TAU), 0.5 + 0.42 * Math.sin((i / all.length) * TAU)] })) : [];
+  const nodes = DR ? DR.nodes.map((n, i, all) => ({ id: n.id, isNew: n.isNew, get label() { return n.label; }, pos: POS[n.id] || [0.5 + 0.42 * Math.cos((i / all.length) * TAU), 0.5 + 0.42 * Math.sin((i / all.length) * TAU)] })) : [];
   const tl = DR ? (() => {
     let cursor = START;
-    const A = DR.a.map((s) => { const big = s.lost.length + s.back.length > 0, o = { ...s, big, at: cursor }; cursor += big ? BIG : SMALL; return o; });  /* a link that changes the list gets time, the others stream by */
+    const A = DR.a.map((s) => { const big = s.lost.length + s.back.length > 0, o = { ...s, big, at: cursor, src: s }; cursor += big ? BIG : SMALL; return o; });  /* a link that changes the list gets time, the others stream by */
     const aEnd = cursor, tNew = aEnd + 150, tB = aEnd + 1500, okB = new Set(DR.b.flatMap((s) => s.added.map(linkKey))), links = [];
     A.forEach((s) => s.added.forEach((e) => links.push({ e, at: s.at, big: s.big, ok: okB.has(linkKey(e)) })));
     const seen = new Set(links.map((q) => linkKey(q.e)));
@@ -490,13 +490,13 @@ function makeStory(cv, opt = {}) {
     const cur = tl.A.find((s) => t >= s.at && t < s.at + (s.big ? BIG : SMALL)) || (t >= tl.aEnd && t < tl.aEnd + 300 ? tl.A[tl.A.length - 1] : null);
     if (cur) {
       const age = t - cur.at, fade = cur === tl.A[tl.A.length - 1] && t >= tl.aEnd ? 1 - clamp01((t - tl.aEnd) / 300) : 1, slide = (1 - smooth(age / 160)) * 22, ch2 = lite ? 30 : 38;
-      ctx.font = `700 ${lite ? 11 : 13}px ${sans}`; const w1 = ctx.measureText(cur.claim).width; ctx.font = `500 ${lite ? 9 : 10.5}px ${sans}`;
-      const meta = `${cur.pmcid ? cur.pmcid + " · " : ""}${L.papers(cur.papers)}`, w2 = ctx.measureText(meta).width, cw = Math.max(w1, w2) + (lite ? 34 : 42), cx0 = right - cw + slide, cy0 = top + 1;
+      ctx.font = `700 ${lite ? 11 : 13}px ${sans}`; const claimNow = cur.src ? cur.src.claim : cur.claim, w1 = ctx.measureText(claimNow).width; ctx.font = `500 ${lite ? 9 : 10.5}px ${sans}`;
+      const meta = `${NAMES && cur.pmcid ? cur.pmcid + " · " : ""}${L.papers(cur.papers)}`, w2 = ctx.measureText(meta).width, cw = Math.max(w1, w2) + (lite ? 34 : 42), cx0 = right - cw + slide, cy0 = top + 1;
       ctx.globalAlpha = a * fade * clamp01(age / 120); rr(cx0, cy0, cw, ch2, 7); ctx.fillStyle = "rgba(250,247,255,.95)"; ctx.fill(); ctx.lineWidth = cur.big ? 2.2 : 1; ctx.strokeStyle = cur.big ? rgba(PEACH, 1) : "rgba(255,255,255,.8)"; ctx.stroke();
       const ix = cx0 + 9, iy = cy0 + ch2 / 2 - (lite ? 8 : 10), iw = lite ? 11 : 14, ih = lite ? 16 : 20;  /* the paper */
       ctx.fillStyle = "rgba(120,112,170,.2)"; rr(ix, iy, iw, ih, 2); ctx.fill(); ctx.strokeStyle = "rgba(90,82,150,.7)"; ctx.lineWidth = 1; ctx.stroke();
       ctx.fillStyle = "rgba(90,82,150,.7)"; for (let q = 0; q < 3; q++) ctx.fillRect(ix + 2.5, iy + 3.5 + q * (ih / 4.4), iw - 5, 1.2);
-      ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.font = `700 ${lite ? 11 : 13}px ${sans}`; ctx.fillStyle = "rgb(36,30,70)"; ctx.fillText(cur.claim, cx0 + iw + 18, cy0 + ch2 * 0.34);
+      ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.font = `700 ${lite ? 11 : 13}px ${sans}`; ctx.fillStyle = "rgb(36,30,70)"; ctx.fillText(claimNow, cx0 + iw + 18, cy0 + ch2 * 0.34);
       ctx.font = `500 ${lite ? 9 : 10.5}px ${sans}`; ctx.fillStyle = "rgb(96,88,140)"; ctx.fillText(meta, cx0 + iw + 18, cy0 + ch2 * 0.72); ctx.textBaseline = "alphabetic";
     }
     if (sweepP > -0.02 && sweepP < 1.12) {  /* the solver's scan, the same cyan wipe as in the last beat */

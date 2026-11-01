@@ -49,12 +49,15 @@ rebuilds it). It opens with an eight-beat header in plain words, in English or G
 DNA: radiation breaks DNA; not every damaged cell dies; the goal is a few genes to switch so that every cell does; new rules from papers keep changing
 which combinations work; the number of combinations explodes (1,058 sets of one or two changes, over a million of five); the AI proposes and the solver
 decides; a virtual tumour (a real simulation of 1,663 cells, replayed with and without one of the solver's candidates); and 9,896 public tumour samples
-as one dot each, showing that every candidate relies on one gene (p53) and what share of samples have lost it. Straight after the header comes the
-**demo**: a test bench in six clickable steps (a dish of cells, a missing link, ten known experiments, a fix, an audit, the virtual tumour) and a hunt
+as one dot each, showing that every candidate relies on one gene (p53) and what share of samples have lost it. Straight after the header comes a
+strip of six counts that count up as it scrolls into view (papers read, links proposed, known experiments, changes tried, virtual cells, candidates),
+then the **demo**: a test bench in six clickable steps (a dish of cells, a missing link, ten known experiments, a fix, an audit, the virtual tumour) and a hunt
 for every way to leave only death, with a *Play the demo* button that walks through all of it in about 90 seconds. After the demo comes the **search
-engine**: the solver's verdict on all 1,058 sets of one or two changes drawn on one board, for the model cell and for five tumour profiles
-(`docs/search_board.md`). Below that, in English: the interactive cell with all of its genes, the agent, every rule it judged, the evidence, the
-tissue, sequence and genotype studies and the limits. Every number on the page is computed when it is built, never typed in; the pictures are
+engine**: the solver's verdict on all 1,058 sets of one or two changes drawn on one board, for the model cell and for tumour profiles (the front
+page shows the one where p53 is lost; the other four appear with *Real names* on; `docs/search_board.md`), and three short cards on what this is and is not. That is the whole front page. Everything technical (in English: the
+interactive cell with all of its genes, the agent, every rule it judged, the evidence, the tissue, sequence and genotype studies and the limits) is
+behind one button (*Technical* in the top bar) and opens in place. The front page names no gene but p53 (the others are numbered, and the cell fates
+keep plain words); the **Real names** button in the top bar shows the scientific names (the technical part always shows them). Every number on the page is computed when it is built, never typed in; the pictures are
 illustration unless they say that they are the simulation or public counts (see `docs/limitations.md`). The headline numbers, each also in
 `results/RESULTS.md`:
 

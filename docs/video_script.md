@@ -11,7 +11,7 @@ from the same data, so read the numbers off the page, do not trust this file.
 2. Start the screen recorder (OBS or the system recorder) with your microphone. Press **Start the take** (or Space), then take your hands off
    the mouse and move the pointer off the window: the page hides the top bar and the buttons, shows 3, 2, 1, and performs the take.
    Esc stops it at any point.
-3. The take lasts about 2 minutes 47 seconds (after the countdown) and ends on the page's limits. Then record the terminal on its own for
+3. The take lasts about 2 minutes 39 seconds (after the countdown) and ends on the page's three closing cards (what this is and is not). Then record the terminal on its own for
    10 to 12 seconds: `make verify` (or run it before and scroll the output). Cut the countdown and join the two parts.
 4. The take is deterministic: if you stumble over a sentence, record the whole take again. Read the script below at a calm pace; the
    gaps between shots are the pauses.
@@ -37,9 +37,8 @@ words are the page's own.
 | 1:57 | the virtual tumour inside the demo | "Back in the virtual tumour, one candidate leaves no cell alive, and the simulation agrees with the solver on twenty-two of twenty-two sets. Both run the same rules, so this checks one against the other, not the biology." |
 | 2:17 | the search engine, scrolled into view; it runs by itself | "This is the solver's whole search on one board: twenty-three genes, off in red, on in green, and a line for every set it tried, one thousand and fifty-eight. Eleven glow: they leave only death, and nothing smaller does." |
 | 2:26 | the **p53 lost** profile | "Now the same search in a tumour where p53 is lost: nine hundred and sixty-eight sets, and none leaves only death." |
-| 2:34 | the **WIP1 high** profile | "Another profile, a different answer." |
-| 2:42 | the limits, with a caption | "Limits, plainly: a model of a cell, not of a person. These are hypotheses for the lab." |
-| 2:47 | terminal, recorded apart | "One command, `make verify`, rebuilds every number from cached outputs, with no API call." |
+| 2:34 | the three cards of what this is and is not (the limits themselves wait behind the page's *Technical* button), with a caption | "Limits, plainly: a model of a cell, not of a person. These are hypotheses for the lab." |
+| 2:39 | terminal, recorded apart | "One command, `make verify`, rebuilds every number from cached outputs, with no API call." |
 
 Do not say "patient", "therapy", "treatment", "personalised", "proof", "trial", "cure" or "safe" (the page says "no treatment, no dose, no
 medical advice" in the negative, and that is the only place). Say "tumour samples", "candidates", "hypotheses for the lab", "a model of a
@@ -89,12 +88,12 @@ about twenty-five seconds cut from the header beats to stay inside three minutes
    lines, large and slow: the field (cancer biology: how cells respond to radiation), the problem (cell models are incomplete, and nobody can check every
    idea from the papers by hand) and where it helps (an AI proposes, an exact solver checks, researchers get candidates to test in the lab), and the caption
    of what pre-existed and what was built this week.
-2. `#video-short`, about 1 minute 45 seconds: it starts on the virtual tumour (8 s), then the tumour samples (8 s), then the demo at 1.5 times, the search
-   engine with the p53 and WIP1 profiles, and the limits. Say the sentences of the rows *A virtual tumour*, *Every tumour has its own genes*, the demo, the
-   search engine and the limits of the table above; skip the first beats, the opening has said them.
+2. `#video-short`, about 1 minute 37 seconds: it starts on the virtual tumour (8 s), then the tumour samples (8 s), then the demo at 1.5 times, the search
+   engine with the model cell and the p53 profile, and the three cards of what this is and is not. Say the sentences of the rows *A virtual tumour*, *Every tumour has its own genes*, the demo, the
+   search engine and the closing cards of the table above; skip the first beats, the opening has said them.
 3. The terminal, 10 to 12 seconds: `make verify`.
 4. `#card`, 4 seconds.
 
-That is about 2 minutes 50 seconds; if it comes out longer, cut the countdowns and the pauses. `#intro` (about 100 seconds) is the longer opening, with the same
+That is about 2 minutes 42 seconds; if it comes out longer, cut the countdowns and the pauses. `#intro` (about 100 seconds) is the longer opening, with the same
 backgrounds and the explanation in more steps (a network with signals, a new link, a scan, the simulation's own cells), for a cut of its own.
 Images from elsewhere (stock photos, a reel) are not in the page: put them in the editor only if you hold their licence; the page draws its own.

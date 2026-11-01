@@ -42,6 +42,7 @@
   const GREEN = [88, 230, 172], RED = [255, 104, 116], PEACH = [255, 190, 130], LILAC = [190, 182, 232], BLUE = [120, 150, 255], WHITE = [255, 255, 255];
   const TINT = { D: [GREEN, 0.2], O: [LILAC, 0.085], N: [BLUE, 0.07] }, DELTA = 0.042, sans = css("--sans") || "sans-serif";
   const PUB = ((D.interventions || {}).published || []).map((s) => JSON.stringify(s)), BASE = [[["TUG1", 0]], [["miR221", 1]]].map((s) => JSON.stringify(s)).filter((s) => PUB.includes(s));
+  const SHOWN = (i) => NAMES || i < 2;  /* the model cell and p53 lost; the other profiles need gene names */
   const setName = (s) => s.map(([n, v]) => `${pretty(n)} ${v ? "ON" : "✕"}`).join(" + "), inPaper = (s) => BASE.includes(JSON.stringify(s.map(([n, v]) => [n, v])));
   const nameOf = (forced) => (forced.length ? forced.map(([n, v]) => `${pretty(n)} ${T(v ? "sx.high" : "sx.lost")}`).join(" + ") : T("sx.model"));
   const MODEL_KEPT = new Set(P[0].found.map((i) => JSON.stringify(COMBOS[i])));
@@ -98,7 +99,7 @@
     ctx.font = `500 ${Math.max(10, Math.min(12.5, W * 0.021))}px ${sans}`; ctx.textBaseline = "middle";  /* the gene names, outside the ring */
     G.forEach((g, gi) => {
       const a = -Math.PI / 2 + ((gi + 0.5) / NG) * TAU, c = Math.cos(a), s = Math.sin(a), x = cx + c * (R + pr * 3.2), y = cy + s * (R + pr * 3.2);
-      ctx.textAlign = c > 0.2 ? "left" : c < -0.2 ? "right" : "center"; ctx.fillStyle = g in forced ? rgba(PEACH, 1) : "rgba(238,236,252,.86)"; ctx.fillText(pretty(g), x, y + (Math.abs(c) <= 0.2 ? s * 6 : 0));
+      ctx.textAlign = c > 0.2 ? "left" : c < -0.2 ? "right" : "center"; ctx.fillStyle = g in forced ? rgba(PEACH, 1) : "rgba(238,236,252,.86)"; ctx.fillText(shortName(g), x, y + (Math.abs(c) <= 0.2 ? s * 6 : 0));
     });
     const tried = k, big = Math.round(R * 0.36), kept = [...foundSet].filter(reached).length;  /* in the middle: how many sets have been tried */
     ctx.textAlign = "center"; ctx.font = `700 ${big}px ${sans}`; ctx.fillStyle = "#fff"; ctx.fillText(num(tried), cx, cy - big * 0.12);
@@ -125,11 +126,12 @@
     $("#sxMsg").textContent = (done ? (p.found.length ? T("sx.done", n, p.found.length, dead) : T("sx.none", n)) : running ? T("sx.run", n) : T("sx.ready", n)) + (p.forced.length && done ? ` ${T("sx.fixed", pinned)}` : "");
   }
   function note() {
-    const skip = SB.no_search_needed.filter((s) => s.forced.length === 1).slice(0, 3).map((s) => `${nameOf(s.forced)} (${num(s.samples)})`).join(", ");
+    const skip = NAMES ? SB.no_search_needed.filter((s) => s.forced.length === 1).slice(0, 3).map((s) => `${nameOf(s.forced)} (${num(s.samples)})`).join(", ") : "";
     $("#sxNote").textContent = `${skip ? T("sx.skip", skip) + " " : ""}${T("sx.note")}`;
   }
   function chips() {
-    $("#sxProfiles").replaceChildren(...P.map((p, i) => {
+    $("#sxProfiles").replaceChildren(...P.map((p, i) => (SHOWN(i) ? p : null)).map((p, i) => {
+      if (!p) return document.createComment("");
       const b = h(`<button type="button" class="sx-chip" aria-pressed="${i === cur}"><span>${esc(nameOf(p.forced))}</span><small>${esc(p.samples ? T("sx.samples", p.samples) : T("sx.nogeno"))}</small></button>`);
       b.addEventListener("click", () => select(i)); return b;
     }));
@@ -180,7 +182,7 @@
   cv.addEventListener("pointerleave", () => tip.classList.remove("show"));
   $("#sxGo").addEventListener("click", run);
   new ResizeObserver(() => { if (fit()) { paintLayer(k); draw(); } }).observe(cv);
-  CP.onLang(() => { chips(); message(); note(); relist(); draw(); });
+  CP.onLang(() => { if (!SHOWN(cur)) { select(0); return; } chips(); message(); note(); relist(); draw(); });
   function relist() {  /* the words of the list follow the language; the list itself is the solver's, revealed in order */
     $("#sxResults").replaceChildren(); profile().found.slice(0, shown).forEach((i, n) => addResult(i, n + 1));
   }

@@ -77,8 +77,14 @@ def test_the_sequence_and_genotype_blocks_state_only_what_the_stored_files_say()
 def test_the_page_has_the_tissue_section_and_its_script_is_part_of_the_build():
     head, body, script = parts({"x": 1})
     assert 'id="tissue"' in body and 'id="tCanvas"' in body and 'id="downCard"' in body and "Tissue what-if" in script
-    assert 'id="story"' not in body and 'id="tech"' not in body  # no long story between the header and the demo
-    assert body.index('id="top"') < body.index('id="bench"') < body.index('id="search"') < body.index('id="notebook"')  # the demo straight after the header, the search engine after the demo
+    assert 'id="story"' not in body  # no long story between the header and the demo
+    assert body.index('id="top"') < body.index('id="how"') < body.index('id="bench"') < body.index('id="search"') < body.index('id="honest"') < body.index('id="tech"') < body.index('id="notebook"')  # the header, how it works, the demo, the search engine, what this is and is not, and only then the technical part
+    inside = body[body.index('id="tech"'):body.index("</main>")]
+    assert all(f'id="{name}"' in inside for name in ("notebook", "model", "agent", "cases", "evidence", "tissue", "limits"))  # everything technical waits behind one door
+    assert '<div id="tech" class="tech" data-open="0">' in body and body.count("data-tech-toggle") == 2 and 'id="namesBtn"' in body and 'id="howFlow"' in body and body.count('class="how-step"') == 6
+    nav = body[body.index("<nav"):body.index("</nav>")]
+    assert nav.count("<a ") == 3 and 'href="#tech"' in nav and body.count('class="hon-cards"') == 1 and body.count('<li class="mid">') >= 2
+    assert body.index('<div class="wrap"><footer>') > body.index("</main>")  # the footer with the commit and the hash of the held-out set stays outside the door
     assert all(f'data-b="{n}"' in body for n in range(1, 9)) and body.count('<button type="button"></button>') == 8 and 'id="playHero"' in body  # eight beats, one bar each
     assert 'id="bTumour"' in body and 'data-scale="tumour"' in body and "makeTumour" in script and "tissueFrames" in script and "drawSamples" in script
     assert 'id="sxBoard"' in body and 'id="sxProfiles"' in body and "The search engine" in script and "Play the demo" in script
@@ -88,7 +94,8 @@ def test_the_page_has_the_tissue_section_and_its_script_is_part_of_the_build():
     video = (WEB / "video.js").read_text(encoding="utf-8")
     assert '/^#(video|intro)/.test(location.hash)' in video and "CPBench.play(SPEED)" in video and "CPHero.pin(true)" in video  # the recording mode exists only behind #video, and plays the page's own demo and beats
     assert '"video.js"' in (WEB.parent / "build.py").read_text(encoding="utf-8")
-    for name in ("tissue.js", "search.js", "bench.js", "video.js"):
+    assert '"how.js", "close.js"' in (WEB.parent / "build.py").read_text(encoding="utf-8")
+    for name in ("tissue.js", "search.js", "bench.js", "video.js", "how.js", "close.js", "core.js"):
         page = (WEB / name).read_text(encoding="utf-8")
         for word in ("clinical trial", "proof", "patient", "personalis", "cure"):
             assert word not in page.lower().replace("cellproof", "").replace("not a prediction for any patient", "").replace("no patient", "").replace("not a clinical trial", "").replace("before there is <em>proof.</em>", "").replace("we did not find a cure for cancer", "").replace("a cure for cancer", "")  # the opening says that the project began before there was any proof, which is the opposite of claiming one, (name, word)

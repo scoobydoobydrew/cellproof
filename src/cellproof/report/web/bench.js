@@ -62,11 +62,11 @@
   /* ---------------------------------------------------------------- texts */
   const TEXT = {
     en: {
-      "nav.bench": "Demo", "nav.search": "Search", "play.short": "▶ Play the demo", "play.stop": "■ Stop",
+      "nav.bench": "Demo", "nav.search": "Search", "nav.tech": "Technical", "names.btn": "Real names", "names.short": "Names", "names.tip": "Show the real scientific names of the genes and of the cell fates (only p53 is named by default)", "play.short": "▶ Play the demo", "play.stop": "■ Stop",
       "hero.sr": () => "CellProof: radiation breaks DNA and a damaged cell does not always die. The goal is a combination of genes to switch off, or on, that leaves only death. There are far too many combinations to try, and every new paper can change which ones work. An AI reads the papers, an exact solver checks every rule, a virtual tumour tests what is left, and real tumour samples show that every tumour is different. Hypotheses for experiments, not treatments.",
-      "hero.sa": () => `<b>AI alone:</b> ${joined([HERO.ai && `${HERO.ai.works} of ${HERO.ai.distinct} guesses right, ${HERO.ai.minimal_hits} of the ${HERO.ai.minimal} candidates found`, UNCH && `its edits break ${range(...UNCH)} of 10 known experiments`])}`,
-      "hero.sb": () => `<b>Solver alone:</b> finds all ${HERO.found} and checks them, but cannot read the papers${HERO.proj["5"] ? `; ≈ ${dur(HERO.proj["5"])} for 5 changes (projected)` : ""}`,
-      "hero.sc": () => `<b>Together:</b> ${HERO.found} candidates for the lab (${PAPER_SETS} in the base paper, the rest computed), ${CHK} of 10 known experiments broken`,
+      "hero.sa": () => `<b>AI alone:</b> breaks ${UNCH ? range(...UNCH) : "some"} of ${NCASES || 10} known experiments`,
+      "hero.sb": () => "<b>Solver alone:</b> exact, but cannot read the papers",
+      "hero.sc": () => `<b>Together:</b> ${CHK} of ${NCASES || 10} broken, ${HERO.found} candidates for the lab`,
       "hero.b1": "Radiation <em>breaks</em> DNA.", "hero.b2": "Not every damaged cell <em>dies.</em>", "hero.n2": "In the published model. Illustration, not percentages.",
       "hero.b3": "Flip the right genes, and every cell <em>dies.</em>", "hero.s3": "The goal: a combination of genes to switch off, or on, that leaves only death.",
       "hero.n3": "Two genes here, an example from the model. Illustration.",
@@ -82,9 +82,16 @@
       "hero.tag": "Illustration, not to scale. Hypotheses for experiments, not treatments.", "hero.step": (i, n) => `Part ${i} of ${n}`,
       "hero.play": "▶ Play the demo", "hero.try": "Try it yourself",
       "hero.q2": "Does every damaged cell die?", "hero.q3": "So, what do we do?", "hero.q4": "And when a new paper comes out?", "hero.q5": "How many combinations is that?", "hero.q6": "So how do we choose between them all?", "hero.q7": "Does it hold in a whole tumour?", "hero.q8": "Is every tumour the same?",
+      "how.eyebrow": "How it works", "how.h": "An AI <em>reads.</em> A solver <em>checks.</em> A virtual tumour <em>tests.</em>",
+      "how.s1": "papers read", "how.s1b": "by the AI", "how.s2": "links proposed", "how.s2b": "from the papers", "how.s3": "known experiments", "how.s3b": (n) => (n ? `${n} broken: ` : "") + "the solver checks every link against them",
+      "how.s4": "changes tried", "how.s4b": "exactly, in seconds", "how.s5": "virtual cells", "how.s5b": "radiation, 72 hours", "how.s6": "candidates", "how.s6b": "to test in the lab",
+      "hon.e": "In short", "hon.h": "What this is, and <em>what it isn't.</em>", "hon.c0": "Every candidate is checked exactly by a solver, and every number on this page is computed from files in the repository.",
+      "hon.c1": "It is a model of a cell, not of a person: no treatment, no dose, no medical advice. Hypotheses for the lab.", "hon.c2": "On outcomes it never saw, the model is no better than the published one. We show that too, outcome by outcome.",
+      "tech.go": "Open the technical part ↓", "tech.close": "Close the technical part ↑", "tech.eyebrow": "The technical part",
+      "tech.lede": "In English, with the real gene names.",
       "hero.b7": "Now, a virtual <em>tumour.</em>",
       "hero.s7": () => (TUM ? `${num(TUM.cells)} cells in a computer simulation. Radiation alone leaves ${num(TUM.alive)} alive. With one of the solver's candidates: ${lastAlive(TUM.items[1].cond) ? num(lastAlive(TUM.items[1].cond)) : "none"}. A tumour is a crowd of cells, so we test a candidate on all of them at once.` : ""),
-      "hero.n7": "A simulation (PhysiBoSS) of tumour cells only. Radiation also reaches the normal tissue around a tumour, and its tolerance limits the dose (Scaife et al. 2015 · PMC4628540). An illustration of the model, not a prediction for any person.",
+      "hero.n7": "A computer simulation of tumour cells only. Radiation also reaches the normal tissue around a tumour, and its tolerance limits the dose (Scaife et al. 2015 · PMC4628540). An illustration of the model, not a prediction for any person.",
       "hero.w3": "Why only death? A cell that only pauses or ages is still alive.",
       "hero.t0": "Radiation only", "hero.t1": "With a solver candidate", "hero.talive": "cells alive", "hero.thours": (h) => `after ${h} hours`,
       "hero.b8": "Every tumour has <em>its own genes.</em>",
@@ -96,7 +103,7 @@
       "scale.tumour": "Tumour", "irr.tum": "Replay",
       "a5.next": "Next: a virtual tumour →",
       "tum.t": "A virtual tumour", "tum.h": (n) => `${num(n)} cells in a computer simulation (PhysiBoSS). The same rules run in each cell. Pick what to apply, then watch 72 hours.`,
-      "tum.b0": "Radiation only", "tum.b1": "The solver's pick", "tum.b2": "A candidate it rejected", "tum.b3": "Found later, predicted first",
+      "tum.b0": "Radiation only", "tum.b1": "The solver's pick", "tum.b2": "A candidate it rejected", "tum.b3": "Predicted before the run",
       "tum.alive": (n) => `of ${num(n)} cells alive`, "tum.hours": "hours",
       "tum.n0": "Without a switch some cells survive. They have aged: alive, but stopped.", "tum.n1": (a) => `The solver's pick: ${a ? `${num(a)} cells are left.` : "no cell is left."}`,
       "tum.n2": "A candidate the checker rejected: many cells survive. The checker does not say yes to everything.",
@@ -107,7 +114,7 @@
       "sx.lede": "Ask for a cell that dies and nothing else. The solver tries every set of one or two genes, off or on, and keeps the smallest that work. Then pick a tumour profile and ask again.",
       "ctl.damage": "DNA damage",
       "scale.dish": "Dish", "scale.circuit": "Cell", "irr.go": "Irradiate", "irr.again": "Irradiate again", "irr.replay": "Replay",
-      "vial.none": "No change", "vial.tug1": "Switch off TUG1", "vial.mir": "Switch on miR-221", "vial.p53": "Remove p53", "cmp.paper": "Paper: known result",
+      "vial.none": "No change", "vial.tug1": () => `Switch off ${pretty("TUG1")}`, "vial.mir": () => `Switch on ${pretty("miR221")}`, "vial.p53": "Remove p53", "cmp.paper": "Paper: known result",
       "dish.note": "Illustration. The model gives possible fates, not percentages.", "dish.empty": "no cells left",
       "tip.idle": "A healthy cell. Irradiate the dish and watch it decide.", "tip.cell": "Click to look inside this cell.", "tip.osc": "No stable state: this cell keeps flipping between fates.",
       "dock.circuit": "Click a gene to cut it. Click again to switch it on.", "lg.act": "switches on", "lg.inh": "switches off", "lg.new": "new link", "lg.on": "on", "lg.off": "off",
@@ -122,13 +129,14 @@
       "a6.tease": (n) => `Challenge: can you make every cell die? The checker knows ${n} ways.`, "a6.go": "Start the hunt →",
       "fate.proliferation": "Divides", "fate.arrest": "Pauses", "fate.senescence": "Ages", "fate.autophagy": "Recycles", "fate.apoptosis": "Dies",
       "a1.t": "A dish of cells", "a1.h": "Press Irradiate, then switch a gene off or on.",
-      "cut.none": "No change", "cut.tug1": "Switch off TUG1", "cut.mir": "Switch on miR-221", "cut.p53": "Remove p53",
+      "cut.none": "No change", "cut.tug1": () => `Switch off ${pretty("TUG1")}`, "cut.mir": () => `Switch on ${pretty("miR221")}`, "cut.p53": "Remove p53",
       "a1.next": "Next: the model is missing a link →",
       "st.only": (x) => `Only “${x}” is reachable.`, "st.many": (n, list) => `${n} fates are reachable: ${list}.`,
       "st.never": "The circuit never settles: it keeps oscillating, so no lamp stays on.", "st.nofate": "A stable state exists, but it matches none of the five fates.",
       "st.unknown": "This combination was not precomputed.",
             "a2.t": "A missing link", "a2.h": (list) => `The model is missing some genes: ${list}. The papers know them.`,
       "a2.read": (n) => `Let the AI read ${n} papers`, "cnt.papers": "papers read", "cnt.claims": "claims proposed", "cnt.quotes": "quotes found word for word",
+      "a2.sentence": "Show the sentence the AI read", "a4.words": "Show the AI's own words and the rule", "a5.list": "See the ten outcomes, one by one",
       "a2.found": (q, k) => `One of ${q} quoted claims. ${k} papers agree.`, "a2.wire": (a, b) => `Proposed link: ${a} switches ${b} off`,
       "a2.more": (n) => `${n} more quotes`, "a2.plug": "Add the link, unchecked",
       "a2.plugged": "Added, unchecked. Is it safe? Test it on experiments with known results.", "a2.next": "Next: test it on 10 known experiments →",
@@ -149,7 +157,7 @@
       "a5.worked": (a, b, z) => `What worked: without the checker, the edits broke ${a}–${b} of the 10 known experiments. With it: ${z}.`,
       "a5.nb": "Open the lab notebook ↓", "a5.again": "Play again", "a5.restart": "Start over", "a5.click": "Click a row for the quote.", "a5.noaudit": "The held-out set has not been scored.",
       "cap.1": "Radiation damages the DNA of a cell.", "cap.2": "Then every cell picks one fate: it pauses, ages, recycles itself or dies.",
-      "cap.3": "Switch off one gene, TUG1, and every cell dies. Finding genes like this is the goal.",
+      "cap.3": () => `Switch off one gene, ${pretty("TUG1")}, and every cell dies. Finding genes like this is the goal.`,
       "cap.d1": "Inside the cell, genes switch each other on and off. This is our model of it.",
       "cap.4": "But the model is missing links that the papers know.", "cap.5": (n) => `An AI reads ${n} papers and finds them.`,
       "cap.6": (a, b) => `One new link: ${a} switches off ${b}.`, "cap.7": "Is the AI right? An exact checker, the solver, replays 10 experiments with known results.",
@@ -161,11 +169,11 @@
       "cap.17": "But every tumour has its own genes. Where p53 is lost, none of the candidates works.",
     },
     el: {
-      "nav.bench": "Demo", "nav.search": "Αναζήτηση", "play.short": "▶ Παίξε το demo", "play.stop": "■ Στοπ",
+      "nav.bench": "Demo", "nav.search": "Αναζήτηση", "nav.tech": "Τεχνικά", "names.btn": "Πραγματικά ονόματα", "names.short": "Ονόματα", "names.tip": "Δείξε τα πραγματικά επιστημονικά ονόματα των γονιδίων και των τύπων κυττάρου (μόνο το p53 έχει όνομα από προεπιλογή)", "play.short": "▶ Παίξε το demo", "play.stop": "■ Στοπ",
       "hero.sr": () => "CellProof: η ακτινοβολία σπάει το DNA και ένα κύτταρο με βλάβη δεν πεθαίνει πάντα. Ο στόχος είναι ένας συνδυασμός γονιδίων να σβήσουν, ή να ανάψουν, ώστε να μείνει μόνο ο θάνατος. Οι συνδυασμοί είναι πάρα πολλοί για να δοκιμαστούν, και κάθε νέο paper μπορεί να αλλάξει ποιοι δουλεύουν. Ένα AI διαβάζει τα papers, ένας ακριβής solver ελέγχει κάθε κανόνα, ένας εικονικός όγκος δοκιμάζει ό,τι μένει, και πραγματικά δείγματα όγκων δείχνουν ότι κάθε όγκος είναι διαφορετικός. Υποθέσεις για πειράματα, όχι θεραπείες.",
-      "hero.sa": () => `<b>Μόνο AI:</b> ${joined([HERO.ai && `${HERO.ai.works} από ${HERO.ai.distinct} εικασίες σωστές, βρήκε ${HERO.ai.minimal_hits} από τις ${HERO.ai.minimal} υποψήφιες`, UNCH && `οι αλλαγές του χαλάνε ${range(...UNCH)} από 10 γνωστά πειράματα`])}`,
-      "hero.sb": () => `<b>Μόνο solver:</b> βρίσκει και τις ${HERO.found} και τις ελέγχει, αλλά δεν διαβάζει τα papers${HERO.proj["5"] ? `· ≈ ${dur(HERO.proj["5"])} για 5 αλλαγές (εκτίμηση)` : ""}`,
-      "hero.sc": () => `<b>Μαζί:</b> ${HERO.found} υποψήφιες για το εργαστήριο (${PAPER_SETS} στο βασικό paper, οι άλλες υπολογισμένες), ${CHK} από 10 γνωστά πειράματα χαλασμένα`,
+      "hero.sa": () => `<b>Μόνο AI:</b> χαλάει ${UNCH ? range(...UNCH) : "μερικά"} από ${NCASES || 10} γνωστά πειράματα`,
+      "hero.sb": () => "<b>Μόνο solver:</b> ακριβής, αλλά δεν διαβάζει τα papers",
+      "hero.sc": () => `<b>Μαζί:</b> χαλάνε ${CHK} από ${NCASES || 10}, ${HERO.found} υποψήφιες για το εργαστήριο`,
       "hero.b1": "Η ακτινοβολία <em>σπάει</em> το DNA.", "hero.b2": "Δεν πεθαίνει <em>κάθε</em> κύτταρο με βλάβη.", "hero.n2": "Στο δημοσιευμένο μοντέλο. Εικονογράφηση, όχι ποσοστά.",
       "hero.b3": "Γύρνα τους σωστούς διακόπτες και κάθε κύτταρο <em>πεθαίνει.</em>", "hero.s3": "Ο στόχος: ένας συνδυασμός γονιδίων να σβήσουν, ή να ανάψουν, ώστε να μείνει μόνο ο θάνατος.",
       "hero.n3": "Εδώ δύο γονίδια, ένα παράδειγμα από το μοντέλο. Εικονογράφηση.",
@@ -181,9 +189,16 @@
       "hero.tag": "Εικονογράφηση, όχι υπό κλίμακα. Υποθέσεις για πειράματα, όχι θεραπείες.", "hero.step": (i, n) => `Μέρος ${i} από ${n}`,
       "hero.play": "▶ Παίξε το demo", "hero.try": "Δοκίμασέ το μόνος σου",
       "hero.q2": "Πεθαίνει κάθε κύτταρο με βλάβη;", "hero.q3": "Λοιπόν, τι κάνουμε;", "hero.q4": "Κι όταν βγαίνει ένα νέο paper;", "hero.q5": "Πόσοι συνδυασμοί είναι αυτοί;", "hero.q6": "Πώς διαλέγουμε ανάμεσα σε όλους;", "hero.q7": "Δουλεύει σε ολόκληρο όγκο;", "hero.q8": "Είναι κάθε όγκος ίδιος;",
+      "how.eyebrow": "Πώς δουλεύει", "how.h": "Ένα AI <em>διαβάζει.</em> Ένας solver <em>ελέγχει.</em> Ένας εικονικός όγκος <em>δοκιμάζει.</em>",
+      "how.s1": "papers διαβάστηκαν", "how.s1b": "από το AI", "how.s2": "συνδέσεις προτάθηκαν", "how.s2b": "από τα papers", "how.s3": "γνωστά πειράματα", "how.s3b": (n) => (n ? `${n} χαλασμένα: ` : "") + "ο solver ελέγχει κάθε σύνδεση απέναντί τους",
+      "how.s4": "αλλαγές δοκιμάστηκαν", "how.s4b": "ακριβώς, σε δευτερόλεπτα", "how.s5": "εικονικά κύτταρα", "how.s5b": "ακτινοβολία, 72 ώρες", "how.s6": "υποψήφιες", "how.s6b": "για δοκιμή στο εργαστήριο",
+      "hon.e": "Συνοψίζοντας", "hon.h": "Τι είναι, και <em>τι δεν είναι.</em>", "hon.c0": "Κάθε υποψήφια ελέγχεται ακριβώς από έναν solver, και κάθε αριθμός σε αυτή τη σελίδα υπολογίζεται από αρχεία του repository.",
+      "hon.c1": "Είναι μοντέλο κυττάρου, όχι ανθρώπου: καμία θεραπεία, καμία δόση, καμία ιατρική συμβουλή. Υποθέσεις για το εργαστήριο.", "hon.c2": "Σε αποτελέσματα που δεν είχε δει, το μοντέλο δεν είναι καλύτερο από το δημοσιευμένο. Το δείχνουμε κι αυτό, αποτέλεσμα προς αποτέλεσμα.",
+      "tech.go": "Άνοιξε το τεχνικό μέρος ↓", "tech.close": "Κλείσε το τεχνικό μέρος ↑", "tech.eyebrow": "Το τεχνικό μέρος",
+      "tech.lede": "Στα αγγλικά, με τα πραγματικά ονόματα των γονιδίων.",
       "hero.b7": "Τώρα, ένας εικονικός <em>όγκος.</em>",
       "hero.s7": () => (TUM ? `${num(TUM.cells)} κύτταρα σε προσομοίωση στον υπολογιστή. Η ακτινοβολία μόνη αφήνει ${num(TUM.alive)} ζωντανά. Με μία από τις υποψήφιες του solver: ${lastAlive(TUM.items[1].cond) ? num(lastAlive(TUM.items[1].cond)) : "κανένα"}. Ένας όγκος είναι πλήθος κυττάρων, γι' αυτό δοκιμάζουμε μια υποψήφια σε όλα μαζί.` : ""),
-      "hero.n7": "Προσομοίωση (PhysiBoSS) μόνο με κύτταρα όγκου. Η ακτινοβολία φτάνει και στον φυσιολογικό ιστό γύρω από τον όγκο, και η ανοχή του περιορίζει τη δόση (Scaife et al. 2015 · PMC4628540). Εικόνα του μοντέλου, όχι πρόβλεψη για κάποιον άνθρωπο.",
+      "hero.n7": "Προσομοίωση στον υπολογιστή, μόνο με κύτταρα όγκου. Η ακτινοβολία φτάνει και στον φυσιολογικό ιστό γύρω από τον όγκο, και η ανοχή του περιορίζει τη δόση (Scaife et al. 2015 · PMC4628540). Εικόνα του μοντέλου, όχι πρόβλεψη για κάποιον άνθρωπο.",
       "hero.w3": "Γιατί μόνο θάνατο; Ένα κύτταρο που απλώς κάνει παύση ή γερνά είναι ακόμα ζωντανό.",
       "hero.t0": "Μόνο ακτινοβολία", "hero.t1": "Με μια υποψήφια του solver", "hero.talive": "κύτταρα ζωντανά", "hero.thours": (h) => `μετά από ${h} ώρες`,
       "hero.b8": "Κάθε όγκος έχει <em>δικά του γονίδια.</em>",
@@ -195,7 +210,7 @@
       "scale.tumour": "Όγκος", "irr.tum": "Επανάληψη",
       "a5.next": "Επόμενο: ένας εικονικός όγκος →",
       "tum.t": "Ένας εικονικός όγκος", "tum.h": (n) => `${num(n)} κύτταρα σε προσομοίωση στον υπολογιστή (PhysiBoSS). Οι ίδιοι κανόνες τρέχουν σε κάθε κύτταρο. Διάλεξε τι θα εφαρμόσεις και δες 72 ώρες.`,
-      "tum.b0": "Μόνο ακτινοβολία", "tum.b1": "Η επιλογή του solver", "tum.b2": "Μια υποψήφια που απέρριψε", "tum.b3": "Βρέθηκε αργότερα, προβλέφθηκε πρώτα",
+      "tum.b0": "Μόνο ακτινοβολία", "tum.b1": "Η επιλογή του solver", "tum.b2": "Μια υποψήφια που απέρριψε", "tum.b3": "Προβλέφθηκε πριν την εκτέλεση",
       "tum.alive": (n) => `από ${num(n)} κύτταρα ζωντανά`, "tum.hours": "ώρες",
       "tum.n0": "Χωρίς διακόπτη κάποια κύτταρα επιζούν. Έχουν γεράσει: ζουν, αλλά έχουν σταματήσει.", "tum.n1": (a) => `Η επιλογή του solver: ${a ? `μένουν ${num(a)} κύτταρα.` : "δεν μένει κανένα κύτταρο."}`,
       "tum.n2": "Μια υποψήφια που ο ελεγκτής απέρριψε: πολλά κύτταρα επιζούν. Ο ελεγκτής δεν λέει ναι σε όλα.",
@@ -206,7 +221,7 @@
       "sx.lede": "Ζήτα ένα κύτταρο που πεθαίνει και τίποτε άλλο. Ο solver δοκιμάζει κάθε σύνολο ενός ή δύο γονιδίων, σβηστών ή αναμμένων, και κρατά τα μικρότερα που δουλεύουν. Μετά διάλεξε προφίλ όγκου και ρώτα ξανά.",
       "ctl.damage": "Βλάβη DNA",
       "scale.dish": "Τρυβλίο", "scale.circuit": "Κύτταρο", "irr.go": "Ακτινοβόληση", "irr.again": "Ξανά ακτινοβόληση", "irr.replay": "Επανάληψη",
-      "vial.none": "Καμία αλλαγή", "vial.tug1": "Σβήσε το TUG1", "vial.mir": "Άναψε το miR-221", "vial.p53": "Βγάλε το p53", "cmp.paper": "Paper: γνωστό αποτέλεσμα",
+      "vial.none": "Καμία αλλαγή", "vial.tug1": () => `Σβήσε το ${pretty("TUG1")}`, "vial.mir": () => `Άναψε το ${pretty("miR221")}`, "vial.p53": "Βγάλε το p53", "cmp.paper": "Paper: γνωστό αποτέλεσμα",
       "dish.note": "Εικονογράφηση. Το μοντέλο δίνει πιθανές μοίρες, όχι ποσοστά.", "dish.empty": "δεν έμεινε κανένα κύτταρο",
       "tip.idle": "Ένα υγιές κύτταρο. Ακτινοβόλησε το τρυβλίο και δες το να αποφασίζει.", "tip.cell": "Κάνε κλικ για να δεις μέσα στο κύτταρο.", "tip.osc": "Καμία σταθερή κατάσταση: το κύτταρο αλλάζει συνεχώς μοίρα.",
       "dock.circuit": "Κάνε κλικ σε γονίδιο για να το κόψεις. Ξανά κλικ για να το ανάψεις.", "lg.act": "ανάβει", "lg.inh": "σβήνει", "lg.new": "νέα σύνδεση", "lg.on": "αναμμένο", "lg.off": "σβηστό",
@@ -221,13 +236,14 @@
       "a6.tease": (n) => `Πρόκληση: μπορείς να κάνεις όλα τα κύτταρα να πεθάνουν; Ο ελεγκτής ξέρει ${n} τρόπους.`, "a6.go": "Ξεκίνα το κυνήγι →",
       "fate.proliferation": "Διαιρείται", "fate.arrest": "Παύση", "fate.senescence": "Γήρανση", "fate.autophagy": "Ανακύκλωση", "fate.apoptosis": "Θάνατος",
       "a1.t": "Ένα τρυβλίο με κύτταρα", "a1.h": "Πάτα Ακτινοβόληση και μετά σβήσε ή άναψε ένα γονίδιο.",
-      "cut.none": "Καμία αλλαγή", "cut.tug1": "Σβήσε το TUG1", "cut.mir": "Άναψε το miR-221", "cut.p53": "Βγάλε το p53",
+      "cut.none": "Καμία αλλαγή", "cut.tug1": () => `Σβήσε το ${pretty("TUG1")}`, "cut.mir": () => `Άναψε το ${pretty("miR221")}`, "cut.p53": "Βγάλε το p53",
       "a1.next": "Επόμενο: στο μοντέλο λείπει μια σύνδεση →",
       "st.only": (x) => `Μένει μόνο: «${x}».`, "st.many": (n, list) => `Προσιτές μοίρες (${n}): ${list}.`,
       "st.never": "Το κύκλωμα δεν σταθεροποιείται ποτέ: ταλαντώνεται, οπότε καμία λυχνία δεν μένει αναμμένη.", "st.nofate": "Υπάρχει σταθερή κατάσταση, αλλά δεν ταιριάζει σε καμία από τις πέντε μοίρες.",
       "st.unknown": "Αυτός ο συνδυασμός δεν έχει υπολογιστεί από πριν.",
             "a2.t": "Μια σύνδεση που λείπει", "a2.h": (list) => `Στο μοντέλο λείπουν γονίδια: ${list}. Τα papers τα ξέρουν.`,
       "a2.read": (n) => `Άσε το AI να διαβάσει ${n} papers`, "cnt.papers": "papers διαβάστηκαν", "cnt.claims": "ισχυρισμοί", "cnt.quotes": "αποσπάσματα κατά λέξη",
+      "a2.sentence": "Δες την πρόταση που διάβασε το AI", "a4.words": "Δες τα λόγια του AI και τον κανόνα", "a5.list": "Δες τα δέκα αποτελέσματα ένα ένα",
       "a2.found": (q, k) => `Ένας από τους ${q} ισχυρισμούς με απόσπασμα. Συμφωνούν ${k} papers.`, "a2.wire": (a, b) => `Προτεινόμενη σύνδεση: το ${a} σβήνει το ${b}`,
       "a2.more": (n) => `${n} ακόμη αποσπάσματα`, "a2.plug": "Πρόσθεσε τη σύνδεση, χωρίς έλεγχο",
       "a2.plugged": "Προστέθηκε, χωρίς έλεγχο. Είναι ασφαλής; Δοκίμασέ την σε πειράματα με γνωστά αποτελέσματα.", "a2.next": "Επόμενο: δοκίμασέ το σε 10 γνωστά πειράματα →",
@@ -248,7 +264,7 @@
       "a5.worked": (a, b, z) => `Τι δούλεψε: χωρίς τον ελεγκτή, οι αλλαγές χάλασαν ${a}–${b} από τα 10 γνωστά πειράματα. Με τον ελεγκτή: ${z}.`,
       "a5.nb": "Άνοιξε το σημειωματάριο ↓", "a5.again": "Παίξε ξανά", "a5.restart": "Από την αρχή", "a5.click": "Κάνε κλικ σε μια γραμμή για το απόσπασμα.", "a5.noaudit": "Το held-out set δεν έχει βαθμολογηθεί.",
       "cap.1": "Η ακτινοβολία κάνει ζημιά στο DNA ενός κυττάρου.", "cap.2": "Μετά κάθε κύτταρο διαλέγει μία μοίρα: κάνει παύση, γερνά, ανακυκλώνεται ή πεθαίνει.",
-      "cap.3": "Σβήσε ένα γονίδιο, το TUG1, και πεθαίνουν όλα τα κύτταρα. Στόχος μας είναι να βρίσκουμε τέτοια γονίδια.",
+      "cap.3": () => `Σβήσε ένα γονίδιο, το ${pretty("TUG1")}, και πεθαίνουν όλα τα κύτταρα. Στόχος μας είναι να βρίσκουμε τέτοια γονίδια.`,
       "cap.d1": "Μέσα στο κύτταρο, τα γονίδια ανάβουν και σβήνουν το ένα το άλλο. Αυτό είναι το μοντέλο μας.",
       "cap.4": "Αλλά στο μοντέλο λείπουν συνδέσεις που τα papers ξέρουν.", "cap.5": (n) => `Ένα AI διαβάζει ${n} papers και τις βρίσκει.`,
       "cap.6": (a, b) => `Μία νέα σύνδεση: το ${a} σβήνει το ${b}.`, "cap.7": "Έχει δίκιο το AI; Ένας ακριβής ελεγκτής, ο solver, ξαναπαίζει 10 πειράματα με γνωστά αποτελέσματα.",
@@ -341,7 +357,7 @@
   }
   new IntersectionObserver((es) => { inView = es[0].isIntersecting; syncLoops(); }, { threshold: 0.15 }).observe(box);
   document.addEventListener("visibilitychange", syncLoops);
-  function cellTip(c) { return c.osc ? esc(T("tip.osc")) : c.act ? `<b>${esc(fname(c.act))}</b> · ${esc(SCI[c.act])}<br>${esc(T("tip.cell"))}` : esc(T("tip.idle")); }
+  function cellTip(c) { return c.osc ? esc(T("tip.osc")) : c.act ? `<b>${esc(fname(c.act))}</b>${NAMES ? ` · ${esc(SCI[c.act])}` : ""}<br>${esc(T("tip.cell"))}` : esc(T("tip.idle")); }
   function onCell(c) { if (st.playing) return; st.fate = c.act || null; st.variant = 0; setScale("circuit"); }
   const compareNow = () => (st.act === 3 || st.act === 4) && !!caseFor(netKey(), st.damage, st.perts);
 
@@ -393,7 +409,7 @@
     $("#bStatus").textContent = st.status + (bad.length ? ` ✕ ${bad.map(fname).join(", ")}: ${T("notexp")}.` : "");
     $("#bLamps").replaceChildren(...FATES.map((f) => {
       const on = present.has(f), isBad = bad.includes(f), isMiss = miss.includes(f), count = pts ? pts.filter((p) => p.fate === f).length : 0;
-      const b = h(`<button type="button" class="lamp5 fate-${f}${on ? " on" : ""}${isBad ? " bad" : ""}${isMiss ? " miss" : ""}${on && fate === f ? " sel" : ""}"${on ? "" : " disabled"} aria-pressed="${on && fate === f}"><span class="led"></span><b>${esc(fname(f))}</b><small>${esc(isBad ? "✕ " + T("notexp") : isMiss ? T("expected") : SCI[f] + (count > 1 ? ` ×${count}` : ""))}</small></button>`);
+      const b = h(`<button type="button" class="lamp5 fate-${f}${on ? " on" : ""}${isBad ? " bad" : ""}${isMiss ? " miss" : ""}${on && fate === f ? " sel" : ""}"${on ? "" : " disabled"} aria-pressed="${on && fate === f}"><span class="led"></span><b>${esc(fname(f))}</b><small>${esc(isBad ? "✕ " + T("notexp") : isMiss ? T("expected") : NAMES ? SCI[f] + (count > 1 ? ` ×${count}` : "") : "")}</small></button>`);
       b.addEventListener("click", () => { st.variant = st.fate === f ? st.variant + 1 : 0; st.fate = f; paintStage(); });
       return b;
     }));
@@ -442,9 +458,9 @@
   };
   const quoteCard = () => {
     const q = PATCH.quotes;
-    return `<div class="b-card"><small>${esc(T("a2.found", fmt(quoted), PATCH.papers))}</small><q>“${esc(q[0].quote)}”</q><small class="mono">${esc(q[0].pmcid)}</small>
-      ${q.length > 1 ? `<details><summary>${esc(T("a2.more", q.length - 1))}</summary>${q.slice(1).map((x) => `<q>“${esc(x.quote)}”</q><small class="mono">${esc(x.pmcid)}</small>`).join("")}</details>` : ""}
-      <div class="b-wire"><i></i>${esc(T("a2.wire", pretty(SRC), pretty(DST)))}</div></div>`;
+    return `<div class="b-card"><small>${esc(T("a2.found", fmt(quoted), PATCH.papers))}</small><div class="b-wire"><i></i>${esc(T("a2.wire", pretty(SRC), pretty(DST)))}</div>
+      <details class="b-more"><summary>${esc(T("a2.sentence"))}</summary><q>“${esc(q[0].quote)}”</q><small class="mono">${esc(q[0].pmcid)}</small>
+      ${q.length > 1 ? `<details><summary>${esc(T("a2.more", q.length - 1))}</summary>${q.slice(1).map((x) => `<q>“${esc(x.quote)}”</q><small class="mono">${esc(x.pmcid)}</small>`).join("")}</details>` : ""}</details></div>`;
   };
   const gateSvg = () => (GATE.length ? `<svg class="gate" viewBox="0 0 430 112" role="img" aria-label="${esc(pretty(SRC))} AND ${esc(pretty(GATE[0]))} switch off ${esc(pretty(DST))}"><title>${esc(pretty(SRC))} AND ${esc(pretty(GATE[0]))} ⊣ ${esc(pretty(DST))}</title>
       <text class="gt" x="104" y="34" text-anchor="end">${esc(pretty(SRC))}</text><line class="gw" x1="112" y1="30" x2="200" y2="30"/>
@@ -468,7 +484,7 @@
       <div class="score">${score(1, HO_.totals[pub].correct, T("sc.pub"))}${score(2, HO_.totals[aug].correct, T("sc.aug"))}${score(3, HO_.baseline.correct, T("sc.base"))}</div>
       <div class="b-card"><b>${esc(T("a5.no"))}</b><span>${esc(T("a5.hollow", hollow, can.length))}</span>${naive.length ? `<span>${esc(T("a5.worked", Math.min(...naive), Math.max(...naive), checked.length ? Math.max(...checked) : 0))}</span>` : ""}</div>
       <div class="b-actions">${TUM ? btn("next", esc(T("a5.next")), "primary") : btn("notebook", esc(T("a5.nb")), "primary")}${btn("again", esc(T("a5.again")))}${HUNT ? btn("hunt", esc(T("a6.go"))) : ""}${TUM ? btn("notebook", esc(T("a5.nb"))) : ""}${btn("restart", esc(T("a5.restart")))}</div>
-      <div class="claims10"><div class="cl head"><span>${esc(T("a5.click"))}</span><span>1</span><span>2</span><span>3</span></div>${rows}</div>${picked}`;
+      <details class="b-more"${st.claim === null ? "" : " open"}><summary>${esc(T("a5.list"))}</summary><div class="claims10"><div class="cl head"><span>${esc(T("a5.click"))}</span><span>1</span><span>2</span><span>3</span></div>${rows}</div>${picked}</details>`;
   }
 
   function panelHTML() {
@@ -489,7 +505,7 @@
     }
     if (st.act === 4) {
       if (!st.answered) return `<h3>${T("a4.t")}</h3><p class="b-hint">${T("a4.h")}</p><p class="b-hint"><i>${T("a4.think")}</i></p>`;
-      const answer = `<div class="b-card"><small>${esc(T("a4.own"))}</small><q class="say">“${esc(PATCH.explanation)}”</q>${gateSvg()}<small>${esc(T("a4.gate"))}</small><div class="rule">${ruleHTML(PATCH.template, PATCH.final)}</div></div>`;
+      const answer = `<div class="b-card">${gateSvg()}<small>${esc(T("a4.gate"))}</small><details class="b-more"><summary>${esc(T("a4.words"))}</summary><small>${esc(T("a4.own"))}</small><q class="say">“${esc(PATCH.explanation)}”</q><div class="rule">${ruleHTML(PATCH.template, PATCH.final)}</div></details></div>`;
       if (!st.fixed) return `<h3>${T("a4.t")}</h3><p class="b-hint">${T("a4.h")}</p>${answer}<div class="b-actions">${btn("fix", esc(T("a4.fix")), "primary")}</div>`;
       const v = ST.vacuous;
       return `<h3>${T("a4.t")}</h3>${done("C") ? `<p class="b-hint"><b>${esc(T("a4.done", 10 - failing("C").length))}</b></p>` : `<p class="b-hint">…</p>`}${answer}
@@ -648,7 +664,7 @@
     },
     huntdish: () => { st.irr++; st.scale = "dish"; render(); },
     huntreset: () => { found = new Set(); saveFound(); st.perts = []; st.verdict = null; st.fate = null; render(); },
-    notebook: () => $("#notebook").scrollIntoView({ behavior: reduced ? "auto" : "smooth" }), again: () => play(), restart: () => { reset(); },
+    notebook: () => (window.CPTech ? CPTech.open("#notebook") : $("#notebook").scrollIntoView({ behavior: reduced ? "auto" : "smooth" })), again: () => play(), restart: () => { reset(); },
     claim: (i) => {  /* show what the checked circuit does in the setting of that outcome, and the paper's words */
       const c = HO_.claims[+i];
       st.claim = +i; st.scale = "dish"; st.damage = c.stimulus === "none" ? 0 : 1; st.perts = Object.entries(c.perturbation).map(([n, v]) => [n, v]); st.fate = null; st.variant = 0; render();
@@ -720,17 +736,21 @@
     const paint = (n) => { shown = n; const el = $(`.beat[data-b="${beat + 1}"] [data-count]`, hero); if (el && n >= 0) el.textContent = num(n); };
     const paintHeroStage = (k) => { const el = $("[data-stage-text]", hero); if (el) el.textContent = k >= 2 ? T("hero.stage", k, dur(k === 2 ? HERO.secs : HERO.proj[String(k)] || 0), k > 2) : ""; };
     const stageTo = (k) => { shownStage = k; hero.dataset.stage = String(k); paintHeroStage(k); };
-    const chips = PAIR.map(([n, v]) => ({ name: pretty(n), off: v === 0 }));
+    const chips = PAIR.map(([n, v]) => ({ get name() { return pretty(n); }, off: v === 0 }));
     /* the fourth beat: a small network (the genes the edits touch, the published links between them) where the papers bring links one after
        another, with the dots of the published list under it; the words come from TEXT */
     const claimOf = (s) => { const e = s.added[0]; return e ? `${pretty(e[0])} ${e[2] === "-" ? "⊣" : "→"} ${pretty(e[1])}` : s.edge; };
     const drift = DRIFT ? {
       published: DR.published, newSets: DR.unchecked.new, broken: [DR.broken, DR.repaired],
-      nodes: DR.net.nodes.map((n) => ({ id: n.id, label: pretty(n.id), isNew: n.new })), base: DR.net.base,
-      a: DR.runs.unchecked.map((s) => ({ ...s, claim: claimOf(s) })), b: DR.runs.checked,
+      nodes: DR.net.nodes.map((n) => ({ id: n.id, get label() { return pretty(n.id); }, isNew: n.new })), base: DR.net.base,
+      a: DR.runs.unchecked.map((s) => ({ ...s, get claim() { return claimOf(s); } })), b: DR.runs.checked,
       labels: () => ({ head: T("hero.drn"), chipA: (n) => T("hero.dra", n), chipB: T("hero.drc"), broken: (n) => T("hero.drb", n), papers: (n) => T("hero.drp", n) }),
     } : null;
     /* the first two rows are warnings (each does part of the job); the first becomes a cross only if the model was mostly wrong */
+    const rows = $$(".b-score li", hero), squares = (li, kinds) => { const el = li && $(".sqs", li); if (el) el.innerHTML = kinds.map((k, i) => `<u class="${k}" style="--i:${i}"></u>`).join(""); };
+    const total = NCASES || 10;
+    if (UNCH) squares(rows[0], Array.from({ length: total }, (_, i) => (i < UNCH[0] ? "bad" : i < UNCH[1] ? "maybe" : "ok")));
+    squares(rows[2], Array.from({ length: total }, (_, i) => (i < CHK ? "bad" : "ok")));
     const aiRow = $(".b-score li:nth-child(1)", hero);
     if (aiRow && HERO.ai && HERO.ai.distinct && HERO.ai.works / HERO.ai.distinct < 0.5) { aiRow.className = "no"; $("i", aiRow).textContent = "✕"; }
     /* the two last beats: the virtual tumour (the simulation's own frames, radiation alone next to a solver candidate) and the tumour samples */
@@ -777,9 +797,17 @@
     $("#bench").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
   }
   const langHooks = [];
+  function setNames(on) {  /* the genes get their real names, or numbers (p53 keeps its name); everything on the front page is redrawn */
+    NAMES = !!on; try { localStorage.setItem("cellproof-names", on ? "1" : "0"); } catch (e) { /* ignore */ }
+    document.documentElement.dataset.names = on ? "1" : "0"; $("#namesBtn").setAttribute("aria-pressed", String(!!on));
+    buildVials(); net.relabel(); render(); refreshCaption(); langHooks.forEach((fn) => fn());
+  }
+  document.documentElement.dataset.names = NAMES ? "1" : "0"; $("#namesBtn").setAttribute("aria-pressed", String(NAMES));
+  $("#namesBtn").addEventListener("click", () => setNames(!NAMES));
+  const nameTip = () => { $("#namesBtn").title = T("names.tip"); }; langHooks.push(nameTip); nameTip();
   window.CP = {
     T: (k, ...a) => T(k, ...a), num: (n) => num(n), lang: () => lang, onLang: (fn) => langHooks.push(fn), refresh: () => applyStatic(),
-    add: (dict) => { Object.assign(TEXT.en, dict.en); Object.assign(TEXT.el, dict.el); }, hasTumour: (perts) => !!(TUM && TUM.byLabel[perts.map(([n, v]) => `${n} ${v ? "E1" : "KO"}`).join(" + ")]), open: openSet,
+    add: (dict) => { Object.assign(TEXT.en, dict.en); Object.assign(TEXT.el, dict.el); }, names: () => NAMES, setNames, facts: { papers: D.meta.corpus_papers, claims: proposed, cases: NCASES, broken: CHK, tried: HERO.total, cells: TUM ? TUM.cells : 0, found: HERO.found }, hasTumour: (perts) => !!(TUM && TUM.byLabel[perts.map(([n, v]) => `${n} ${v ? "E1" : "KO"}`).join(" + ")]), open: openSet,
   };
   const applyStatic0 = applyStatic;
   applyStatic = function () { applyStatic0(); langHooks.forEach((fn) => fn()); };

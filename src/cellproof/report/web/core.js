@@ -21,7 +21,15 @@ const FATES = ["proliferation", "arrest", "senescence", "autophagy", "apoptosis"
 const FATE_LABEL = { proliferation: "Proliferation", arrest: "Arrest", senescence: "Senescence", autophagy: "Autophagy", apoptosis: "Apoptosis" };
 const FATE_NOTE = { proliferation: "no damage, the cell divides", arrest: "a temporary pause", senescence: "a permanent stop", autophagy: "self-recycling", apoptosis: "programmed death" };
 const PRETTY = { ATM_pH2AX: "ATM/γH2AX", AMPK_MAPK: "AMPK/MAPK", p53_A: "p53-A", p53_K: "p53-K", p53_INP1: "p53INP1", Cdc2_CycB: "CDK1/CycB", miR221: "miR-221", ULK1_Beclin1: "ULK1/Beclin1", DNA_damage: "DNA damage", DNA_PK: "DNA-PK", Wee1: "WEE1", Cdc25: "CDC25C", hTERT: "TERT", Sirt1: "SIRT1", Mdm2: "MDM2", Wip1: "WIP1", E2F1: "E2F1", Myc: "MYC", RB: "RB", PTEN: "PTEN", AKT: "AKT", WWP1: "WWP1", TUG1: "TUG1", BCL2: "BCL2", PUMA: "PUMA", BAX: "BAX", Caspase: "Caspase", mTORC1: "mTORC1", mTORC2: "mTORC2", CHK1: "CHK1", CHK2: "CHK2", ATR: "ATR", p21: "p21", p53: "p53" };
-const pretty = (n) => PRETTY[n] || n;
+const fullName = (n) => PRETTY[n] || n;
+/* The front page (header, demo, search) names no gene but p53 unless the visitor asks: the other genes are numbered. The technical sections always use `fullName`. */
+let NAMES = false;
+try { NAMES = localStorage.getItem("cellproof-names") === "1"; } catch (e) { /* storage may be blocked */ }
+const KEEP_NAMES = new Set(["DNA_damage", "p53"]);  /* the input of the model, and the one gene that is the example of the whole page */
+const GENE_NO = (() => { let k = 0; const o = {}; for (const n of ORDER) if (!KEEP_NAMES.has(n)) o[n] = ++k; return o; })();
+const named = (n) => NAMES || KEEP_NAMES.has(n) || !(n in GENE_NO);
+const pretty = (n) => (named(n) ? fullName(n) : `Gene ${GENE_NO[n]}`);
+const shortName = (n) => (named(n) ? fullName(n) : `G${GENE_NO[n]}`);
 const fateOfCode = (code) => (code >> 1 === 5 ? null : FATES[code >> 1]);
 const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 const bit = (state, i) => Math.floor(state / POW2[i]) % 2;
@@ -89,11 +97,11 @@ function makeNet(svgEl, tip, handlers = {}, initial = "augmented") {
     for (const n of L.order) {
       if (!have.has(n)) continue;
       const p = L.nodes[n], isNew = L.new_nodes.includes(n), r = radius(n);
-      const g = svg("g", { class: "node" + (isNew ? " new" : ""), transform: `translate(${p.x},${p.y})`, tabindex: 0, role: "button", "aria-label": pretty(n) }, nodesG);
+      const g = svg("g", { class: "node" + (isNew ? " new" : ""), transform: `translate(${p.x},${p.y})`, tabindex: 0, role: "button", "aria-label": fullName(n) }, nodesG);
       if (isNew) svg("circle", { class: "ring", r: r + 5 }, g);
       svg("circle", { class: "body", r }, g);
       svg("text", { class: "mark", "text-anchor": "middle", y: 4.5 }, g);
-      const t = svg("text", { "text-anchor": "middle", y: r + (isNew ? 22 : 17) }, g); t.textContent = pretty(n);
+      const t = svg("text", { "text-anchor": "middle", y: r + (isNew ? 22 : 17) }, g); t.textContent = fullName(n);
       if (isNew) { const nt = svg("text", { class: "newtag", "text-anchor": "middle", y: -r - 9 }, g); nt.textContent = "NEW"; }
       g.addEventListener("click", () => handlers.node && handlers.node(n));
       g.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handlers.node && handlers.node(n); } });
@@ -110,13 +118,13 @@ function makeNet(svgEl, tip, handlers = {}, initial = "augmented") {
     const info = L.nodes[n], isNew = L.new_nodes.includes(n), rule = NET(netKey).rules[n];
     let extra = "";
     if (isNew) { const recs = newEdgeRecords(n); extra = recs.length ? `<br>Added by the agent from: ${recs.map((r) => esc(r.id.replaceAll("|", " ")) + ` (${r.papers} papers)`).join("; ")}` : "<br>Added by the agent."; }
-    tip.innerHTML = `<b>${esc(pretty(n))}</b>${info.name ? " · " + esc(info.name) : isNew ? " · not in the published model" : ""}<span class="mono">${esc(n)} = ${esc(rule)}</span>${extra}`;
+    tip.innerHTML = `<b>${esc(fullName(n))}</b>${info.name ? " · " + esc(info.name) : isNew ? " · not in the published model" : ""}<span class="mono">${esc(n)} = ${esc(rule)}</span>${extra}`;
     tip.classList.add("show"); place(ev);
   }
   function showEdge(e, ev) {
     const why = D.justifications[`${e.s}|${e.t}`]; let body;
     if (e.isNew) { const recs = newEdgeRecords(e.t); body = `<b>Added by the agent</b><br>${recs.length ? recs.map((r) => esc(r.id.replaceAll("|", " ")) + ` (${r.papers} papers)`).join("; ") : "an accepted edit"}`; }
-    else body = why ? `<b>${esc(pretty(e.s))} ${e.sign > 0 ? "→" : "⊣"} ${esc(pretty(e.t))}</b><br>${esc(why)}<span class="mono">Table S2, Gupta et al. 2023</span>` : `<b>${esc(pretty(e.s))} ${e.sign > 0 ? "→" : "⊣"} ${esc(pretty(e.t))}</b>`;
+    else body = why ? `<b>${esc(fullName(e.s))} ${e.sign > 0 ? "→" : "⊣"} ${esc(fullName(e.t))}</b><br>${esc(why)}<span class="mono">Table S2, Gupta et al. 2023</span>` : `<b>${esc(fullName(e.s))} ${e.sign > 0 ? "→" : "⊣"} ${esc(fullName(e.t))}</b>`;
     tip.innerHTML = body; tip.classList.add("show"); place(ev);
   }
   /* state: {values: Map node -> 0/1 | null, lit: css colour, clamped: {node: 0|1}, fatesPresent: Set, fatesSel: name|null, flash: node|null} */
@@ -246,7 +254,7 @@ function forcedSteps(net, setting) {
     $("#damage").setAttribute("aria-pressed", String(!!st.damage));
     $("#damageNote").textContent = st.damage ? "The cell has been irradiated" : "No damage: the cell just divides";
     $$("#presets .tab").forEach((b) => { const set = JSON.parse(b.dataset.set); b.style.opacity = set.every(([n]) => D.networks[st.net].nodes.includes(n)) ? 1 : 0.35; });
-    $("#perts").replaceChildren(...(st.perts.length ? st.perts.map(([n, v], i) => { const s = document.createElement("span"); s.className = "pert"; s.innerHTML = `${esc(pretty(n))} ${v === 0 ? "knocked out" : "forced on"}<button type="button" aria-label="Remove ${esc(n)}">×</button>`; s.querySelector("button").addEventListener("click", () => { st.perts.splice(i, 1); st.fate = null; render(); }); return s; }) : [Object.assign(document.createElement("span"), { className: "hint", textContent: "Click a gene on the map. A second click forces it on, a third clears it." })]));
+    $("#perts").replaceChildren(...(st.perts.length ? st.perts.map(([n, v], i) => { const s = document.createElement("span"); s.className = "pert"; s.innerHTML = `${esc(fullName(n))} ${v === 0 ? "knocked out" : "forced on"}<button type="button" aria-label="Remove ${esc(n)}">×</button>`; s.querySelector("button").addEventListener("click", () => { st.perts.splice(i, 1); st.fate = null; render(); }); return s; }) : [Object.assign(document.createElement("span"), { className: "hint", textContent: "Click a gene on the map. A second click forces it on, a third clears it." })]));
     const pts = lookup();
     const present = new Set(pts ? pts.map((p) => p.fate).filter(Boolean) : []);
     if (!st.fate || !present.has(st.fate)) st.fate = FATES.find((f) => present.has(f)) || null;
@@ -267,7 +275,7 @@ function forcedSteps(net, setting) {
     const setting = { DNA_damage: st.damage, ...Object.fromEntries(st.perts) };
     const steps = forcedSteps(st.net, setting);
     st.steps = steps;
-    $("#steps").replaceChildren(...(steps.length ? steps.map((s, i) => { const d = document.createElement("div"); d.className = "step"; d.dataset.i = i; d.innerHTML = `<em>${i + 1}</em><span><b>${esc(pretty(s.node))}</b> = ${s.value} <em>because ${esc(s.node)} = ${esc(s.rule)} with ${s.reads.length ? s.reads.map(([r, v]) => esc(pretty(r)) + "=" + v).join(", ") : "nothing else"}</em></span>`; return d; }) : [Object.assign(document.createElement("div"), { className: "hint", textContent: "Nothing is forced by the input alone. The feedback loops decide." })]));
+    $("#steps").replaceChildren(...(steps.length ? steps.map((s, i) => { const d = document.createElement("div"); d.className = "step"; d.dataset.i = i; d.innerHTML = `<em>${i + 1}</em><span><b>${esc(fullName(s.node))}</b> = ${s.value} <em>because ${esc(s.node)} = ${esc(s.rule)} with ${s.reads.length ? s.reads.map(([r, v]) => esc(fullName(r)) + "=" + v).join(", ") : "nothing else"}</em></span>`; return d; }) : [Object.assign(document.createElement("div"), { className: "hint", textContent: "Nothing is forced by the input alone. The feedback loops decide." })]));
     $("#whyNote").textContent = steps.length ? `${steps.length} genes forced; the solver settles the other ${D.networks[st.net].nodes.length - steps.length - st.perts.length - 1}.` : "";
   }
   function play() {

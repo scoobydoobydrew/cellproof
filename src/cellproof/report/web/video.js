@@ -1,6 +1,6 @@
 /* CellProof report, part 6: the recording mode. Open the page with #video, start the screen recorder, press the button (or Space), and the page
    performs the three minutes of docs/video_script.md by itself: the header's beats in the order of the script, the demo (a little faster, so
-   that it fits), the search engine with two profiles, and the limits. Short captions stay on screen for anyone watching without sound. Every
+   that it fits), the search engine with the model cell and the p53 profile, and the three cards of what this is and is not. Short captions stay on screen for anyone watching without sound. Every
    number in them is read from the same data as the page. Esc stops it. Nothing here changes what the page says or computes. */
 (() => {
   if (!window.CPBench || !window.CPHero) return;
@@ -20,14 +20,13 @@
   const click = (sel, i) => { const el = $$(sel)[i]; if (el) el.click(); };
   const scrollTo = (sel, gap = 0) => window.scrollTo({ top: $(sel).getBoundingClientRect().top + scrollY - gap, behavior: "smooth" });  /* `gap`: room kept above for a caption */
 
-  const p53 = profile("p53"), wip = profile("Wip1"), demoStart = 76, demoEnd = demoStart + CPBench.seconds / SPEED + 1.5;
+  const p53 = profile("p53"), demoStart = 76, demoEnd = demoStart + CPBench.seconds / SPEED + 1.5;
   const beat = (n) => () => CPHero.show(n);
-  /* the search engine and the limits, from second `t0` of a take */
+  /* the search engine and the three cards of what this is and is not (the limits themselves wait behind the technical door), from second `t0` of a take */
   const searchPart = (t0) => (SB ? [
     [t0, () => { say(`The solver's whole search on one board: ${offered(P[0])} sets of one or two changes, ${P[0].found.length} kept.`, true); scrollTo("#sx", 130); }],
     ...(p53 >= 0 ? [[t0 + 9, () => { click("#sxProfiles .sx-chip", p53); say(`p53 lost: ${offered(P[p53])} sets tried, ${P[p53].found.length ? P[p53].found.length + " kept" : "none leaves only death"}.`, true); }]] : []),
-    ...(wip >= 0 ? [[t0 + 17, () => { click("#sxProfiles .sx-chip", wip); const other = P[wip].found.every((i) => !P[0].found.includes(i)); say(`WIP1 high: ${P[wip].found.length} kept${other ? ", a different one from the model cell's" : ""}.`, true); }]] : []),
-    [t0 + 25, () => { say("Limits, plainly: a model of a cell, not of a person. Hypotheses for the lab.", true); scrollTo("#limits", 130); }],
+    [t0 + 17, () => { say("Limits, plainly: a model of a cell, not of a person. Hypotheses for the lab.", true); scrollTo("#honest", 90); }],
   ] : []);
   /* seconds from the start of the take; the beats are the header's own, in the order of the script */
   const take = [
@@ -36,7 +35,7 @@
     [demoStart, () => { CPHero.pin(false); CPBench.play(SPEED); }],
     ...searchPart(demoEnd),
   ];
-  /* #video-short: the take that follows #intro-short, which has already said what the project is: the tumour, the samples, the demo a little faster, the search, the limits */
+  /* #video-short: the take that follows #intro-short, which has already said what the project is: the tumour, the samples, the demo a little faster, the search, the three cards of what this is and is not */
   const SPEED2 = 1.5, startDemo2 = 16, takeShort = [
     [0, () => { scrollTo("#top"); CPHero.pin(true); CPHero.show(6); }], [8, beat(7)],
     [startDemo2, () => { CPHero.pin(false); CPBench.play(SPEED2); }],
