@@ -11,51 +11,75 @@
   CP.add({
     en: {
       "pp.eyebrow": "The papers", "pp.h2": "The AI reads papers. <em>You can hand it more.</em>",
-      "pp.lede": "Part one: the papers the AI found and read on its own. Part two: a PDF you give it, for a paper it cannot reach. Each paper becomes a graph of what it says, and the solver judges every link it can.",
+      "pp.lede": "Papers say things like “this gene switches that one on”. The AI reads them, and a checker tests every such claim against known lab results. Part one: the papers it found on its own. Part two: a PDF you hand it, for a paper it cannot reach. Either way, a paper becomes a map you can read.",
       "pp.auto": "Found by the AI", "pp.own": "Your PDFs", "pp.autoN": (n) => `${n} papers, read on its own`, "pp.ownN.off": "needs the local server", "pp.ownN.on": (n) => (n ? `${n} on this computer` : "drop one to start"),
       "pp.drop": "Drop a PDF here", "pp.dropsub": "or click to choose one", "pp.off.h": "Some papers sit behind a login.",
-      "pp.off.p": "If you have access, you can hand the PDF to the AI: it is read like the others, the solver judges its links, and its graph appears here. That part runs on your computer, because a web page has no key and no solver.",
+      "pp.off.p": "If you have access, you can hand the PDF to the AI: it is read like the others, the checker tests its claims, and its map appears here. That part runs on your computer, because a web page has no key and no checker.",
       "pp.copy": "Copy", "pp.copied": "Copied", "pp.privacy": "Only drop papers you may process. Its text goes to the Meta Model API to be read; the PDF and everything read from it stay on this computer.",
-      "pp.base": (p, c, l) => `Your database: ${p} ${p === 1 ? "paper" : "papers"}, ${num(c)} claims, ${num(l)} links.`,
-      "pp.example": "Example: a paper the AI found on its own. A PDF of yours is drawn the same way.", "pp.none": "No mechanism of one molecule acting on another was found in this paper.",
-      "pp.meta": (g, l) => `${g} claims · ${l} links`, "pp.open": "open the paper",
-      "pp.v.accepted": (n) => `New link, passes all ${n} experiments`, "pp.v.rejected": "New link, breaks an experiment", "pp.v.present": "Already in the model",
-      "pp.v.implied": "Implied by a longer route", "pp.v.conflict": "Opposite of the published model", "pp.v.outside": "Outside the model, not tested",
+      "pp.base": (p, c, l) => `Your database: ${p} ${p === 1 ? "paper" : "papers"} and ${num(l)} claims.`,
+      "pp.example": "Example: a paper the AI found on its own. A PDF of yours is drawn the same way.", "pp.none": "No gene acting on another was found in this paper.",
+      "pp.kicker": "What this paper says, drawn as a map",
+      "pp.g1.h": "A dot is a gene", "pp.g1.p": "A gene or molecule the paper talks about. Pale dots are in our model of the cell, a map of the genes that decide what a damaged cell does. Dark dots are genes our model does not have.",
+      "pp.g2.h": "A line is a claim", "pp.g2.p": "One sentence from the paper: this gene turns that one on (arrow) or off (bar). The AI picked it out.",
+      "pp.g3.h": "A colour is the verdict", "pp.g3.p": (n) => `The checker tests each claim against ${n} known lab results. <em class="c-a">Green</em> fits them all, <em class="c-r">red</em> breaks one, <em class="c-p">blue</em> is already known, <em class="c-o">grey</em> cannot be tested yet.`,
+      "pp.meta": (g, l) => `${l} ${l === 1 ? "claim" : "claims"} drawn`, "pp.open": "open the paper",
+      "pp.v.accepted": "New, and it fits", "pp.v.rejected": "New, but it breaks a result", "pp.v.present": "Already known",
+      "pp.v.implied": "Follows from known links", "pp.v.conflict": "Contradicts the published model", "pp.v.outside": "Cannot be tested yet",
+      "pp.t.accepted": (n) => `A claim that is new to our model and agrees with all ${n} known lab results.`, "pp.t.rejected": "A new claim that would make our model contradict a known lab result.",
+      "pp.t.present": "Our model already contains this claim.", "pp.t.implied": "Our model already reaches this through a longer chain of links.",
+      "pp.t.conflict": "The published model says the opposite.", "pp.t.outside": "A gene in this claim is not in our model, so the checker cannot test it yet.",
+      "pp.x.accepted": (n) => `New to our model. Adding it keeps all ${n} known results true.`, "pp.x.rejected": (list) => (list ? `Adding it would contradict known lab result ${list}.` : "Adding it would contradict a known lab result."),
+      "pp.x.present": "Our model already has this link.", "pp.x.implied": "Our model already reaches this through a longer chain of links.",
+      "pp.x.conflict": "The published model says the opposite, so this claim was not added.", "pp.x.outside": (names, k) => `${names} ${k === 1 ? "is" : "are"} not in our model yet, so the checker cannot test this claim.`,
+      "pp.sentence": "The sentence from the paper", "pp.found": "What the checker found",
       "pp.act.activates": "turns on", "pp.act.inhibits": "turns off", "pp.act.requires": "needs",
-      "pp.hint": "Click a line to see the sentence it came from and what the solver said.", "pp.hover": "Click to keep it open.", "pp.more": (n) => `Stated ${n} times in this paper.`,
-      "pp.summary": (n, c) => `${n} links read. ${c.accepted} new and passing, ${c.rejected} breaking an experiment, ${c.present + c.implied} already in the model, ${c.conflict} against the published model, ${c.outside} outside the model.`,
+      "pp.hint": "Click a line to see the sentence behind it and what the checker said.", "pp.hover": "Click to keep it open.", "pp.more": (n) => `The paper says this ${n} times.`,
+      "pp.n.dots": "Every dot is a gene or molecule this paper mentions.", "pp.n.line": (i, m) => `Claim ${i} of ${m}, read from a sentence in the paper:`, "pp.n.check": (n) => `Now the checker tests each claim against the ${n} known lab results…`,
+      "pp.summary": (n, c) => `${n} claims · ${c.accepted} new and fitting every known result · ${c.rejected} new but breaking one · ${c.present + c.implied} already known to our model · ${c.conflict} contradicting the published model · ${c.outside} not testable yet (genes our model does not have)`,
       "pp.s.read": "Reading the PDF", "pp.s.guard": "Checking it is not an audit paper", "pp.s.mechanism": "Muse Spark reads the mechanisms", "pp.s.stimulus": "Muse Spark reads what damage does",
-      "pp.s.ground": "Naming the genes", "pp.s.check": "The solver judges each link",
-      "pp.d.read": (p, c) => `${p} ${p === 1 ? "page" : "pages"}, ${num(c)} characters`, "pp.d.claims": (n, usd) => `${n} claims · $${usd}`, "pp.d.ground": (l) => `${l} links`, "pp.d.check": (n) => `${n} links judged`,
+      "pp.s.ground": "Naming the genes", "pp.s.check": "The checker tests each claim",
+      "pp.d.read": (p, c) => `${p} ${p === 1 ? "page" : "pages"}, ${num(c)} characters`, "pp.d.claims": (n, usd) => `${n} sentences · $${usd}`, "pp.d.ground": (l) => `${l} claims`, "pp.d.check": (n) => `${n} claims tested`,
       "pp.plan.cost": (usd) => (usd ? `Reading it costs about $${usd} (Muse Spark, two passes).` : "Reading it costs a few cents (Muse Spark, two passes)."), "pp.plan.sent": "Its text will be sent to the Meta Model API.",
       "pp.plan.read": "Read it", "pp.plan.cancel": "Cancel", "pp.plan.doi": "DOI", "pp.plan.nodoi": "no DOI found", "pp.reading": "Reading…",
-      "pp.done": (c, l) => `Added to your database: ${c} claims, ${l} links.`, "pp.refused": "Not added.", "pp.failed": "It could not be read.", "pp.nokey": "The server has no key: add MODEL_API_KEY to .env and restart it.",
+      "pp.done": (c, l) => `Added to your database: ${l} claims, from ${c} sentences.`, "pp.refused": "Not added.", "pp.failed": "It could not be read.", "pp.nokey": "The server has no key: add MODEL_API_KEY to .env and restart it.",
       "pp.remove": "remove", "pp.sure": "sure?", "pp.badfile": "That is not a PDF.", "pp.again": "Drop another",
-      "pp.grapharia": "A graph: each gene or molecule of the paper is a dot, each claim a line, coloured by what the solver said.", "pp.droparia": "Drop a PDF here, or press to choose one",
+      "pp.grapharia": "A map: each gene or molecule of the paper is a dot, each claim a line, coloured by what the checker said.", "pp.droparia": "Drop a PDF here, or press to choose one",
     },
     el: {
       "pp.eyebrow": "Τα papers", "pp.h2": "Το AI διαβάζει papers. <em>Μπορείς να του δώσεις κι άλλα.</em>",
-      "pp.lede": "Μέρος πρώτο: τα papers που βρήκε και διάβασε το AI μόνο του. Μέρος δεύτερο: ένα PDF που του δίνεις, για ένα paper που δεν μπορεί να φτάσει. Κάθε paper γίνεται γράφος με όσα λέει, και ο solver κρίνει κάθε σύνδεση που μπορεί.",
+      "pp.lede": "Τα papers λένε πράγματα όπως «αυτό το γονίδιο ανάβει εκείνο». Το AI τα διαβάζει και ένας ελεγκτής δοκιμάζει κάθε τέτοιο ισχυρισμό απέναντι σε γνωστά αποτελέσματα εργαστηρίου. Μέρος πρώτο: τα papers που βρήκε μόνο του. Μέρος δεύτερο: ένα PDF που του δίνεις, για ένα paper που δεν φτάνει. Σε κάθε περίπτωση, ένα paper γίνεται ένας χάρτης που μπορείς να διαβάσεις.",
       "pp.auto": "Βρέθηκαν από το AI", "pp.own": "Τα PDF σου", "pp.autoN": (n) => `${n} papers, διαβασμένα μόνο του`, "pp.ownN.off": "θέλει τον τοπικό server", "pp.ownN.on": (n) => (n ? `${n} σε αυτόν τον υπολογιστή` : "άφησε ένα για να ξεκινήσεις"),
       "pp.drop": "Άφησε ένα PDF εδώ", "pp.dropsub": "ή κάνε κλικ για να διαλέξεις", "pp.off.h": "Κάποια papers είναι πίσω από σύνδεση.",
-      "pp.off.p": "Αν έχεις πρόσβαση, μπορείς να δώσεις το PDF στο AI: διαβάζεται όπως τα άλλα, ο solver κρίνει τις συνδέσεις του και ο γράφος του εμφανίζεται εδώ. Αυτό το μέρος τρέχει στον υπολογιστή σου, γιατί μια ιστοσελίδα δεν έχει κλειδί ούτε solver.",
+      "pp.off.p": "Αν έχεις πρόσβαση, μπορείς να δώσεις το PDF στο AI: διαβάζεται όπως τα άλλα, ο ελεγκτής δοκιμάζει τους ισχυρισμούς του και ο χάρτης του εμφανίζεται εδώ. Αυτό το μέρος τρέχει στον υπολογιστή σου, γιατί μια ιστοσελίδα δεν έχει κλειδί ούτε ελεγκτή.",
       "pp.copy": "Αντιγραφή", "pp.copied": "Αντιγράφηκε", "pp.privacy": "Άφησε μόνο papers που επιτρέπεται να επεξεργαστείς. Το κείμενό του πηγαίνει στο Meta Model API για να διαβαστεί· το PDF και ό,τι διαβάστηκε από αυτό μένουν στον υπολογιστή σου.",
-      "pp.base": (p, c, l) => `Η βάση σου: ${p} ${p === 1 ? "paper" : "papers"}, ${num(c)} ισχυρισμοί, ${num(l)} συνδέσεις.`,
-      "pp.example": "Παράδειγμα: ένα paper που βρήκε το AI μόνο του. Ένα δικό σου PDF σχεδιάζεται με τον ίδιο τρόπο.", "pp.none": "Σε αυτό το paper δεν βρέθηκε μηχανισμός ενός μορίου που δρα σε άλλο.",
-      "pp.meta": (g, l) => `${g} ισχυρισμοί · ${l} συνδέσεις`, "pp.open": "άνοιξε το paper",
-      "pp.v.accepted": (n) => `Νέα σύνδεση, περνά και τα ${n} πειράματα`, "pp.v.rejected": "Νέα σύνδεση, χαλάει ένα πείραμα", "pp.v.present": "Ήδη στο μοντέλο",
-      "pp.v.implied": "Προκύπτει από μακρύτερη διαδρομή", "pp.v.conflict": "Αντίθετη από το δημοσιευμένο μοντέλο", "pp.v.outside": "Εκτός μοντέλου, δεν δοκιμάστηκε",
+      "pp.base": (p, c, l) => `Η βάση σου: ${p} ${p === 1 ? "paper" : "papers"} και ${num(l)} ισχυρισμοί.`,
+      "pp.example": "Παράδειγμα: ένα paper που βρήκε το AI μόνο του. Ένα δικό σου PDF σχεδιάζεται με τον ίδιο τρόπο.", "pp.none": "Σε αυτό το paper δεν βρέθηκε γονίδιο που δρα σε άλλο.",
+      "pp.kicker": "Τι λέει αυτό το paper, ζωγραφισμένο ως χάρτης",
+      "pp.g1.h": "Μια κουκκίδα είναι ένα γονίδιο", "pp.g1.p": "Ένα γονίδιο ή μόριο για το οποίο μιλά το paper. Οι ανοιχτόχρωμες κουκκίδες υπάρχουν στο μοντέλο μας για το κύτταρο, έναν χάρτη των γονιδίων που αποφασίζουν τι κάνει ένα κύτταρο με βλάβη. Οι σκούρες είναι γονίδια που το μοντέλο μας δεν έχει.",
+      "pp.g2.h": "Μια γραμμή είναι ένας ισχυρισμός", "pp.g2.p": "Μία πρόταση από το paper: αυτό το γονίδιο ανάβει (βέλος) ή σβήνει (μπάρα) εκείνο. Την επέλεξε το AI.",
+      "pp.g3.h": "Ένα χρώμα είναι η κρίση", "pp.g3.p": (n) => `Ο ελεγκτής δοκιμάζει κάθε ισχυρισμό απέναντι σε ${n} γνωστά αποτελέσματα εργαστηρίου. Το <em class="c-a">πράσινο</em> τα ταιριάζει όλα, το <em class="c-r">κόκκινο</em> χαλάει ένα, το <em class="c-p">μπλε</em> είναι ήδη γνωστό, το <em class="c-o">γκρι</em> δεν μπορεί να δοκιμαστεί ακόμα.`,
+      "pp.meta": (g, l) => `${l} ${l === 1 ? "ισχυρισμός" : "ισχυρισμοί"} στον χάρτη`, "pp.open": "άνοιξε το paper",
+      "pp.v.accepted": "Νέος, και ταιριάζει", "pp.v.rejected": "Νέος, αλλά χαλάει ένα αποτέλεσμα", "pp.v.present": "Ήδη γνωστός",
+      "pp.v.implied": "Προκύπτει από γνωστές συνδέσεις", "pp.v.conflict": "Αντιφάσκει με το δημοσιευμένο μοντέλο", "pp.v.outside": "Δεν δοκιμάζεται ακόμα",
+      "pp.t.accepted": (n) => `Ένας ισχυρισμός νέος για το μοντέλο μας που συμφωνεί και με τα ${n} γνωστά αποτελέσματα εργαστηρίου.`, "pp.t.rejected": "Ένας νέος ισχυρισμός που θα έκανε το μοντέλο μας να αντιφάσκει με ένα γνωστό αποτέλεσμα εργαστηρίου.",
+      "pp.t.present": "Το μοντέλο μας έχει ήδη αυτόν τον ισχυρισμό.", "pp.t.implied": "Το μοντέλο μας φτάνει ήδη εκεί μέσα από μια μακρύτερη αλυσίδα συνδέσεων.",
+      "pp.t.conflict": "Το δημοσιευμένο μοντέλο λέει το αντίθετο.", "pp.t.outside": "Ένα γονίδιο αυτού του ισχυρισμού δεν υπάρχει στο μοντέλο μας, οπότε ο ελεγκτής δεν μπορεί να τον δοκιμάσει ακόμα.",
+      "pp.x.accepted": (n) => `Νέο για το μοντέλο μας. Αν προστεθεί, και τα ${n} γνωστά αποτελέσματα μένουν αληθή.`, "pp.x.rejected": (list) => (list ? `Αν προστεθεί, θα αντέφασκε με το γνωστό αποτέλεσμα ${list}.` : "Αν προστεθεί, θα αντέφασκε με ένα γνωστό αποτέλεσμα εργαστηρίου."),
+      "pp.x.present": "Το μοντέλο μας έχει ήδη αυτή τη σύνδεση.", "pp.x.implied": "Το μοντέλο μας φτάνει ήδη εκεί μέσα από μια μακρύτερη αλυσίδα συνδέσεων.",
+      "pp.x.conflict": "Το δημοσιευμένο μοντέλο λέει το αντίθετο, γι' αυτό ο ισχυρισμός δεν προστέθηκε.", "pp.x.outside": (names, k) => `${k === 1 ? "Το γονίδιο" : "Τα γονίδια"} ${names} ${k === 1 ? "δεν υπάρχει" : "δεν υπάρχουν"} ακόμα στο μοντέλο μας, οπότε ο ελεγκτής δεν μπορεί να δοκιμάσει αυτόν τον ισχυρισμό.`,
+      "pp.sentence": "Η πρόταση από το paper", "pp.found": "Τι βρήκε ο ελεγκτής",
       "pp.act.activates": "ανάβει", "pp.act.inhibits": "σβήνει", "pp.act.requires": "χρειάζεται",
-      "pp.hint": "Κάνε κλικ σε μια γραμμή για να δεις την πρόταση απ' όπου προήλθε και τι είπε ο solver.", "pp.hover": "Κάνε κλικ για να μείνει ανοιχτό.", "pp.more": (n) => `Αναφέρεται ${n} φορές σε αυτό το paper.`,
-      "pp.summary": (n, c) => `${n} συνδέσεις διαβάστηκαν. ${c.accepted} νέες που περνούν, ${c.rejected} που χαλούν ένα πείραμα, ${c.present + c.implied} ήδη στο μοντέλο, ${c.conflict} αντίθετες από το δημοσιευμένο μοντέλο, ${c.outside} εκτός μοντέλου.`,
+      "pp.hint": "Κάνε κλικ σε μια γραμμή για να δεις την πρόταση πίσω της και τι είπε ο ελεγκτής.", "pp.hover": "Κάνε κλικ για να μείνει ανοιχτό.", "pp.more": (n) => `Το paper το λέει ${n} φορές.`,
+      "pp.n.dots": "Κάθε κουκκίδα είναι ένα γονίδιο ή μόριο που αναφέρει το paper.", "pp.n.line": (i, m) => `Ισχυρισμός ${i} από ${m}, διαβασμένος από μια πρόταση του paper:`, "pp.n.check": (n) => `Τώρα ο ελεγκτής δοκιμάζει κάθε ισχυρισμό απέναντι στα ${n} γνωστά αποτελέσματα εργαστηρίου…`,
+      "pp.summary": (n, c) => `${n} ισχυρισμοί · ${c.accepted} νέοι που ταιριάζουν σε κάθε γνωστό αποτέλεσμα · ${c.rejected} νέοι που χαλούν ένα · ${c.present + c.implied} ήδη γνωστοί στο μοντέλο μας · ${c.conflict} που αντιφάσκουν με το δημοσιευμένο μοντέλο · ${c.outside} που δεν δοκιμάζονται ακόμα (γονίδια που το μοντέλο μας δεν έχει)`,
       "pp.s.read": "Διαβάζει το PDF", "pp.s.guard": "Ελέγχει ότι δεν είναι paper του audit", "pp.s.mechanism": "Το Muse Spark διαβάζει τους μηχανισμούς", "pp.s.stimulus": "Το Muse Spark διαβάζει τι κάνει η βλάβη",
-      "pp.s.ground": "Δίνει ονόματα στα γονίδια", "pp.s.check": "Ο solver κρίνει κάθε σύνδεση",
-      "pp.d.read": (p, c) => `${p} ${p === 1 ? "σελίδα" : "σελίδες"}, ${num(c)} χαρακτήρες`, "pp.d.claims": (n, usd) => `${n} ισχυρισμοί · $${usd}`, "pp.d.ground": (l) => `${l} συνδέσεις`, "pp.d.check": (n) => `${n} συνδέσεις κρίθηκαν`,
+      "pp.s.ground": "Δίνει ονόματα στα γονίδια", "pp.s.check": "Ο ελεγκτής δοκιμάζει κάθε ισχυρισμό",
+      "pp.d.read": (p, c) => `${p} ${p === 1 ? "σελίδα" : "σελίδες"}, ${num(c)} χαρακτήρες`, "pp.d.claims": (n, usd) => `${n} προτάσεις · $${usd}`, "pp.d.ground": (l) => `${l} ισχυρισμοί`, "pp.d.check": (n) => `${n} ισχυρισμοί δοκιμάστηκαν`,
       "pp.plan.cost": (usd) => (usd ? `Η ανάγνωση κοστίζει περίπου $${usd} (Muse Spark, δύο περάσματα).` : "Η ανάγνωση κοστίζει μερικά σεντς (Muse Spark, δύο περάσματα)."), "pp.plan.sent": "Το κείμενό του θα σταλεί στο Meta Model API.",
       "pp.plan.read": "Διάβασέ το", "pp.plan.cancel": "Άκυρο", "pp.plan.doi": "DOI", "pp.plan.nodoi": "δεν βρέθηκε DOI", "pp.reading": "Διαβάζει…",
-      "pp.done": (c, l) => `Προστέθηκε στη βάση σου: ${c} ισχυρισμοί, ${l} συνδέσεις.`, "pp.refused": "Δεν προστέθηκε.", "pp.failed": "Δεν μπόρεσε να διαβαστεί.", "pp.nokey": "Ο server δεν έχει κλειδί: πρόσθεσε το MODEL_API_KEY στο .env και ξαναξεκίνησέ τον.",
+      "pp.done": (c, l) => `Προστέθηκε στη βάση σου: ${l} ισχυρισμοί, από ${c} προτάσεις.`, "pp.refused": "Δεν προστέθηκε.", "pp.failed": "Δεν μπόρεσε να διαβαστεί.", "pp.nokey": "Ο server δεν έχει κλειδί: πρόσθεσε το MODEL_API_KEY στο .env και ξαναξεκίνησέ τον.",
       "pp.remove": "διαγραφή", "pp.sure": "σίγουρα;", "pp.badfile": "Αυτό δεν είναι PDF.", "pp.again": "Άφησε άλλο",
-      "pp.grapharia": "Ένας γράφος: κάθε γονίδιο ή μόριο του paper είναι μια κουκκίδα, κάθε ισχυρισμός μια γραμμή, χρωματισμένη με ό,τι είπε ο solver.", "pp.droparia": "Άφησε ένα PDF εδώ ή πάτα για να διαλέξεις",
+      "pp.grapharia": "Ένας χάρτης: κάθε γονίδιο ή μόριο του paper είναι μια κουκκίδα, κάθε ισχυρισμός μια γραμμή, χρωματισμένη με ό,τι είπε ο ελεγκτής.", "pp.droparia": "Άφησε ένα PDF εδώ ή πάτα για να διαλέξεις",
     },
   });
   CP.refresh();
@@ -163,13 +187,14 @@
       counts[e.verdict]++; renderLegend(counts);
     };
     if (!animate || reduced) { g.edges.forEach((_, i) => finish(i, true)); renderLegend(g.counts); reading(T("pp.summary", g.edges.length, g.counts), true); detailHint(); return; }
-    const mine = token, dt = Math.min(150, 3000 / m), start = 450, span = 380, judge = start + m * dt + span - 100, dj = Math.min(85, 2400 / m);
-    renderLegend(counts); reading("", true);
+    const mine = token, dt = Math.min(150, 3000 / m), start = 900, span = 380, judge = start + m * dt + span + 250, dj = Math.min(85, 2400 / m);
+    renderLegend(counts); reading(T("pp.n.dots"), true);  /* the reading is told in words as it happens: the dots, each claim as it is read, the check, the result */
     els.forEach((el) => { const len = el.getTotalLength(); el.style.strokeDasharray = len; el.style.strokeDashoffset = len; });
     g.edges.forEach((e, i) => {
-      later(start + i * dt, () => { if (mine !== token) return; els[i].style.transition = `stroke-dashoffset ${span}ms ease`; els[i].style.strokeDashoffset = "0"; reading(readLine(e, p), false); });
+      later(start + i * dt, () => { if (mine !== token) return; els[i].style.transition = `stroke-dashoffset ${span}ms ease`; els[i].style.strokeDashoffset = "0"; reading(readLine(e, p, i + 1, m), false); });
       later(judge + i * dj, () => { if (mine === token) finish(i, false); });
     });
+    later(judge - 120, () => { if (mine === token) reading(T("pp.n.check", CP.facts.cases), true); });
     later(judge + m * dj + 350, () => { if (mine === token) reading(T("pp.summary", m, g.counts), true); });
     detailHint();
   }
@@ -184,24 +209,41 @@
     g.edges.forEach((e, i) => { const hit = e.s === id || e.t === id; els[i].classList.toggle("near", on && hit); if (hit) { ends.add(e.s); ends.add(e.t); } });
     nodeEls.forEach((grp, k) => grp.classList.toggle("near", on && ends.has(k)));
   }
-  const readLine = (e, p) => { const s = e.support[0]; return s ? `<b>${esc(edgeText(e, p))}</b> · “${esc(s.quote)}”` : `<b>${esc(edgeText(e, p))}</b>`; };
+  const readLine = (e, p, i, m) => { const s = e.support[0], q = s && (NAMES || p.mine) ? ` · “${esc(s.quote)}”` : ""; return `<small>${esc(T("pp.n.line", i, m))}</small><b>${esc(edgeText(e, p))}</b>${q}`; };  /* the sentence itself, with its gene names, only when asked for */
   function reading(html, calm) { reader.classList.toggle("dim", !!calm); reader.innerHTML = calm ? esc(html) : html; }
 
   /* ---------------------------------------------------------------- the legend, the detail of a line, the head of the paper */
   function renderLegend(counts) {
     lastCounts = counts; const cases = CP.facts.cases;
     legend.replaceChildren(...VERDICTS.map((v) => {
-      const b = h(`<button type="button" class="pp-chip${counts[v] ? "" : " zero"}" aria-pressed="${!hiddenV.has(v)}" style="--c:${COLOR[v]}"><i></i><span>${esc(T("pp.v." + v, cases))}</span><b>${counts[v]}</b></button>`);
+      const b = h(`<button type="button" class="pp-chip${counts[v] ? "" : " zero"}" aria-pressed="${!hiddenV.has(v)}" style="--c:${COLOR[v]}" title="${esc(T("pp.t." + v, cases))}"><i></i><span>${esc(T("pp.v." + v))}</span><b>${counts[v]}</b></button>`);
       b.addEventListener("click", () => { hiddenV.has(v) ? hiddenV.delete(v) : hiddenV.add(v); svgEl.classList.toggle(`hide-${v}`, hiddenV.has(v)); b.setAttribute("aria-pressed", String(!hiddenV.has(v))); });
       return b;
     }));
   }
   function detailHint() { detail.innerHTML = `<p class="hint">${esc(T("pp.hint"))}</p>`; }
+  function explain(e, p) {  /* what the verdict means for this claim, in a sentence */
+    if (e.verdict === "rejected") { const m = /^breaks ((?:V\d+(?:, )?)+):/.exec(e.why || ""); return T("pp.x.rejected", m ? m[1] : ""); }
+    if (e.verdict === "outside") {
+      const missing = [e.s, e.t].filter((id) => !p.nodes[id].model).map((id) => label(p.nodes[id], p.mine));
+      return missing.length ? T("pp.x.outside", missing.join(" + "), missing.length) : e.why || T("pp.t.outside");
+    }
+    return T("pp.x." + e.verdict, CP.facts.cases);
+  }
   function showEdge(i, pinned) {
-    const e = paper.graph.edges[i], cases = CP.facts.cases, c = COLOR[e.verdict], quotes = e.support.slice(0, 2);
-    detail.innerHTML = `<div class="line" style="--c:${c}"><b>${esc(edgeText(e, paper))}</b><span class="tag">${esc(T("pp.v." + e.verdict, cases))}</span></div>
-      ${quotes.map((s) => `<q>${esc(s.quote)}</q><span class="src">${esc([s.location, s.context].filter(Boolean).join(" · "))}</span>`).join("")}
-      ${e.why ? `<p class="why">${esc(e.why)}</p>` : ""}${e.n > 1 ? `<p class="why">${esc(T("pp.more", e.n))}</p>` : ""}${pinned ? "" : `<p class="why" style="opacity:.55">${esc(T("pp.hover"))}</p>`}`;
+    const e = paper.graph.edges[i], c = COLOR[e.verdict], quotes = e.support.slice(0, 2);
+    const found = e.verdict === "rejected" && e.why ? `<details class="pp-more"><summary>${esc(T("pp.found"))}</summary><p class="why">${esc(e.why)}</p></details>` : "";
+    const sentence = quotes.length ? `<details class="pp-more"${NAMES || paper.mine ? " open" : ""}><summary>${esc(T("pp.sentence"))}</summary>${quotes.map((s) => `<q>${esc(s.quote)}</q><span class="src">${esc([s.location, s.context].filter(Boolean).join(" · "))}</span>`).join("")}</details>` : "";
+    detail.innerHTML = `<div class="line" style="--c:${c}"><b>${esc(edgeText(e, paper))}</b><span class="tag">${esc(T("pp.v." + e.verdict))}</span></div>
+      <p class="why">${esc(explain(e, paper))}${e.n > 1 ? ` ${esc(T("pp.more", e.n))}` : ""}</p>${found}${sentence}${pinned ? "" : `<p class="why dim">${esc(T("pp.hover"))}</p>`}`;
+  }
+  const GLYPHS = [
+    '<svg viewBox="0 0 64 44" aria-hidden="true"><circle class="gl-a" cx="20" cy="22" r="8"/><circle class="gl-b" cx="46" cy="22" r="6"/></svg>',
+    '<svg viewBox="0 0 64 44" aria-hidden="true"><path class="gl-line" d="M16 31 H43"/><path class="gl-head" d="M42 26.5 L51 31 L42 35.5 z"/><circle class="gl-a" cx="11" cy="31" r="5.5"/><circle class="gl-a" cx="56" cy="31" r="5.5"/><g class="gl-quote"><rect x="16" y="3" width="32" height="15" rx="4"/><path d="M21 8.5 H43 M21 13 H35"/></g></svg>',
+    '<svg viewBox="0 0 64 44" aria-hidden="true"><path class="gl-c" style="--to:#58e6ac;--k:0" d="M6 7 H58"/><path class="gl-c" style="--to:#ff6874;--k:1" d="M6 17 H58"/><path class="gl-c" style="--to:#8fb0ff;--k:2" d="M6 27 H58"/><path class="gl-c" style="--to:rgba(255,255,255,.5);--k:3" stroke-dasharray="3 4" d="M6 37 H58"/></svg>',
+  ];
+  function renderGuide() {  /* how to read the map: three small animated pictures, one line each */
+    $("#ppGuide").innerHTML = [1, 2, 3].map((k) => `<li>${GLYPHS[k - 1]}<b>${esc(T(`pp.g${k}.h`))}</b><span>${k === 3 ? T("pp.g3.p", CP.facts.cases) : esc(T(`pp.g${k}.p`))}</span></li>`).join("");
   }
   function head(p) {
     $("#ppTitle").textContent = p.title;
@@ -340,8 +382,8 @@
   }
 
   /* ---------------------------------------------------------------- start: the first paper is drawn at once, and drawn again, line by line, when it scrolls into view */
-  CP.onLang(() => { tabs(); if (paper) { head(paper); rows(); relabel(); renderLegend(lastCounts || paper.graph.counts); if (picked >= 0) showEdge(picked, true); else detailHint(); } renderJob(); $("#ppExample").textContent = T("pp.example"); svgEl.setAttribute("aria-label", T("pp.grapharia")); drop.setAttribute("aria-label", T("pp.droparia")); });
-  $("#ppExample").textContent = T("pp.example"); tabs(); show(false);
+  CP.onLang(() => { tabs(); renderGuide(); if (paper) { head(paper); rows(); relabel(); renderLegend(lastCounts || paper.graph.counts); if (picked >= 0) showEdge(picked, true); else detailHint(); } renderJob(); $("#ppExample").textContent = T("pp.example"); svgEl.setAttribute("aria-label", T("pp.grapharia")); drop.setAttribute("aria-label", T("pp.droparia")); });
+  $("#ppExample").textContent = T("pp.example"); renderGuide(); tabs(); show(false);
   let seen = false;
   new IntersectionObserver((es, io) => { if (!seen && es[0].isIntersecting) { seen = true; io.disconnect(); if (paper) draw(paper, true); } }, { threshold: 0.3 }).observe($("#ppStage"));
   detect();

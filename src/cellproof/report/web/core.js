@@ -220,9 +220,9 @@ function forcedSteps(net, setting) {
   const tip = $("#tip");
   const st = { net: D.networks.augmented ? "augmented" : "published", damage: 1, perts: [], fate: null, variant: 0, timer: null };
   const net = makeNet($("#net"), tip, { node: clickNode, fate: (k) => { st.fate = k; st.variant = 0; render(); } });
-  const netNames = { published: "Published model", unchecked: "Edits applied unchecked", augmented: "Verified and repaired" };
+  const netNames = { published: "Published model", unchecked: "Changes applied without checking", augmented: "Checked and repaired" };
   const netNote = (k) => { const n = D.networks[k]; const added = n.nodes.length - D.networks.published.nodes.length; const fresh = n.edges.filter((e) => e[3]).length;
-    return k === "published" ? `${n.nodes.length} genes, as Gupta et al. print them` : k === "unchecked" ? `${n.nodes.length} genes · every edit from ≥2 papers applied, none checked` : `${n.nodes.length} genes (+${added}) · ${fresh} new links the solver accepted`; };
+    return k === "published" ? `${n.nodes.length} genes, as Gupta et al. print them` : k === "unchecked" ? `${n.nodes.length} genes · every change backed by 2+ papers applied, none checked` : `${n.nodes.length} genes (+${added}) · ${fresh} new links the checker accepted`; };
   $("#netPick").replaceChildren(...Object.keys(D.networks).map((k) => {
     const b = document.createElement("button"); b.type = "button"; b.dataset.k = k; b.innerHTML = `<b>${esc(netNames[k])}</b><small>${esc(netNote(k))}</small>`;
     b.addEventListener("click", () => { st.net = k; st.perts = st.perts.filter(([n]) => D.networks[k].nodes.includes(n)); st.fate = null; net.build(k); render(); }); return b; }));
@@ -259,16 +259,16 @@ function forcedSteps(net, setting) {
     const present = new Set(pts ? pts.map((p) => p.fate).filter(Boolean) : []);
     if (!st.fate || !present.has(st.fate)) st.fate = FATES.find((f) => present.has(f)) || null;
     const cards = (st.damage ? FATES.slice(1) : FATES.slice(0, 1)).map((f) => { const b = document.createElement("button"); b.type = "button"; b.className = `fate fate-${f}` + (present.has(f) ? "" : " absent"); b.setAttribute("aria-pressed", String(st.fate === f));
-      const count = pts ? pts.filter((p) => p.fate === f).length : 0; b.innerHTML = `<b>${FATE_LABEL[f]}</b><small>${present.has(f) ? `${count} stable state${count > 1 ? "s" : ""}` : "not reachable"}</small>`;
+      const count = pts ? pts.filter((p) => p.fate === f).length : 0; b.innerHTML = `<b>${FATE_LABEL[f]}</b><small>${present.has(f) ? `${count} possible end state${count > 1 ? "s" : ""}` : "cannot happen"}</small>`;
       if (present.has(f)) b.addEventListener("click", () => { if (st.fate === f) st.variant = (st.variant + 1) % count; else { st.fate = f; st.variant = 0; } render(); }); return b; });
     $("#fateCards").replaceChildren(...cards);
     if (!pts || !pts.length) {
-      $("#fateLine").textContent = pts ? "The solver found no stable state: with this change the network never settles." : "This combination was not precomputed. Switch DNA damage on or remove a gene.";
+      $("#fateLine").textContent = pts ? "The checker found no end state: with this change the model never settles." : "This combination was not precomputed. Switch DNA damage on or remove a gene.";
       net.paint({ values: null, fatesPresent: new Set(), fatesSel: null, clamped: Object.fromEntries(st.perts) });
       $("#steps").replaceChildren(); $("#whyNote").textContent = ""; return;
     }
     const total = pts.length, none = pts.filter((p) => !p.fate).length, g2 = pts.some((p) => p.g2);
-    $("#fateLine").innerHTML = `The solver found <b>${total}</b> stable state${total === 1 ? "" : "s"}${none ? `, ${none} of them matching no fate` : ""}. ${st.damage ? (g2 ? "G2 arrest (CDC2/CycB off) is present." : "G2 arrest is absent.") : ""}${present.size === 1 && st.damage ? ` <b>${FATE_LABEL[[...present][0]]} is the only fate.</b>` : ""}`;
+    $("#fateLine").innerHTML = `The checker found <b>${total}</b> possible end state${total === 1 ? "" : "s"}${none ? `, ${none} of them matching no fate` : ""}. ${st.damage ? (g2 ? "G2 arrest (CDC2/CycB off) is present." : "G2 arrest is absent.") : ""}${present.size === 1 && st.damage ? ` <b>${FATE_LABEL[[...present][0]]} is the only fate.</b>` : ""}`;
     const shown = pts.filter((p) => p.fate === st.fate)[st.variant] || pts[0];
     const values = {}; ORDER.forEach((n, i) => (values[n] = bit(shown.state, i)));
     net.paint({ values, lit: st.fate ? `var(--f-${st.fate})` : "var(--fg)", clamped: Object.fromEntries(st.perts), fatesPresent: present, fatesSel: st.fate });
@@ -276,7 +276,7 @@ function forcedSteps(net, setting) {
     const steps = forcedSteps(st.net, setting);
     st.steps = steps;
     $("#steps").replaceChildren(...(steps.length ? steps.map((s, i) => { const d = document.createElement("div"); d.className = "step"; d.dataset.i = i; d.innerHTML = `<em>${i + 1}</em><span><b>${esc(fullName(s.node))}</b> = ${s.value} <em>because ${esc(s.node)} = ${esc(s.rule)} with ${s.reads.length ? s.reads.map(([r, v]) => esc(fullName(r)) + "=" + v).join(", ") : "nothing else"}</em></span>`; return d; }) : [Object.assign(document.createElement("div"), { className: "hint", textContent: "Nothing is forced by the input alone. The feedback loops decide." })]));
-    $("#whyNote").textContent = steps.length ? `${steps.length} genes forced; the solver settles the other ${D.networks[st.net].nodes.length - steps.length - st.perts.length - 1}.` : "";
+    $("#whyNote").textContent = steps.length ? `${steps.length} genes forced; the checker works out the other ${D.networks[st.net].nodes.length - steps.length - st.perts.length - 1}.` : "";
   }
   function play() {
     const rows = $$("#steps .step"); if (!rows.length) return;
@@ -290,7 +290,7 @@ function forcedSteps(net, setting) {
     const jobs = []; for (const nk of Object.keys(D.lab)) for (const dk of ["d1", "d0"]) jobs.push([nk, dk]);
     let ok = 0, total = 0, bad = 0, j = 0;
     const next = () => {
-      if (j >= jobs.length) { $("#selfcheck").textContent = `Re-checked in your browser: ${fmt(ok)} of ${fmt(total)} stable states are fixed points of the rules${bad ? ` (${bad} are not)` : ""}.`; return; }
+      if (j >= jobs.length) { $("#selfcheck").textContent = `Double-checked in your browser: ${fmt(ok)} of ${fmt(total)} end states obey the rules${bad ? ` (${bad} do not)` : ""}.`; return; }
       const [nk, dk] = jobs[j++], rules = compile(nk), table = D.lab[nk][dk];
       for (const [k, flat] of Object.entries(table)) {
         const clamp = {}; if (k) k.split(",").forEach((p) => { const [n, v] = p.split("="); clamp[n] = +v; }); clamp.DNA_damage = dk === "d1" ? 1 : 0;

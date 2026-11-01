@@ -1067,3 +1067,57 @@ details.b-more[open] > summary { margin-bottom: 6px; }
 .pp-example { display: inline-block; margin: 0 0 8px; padding: 4px 11px; border-radius: 999px; background: rgba(255, 190, 140, .16); border: 1px solid rgba(255, 190, 140, .45); color: #ffd7b8; font-size: 12.5px; }
 @media (max-width: 1100px) { .brand small { display: none; } nav { flex-wrap: nowrap; } }
 @media (max-width: 900px) { .topbar .wrap { gap: 10px; } nav a { padding: 6px 8px; } }
+
+/* ---------------------------------------------------------------- how to read the papers map: three small animated pictures, then the reading in words */
+.pp-kicker { margin-bottom: 4px; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(232, 228, 255, .55); }
+.pp-head h3 { font-size: clamp(17px, 1.8vw, 22px); }
+.pp-guide { list-style: none; margin: 14px 0 4px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.pp-guide li { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 2px 10px; align-items: center; padding: 10px 12px 11px 8px; border-radius: 14px; background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .11); }
+.pp-guide svg { grid-row: 1 / span 2; width: 62px; height: 44px; overflow: visible; }
+.pp-guide b { align-self: end; font-weight: 600; font-size: 13.5px; line-height: 1.25; }
+.pp-guide span { align-self: start; font-size: 12.5px; line-height: 1.42; color: rgba(238, 235, 255, .8); }
+.pp-guide em { font-style: normal; font-weight: 600; }
+.pp-guide .c-a { color: var(--v-accepted); } .pp-guide .c-r { color: var(--v-rejected); } .pp-guide .c-p { color: var(--v-present); } .pp-guide .c-o { color: rgba(255, 255, 255, .62); }
+.gl-a { fill: #d6dcff; stroke: #fff; stroke-width: 1.2; transform-box: fill-box; transform-origin: center; animation: glPulse 2.8s ease-in-out infinite; }
+.gl-b { fill: #2a2850; stroke: rgba(255, 255, 255, .55); stroke-width: 1.2; }
+@keyframes glPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+.gl-line { fill: none; stroke: rgba(255, 255, 255, .92); stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 28; animation: glDraw 4.2s ease-in-out infinite; }
+.gl-head { fill: rgba(255, 255, 255, .92); animation: glHead 4.2s ease-in-out infinite; }
+@keyframes glDraw { 0% { stroke-dashoffset: 28; } 28%, 82% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 28; } }
+@keyframes glHead { 0%, 24% { opacity: 0; } 32%, 82% { opacity: 1; } 96%, 100% { opacity: 0; } }
+.gl-quote { opacity: 0; animation: glQuote 4.2s ease-in-out infinite; }
+.gl-quote rect { fill: rgba(255, 255, 255, .1); stroke: rgba(255, 255, 255, .6); stroke-width: 1.2; }
+.gl-quote path { fill: none; stroke: rgba(255, 255, 255, .7); stroke-width: 1.4; stroke-linecap: round; }
+@keyframes glQuote { 0%, 10% { opacity: 0; } 30%, 70% { opacity: 1; } 90%, 100% { opacity: 0; } }
+.gl-c { fill: none; stroke: rgba(255, 255, 255, .92); stroke-width: 2.6; stroke-linecap: round; animation: glJudge 5.6s ease-in-out infinite; animation-delay: calc(var(--k) * .5s); }
+@keyframes glJudge { 0%, 10% { stroke: rgba(255, 255, 255, .92); } 26%, 80% { stroke: var(--to); } 96%, 100% { stroke: rgba(255, 255, 255, .92); } }
+.pp-reader { min-height: 3.5em; }
+.pp-reader small { display: block; margin-bottom: 1px; font-style: normal; font-size: 11.5px; letter-spacing: .01em; color: rgba(232, 228, 255, .62); }
+.pp-detail .why.dim { opacity: .55; }
+.pp-detail details.pp-more { margin-top: 6px; }
+.pp-detail details.pp-more > summary { cursor: pointer; width: max-content; max-width: 100%; font-size: 12.5px; color: rgba(255, 215, 180, .9); }
+.pp-detail details.pp-more[open] > summary { margin-bottom: 4px; }
+@media (max-width: 900px) { .pp-guide { grid-template-columns: 1fr; gap: 8px; } .pp-guide li { padding: 8px 10px 9px 6px; } }
+@media (prefers-reduced-motion: reduce) { .gl-a, .gl-line, .gl-head, .gl-quote, .gl-c { animation: none; } .gl-line { stroke-dashoffset: 0; } .gl-head, .gl-quote { opacity: 1; } .gl-c { stroke: var(--to); } }
+
+/* ---------------------------------------------------------------- the technical part in plain words: where to look, a glossary, and details that fold */
+.tech-map { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; width: 100%; margin-top: 8px; }
+.tech-map a { display: grid; gap: 2px; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); text-decoration: none; transition: border-color .2s, transform .2s; }
+.tech-map a:hover { border-color: var(--accent); transform: translateY(-1px); }
+.tech-map b { font-weight: 600; font-size: 14.5px; }
+.tech-map span { color: var(--fg-2); font-size: 13px; line-height: 1.4; }
+.gloss { width: 100%; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.gloss > summary { cursor: pointer; padding: 12px 16px; font-weight: 600; font-size: 14.5px; }
+.gloss dl { margin: 0; padding: 2px 16px 16px; display: grid; grid-template-columns: minmax(120px, 190px) minmax(0, 1fr); gap: 9px 18px; font-size: 14px; line-height: 1.5; }
+.gloss dt { font-weight: 600; }
+.gloss dd { margin: 0; color: var(--fg-2); }
+.gloss code { font-size: .9em; }
+@media (max-width: 640px) { .gloss dl { grid-template-columns: 1fr; gap: 0; } .gloss dd { margin: 0 0 9px; } }
+details.deep > summary { list-style: none; cursor: pointer; display: grid; gap: 6px; }
+details.deep > summary::-webkit-details-marker { display: none; }
+details.deep > summary h3 { margin: 0; }
+.deep-p { max-width: 72ch; color: var(--fg-2); font-size: 15px; line-height: 1.5; }
+.deep-go { width: max-content; font-size: 13px; color: var(--accent); }
+.deep-go::before { content: "Show the details ↓"; }
+details.deep[open] .deep-go::before { content: "Hide the details ↑"; }
+details.deep[open] > summary { margin-bottom: 14px; }

@@ -9,20 +9,20 @@
   const F = TS.facts, N = F.cells, spacing = TS.settings.spacing, H = F.hours;
   const byName = Object.fromEntries(TS.conditions.map((c) => [c.name, c]));
   const shown = TS.conditions.filter((c) => c.frames && ["radiation", "hit", "miss", "novel"].includes(c.group));
-  const STATE = ["undecided", "arrest", "senescence", "autophagy", "committed to apoptosis", "gone"];
+  const STATE = ["undecided", "paused (arrest)", "aged (senescence)", "recycling (autophagy)", "committed to dying (apoptosis)", "gone"];
   const VARS = ["--f-proliferation", "--f-arrest", "--f-senescence", "--f-autophagy", "--f-apoptosis", "--line"];
   const hours = (minutes) => Math.round(minutes / 6) / 10;
   const tag = (cls, text, title) => `<span class="pill ${cls}"${title ? ` title="${esc(title)}"` : ""}>${esc(text)}</span>`;
 
   /* ---------- the numbers on top ---------- */
   const total = F.hits.count + F.misses.count, agree = F.hits.agree + F.misses.agree;
-  const aliveStates = [["senescent", F.radiation.senescent], ["in arrest", F.radiation.arrest], ["recycling themselves (autophagy)", F.radiation.autophagy], ["undecided", F.radiation.undecided]].filter(([, n]) => n);
-  $("#tissueLede").textContent = `The same Boolean network runs inside each of ${fmt(N)} irradiated cells of a small virtual tissue, simulated with PhysiBoSS, an existing open-source simulator of many cells. ` +
-    "Every cell flips its genes at random moments, so the cells do not all follow the same path. This is a second, independent engine checking the exact solver. It is not a prediction for any patient.";
+  const aliveStates = [["stopped for good (senescent)", F.radiation.senescent], ["paused (in arrest)", F.radiation.arrest], ["recycling themselves (autophagy)", F.radiation.autophagy], ["undecided", F.radiation.undecided]].filter(([, n]) => n);
+  $("#tissueLede").textContent = `We also run the same rules inside each of ${fmt(N)} irradiated cells of a small piece of virtual tissue, with PhysiBoSS, an existing open-source simulator of many cells. ` +
+    "Every cell flips its genes at random moments, so no two cells follow the same path. It is a second, independent engine checking the exact checker. It is not a prediction for any patient.";
   $("#tissueStats").replaceChildren(...[
     [fmt(N), "irradiated cells in the virtual tissue, each carrying the whole network"],
-    [`${agree}/${total}`, `sets on which the simulation and the exact solver agree: ${F.hits.count} the solver accepts and ${F.misses.count} of the same size it rejects`],
-    [`${F.long.none_alive}/${F.long.count}`, `of the solver's sets leave no cell alive after ${F.long.hours} h; after ${H} h, ${F.hits.count - F.hits.none_alive} of them still held a few cells (at most ${F.hits.most_alive} of ${fmt(N)})`],
+    [`${agree}/${total}`, `sets on which the simulation and the exact checker agree: ${F.hits.count} the checker accepts and ${F.misses.count} of the same size it rejects`],
+    [`${F.long.none_alive}/${F.long.count}`, `of the checker's sets leave no cell alive after ${F.long.hours} h; after ${H} h, ${F.hits.count - F.hits.none_alive} of them still held a few cells (at most ${F.hits.most_alive} of ${fmt(N)})`],
     [fmt(F.radiation.alive), `cells alive after ${H} h of radiation alone (${pct(F.radiation.alive, N)}%): ${aliveStates.map(([w, n]) => `${fmt(n)} ${w}`).join(", ") || "none"}`],
   ].map(([n, t]) => h(`<div class="stat"><b>${esc(n)}</b><span>${esc(t)}</span></div>`)));
 
@@ -44,7 +44,7 @@
   const sel = $("#tCond"), slider = $("#tTime"), play = $("#tPlay");
   let cond = byName.radiation_only, k = Math.max(0, shown[0].times.findIndex((m) => m >= 540)), timer = null;
 
-  [["radiation", "No intervention"], ["hit", "The solver's sets: leave only apoptosis"], ["miss", "Sets of the same size that the solver rejects"], ["novel", "Found only when the start is taken into account (predicted before the runs)"]].forEach(([group, label]) => {
+  [["radiation", "No change"], ["hit", "The checker's sets: leave only cell death"], ["miss", "Sets of the same size that the checker rejects"], ["novel", "Found only when the starting state is taken into account (predicted before the runs)"]].forEach(([group, label]) => {
     const og = document.createElement("optgroup");
     og.label = label;
     shown.filter((c) => c.group === group).forEach((c) => { const o = document.createElement("option"); o.value = c.name; o.textContent = group === "radiation" ? "Radiation only" : c.label; og.appendChild(o); });
@@ -105,19 +105,20 @@
   const longs = TS.conditions.filter((c) => c.group === "long");
   if (longs.length) {
     const Hl = longs[0].times[longs[0].times.length - 1] / 60;
-    $("#tailTitle").textContent = "What is still alive, on a log scale";
-    $("#tailNote").textContent = `After ${H} h, ${F.hits.count - F.hits.none_alive} of the solver's ${F.hits.count} sets still hold a few cells (at most ${F.hits.most_alive} of ${fmt(N)}). ` +
-      `Each line below is one solver set run for ${Hl} h: ${F.long.none_alive} of ${F.long.count} reach zero cells alive (drawn at the floor, "0"). The solver promises where cells end, not how fast.`;
+    $("#tailTitle").textContent = "A closer look at survivors (log scale)";
+    $("#tailNote").textContent = `After ${H} h, ${F.hits.count - F.hits.none_alive} of the checker's ${F.hits.count} sets still hold a few cells (at most ${F.hits.most_alive} of ${fmt(N)}). ` +
+      `Each line below is one checker set run for ${Hl} h: ${F.long.none_alive} of ${F.long.count} reach zero cells alive (drawn at the floor, "0"). The checker promises where cells end, not how fast.`;
     chart($("#tTail"), longs.map((c) => ({ pts: c.times.map((t, i) => [t / 60, c.alive[i]]), color: css("--good"), width: 1.6, opacity: 0.75 })),
       { xmax: Hl, ymax: N, log: true, floor: 0.5, yticks: [[0.5, "0"], [1, "1"], [10, "10"], [100, "100"], [1000, "1,000"]], xticks: [0, 48, 96, 144, 192, 240].filter((v) => v <= Hl),
-        label: "Cells still alive over time on a log scale, one line for each of the solver's sets run to 240 hours." });
+        label: "Cells still alive over time on a log scale, one line for each of the checker's sets run to 240 hours." });
+    fold($("#tTail").closest(".card"), `After ${H} h, ${F.hits.count - F.hits.none_alive} of the checker's ${F.hits.count} sets still hold a few cells; run for ${Hl} h, ${F.long.none_alive} of ${F.long.count} reach zero.`);
   } else $("#tTail").closest(".card").hidden = true;
 
   /* ---------- the table ---------- */
-  const GROUP = { radiation: "no intervention", hit: "solver accepts", miss: "solver rejects", rate: "no intervention, other apoptosis rate", novel: "start-aware analysis accepts, solver does not" };
+  const GROUP = { radiation: "no change", hit: "checker accepts", miss: "checker rejects", rate: "no change, other death rate", novel: "start-aware analysis accepts, checker does not" };
   const rows = TS.rows.filter((r) => r.group !== "long");
-  $("#tableNote").textContent = `After ${H} h. "Agrees" means the simulation and the solver say the same: fewer than ${100 * F.agree_below}% of the cells alive for a set the solver accepts, at least ${100 * F.agree_below}% for one it rejects.`;
-  $("#tTable").innerHTML = `<thead><tr><th>Set</th><th>Solver</th><th class="num">Alive</th><th>How they stand</th><th class="num">Hours to 90% dead</th><th>Agrees</th></tr></thead><tbody>` +
+  $("#tableNote").textContent = `After ${H} h. "Agrees" means the simulation and the checker say the same: fewer than ${100 * F.agree_below}% of the cells alive for a set the checker accepts, at least ${100 * F.agree_below}% for one it rejects.`;
+  $("#tTable").innerHTML = `<thead><tr><th>Set</th><th>Checker</th><th class="num">Alive</th><th>How they stand</th><th class="num">Hours to 90% dead</th><th>Agrees</th></tr></thead><tbody>` +
     rows.map((r) => {
       const share = r.alive_end / r.cells;
       const verdict = r.group === "hit" || r.group === "novel" ? (share < F.agree_below ? tag("good", "agrees") : tag("bad", "differs")) : r.group === "miss" ? (share >= F.agree_below ? tag("good", "agrees") : tag("bad", "differs")) : "";
@@ -125,6 +126,7 @@
       return `<tr data-name="${esc(r.name)}"><td>${esc(r.label)}</td><td>${esc(GROUP[r.group])}</td><td class="num">${fmt(r.alive_end)}</td><td>${esc(stand || "none alive")}</td>` +
         `<td class="num">${r.minutes_to_90_percent_dead == null ? "not within " + H : hours(r.minutes_to_90_percent_dead)}</td><td>${verdict}</td></tr>`;
     }).join("") + "</tbody>";
+  fold($("#tTable").closest(".card"), `After ${H} h the simulation and the exact checker agree on ${agree} of the ${total} sets compared (${F.hits.count} the checker accepts, ${F.misses.count} it rejects). The table lists every condition.`);
   function marks() { $$("#tTable tbody tr").forEach((tr) => tr.classList.toggle("sel", tr.dataset.name === cond.name)); }
 
   /* ---------- controls ---------- */
@@ -140,7 +142,7 @@
     show();
   };
   sel.value = cond.name;
-  $("#tChartLegend").innerHTML = [["--good", "the solver's sets"], ["--bad", "sets it rejects"], ["--fg-2", "radiation only"], ["--accent", "selected"]]
+  $("#tChartLegend").innerHTML = [["--good", "the checker's sets"], ["--bad", "sets it rejects"], ["--fg-2", "radiation only"], ["--accent", "selected"]]
     .map(([v, w]) => `<span><i style="background:var(${v})"></i>${esc(w)}</span>`).join("");
   $("#tLegend").innerHTML = STATE.map((w, i) => `<span><i style="background:${i === 5 ? "transparent" : `var(${VARS[i]})`};${i === 5 ? "border:1px solid var(--line)" : ""}"></i>${esc(w)}</span>`).join("");
   $("#tNote").textContent = `Positions are the simulator's; colours are what each cell's network says at that time. Time is a modelling choice (one model time unit = one hour), the rates are not measured, ` +
@@ -160,8 +162,8 @@
     const best = (p) => { const m = ((p.chembl || {}).most_potent || [])[0]; return m ? `${m.name || m.compound}: ${m.measure} ${m.relation === "=" ? "" : m.relation}${m.value} ${m.units} (pChEMBL ${m.pchembl.toFixed(2)})` : "none recorded"; };
     const readouts = (p) => (((p.chembl || {}).at_1_micromolar_or_better) || {}).records_mentioning_phosphorylation ?? 0;
     const solverP = P.filter((p) => p.sets.length), briefP = P.filter((p) => !p.sets.length);
-    card.innerHTML = `<h3>From a target to chemistry</h3>
-      <p class="muted t-note">Could a drug reach what the solver asks for? Of its ${T.length} sets, ${knockouts.length} are knock-outs, which an inhibitor could imitate; the others need a gene switched <em>on</em>. ` +
+    card.innerHTML = `<h3>From a gene to a drug</h3>
+      <p class="muted t-note">Could a drug reach what the checker asks for? Of its ${T.length} sets, ${knockouts.length} are knock-outs, which an inhibitor could imitate; the others need a gene switched <em>on</em>. ` +
       `Of the knock-outs, ${single.length} concern a single protein (${single.map((r) => r.label.replace(" KO", "")).join(", ")}); a knock-out of ${knockouts.filter((r) => !single.includes(r)).map((r) => r.label.replace(" KO", "")).join(", ")} is not a protein. ` +
       `Allowing up to three knock-outs at once adds no further set.</p>
       <div class="t-chips">${T.map((r) => tag(r.knock_out_only ? "good" : "", r.label, r.literals.map((l) => `${l.node}: ${l.kind.replace(/_/g, " ")}`).join("; "))).join("")}</div>` +
@@ -170,9 +172,10 @@
           `<td>${p.only_apoptosis ? tag("good", "only apoptosis") : esc(p.knock_out_alone_leaves.join(", "))}</td>` +
           `<td class="num">${p.chembl ? fmt(p.chembl.records.all) : "no entry"}</td><td class="num">${fmt(strong(p))}</td>` +
           `<td>${esc(best(p))}${readouts(p) ? `<div class="t-sub">${readouts(p)} of the ${fmt(((p.chembl || {}).records || {}).pchembl_6_or_more ?? 0)} strong records are assays that mention phosphorylation: a readout in cells, not binding</div>` : ""}</td></tr>`).join("") + `</tbody></table></div>
-        <p class="muted t-note">ChEMBL release ${esc(DS.compounds.chembl_release)}, queried ${esc(DS.compounds.queried)}. ${solverP.length ? `Where the solver points (${solverP.map((p) => p.symbol).join(", ")}) ChEMBL holds ${solverP.map((p) => `${strong(p)} compounds at 1 µM or better for ${p.symbol}`).join(" and ")}; ` : ""}` +
+        <p class="muted t-note">ChEMBL release ${esc(DS.compounds.chembl_release)}, queried ${esc(DS.compounds.queried)}. ${solverP.length ? `Where the checker points (${solverP.map((p) => p.symbol).join(", ")}) ChEMBL holds ${solverP.map((p) => `${strong(p)} compounds at 1 µM or better for ${p.symbol}`).join(" and ")}; ` : ""}` +
         `${briefP.length ? `for the kinases the project brief names (${briefP.map((p) => p.symbol).join(", ")}) it holds ${briefP.map((p) => strong(p)).map(fmt).join(", ")}, and knocking out each of them alone does not leave only apoptosis in this model unless the column above says so. ` : ""}` +
         `Nothing here is predicted: every compound has a measured activity, an assay and a publication in the data.</p>` : "");
+    fold(card, `Could a drug do what the checker asks? Of its ${T.length} sets, ${knockouts.length} switch a gene off, which a drug that blocks it could imitate; the others need a gene switched on.${briefP.length && briefP.every((p) => !p.only_apoptosis) ? " Drug records exist for the genes the project brief names, but blocking any one of them alone does not leave only cell death in this model." : ""}`);
   }
 
   /* ---------- does the literature agree? ---------- */
@@ -196,6 +199,7 @@
       on.map((p) => `<tr><td><b>${esc(p.gene)}</b></td><td><a href="https://pmc.ncbi.nlm.nih.gov/articles/${esc(p.pmcid)}/" target="_blank" rel="noopener">${esc(p.cite)}</a><div class="t-sub">wave ${p.wave} · ${esc(DESIGN[p.design])} · ${esc(p.context)}</div></td>` +
         `<td>${tag(...VERDICT[p.verdict])}</td><td>${esc(p.fate_reported || "")}</td><td>${esc(p.note)}</td></tr>`).join("") + `</tbody></table></div>` +
       `<details class="muted t-note"><summary>Read and set aside as off topic (${off.length})</summary>Each with its reason in the data file: ${off.map((p) => `${esc(p.cite)} (${esc(p.gene)})`).join("; ")}.</details>`;
+    fold(litCard, `We read ${lit.papers.length} open-access papers about two genes the model points to (${genes.join(" and ")}); ${on.length} were on topic. The evidence is mixed: ${C.agrees_in_direction} agree with the model's direction, ${C.contradicts} contradict it${C.mixed ? `, ${C.mixed} found no difference` : ""}.`);
   }
 
   /* ---------- does the order of the changes matter? ---------- */
@@ -211,6 +215,7 @@
       <p class="muted t-note">Against the tissue runs (${VAL.total} conditions): the first check, written before any result, held for ${VAL.v1_fates_within_reachable} of ${VAL.total} (${VAL.v1_failed.length} failed, because it compared where cells end with what the simulation passes through). ` +
       `The second, added after seeing that and labelled so, uses the simulation's own meaning of death and holds for ${VAL.v2_survival_matches} of ${VAL.total}. Both engines run the same Boolean rules, so this checks the two analyses against each other, not the biology.</p>
       <p class="muted t-note">Not modelled: changes that are released again, fixed delays, drug kinetics, and the fact that nobody can watch a cell settle. Every result is about this one model.</p>`;
+    fold(seqCard, `Does it matter which change comes first? Checked exactly on this model: of ${fmt(V.pairs)} pairs of changes, ${V.sequence_only} work only in a particular order.`);
     $("#seqStats").replaceChildren(...[
       [`${S.survive.length} of ${SQ.all_attractors.length}`, `stable states a healthy irradiated cell can reach at all: ${S.survive.join(" and ")}. The other ${SQ.all_attractors.length - S.survive.length} (${SQ.all_attractors.filter((a) => !S.survive.includes(a)).join(", ")}) exist but cannot be reached from a healthy start; the tissue run reached the same two. A cell can survive in only ${V.survive.length === 1 ? "one of them: " + V.survive[0] : V.survive.join(", ")}.`],
       [`+${V.h1_only.length}`, `sets that only the start-aware analysis finds: ${V.h1_only.join("; ")}.${novel.length ? ` Predicted before the runs; in the tissue ${novel.every((r) => r.alive === 0) ? `none of the ${fmt(novel[0].cells)} cells was alive after ${SQ.hours} h, for any of the three` : novel.map((r) => `${fmt(r.alive)} of ${fmt(r.cells)}`).join(", ") + " cells were alive after " + SQ.hours + " h"}.` : ""}`],
@@ -230,7 +235,7 @@
     const SIG = (sig) => sig.map(([n, v]) => `${n}${v ? "+" : "−"}`).join(" ");
     const FOUND = (t) => (t.specific_sets == null ? "not needed" : !t.specific_sets.length ? "none" : t.specific_sets.length === a.sets.length ? "the same 11" : t.specific_sets.join("; "));
     const ALONE = (t) => (t.baseline === "only_apoptosis" ? "only apoptosis" : t.baseline === "no_stable_state" ? "no stable state" : t.baseline_fates.join(", "));
-    genoCard.innerHTML = `<h3>Do the answers survive a tumour's genotype?</h3>
+    genoCard.innerHTML = `<h3>Do the answers hold for different tumours?</h3>
       <p class="muted t-note">The 11 sets were found for an otherwise normal cell. Here the genes that public tumour data call deleted, truncated or amplified are first forced in the model by a rule fixed beforehand (missense changes and expression are ignored), and the 11 sets are tried on top. ` +
       `${fmt(a.samples)} tumour samples from ${a.studies} TCGA studies are counted, never followed, and nothing here is about a person: it shows how the model's answers depend on genotype. R1 is the rule. R2 also counts every protein-changing TP53 mutation as a loss, a deliberately broad bound, because R1 undercounts TP53.</p>
       <div class="stats" id="genoStats" style="margin:14px 0"></div>
@@ -238,6 +243,7 @@
       <p class="muted t-note" style="margin-top:14px">The most frequent genotypes under R1 (− off, + on), with an exhaustive search for sets of up to two changes on the network with the genotype forced.</p>
       <div class="scroll-x"><table class="tbl" id="genoTop"></table></div>
       <p class="muted t-note">Not modelled: missense effects, expression, subclones, the tissue, any dose. A bulk sample is a mixture of cells, and the model is one published network.</p>`;
+    fold(genoCard, `Tumours differ in which genes are broken. In public counts of ${fmt(a.samples)} tumour samples, ${share(a.tp53_lost, a.samples)}–${share(b.tp53_lost, b.samples)} have lost p53 (depending on how we count), and ${noneLost ? "for none of them" : "for only some of them"} does any of our ${a.sets.length} sets leave only cell death. A statement about the model and public counts, not about any person.`);
     $("#genoStats").replaceChildren(...[
       [`${share(a.tp53_lost, a.samples)}–${share(b.tp53_lost, b.samples)}`, `of samples have TP53 lost (R1 to R2). ${noneLost ? "For none of them does any of the 11 sets leave only apoptosis" : "Some sets still work for some of them"}, and among the ${a.searched} most frequent genotypes of each rule (${a.searched_tp53_lost} with TP53 lost under R1, ${b.searched_tp53_lost} under R2) ${a.searched_tp53_lost_found + b.searched_tp53_lost_found === 0 ? "no set of up to two changes works for any of those" : "some TP53-lost ones have a set of up to two changes"}.`],
       [share(a.baseline.only_apoptosis, a.samples), `of samples (R1) need no change in the model: the genotype alone already leaves only apoptosis${a.alone_lost_only_apoptosis === 0 ? ", and every one of them has TP53" : ""}.`],
@@ -260,4 +266,5 @@
     ...(DS ? [["Every answer needs p53", `With p53 knocked out, ${noP53} of the ${DS.targets.length} sets no longer leave only apoptosis: ${noStable} have no stable state at all (the network oscillates) and the rest one that matches none of the four fates. Whatever the model says here is for cells that have p53.`]] : []),
     ["Not a clinical trial", "No patient, no tumour, no efficacy or safety claim, and no process that could cause a second cancer is modelled. These are hypotheses about a model."],
   ].map(([t, p]) => h(`<div class="limit"><h4>${esc(t)}</h4><p>${esc(p)}</p></div>`)));
+  foldBlock($("#tissueLimits"), "What the simulation leaves out", "Signals between cells, drugs and doses, real time, cell division, two of the four end states, cells without p53, and any claim about a real person.");
 })();

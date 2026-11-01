@@ -7,16 +7,18 @@ person has): the person drops the PDF, it is read the same way, and its graph ap
 ## What a graph is
 
 Every gene or molecule a paper names is a dot. Every claim ("A activates B") is a line. The colour of a line is what the exact solver said,
-by `src/cellproof/ingest/graph.py`:
+by `src/cellproof/ingest/graph.py`. The page explains this itself, for someone who has never seen it: three small animated cards (a dot is a gene, a
+line is a claim, a colour is the verdict), a reading told in plain words as the lines are drawn, and a click on a line gives one plain sentence about the
+verdict; the sentence of the paper behind it, with its gene names, opens on a click (at once with *Real names* on):
 
-| colour | meaning |
-|---|---|
-| green, ✓ | a new link; the model with it still gives all ten known experiments (`formalize/augment.py`, the verified arm) |
-| red, ✕ | a new link that breaks a known experiment; the counterexample is kept and shown |
-| blue | the model already has the link |
-| lilac | the model already has a longer route with the same sign |
-| orange, ≠ | the published model has the opposite sign |
-| grey, dashed | an end of the link is not a node of the model: kept as knowledge, not tested, never called wrong |
+| colour | on the page | meaning |
+|---|---|---|
+| green, ✓ | New, and it fits | a new link; the model with it still gives all ten known experiments (`formalize/augment.py`, the verified arm) |
+| red, ✕ | New, but it breaks a result | a new link that breaks a known experiment; the counterexample is kept and shown |
+| blue | Already known | the model already has the link |
+| lilac | Follows from known links | the model already has a longer route with the same sign |
+| orange, ≠ | Contradicts the published model | the published model has the opposite sign |
+| grey, dashed | Cannot be tested yet | an end of the link is not a node of the model: kept as knowledge, not tested, never called wrong |
 
 Most of what the AI reads is grey: 489 of the 679 links drawn for the corpus are about genes that the 34-node model does not have (`results/RESULTS.md`). The page says so
 instead of hiding it. The verdicts of the first part are the ones the augmentation logged (`results/augment_repaired_min1.json`); the

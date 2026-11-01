@@ -20,7 +20,7 @@ from cellproof.formalize.entities import Grounder, key
 
 VERDICT = {
     "accepted": "accepted", "rejected": "rejected", "skipped_present": "present", "skipped_implied": "implied",
-    "skipped_conflict": "conflict", "skipped_input": "present", "skipped_not_available": "outside", "skipped_needs_activator": "outside",
+    "skipped_conflict": "conflict", "skipped_input": "outside", "skipped_not_available": "outside", "skipped_needs_activator": "outside",
 }
 VERDICTS = ("accepted", "rejected", "present", "implied", "conflict", "outside")
 CASE = re.compile(r"^(V\d+)\b")

@@ -203,7 +203,8 @@
         </aside>
         <div class="pp-stage" id="ppStage">
           <p class="pp-example" id="ppExample" hidden></p>
-          <header class="pp-head"><h3 id="ppTitle"></h3><p id="ppMeta"></p></header>
+          <header class="pp-head"><p class="pp-kicker" data-i18n="pp.kicker">What this paper says, drawn as a map</p><h3 id="ppTitle"></h3><p id="ppMeta"></p></header>
+          <ol class="pp-guide" id="ppGuide" aria-label="How to read the map"></ol>
           <div class="pp-reader" id="ppReader" aria-hidden="true"></div>
           <div class="pp-graph"><svg id="ppSvg" viewBox="0 0 760 500" role="img" aria-label="A graph: each gene or molecule of the paper is a dot, each claim a line, coloured by what the solver said."></svg></div>
           <div class="pp-legend" id="ppLegend" role="group" aria-label="Verdicts"></div>
@@ -259,13 +260,41 @@
       <div class="eyebrow" data-i18n="tech.eyebrow">The technical part</div>
       <p class="lede" data-i18n="tech.lede">In English, with the real gene names.</p>
       <button class="btn small" type="button" data-tech-toggle aria-expanded="false" aria-controls="tech" data-i18n="tech.close">Close the technical part ↑</button>
+      <nav class="tech-map" aria-label="Where to look">
+        <a href="#notebook"><b>The numbers</b><span>How much the AI read, and the key results.</span></a>
+        <a href="#model"><b>The cell</b><span>Play with the model: switch genes and see what the cell can become.</span></a>
+        <a href="#agent"><b>The agent</b><span>How a sentence in a paper becomes a rule.</span></a>
+        <a href="#cases"><b>Case files</b><span>Watch one change get tested, rejected and repaired.</span></a>
+        <a href="#evidence"><b>Evidence</b><span>What the checks found, including the bad news.</span></a>
+        <a href="#tissue"><b>Tissue and more</b><span>Does it hold in a crowd of cells? Plus four side studies.</span></a>
+        <a href="#limits"><b>Limits</b><span>What this does not show.</span></a>
+      </nav>
+      <details class="gloss">
+        <summary>Words used here, in plain language</summary>
+        <dl>
+          <dt>Gene</dt><dd>A switch inside the cell. In the model every gene is either on or off. (A few molecules that behave the same way are called genes here too.)</dd>
+          <dt>Model</dt><dd>A published map of the genes and which of them switch which others on or off (Gupta and colleagues, 2023). It is a logic circuit, not a simulation of a real cell.</dd>
+          <dt>Rule</dt><dd>For each gene, the condition that switches it on, written as a small formula: <code>!</code> means not, <code>&amp;</code> means and, <code>|</code> means or.</dd>
+          <dt>End state</dt><dd>A pattern of on and off genes that no longer changes. Each one is something the cell can end up as. (Also called a stable state, a fixed point or an attractor.)</dd>
+          <dt>Fate</dt><dd>What an end state means for the cell: a pause (arrest), a permanent stop (senescence), self-recycling (autophagy) or programmed death (apoptosis).</dd>
+          <dt>Claim</dt><dd>One sentence from a paper saying that one gene turns another on or off.</dd>
+          <dt>Link</dt><dd>A claim turned into a connection between two genes (also called an edge). A change to the model is a link written into a rule.</dd>
+          <dt>Known result</dt><dd>A lab result from the base paper that the model must reproduce (tests V01 to V10). Every proposed change is tested against all ten.</dd>
+          <dt>Checker</dt><dd>An exact solver: a program that works through every possibility instead of guessing. It cannot read papers; the AI cannot check exactly.</dd>
+          <dt>Counterexample</dt><dd>A concrete case the checker found where a rule fails: which test, what was expected and what appeared instead.</dd>
+          <dt>Knock out, force on</dt><dd>Switch a gene permanently off (like deleting it) or permanently on (like over-producing it) in the model.</dd>
+          <dt>Audit</dt><dd>Results from papers the AI never read, kept back and scored at the end: the one test it could not have learned from.</dd>
+          <dt>Quote found</dt><dd>The sentence the AI quoted occurs word for word in the paper. It shows faithful copying, not correct understanding.</dd>
+          <dt>Token</dt><dd>A short chunk of text. Language models read, write and are billed in tokens.</dd>
+        </dl>
+      </details>
     </div>
 <section id="notebook">
   <div class="wrap">
     <div class="sec-head">
-      <div class="eyebrow">Lab notebook</div>
-      <h2 class="h2">Every number behind the bench.</h2>
-      <p class="lede">The bench above is the story. Everything below is the evidence: the interactive cell with all of its genes, how the agent works, every rule it judged, the audit and the limits. All of it is read from the files the pipeline wrote.</p>
+      <div class="eyebrow">The numbers</div>
+      <h2 class="h2">Every number behind the demo.</h2>
+      <p class="lede">The demo above tells the story. Everything below shows the work: how the AI reads, how the model is built, every change that was tested, what the checks found, and where this stops. Every number is read from files this project wrote.</p>
     </div>
     <div class="stats" id="stats" style="margin-top:0"></div>
     <div class="why">
@@ -281,16 +310,16 @@
     <div class="sec-head">
       <div class="eyebrow">The cell</div>
       <h2 class="h2">A damaged cell can pause, age, recycle itself or die.</h2>
-      <p class="lede">This is the published network plus the four kinases the agent added. Switch DNA damage on, click a gene to knock it out or force it on, and see which fates remain. Every state shown was enumerated exactly by the solver. Nothing on this page is a simulation.</p>
+      <p class="lede">This is the published model plus the four genes (kinases) the AI added. Switch DNA damage on, click a gene to switch it off or force it on, and see what the cell can become. Every outcome shown is worked out exactly; none is simulated.</p>
     </div>
     <div class="lab">
-      <div class="stage" id="stage"><svg id="net" viewBox="0 0 1000 760" role="img" aria-label="Gene regulatory network. Click a gene to knock it out or switch it on."></svg><div class="tip" id="tip"></div></div>
+      <div class="stage" id="stage"><svg id="net" viewBox="0 0 1000 760" role="img" aria-label="Map of the genes. Click a gene to switch it off or on."></svg><div class="tip" id="tip"></div></div>
       <div class="panel" id="labPanel">
-        <div><h3>Model</h3><div class="seg" id="netPick"></div></div>
-        <div><h3>Input</h3><button class="switch" id="damage" type="button" aria-pressed="true"><span><b>DNA damage</b><br><small class="faint" id="damageNote">The cell has been irradiated</small></span><span class="knob"></span></button></div>
-        <div><h3>Perturb (up to two genes)</h3><div class="perts" id="perts"></div><div class="presets" id="presets"></div></div>
-        <div><h3>Stable fates</h3><div class="fates" id="fateCards"></div><p class="readline" id="fateLine" style="margin-top:10px"></p></div>
-        <div><h3>Why</h3><div class="steps" id="steps"></div><div style="display:flex;gap:8px;align-items:center;margin-top:8px"><button class="btn small" id="play" type="button">Play the cascade</button><span class="hint" id="whyNote"></span></div></div>
+        <div><h3>Which model</h3><div class="seg" id="netPick"></div></div>
+        <div><h3>The damage</h3><button class="switch" id="damage" type="button" aria-pressed="true"><span><b>DNA damage</b><br><small class="faint" id="damageNote">The cell has been irradiated</small></span><span class="knob"></span></button></div>
+        <div><h3>Change a gene (up to two)</h3><div class="perts" id="perts"></div><div class="presets" id="presets"></div></div>
+        <div><h3>What the cell can become</h3><div class="fates" id="fateCards"></div><p class="readline" id="fateLine" style="margin-top:10px"></p></div>
+        <div><h3>Why, step by step</h3><div class="steps" id="steps"></div><div style="display:flex;gap:8px;align-items:center;margin-top:8px"><button class="btn small" id="play" type="button">Play it step by step</button><span class="hint" id="whyNote"></span></div></div>
         <p class="check" id="selfcheck"></p>
       </div>
     </div>
@@ -301,8 +330,8 @@
   <div class="wrap">
     <div class="sec-head">
       <div class="eyebrow">The agent</div>
-      <h2 class="h2">Read, propose, verify, repair.</h2>
-      <p class="lede">Language models read well and guess with confidence. Solvers check exactly and cannot read. CellProof gives each the job it is good at and logs every step.</p>
+      <h2 class="h2">Read, write a rule, check, repair.</h2>
+      <p class="lede">AI models read well but guess with confidence. Solvers check exactly but cannot read. CellProof gives each the job it is good at, and records every step.</p>
     </div>
     <div class="flow" id="flow"><div class="pulse"></div></div>
     <div class="detail" id="stepDetail"></div>
@@ -320,7 +349,7 @@
     <div class="sec-head">
       <div class="eyebrow">Case files</div>
       <h2 class="h2">Watch a rule get judged.</h2>
-      <p class="lede">Every edit the agent considered has a file: the papers behind it, the rule it became, the solver's verdict and, when the verdict was no, what the model did next. Pick the first rejected one to see the whole loop.</p>
+      <p class="lede">Every change the AI suggested has a file: the papers behind it, the rule it became, what the checker said and, when the answer was no, how the AI tried to fix it. Pick the first rejected one to watch the whole loop.</p>
     </div>
     <div class="docket-wrap">
       <div class="docket">
@@ -349,7 +378,7 @@
       <h3 id="heatTitle"></h3>
       <p class="muted" id="heatNote" style="max-width:70ch"></p>
       <div class="scroll-x"><div class="heat" id="heat"></div></div>
-      <div class="legend"><span><i style="background:var(--bad)"></i>the network contradicts the case</span><span><i style="background:var(--raised);border:1px solid var(--line)"></i>passes</span></div>
+      <div class="legend"><span><i style="background:var(--bad)"></i>contradicts the test</span><span><i style="background:var(--raised);border:1px solid var(--line)"></i>passes</span></div>
     </div>
 
     <div class="twocol" style="margin-bottom:22px">
@@ -358,7 +387,7 @@
     </div>
 
     <div class="card" style="margin-bottom:22px" id="auditCard">
-      <h3>Audit against outcomes the system never saw</h3>
+      <h3>A final exam: results the AI never read</h3>
       <div id="audit"></div>
     </div>
 
@@ -368,7 +397,7 @@
     </div>
 
     <div class="card chart" id="scalingCard" hidden>
-      <h3>Does the checker scale?</h3>
+      <h3>Does the checker handle bigger models?</h3>
       <div id="scaling"></div>
     </div>
   </div>
@@ -377,7 +406,7 @@
 <section id="tissue" class="band" hidden>
   <div class="wrap">
     <div class="sec-head">
-      <div class="eyebrow">Tissue what-if</div>
+      <div class="eyebrow">Tissue test</div>
       <h2 class="h2">Does the answer hold in a crowd of cells?</h2>
       <p class="lede" id="tissueLede"></p>
     </div>
@@ -404,7 +433,7 @@
     </div>
 
     <div class="card" style="margin-bottom:22px"><h3 id="tailTitle"></h3><p class="muted t-note" id="tailNote"></p><div id="tTail"></div></div>
-    <div class="card" style="margin-bottom:22px"><h3>Every condition</h3><p class="muted t-note" id="tableNote"></p><div class="scroll-x"><table class="tbl" id="tTable"></table></div></div>
+    <div class="card" style="margin-bottom:22px"><h3>Every condition, in a table</h3><p class="muted t-note" id="tableNote"></p><div class="scroll-x"><table class="tbl" id="tTable"></table></div></div>
 
     <div class="card" id="downCard" style="margin-bottom:22px"></div>
 

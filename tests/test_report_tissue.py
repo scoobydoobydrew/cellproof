@@ -88,7 +88,7 @@ def test_the_page_has_the_tissue_section_and_its_script_is_part_of_the_build():
     assert all(f'data-b="{n}"' in body for n in range(1, 9)) and body.count('<button type="button"></button>') == 8 and 'id="playHero"' in body  # eight beats, one bar each
     assert 'id="bTumour"' in body and 'data-scale="tumour"' in body and "makeTumour" in script and "tissueFrames" in script and "drawSamples" in script
     assert 'id="sxBoard"' in body and 'id="sxProfiles"' in body and "The search engine" in script and "Play the demo" in script
-    assert 'id="seqCard"' in body and 'id="genoCard"' in body and "Does the order of the changes matter?" in script and "Do the answers survive a tumour's genotype?" in script
+    assert 'id="seqCard"' in body and 'id="genoCard"' in body and "Does the order of the changes matter?" in script and "Do the answers hold for different tumours?" in script
     assert (WEB / "tissue.js").read_text(encoding="utf-8").startswith("/* Tissue what-if.")
     assert not (WEB / "story.js").exists()
     video = (WEB / "video.js").read_text(encoding="utf-8")
