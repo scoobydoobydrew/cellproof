@@ -174,6 +174,12 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self) -> None:
         if not self._local() or "application/json" not in self.headers.get("Content-Type", ""):
+            try:  # read a small body that will not be used, so that the client sees this answer and not a reset connection (seen on Windows)
+                length = int(self.headers.get("Content-Length", "0"))
+                if 0 < length <= 1 << 20:
+                    self.rfile.read(length)
+            except ValueError:
+                pass
             return self._json(403, {"error": "local JSON requests only"})
         try:
             body = json.loads(self.rfile.read(int(self.headers.get("Content-Length", "0"))) or b"{}")

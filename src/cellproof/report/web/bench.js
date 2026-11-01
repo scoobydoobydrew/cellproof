@@ -62,7 +62,7 @@
   /* ---------------------------------------------------------------- texts */
   const TEXT = {
     en: {
-      "nav.bench": "Demo", "nav.search": "Search", "nav.tech": "Technical", "names.btn": "Real names", "names.short": "Names", "names.tip": "Show the real scientific names of the genes and of the cell fates (only p53 is named by default)", "play.short": "▶ Play the demo", "play.stop": "■ Stop",
+      "nav.bench": "Demo", "nav.papers": "Papers", "nav.search": "Search", "nav.tech": "Technical", "names.btn": "Real names", "names.short": "Names", "names.tip": "Show the real scientific names of the genes and of the cell fates (only p53 is named by default)", "play.short": "▶ Play the demo", "play.stop": "■ Stop",
       "hero.sr": () => "CellProof: radiation breaks DNA and a damaged cell does not always die. The goal is a combination of genes to switch off, or on, that leaves only death. There are far too many combinations to try, and every new paper can change which ones work. An AI reads the papers, an exact solver checks every rule, a virtual tumour tests what is left, and real tumour samples show that every tumour is different. Hypotheses for experiments, not treatments.",
       "hero.sa": () => `<b>AI alone:</b> breaks ${UNCH ? range(...UNCH) : "some"} of ${NCASES || 10} known experiments`,
       "hero.sb": () => "<b>Solver alone:</b> exact, but cannot read the papers",
@@ -169,7 +169,7 @@
       "cap.17": "But every tumour has its own genes. Where p53 is lost, none of the candidates works.",
     },
     el: {
-      "nav.bench": "Demo", "nav.search": "Αναζήτηση", "nav.tech": "Τεχνικά", "names.btn": "Πραγματικά ονόματα", "names.short": "Ονόματα", "names.tip": "Δείξε τα πραγματικά επιστημονικά ονόματα των γονιδίων και των τύπων κυττάρου (μόνο το p53 έχει όνομα από προεπιλογή)", "play.short": "▶ Παίξε το demo", "play.stop": "■ Στοπ",
+      "nav.bench": "Demo", "nav.papers": "Papers", "nav.search": "Αναζήτηση", "nav.tech": "Τεχνικά", "names.btn": "Πραγματικά ονόματα", "names.short": "Ονόματα", "names.tip": "Δείξε τα πραγματικά επιστημονικά ονόματα των γονιδίων και των τύπων κυττάρου (μόνο το p53 έχει όνομα από προεπιλογή)", "play.short": "▶ Παίξε το demo", "play.stop": "■ Στοπ",
       "hero.sr": () => "CellProof: η ακτινοβολία σπάει το DNA και ένα κύτταρο με βλάβη δεν πεθαίνει πάντα. Ο στόχος είναι ένας συνδυασμός γονιδίων να σβήσουν, ή να ανάψουν, ώστε να μείνει μόνο ο θάνατος. Οι συνδυασμοί είναι πάρα πολλοί για να δοκιμαστούν, και κάθε νέο paper μπορεί να αλλάξει ποιοι δουλεύουν. Ένα AI διαβάζει τα papers, ένας ακριβής solver ελέγχει κάθε κανόνα, ένας εικονικός όγκος δοκιμάζει ό,τι μένει, και πραγματικά δείγματα όγκων δείχνουν ότι κάθε όγκος είναι διαφορετικός. Υποθέσεις για πειράματα, όχι θεραπείες.",
       "hero.sa": () => `<b>Μόνο AI:</b> χαλάει ${UNCH ? range(...UNCH) : "μερικά"} από ${NCASES || 10} γνωστά πειράματα`,
       "hero.sb": () => "<b>Μόνο solver:</b> ακριβής, αλλά δεν διαβάζει τα papers",

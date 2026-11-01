@@ -178,6 +178,9 @@ def test_both_languages_have_the_same_texts_and_every_label_in_the_markup_has_on
     search = (WEB / "search.js").read_text(encoding="utf-8").split("CP.add({\n    en: {\n", 1)[1].split("\n  });", 1)[0]  # the search engine adds its own words to the same two languages
     english2, greek2 = search.split("\n    el: {\n")
     assert quoted(english2) == quoted(greek2) and quoted(english2) and not quoted(english2) & quoted(english)
+    papers = (WEB / "papers.js").read_text(encoding="utf-8").split("CP.add({\n    en: {\n", 1)[1].split("\n  });", 1)[0]  # so do the papers
+    english3, greek3 = papers.split("\n    el: {\n")
+    assert quoted(english3) == quoted(greek3) and quoted(english3) and not quoted(english3) & (quoted(english) | quoted(english2))
     markup = (WEB / "body.html").read_text(encoding="utf-8")
     for key in set(re.findall(r'data-i18n(?:-html)?="([^"]+)"', markup)):
-        assert key in quoted(english) | quoted(english2), key
+        assert key in quoted(english) | quoted(english2) | quoted(english3), key

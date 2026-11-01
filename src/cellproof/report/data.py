@@ -8,6 +8,7 @@ import csv
 import glob
 import hashlib
 import json
+import os
 import re
 import subprocess
 import time
@@ -19,7 +20,9 @@ from cellproof.analysis.interventions import READOUT_NODES, fates, minimal_sets,
 from cellproof.analysis.llm_search import candidate_sets
 from cellproof.eval.heldout import load as load_heldout
 from cellproof.eval.heldout import summarize
+from cellproof.formalize.entities import Grounder, Hgnc
 from cellproof.extract.stats import load_records, summarize as summarize_extractions
+from cellproof.ingest.graph import paper_graph
 from cellproof.meta_client import cost_usd
 from cellproof.network.bnet import load_bnet
 from cellproof.network.logic import influence_edges
@@ -513,6 +516,43 @@ def literature_block() -> dict | None:
             "papers": [{k: p[k] for k in ("gene", "pmcid", "wave", "design", "doi", "cite", "title", "context", "verdict", "fate_reported", "only_apoptosis_reported", "quotes", "note")} for p in papers]}
 
 
+def papers_block() -> dict | None:
+    """What each paper the AI found says, as a graph (ingest/graph.py): the claims of both extraction passes, names grounded as in the augmentation, and
+    the verdict of the solver on every link as the augmentation logged it. A paper the AI could not find (a PDF the person drops in) is drawn the
+    same way by `cellproof serve`; those papers are never part of this file."""
+    manifest = _read(ROOT / "data" / "corpus" / "manifest.json")
+    log = _read(ROOT / "results" / "augment_repaired_min1.json")
+    model = ROOT / "data" / "models" / "repaired_min1.bnet"
+    if not (manifest and log and model.exists()):
+        return None
+    passes = {kind: {r["pmcid"]: r for r in load_records(ROOT / "data" / "extractions" / folder)} for kind, folder in (("mechanism", "muse-spark-1.3"), ("stimulus", "muse-spark-1.3-stimulus"))}
+    rules, statuses = load_bnet(model), {r["edge"]: r for r in log}
+    previous = os.environ.get("CELLPROOF_OFFLINE")
+    os.environ["CELLPROOF_OFFLINE"] = "1"  # a build reads the committed HGNC cache and never the network
+    try:
+        grounder = Grounder(Hgnc())
+        papers = []
+        for entry in manifest["papers"]:
+            found = {kind: records.get(entry["pmcid"]) for kind, records in passes.items()}
+            claims = [{**c, "pass": kind} for kind, record in found.items() if record for c in record["grounded"]]
+            counts = {k: sum(r["counts"][k] for r in found.values() if r) for k in ("proposed", "grounded", "ungrounded", "outcome_level")}
+            graph = paper_graph(claims, grounder, rules, statuses)
+            for edge in graph["edges"]:
+                edge["support"] = edge["support"][:2]  # the page shows the first sentences; the log has them all
+            for node in graph["nodes"]:
+                node.pop("naming")
+            papers.append({
+                "id": entry["pmcid"], "title": re.sub(r"<[^>]*>", "", entry["title"]), "year": entry.get("year"), "journal": entry.get("journal"), "doi": entry.get("doi"),
+                "license": entry.get("license"), "counts": counts, "graph": graph,
+            })
+    finally:
+        if previous is None:
+            os.environ.pop("CELLPROOF_OFFLINE", None)
+        else:
+            os.environ["CELLPROOF_OFFLINE"] = previous
+    return {"auto": papers, "model": {"file": model.relative_to(ROOT).as_posix(), "nodes": list(rules)}}
+
+
 def collect() -> dict:
     rules = {k: load_bnet(path) for k, (label, path) in NETWORKS.items() if path.exists()}
     base_edges = {(s, t, sign) for s, t, sign in influence_edges(rules["published"])}
@@ -556,6 +596,7 @@ def collect() -> dict:
         "tissue": tissue_block(),
         "search": search_block(),
         "downstream": downstream_block(),
+        "papers": papers_block(),
         "api": api_usage(),
         "labels": {"sampled": len(label_rows), "labelled": sum(1 for r in label_rows if r["label"].strip())},
     }

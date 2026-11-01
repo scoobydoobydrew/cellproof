@@ -52,7 +52,9 @@ decides; a virtual tumour (a real simulation of 1,663 cells, replayed with and w
 as one dot each, showing that every candidate relies on one gene (p53) and what share of samples have lost it. Straight after the header comes a
 strip of six counts that count up as it scrolls into view (papers read, links proposed, known experiments, changes tried, virtual cells, candidates),
 then the **demo**: a test bench in six clickable steps (a dish of cells, a missing link, ten known experiments, a fix, an audit, the virtual tumour) and a hunt
-for every way to leave only death, with a *Play the demo* button that walks through all of it in about 90 seconds. After the demo comes the **search
+for every way to leave only death, with a *Play the demo* button that walks through all of it in about 90 seconds. After the demo come the **papers**: the 36 the AI found and read on its own, each drawn as a graph of what it says with the solver's verdict on every
+link it can judge, and a second part for a PDF you hand it (a paper it cannot reach), read on your computer by `make serve` (`docs/own_papers.md`);
+then the **search
 engine**: the solver's verdict on all 1,058 sets of one or two changes drawn on one board, for the model cell and for tumour profiles (the front
 page shows the one where p53 is lost; the other four appear with *Real names* on; `docs/search_board.md`), and three short cards on what this is and is not. That is the whole front page. Everything technical (in English: the
 interactive cell with all of its genes, the agent, every rule it judged, the evidence, the tissue, sequence and genotype studies and the limits) is
@@ -109,6 +111,8 @@ make verify    # rebuilds every table from cached model outputs; no API call, no
 make extract   # the only target that spends money: calls the Meta Model API for requests not yet in cache/
 make label     # local page for the two reading tasks only a person can do (M4 labels, D4 quote checks)
 make sequences # exact start-aware and sequence search (tens of minutes on several cores, no network); `make verify` only reads its result
+make serve     # the report from this computer, with a drop zone for your own PDFs (needs MODEL_API_KEY; a paper costs a few cents after you confirm it)
+make ingest PDF=paper.pdf ARGS=--dry-run   # read a PDF of your own from the command line; without ARGS it is sent to Muse Spark
 make board     # the search engine's data: the solver's verdict on all 1,058 sets for the model cell and five tumour profiles (about 20 seconds); `make verify` only reads it
 ```
 
@@ -130,6 +134,8 @@ src/cellproof/
   network/           bnet reader, base network from its supplement, phenotype definitions, Boolean logic
   analysis/          fixed points and attractors, scaling measurements, start-aware and sequential analysis (exact reachability with AEON)
   eval/              held-out set, scoring, report, the click page for M4 and D4
+  ingest/            your own PDFs: text, guard (never an audit paper), claims, solver verdicts, one graph per paper (`docs/own_papers.md`)
+  serve.py           the local server behind the page's drop zone: local only, one paper at a time
   tissue/            PhysiBoSS tissue what-if: network translation, settings, WSL runner, output parser, experiments
   targets/           the solver's sets as targets (HGNC) and ChEMBL measured chemistry
   genotype/          tumour genotypes (TCGA through cBioPortal) as constraints on the model: counts of signatures, what the model says for each

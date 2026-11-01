@@ -97,3 +97,13 @@ about twenty-five seconds cut from the header beats to stay inside three minutes
 That is about 2 minutes 42 seconds; if it comes out longer, cut the countdowns and the pauses. `#intro` (about 100 seconds) is the longer opening, with the same
 backgrounds and the explanation in more steps (a network with signals, a new link, a scan, the simulation's own cells), for a cut of its own.
 Images from elsewhere (stock photos, a reel) are not in the page: put them in the editor only if you hold their licence; the page draws its own.
+
+## If you want the drop of a PDF in the video (optional, about 20 seconds)
+
+It needs the local server, so it is a separate screen recording, not the page of the artifact. Read the paper once beforehand (a few cents):
+`python -m cellproof.cli serve`, open the *Your PDFs* part, drop the PDF, press *Read it*. Then press *remove* on it (the model's replies stay in
+`data/user_papers/cache`, git-ignored) and record: drop the same PDF again. The six steps run in front of the camera, Muse Spark's two answers
+come from the cache in an instant, the solver runs for real, and the graph is drawn line by line, then each line takes the colour of the solver's
+verdict. Nothing is spent twice and there is no live-API risk. Say what it is: "A paper the AI could not find on its own, handed over as a PDF:
+read like the others, and every link it can judge is judged by the solver." Do not drop a paper you may not process, and do not show one that is not
+open access in a public video unless its licence allows it.

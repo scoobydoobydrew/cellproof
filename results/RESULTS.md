@@ -357,6 +357,21 @@ The exact solver's verdict on each of the 1,058 sets of one or two gene changes 
 Not searched, because the genotype alone already leaves only death in the model: PTEN lost (510), RB lost (232), Myc high (198), DNA_PK high + Myc high + WWP1 high + p53_INP1 high (71), E2F1 high (64), PTEN lost + RB lost (44), Myc high + WWP1 high + p53_INP1 high (38).
 
 
+## The papers as graphs (the page's section "The papers")
+
+36 papers, 679 links drawn (a link that two papers state is drawn in each), judged against `data/models/repaired_min1.bnet`, the verdicts as `results/augment_repaired_min1.json` logged them:
+
+| verdict | links |
+|---|---|
+| new link, passes all ten known experiments | 60 |
+| new link, breaks a known experiment | 4 |
+| the model already has it | 55 |
+| the model already has a longer route | 68 |
+| the published model has the opposite sign | 3 |
+| an end is not a node of the model: not judged | 489 |
+
+489 of the 679 links are about genes that the 34-node model does not have: they are drawn and not judged. A paper dropped in by a person is drawn the same way by `cellproof serve` and is never part of these numbers (docs/own_papers.md).
+
 ## From the solver's targets to measured chemistry (ChEMBL)
 
 The solver's 11 minimal sets need 3 knock-outs (PTEN KO, RB KO, TUG1 KO) and 8 sets with a gene switched on. Allowing up to three knock-outs at once adds no set (`tests/test_targets.py`). Every set depends on p53: in a cell with p53 knocked out, 11 of the 11 sets no longer leave only apoptosis (5 have no stable state at all, the others one that matches none of the four fates).

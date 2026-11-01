@@ -19,6 +19,14 @@ This is a research prototype that ranks hypotheses for lab testing. It makes no 
   human cells. Some report experiments similar to the held-out ones in other cell lines.
 - Literature can be inconsistent, incomplete or specific to a cell type; the model has one context.
 
+**Papers you add**
+- A PDF you drop is read from its text layer by `pypdf`; scans, encrypted files and figures are not read, and the reading order of columns
+  and tables can be wrong. Its claims are drawn only if their quote is found word for word in that text. Details: `docs/own_papers.md`.
+- Most links in any paper are about genes that the model does not have (489 of the 679 links drawn, `results/RESULTS.md`). They are drawn grey, "outside the model",
+  and not judged. A dropped paper changes no number of the report; adding its accepted links to a model would, and is not done.
+- The text of a dropped paper is sent to the Meta Model API. Whoever drops it is responsible for being allowed to process it; its PDF, quotes
+  and replies stay in `data/user_papers/` (git-ignored) and are never published.
+
 **The pictures**
 - The tissue simulation holds tumour cells of one kind only. Radiation also reaches the normal tissue around a tumour, and the tolerance of that
   tissue limits the dose (Scaife et al. 2015, Br J Radiol, PMC4628540, CC BY 4.0, cited on the page); no normal tissue is modelled here.

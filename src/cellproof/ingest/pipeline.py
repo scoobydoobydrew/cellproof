@@ -79,7 +79,7 @@ def list_papers(root: Path = USER_ROOT) -> list[dict]:
     out = []
     for path in sorted((root / "papers").glob("*/record.json")) if (root / "papers").exists() else []:
         record = json.loads(path.read_text(encoding="utf-8"))
-        out.append({k: record[k] for k in ("id", "title", "filename", "doi", "added", "pages", "chars", "counts", "cost_usd")})
+        out.append({**{k: record[k] for k in ("id", "title", "filename", "doi", "added", "pages", "chars", "counts", "cost_usd")}, "verdicts": record["graph"]["counts"]})
     return sorted(out, key=lambda r: r["added"], reverse=True)
 
 

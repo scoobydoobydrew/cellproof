@@ -2,7 +2,7 @@
   <div class="wrap">
     <a class="brand" href="#top">CellProof <small>hackathon build</small></a>
     <nav aria-label="Sections">
-      <a href="#bench" data-i18n="nav.bench">Demo</a><a href="#search" data-i18n="nav.search">Search</a><a href="#tech" data-i18n="nav.tech">Technical</a>
+      <a href="#bench" data-i18n="nav.bench">Demo</a><a href="#papers" data-i18n="nav.papers">Papers</a><a href="#search" data-i18n="nav.search">Search</a><a href="#tech" data-i18n="nav.tech">Technical</a>
     </nav>
     <button class="names-btn" id="namesBtn" type="button" aria-pressed="false"><i aria-hidden="true"></i><span class="nb-long" data-i18n="names.btn">Real names</span><span class="nb-short" data-i18n="names.short">Names</span></button>
     <button class="btn small" id="playTop" type="button" data-i18n="play.short">▶ Play</button>
@@ -157,6 +157,58 @@
         <div class="b-panel" id="bPanel"></div>
         <div class="b-rack" id="bRack" hidden></div>
         <div id="bDetail"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="papers" class="band papers" aria-label="Papers">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow" data-i18n="pp.eyebrow">The papers</div>
+      <h2 class="h2" data-i18n-html="pp.h2">The AI reads papers. <em>You can hand it more.</em></h2>
+      <p class="lede" data-i18n="pp.lede">Part one: the papers the AI found and read on its own. Part two: a PDF you give it, for a paper it cannot reach. Each paper becomes a graph of what it says, and the solver judges every link it can.</p>
+    </div>
+    <div class="pp" id="pp" data-part="auto">
+      <div class="pp-tabs" role="tablist" aria-label="Where the papers come from">
+        <button class="pp-tab" id="ppTabAuto" type="button" role="tab" aria-selected="true" data-part="auto">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
+          <span><b data-i18n="pp.auto">Found by the AI</b><small id="ppAutoN"></small></span>
+        </button>
+        <button class="pp-tab" id="ppTabOwn" type="button" role="tab" aria-selected="false" data-part="own">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M12 17v-6M9.5 13.5L12 11l2.5 2.5"/></svg>
+          <span><b data-i18n="pp.own">Your PDFs</b><small id="ppOwnN"></small></span>
+        </button>
+      </div>
+      <div class="pp-main">
+        <aside class="pp-side">
+          <div class="pp-own" id="ppOwn" hidden>
+            <div class="pp-drop" id="ppDrop" tabindex="0" role="button" aria-label="Drop a PDF here, or press to choose one" hidden>
+              <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M13 5h16l8 8v30H13z"/><path d="M29 5v8h8"/><path d="M24 36V22M18 28l6-6 6 6"/></svg>
+              <b data-i18n="pp.drop">Drop a PDF here</b>
+              <small data-i18n="pp.dropsub">or click to choose one</small>
+              <input id="ppFile" type="file" accept="application/pdf,.pdf" hidden>
+            </div>
+            <div class="pp-offline" id="ppOffline" hidden>
+              <b data-i18n="pp.off.h">Some papers sit behind a login.</b>
+              <p data-i18n="pp.off.p">If you have access, you can hand the PDF to the AI: it is read like the others, the solver judges its links, and its graph appears here. That part runs on your computer, because a web page has no key and no solver.</p>
+              <div class="pp-cmd"><code id="ppCmd">python -m cellproof.cli serve</code><button class="btn small" id="ppCopy" type="button" data-i18n="pp.copy">Copy</button></div>
+              <div class="pp-flow" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            </div>
+            <div class="pp-job" id="ppJob" hidden aria-live="polite"></div>
+            <p class="pp-privacy" id="ppPrivacy" data-i18n="pp.privacy" hidden>Only drop papers you may process. Its text goes to the Meta Model API to be read; the PDF and everything read from it stay on this computer.</p>
+            <p class="pp-base" id="ppBase" hidden></p>
+          </div>
+          <ol class="pp-list" id="ppList"></ol>
+        </aside>
+        <div class="pp-stage" id="ppStage">
+          <p class="pp-example" id="ppExample" hidden></p>
+          <header class="pp-head"><h3 id="ppTitle"></h3><p id="ppMeta"></p></header>
+          <div class="pp-reader" id="ppReader" aria-hidden="true"></div>
+          <div class="pp-graph"><svg id="ppSvg" viewBox="0 0 760 500" role="img" aria-label="A graph: each gene or molecule of the paper is a dot, each claim a line, coloured by what the solver said."></svg></div>
+          <div class="pp-legend" id="ppLegend" role="group" aria-label="Verdicts"></div>
+          <div class="pp-detail" id="ppDetail" aria-live="polite"></div>
+        </div>
       </div>
     </div>
   </div>

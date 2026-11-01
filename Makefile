@@ -1,6 +1,6 @@
 PY ?= python
 
-.PHONY: test smoke verify extract label tissue targets compounds sequences board
+.PHONY: test smoke verify extract label tissue targets compounds sequences board serve ingest
 
 # The two reading tasks only a person can do (M4 labels, D4 quote checks): a local page, every click saved at once.
 label:
@@ -41,3 +41,11 @@ sequences:
 # The search board the page draws (docs/search_board.md): the solver's verdict on every set of one or two changes, per tumour profile (about a minute).
 board:
 	$(PY) -m cellproof.cli board
+
+# The report from this computer with a drop zone for your own PDFs (docs/own_papers.md). Reading a paper spends a few cents after you confirm it; nothing is committed.
+serve:
+	$(PY) -m cellproof.cli serve
+
+# The same from the command line: make ingest PDF=paper.pdf (add ARGS=--dry-run to only read it and see the cost).
+ingest:
+	$(PY) -m cellproof.cli ingest $(PDF) $(ARGS)
