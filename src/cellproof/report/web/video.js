@@ -42,8 +42,10 @@
     full: [[0, "Biology is drowning in <em>noise.</em>"], [3.5, "A flood of papers. Endless experiments. <em>Countless</em> combinations."], [8.5, "Trial and error is not enough."],
       [12.5, "There is a feeling you get when you believe in something <em>before anyone else does.</em>"], [18.5, "Before there is <em>proof.</em>"],
       [22, "We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week."], [29.5, "And yet, here we are."],
-      [33, "CellProof does not guess. It <em>checks.</em>"], [37, "An exact solver tries every combination in seconds, and rejects what is wrong."],
-      [42.5, "What is left is tested on a virtual tumour."], [47, "We did not find a cure for cancer. We built a way to ask <em>how</em>, exactly."]],
+      [33, "A cell is a <em>circuit.</em> Genes switch each other on and off."], [37.5, `${genes} genes, each on or off: a logic circuit that can be checked.`],
+      [42, "But the circuit is incomplete. The papers know links that it is missing."], [47, "An AI can read the papers. It cannot tell whether a new link <em>breaks</em> the circuit."],
+      [52.5, "An exact solver can check the circuit. It cannot <em>read.</em>"], [57.5, "CellProof joins them. The AI proposes. The solver <em>decides.</em>"],
+      [62.5, "What is left is tested on a virtual tumour."], [67, "We did not find a cure for cancer. We built a way to ask <em>how</em>, exactly."]],
     short: [[0, "There is a feeling you get when you believe in something <em>before anyone else does.</em>"], [6, "Before there is <em>proof.</em>"],
       [9.5, "We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week."], [17.5, "And yet, here we are."]],
     tag: "From shared uncertainty to solitary conviction.",
@@ -53,8 +55,10 @@
     full: [[0, "Η βιολογία πνίγεται στον <em>θόρυβο.</em>"], [3.5, "Χείμαρρος άρθρων. Ατελείωτα πειράματα. <em>Αμέτρητοι</em> συνδυασμοί."], [8.5, "Η δοκιμή και το λάθος δεν αρκούν."],
       [12.5, "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι <em>πριν από κάθε άλλον.</em>"], [18.5, "Πριν υπάρξει <em>απόδειξη.</em>"],
       [22, "Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα."], [29.5, "Κι όμως, είμαστε εδώ."],
-      [33, "Το CellProof δεν μαντεύει. <em>Ελέγχει.</em>"], [37, "Ένας ακριβής solver δοκιμάζει κάθε συνδυασμό σε δευτερόλεπτα και απορρίπτει ό,τι είναι λάθος."],
-      [42.5, "Ό,τι μένει δοκιμάζεται σε έναν εικονικό όγκο."], [47, "Δεν βρήκαμε τη θεραπεία του καρκίνου. Φτιάξαμε έναν τρόπο να ρωτάμε <em>πώς</em>, με ακρίβεια."]],
+      [33, "Ένα κύτταρο είναι ένα <em>κύκλωμα.</em> Τα γονίδια ανάβουν και σβήνουν το ένα το άλλο."], [37.5, `${genes} γονίδια, το καθένα αναμμένο ή σβηστό: ένα λογικό κύκλωμα που μπορεί να ελεγχθεί.`],
+      [42, "Αλλά το κύκλωμα είναι ελλιπές. Τα papers ξέρουν συνδέσεις που του λείπουν."], [47, "Ένα AI μπορεί να διαβάσει τα papers. Δεν ξέρει αν μια νέα σύνδεση <em>χαλάει</em> το κύκλωμα."],
+      [52.5, "Ένας ακριβής solver μπορεί να ελέγξει το κύκλωμα. Δεν μπορεί να <em>διαβάσει.</em>"], [57.5, "Το CellProof τους ενώνει. Το AI προτείνει. Ο solver <em>αποφασίζει.</em>"],
+      [62.5, "Ό,τι μένει δοκιμάζεται σε έναν εικονικό όγκο."], [67, "Δεν βρήκαμε τη θεραπεία του καρκίνου. Φτιάξαμε έναν τρόπο να ρωτάμε <em>πώς</em>, με ακρίβεια."]],
     short: [[0, "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι <em>πριν από κάθε άλλον.</em>"], [6, "Πριν υπάρξει <em>απόδειξη.</em>"],
       [9.5, "Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα."], [17.5, "Κι όμως, είμαστε εδώ."]],
     tag: "From shared uncertainty to solitary conviction.",
@@ -62,13 +66,20 @@
   };
   const lines = document.createElement("div"), fl = document.createElement("div");
   lines.className = "vid-lines"; fl.className = "vid-flash"; document.body.append(lines, fl);
-  const showLine = (html, big) => { lines.innerHTML = html ? `<p class="${big ? "big" : ""}">${html}</p>` : ""; };
-  const flash = () => { fl.classList.remove("go"); void fl.offsetWidth; fl.classList.add("go"); };
+  let cutId = 0;
+  const flash = (dark) => { fl.classList.toggle("dark", !!dark); fl.classList.remove("go"); void fl.offsetWidth; fl.classList.add("go"); };
+  const showLine = (html, big, warn) => {
+    clearTimeout(cutId); lines.innerHTML = ""; lines.classList.toggle("warn", !!warn);
+    if (!html) return;
+    const mol = $("#heroMol"); mol.classList.remove("jolt"); void mol.offsetWidth; if (!reduced) mol.classList.add("jolt");
+    if (!big) flash(true);
+    cutId = setTimeout(() => { lines.innerHTML = `<p class="${big ? "big" : ""}">${html}</p>`; }, reduced ? 0 : 140);  /* a black frame between two lines */
+  };
   const introPlan = (short) => {
     const set = CP.lang() === "el" ? EL : EN, src = short ? set.short : set.full, tail = src[src.length - 1][0] + 5;
     return [[0, () => { scrollTo("#top"); CPHero.pin(true); CPHero.show(0); root.classList.add("vid-intro", "vid-zoom"); }],
-      ...src.map(([t, html]) => [t, () => showLine(html)]),
-      [tail, () => { flash(); showLine(`CellProof<small>${set.tag}</small>`, true); say(set.cap); }]];
+      ...src.map(([t, html], i) => [t, () => showLine(html, false, !short && i < 3)]),
+      [tail, () => { flash(); lines.classList.remove("warn"); showLine(`CellProof<small>${set.tag}</small>`, true); say(set.cap); }]];
   };
   const end = take[take.length - 1][0] + 5;  /* the last ten seconds of the video are the terminal, recorded apart */
 
