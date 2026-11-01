@@ -831,3 +831,18 @@ html.vid-zoom #heroMol.jolt { animation: vidJolt .6s ease-out; }
 .vid-lines p.term { max-width: 19em; font-size: clamp(26px, 3.4vw, 54px); line-height: 1.25; }
 .vid-lines p.term b { display: block; margin-bottom: .25em; font: italic 400 clamp(54px, 8.6vw, 130px)/1 var(--display); color: #ffc9a0; }
 .vid-lines.art, .vid-lines.art.warn { background: radial-gradient(ellipse at center, rgba(8, 8, 20, 0), rgba(8, 8, 20, .5)); }
+
+/* what CellProof does, in four lines under its name at the end of the short opening */
+.vid-lines .cardbox { display: grid; justify-items: center; gap: 18px; }
+.vid-lines p.compact { font-size: clamp(54px, 8vw, 118px); }
+.vid-lines ol.what { list-style: none; counter-reset: w; margin: 6px 0 0; padding: 0; display: grid; gap: 12px; max-width: 34em; }
+.vid-lines ol.what li { counter-increment: w; display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; text-align: left; font: 500 clamp(18px, 1.9vw, 29px)/1.3 var(--sans); color: rgba(255, 255, 255, .96); opacity: 0; animation: vidIn .9s ease forwards; text-shadow: 0 2px 20px rgba(0, 0, 0, .75); }
+.vid-lines ol.what li::before { content: counter(w); display: grid; place-items: center; width: 1.7em; height: 1.7em; border-radius: 50%; font-size: .85em; font-weight: 700; color: #1c1b30; background: #ffc9a0; }
+.vid-lines ol.what li:nth-child(1) { animation-delay: 2s; } .vid-lines ol.what li:nth-child(2) { animation-delay: 4.4s; } .vid-lines ol.what li:nth-child(3) { animation-delay: 6.8s; } .vid-lines ol.what li:nth-child(4) { animation-delay: 9.2s; }
+@media (prefers-reduced-motion: reduce) { .vid-lines ol.what li { animation: none; opacity: 1; } }
+/* the card must clear the caption under it, also on a short screen */
+.vid-lines:has(.cardbox) { padding-block: 2vh 21vh; }
+.vid-lines p.compact { font-size: clamp(46px, 6.2vw, 94px); }
+.vid-lines ol.what { gap: 9px; }
+.vid-lines ol.what li { font-size: clamp(16px, 1.65vw, 26px); }
+.vid-lines .cardbox { gap: 10px; }

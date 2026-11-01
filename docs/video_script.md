@@ -78,3 +78,20 @@ solver" and "a virtual tumour", it states the limit ("We did not find a cure for
 Put your own royalty-free music under it in the editor (with a licence; nothing from a reel or a stock library without rights).
 For the three-minute video, record `#intro-short`, then the take (`#video`), then the terminal, then the card (`#card`): the take then needs
 about twenty-five seconds cut from the header beats to stay inside three minutes.
+
+## The order for the three minutes (with the opening that explains the project)
+
+1. `#intro-short`, about 55 seconds. Each idea has a background drawn by the page, in the manner of a glowing render: a crowd and one point that
+   stays, a luminous helix in a nebula for the term *solitary conviction* and its definition, a trail into the dark, seven days that fill, a leap
+   from IMPOSSIBLE to POSSIBLE, and at the end the name over a network of lit cells with what CellProof does in four lines (a cell is a circuit of
+   genes; an AI reads the papers and proposes what the circuit is missing; an exact solver checks every proposal; what survives is tested on a
+   virtual tumour and asked again for tumours with different genes), and the caption of what pre-existed and what was built this week.
+2. `#video-short`, about 1 minute 50 seconds: it starts on the virtual tumour (about 10 s), then the tumour samples (about 10 s), then the demo at
+   1.6 times, the search engine with the p53 and WIP1 profiles, and the limits. Say the sentences of the rows *A virtual tumour*, *Every tumour
+   has its own genes*, the demo, the search engine and the limits of the table above; skip the first beats, the opening has said them.
+3. The terminal, 10 to 12 seconds: `make verify`.
+4. `#card`, 4 seconds.
+
+That is about 3 minutes; if it comes out longer, cut the countdowns and the pauses. `#intro` (about 100 seconds) is the longer opening, with the same
+backgrounds and the explanation in more steps (a network with signals, a new link, a scan, the simulation's own cells), for a cut of its own.
+Images from elsewhere (stock photos, a reel) are not in the page: put them in the editor only if you hold their licence; the page draws its own.
