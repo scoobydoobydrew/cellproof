@@ -16,11 +16,15 @@ Licenses below were read from each package's installed metadata on 2026-10-29.
 | biodivine_aeon | 1.4.2 | MIT | https://pypi.org/project/biodivine-aeon/ | Boolean network symbolic analysis |
 | pyboolnet | 3.0.16 | LGPL (trove classifier) | https://github.com/hklarner/pyboolnet | Trap spaces, model checking |
 | openpyxl | 3.1.5 | MIT | https://openpyxl.readthedocs.org | Reads Supplementary Table S2 of the base network paper |
+| pypdf | 6.21.4 | BSD-3-Clause | https://github.com/py-pdf/pypdf | Reads the text of a PDF the user drops in (`cellproof ingest`, `cellproof serve`); pure Python |
 | pytest | 9.2.0 | MIT | https://github.com/pytest-dev/pytest | Tests (dev only) |
 
 ## Services
 
 - Meta Model API (`https://api.meta.ai/v1`), Standard model IDs only (never `-contributor`).
+  Papers the user drops in as PDFs are read by the same calls; only their text is sent, and their PDFs, quotes and the replies stay in
+  `data/user_papers/` (git-ignored, never committed or published). Whoever drops a paper is responsible for being allowed to process it
+  (publisher terms of an institutional licence may forbid sending the text to a third-party service).
 
 ## Data and models
 

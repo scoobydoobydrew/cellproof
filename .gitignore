@@ -10,3 +10,6 @@ results/.cache/
 
 # Tissue simulation: PhysiBoSS runs happen in WSL; only the small parsed results are committed.
 results/tissue/staging/
+
+# Papers the user drops in (PDFs, quotes, the model's replies): they may not be open access, so they never leave this computer.
+data/user_papers/

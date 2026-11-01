@@ -510,6 +510,44 @@ def tissue(
 
 
 @app.command()
+def ingest(
+    pdf: Path = typer.Argument(..., exists=True, dir_okay=False, help="A paper as a PDF: one the AI could not find on its own."),
+    dry_run: bool = typer.Option(False, help="Read the PDF, run the guard and print the cost; call nothing."),
+    model: str = typer.Option(DEFAULT_MODEL, help="Standard model id."),
+) -> None:
+    """Read a PDF of your own the way the corpus is read: extract the mechanisms, name the genes, let the exact solver judge each
+    link. Spends money (a few cents) unless the same PDF was read before. Everything stays in data/user_papers (git-ignored)."""
+    from cellproof.ingest.pdf import PdfError
+    from cellproof.ingest.pipeline import STEPS, Refused, ingest as run_ingest, plan
+
+    data = pdf.read_bytes()
+    try:
+        info = plan(data, pdf.name)
+    except PdfError as error:
+        raise typer.Exit(f"cannot read {pdf.name}: {error}")
+    typer.echo(f"{info['title']}\n  {info['pages']} pages, {info['chars']:,} characters, doi {info['doi'] or 'not found'}; about ${info['estimate_usd']} for both passes (measured on the corpus)")
+    for note in info["warnings"]:
+        typer.echo(f"  note: {note}")
+    if info["guard"]["kind"] != "ok":
+        raise typer.Exit(info["guard"]["reason"])
+    if dry_run:
+        typer.echo("dry run: nothing was sent.")
+        return
+
+    def show(step: str, state: str, detail: dict) -> None:
+        if state == "done" and step in STEPS:
+            typer.echo(f"  {step:<10} {json.dumps(detail, ensure_ascii=False)[:150]}")
+
+    try:
+        record = run_ingest(data, pdf.name, model=model, progress=show)
+    except Refused as refused:
+        raise typer.Exit(refused.verdict.reason)
+    counts = record["graph"]["counts"]
+    typer.echo(f"{record['id']}: {record['counts']['grounded']} claims, {record['counts']['links']} links, verdicts {json.dumps(counts)}; spent ${record['cost_usd']}")
+    typer.echo(f"kept in data/user_papers/papers/{record['id']}/ (git-ignored). `cellproof serve` shows it as a graph.")
+
+
+@app.command()
 def label(
     port: int = typer.Option(8765, help="Local port; 0 picks a free one."),
     browser: bool = typer.Option(True, "--browser/--no-browser", help="Open the page in the default browser."),
