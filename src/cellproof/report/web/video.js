@@ -12,7 +12,10 @@
   const bar = document.createElement("div"), cap = document.createElement("div"), count = document.createElement("div");
   bar.className = "vid-bar"; cap.className = "vid-cap"; count.className = "vid-count";
   bar.innerHTML = '<button type="button" class="btn primary" id="vidGo">● Start the take (Space)</button><span>Start your screen recorder first. Esc stops. Keep the pointer off the window.</span>';
-  document.body.append(bar, cap, count);
+  /* #card: a closing card, a still to record for the last seconds of the video */
+  const card = document.createElement("div");
+  card.className = "vid-card"; card.innerHTML = "<b>CellProof</b><span>LLM-proposed rules, solver-verified.</span><small>github.com/scoobydoobydrew/meta_ai_hackathon</small>";
+  document.body.append(bar, cap, count, card);
   const say = (text, top) => { cap.textContent = text || ""; cap.classList.toggle("show", !!text); cap.classList.toggle("top", !!top); };
   const click = (sel, i) => { const el = $$(sel)[i]; if (el) el.click(); };
   const scrollTo = (sel, gap = 0) => window.scrollTo({ top: $(sel).getBoundingClientRect().top + scrollY - gap, behavior: "smooth" });  /* `gap`: room kept above for a caption */
@@ -22,7 +25,7 @@
   /* seconds from the start of the take; the beats are the header's own, in the order of the script */
   const take = [
     [0, () => { scrollTo("#top"); CPHero.pin(true); CPHero.show(0); say(`Before this week: a published ${genes}-gene model of the DNA damage response, open papers, open-source solvers. Built this week: an agent where Muse Spark reads the papers and an exact solver decides.`); }],
-    [13, () => say("")], [14, beat(1)], [20, beat(2)], [27, beat(4)], [36, beat(3)], [46, beat(5)], [56, beat(6)], [66, beat(7)],
+    [13, () => say("")], [14, beat(1)], [20, beat(2)], [27, beat(3)], [36, beat(4)], [46, beat(5)], [56, beat(6)], [66, beat(7)],
     [demoStart, () => { CPHero.pin(false); CPBench.play(SPEED); }],
     ...(SB ? [
       [demoEnd, () => { say(`The solver's whole search on one board: ${offered(P[0])} sets of one or two changes, ${P[0].found.length} kept.`, true); scrollTo("#sx", 130); }],
@@ -53,6 +56,6 @@
     else if (e.code === "Space" && location.hash === "#video" && !root.classList.contains("vid") &&!/^(BUTTON|INPUT|TEXTAREA|A)$/.test(document.activeElement.tagName)) { e.preventDefault(); start(); }
   });
   /* the buttons exist only in the recording mode: #video in the address */
-  const sync = () => { const on = location.hash === "#video"; bar.hidden = !on || root.classList.contains("vid"); if (!on && root.classList.contains("vid")) stopTake(); };
+  const sync = () => { card.hidden = location.hash !== "#card"; const on = location.hash === "#video"; bar.hidden = !on || root.classList.contains("vid"); if (!on && root.classList.contains("vid")) stopTake(); };
   addEventListener("hashchange", sync); sync();
 })();

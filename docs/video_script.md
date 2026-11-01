@@ -16,7 +16,7 @@ from the same data, so read the numbers off the page, do not trust this file.
 4. The take is deterministic: if you stumble over a sentence, record the whole take again. Read the script below at a calm pace; the
    gaps between shots are the pauses.
 
-Captions stay on screen at the opening, in the search engine and at the limits, for anyone who watches without sound. The rest of the
+Each beat from the second on opens with a question on screen ("So, what do we do?", "So how do we choose between them all?"); say it or let the headline answer it. A still closing card is at `report.html#card`: record it for the last four seconds after the terminal. Captions stay on screen at the opening, in the search engine and at the limits, for anyone who watches without sound. The rest of the
 words are the page's own.
 
 ## The take (seconds counted from the end of the countdown)
@@ -26,8 +26,8 @@ words are the page's own.
 | 0:00 | DNA and a ray; the caption states what pre-existed and what was built | "Before this week: a published thirty-gene model of how a cell responds to DNA damage, open papers, and open-source solvers. Built this week: an agent where Muse Spark reads papers and proposes rules, and an exact solver decides." |
 | 0:14 | *Not every damaged cell dies* | "After radiation a cell can pause, age, recycle itself, or die." |
 | 0:20 | *Flip the right genes, and every cell dies* | "The goal: switch a few genes, off or on, so that only death is left." |
-| 0:27 | *The search explodes* (the counter runs to over a million) | "But every combination is a lab experiment. For one or two genes there are about a thousand. For five at once, over a million." |
-| 0:36 | *New rules change which genes to flip* | "And papers keep adding rules. Eleven new rules from thirty-six papers, unchecked, replaced every combination that worked." |
+| 0:27 | *New rules change which genes to flip* | "And when a new paper comes out? Papers keep adding rules. Eleven new rules from thirty-six papers, unchecked, replaced every combination that worked." |
+| 0:36 | *The search explodes* (the counter runs to over a million) | "How many combinations is that? Every one is a lab experiment. For one or two genes there are about a thousand. For five at once, over a million." |
 | 0:46 | *The AI proposes. The solver decides.* | "So the AI proposes and the solver decides. Alone, the AI breaks seven or eight known experiments. Together, none." |
 | 0:56 | *A virtual tumour* | "A virtual tumour: a real simulation of sixteen hundred cells. Radiation alone leaves a hundred and seven alive. With one of the solver's candidates, none." |
 | 1:06 | *Every tumour has its own genes* | "Every tumour has its own genes. For nearly ten thousand real samples, p53 is lost in fourteen to thirty-nine of every hundred, depending on how we count, and then none of our candidates works. That is about the model, not about any person." |

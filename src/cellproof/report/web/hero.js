@@ -558,8 +558,8 @@ function makeStory(cv, opt = {}) {
     const items = [[SAM_COLOR[0], L.k0], [SAM_COLOR[1], L.k1], [SAM_COLOR[2], L.k2]], widths = items.map(([, s]) => ctx.measureText(s).width + 20), total = widths.reduce((s, w) => s + w, 0) + 18 * (items.length - 1), row = total <= area.w;
     const below = row ? fs * 2 + 38 : (fs + 8) * 3 + fs + 22;  /* the key under the dots, and a line saying which way of counting p53 is on */
     /* on a phone this canvas is the strip under the words, so the dots and their key fill all of it */
-    const step = Math.min(area.w / SAM_COLS, (lite ? H - below - pad * 2 - 32 : area.h * 0.8) / ROWS), gw = SAM_COLS * step, gh = ROWS * step;
-    const x0 = area.cx - gw / 2, y0 = lite ? pad + 28 : area.cy - gh / 2 - 18, rad = Math.max(0.9, step * 0.4), reveal = clamp01((t - 150) / 1500), tint = smooth((t - SAM_TINT) / 800), q = smooth((t - SAM_SWITCH) / 1100);
+    const step = Math.min(area.w / SAM_COLS, (lite ? H - below - pad * 2 - 48 : area.h * 0.8) / ROWS), gw = SAM_COLS * step, gh = ROWS * step;
+    const x0 = area.cx - gw / 2, y0 = lite ? pad + 44 : area.cy - gh / 2 - 18, rad = Math.max(0.9, step * 0.4), reveal = clamp01((t - 150) / 1500), tint = smooth((t - SAM_TINT) / 800), q = smooth((t - SAM_SWITCH) / 1100);
     const lost = lerp(SAM.r1.lost, SAM.r2.lost, q), none = lerp(SAM.r1.none, SAM.r2.none, q);
     /* a dark panel behind the dots and their key, so that the small words stay readable over the DNA */
     ctx.globalAlpha = a * smooth(t / 400); ctx.beginPath(); if (ctx.roundRect) ctx.roundRect(x0 - pad, y0 - pad, gw + pad * 2, gh + pad * 2 + below - 14, 14); else ctx.rect(x0 - pad, y0 - pad, gw + pad * 2, gh + pad * 2 + below - 14);
