@@ -35,56 +35,104 @@
     ] : []),
   ];
 
-  /* ---- the opening: the page's own DNA, slowly closer, and a line of words at a time. #intro is about a minute (for a cut of its own),
-     #intro-short about half of that (for the start of the three minutes). Nothing here states a result; it ends on the sentence that says what
-     pre-existed and what was built this week. */
+  /* ---- the opening: a background of its own for each idea, drawn here (nothing is a picture of data), one line of words at a time, slower than the
+     take. #intro-short is about 40 seconds (for the start of the three minutes), #intro about 100 (a cut of its own, which also explains the idea).
+     Nothing here states a result; it ends on the sentence that says what pre-existed and what was built this week. */
+  const TERM_EN = "<b>Solitary conviction</b>A state where you believe in something without having evidence that it would work.";
+  const TERM_EL = "<b>Solitary conviction</b>Η κατάσταση όπου πιστεύεις σε κάτι χωρίς να έχεις απόδειξη ότι θα δουλέψει.";
   const EN = {
-    full: [[0, "Biology is drowning in <em>noise.</em>"], [3.5, "A flood of papers. Endless experiments. <em>Countless</em> combinations."], [8.5, "Trial and error is not enough."],
-      [12.5, "There is a feeling you get when you believe in something <em>before anyone else does.</em>"], [18.5, "Before there is <em>proof.</em>"],
-      [22, "We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week."], [29.5, "And yet, here we are."],
-      [33, "A cell is a <em>circuit.</em> Genes switch each other on and off."], [37.5, `${genes} genes, each on or off: a logic circuit that can be checked.`],
-      [42, "But the circuit is incomplete. The papers know links that it is missing."], [47, "An AI can read the papers. It cannot tell whether a new link <em>breaks</em> the circuit."],
-      [52.5, "An exact solver can check the circuit. It cannot <em>read.</em>"], [57.5, "CellProof joins them. The AI proposes. The solver <em>decides.</em>"],
-      [62.5, "What is left is tested on a virtual tumour."], [67, "We did not find a cure for cancer. We built a way to ask <em>how</em>, exactly."]],
-    short: [[0, "There is a feeling you get when you believe in something <em>before anyone else does.</em>"], [6, "Before there is <em>proof.</em>"],
-      [9.5, "We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week."], [17.5, "And yet, here we are."]],
+    short: [[0, "There is a feeling you get when you believe in something <em>before anyone else does.</em>", "crowd"], [7.5, TERM_EN, "crowd", "term"], [16, "Before there is <em>proof.</em>", "trail"],
+      [21, "We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week.", "week"], [30, "And yet, here we are.", "here"]],
+    full: [[0, "Biology is drowning in <em>noise.</em>", "noise"], [4.5, "A flood of papers. Endless experiments. Too many gene switches to <em>ever try them all.</em>", "noise"], [10.5, "Trial and error is not enough.", "noise"],
+      [15.5, "There is a feeling you get when you believe in something <em>before anyone else does.</em>", "crowd"], [23, TERM_EN, "crowd", "term"], [31, "Before there is <em>proof.</em>", "trail"],
+      [36, "We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week.", "week"], [45, "And yet, here we are.", "here"],
+      [50.5, "A cell is a <em>circuit.</em> Genes switch each other on and off."], [55.5, `${genes} genes, each on or off: a logic circuit that can be checked.`],
+      [60.5, "But the circuit is incomplete. The papers know links that it is missing."], [66, "An AI can read the papers. It cannot tell whether a new link <em>breaks</em> the circuit."],
+      [72, "An exact solver can check the circuit. It cannot <em>read.</em>"], [77.5, "CellProof joins them. The AI proposes. The solver <em>decides.</em>"],
+      [83, "What is left is tested on a virtual tumour."], [88, "We did not find a cure for cancer. We built a way to ask <em>how</em>, exactly."]],
     tag: "From shared uncertainty to solitary conviction.",
     cap: `Before this week: a published ${genes}-gene model, open papers, open-source solvers. This week: an agent where Muse Spark reads the papers and an exact solver decides. Hypotheses for the lab, not treatments.`,
   };
   const EL = {
-    full: [[0, "Η βιολογία πνίγεται στον <em>θόρυβο.</em>"], [3.5, "Χείμαρρος άρθρων. Ατελείωτα πειράματα. <em>Αμέτρητοι</em> συνδυασμοί."], [8.5, "Η δοκιμή και το λάθος δεν αρκούν."],
-      [12.5, "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι <em>πριν από κάθε άλλον.</em>"], [18.5, "Πριν υπάρξει <em>απόδειξη.</em>"],
-      [22, "Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα."], [29.5, "Κι όμως, είμαστε εδώ."],
-      [33, "Ένα κύτταρο είναι ένα <em>κύκλωμα.</em> Τα γονίδια ανάβουν και σβήνουν το ένα το άλλο."], [37.5, `${genes} γονίδια, το καθένα αναμμένο ή σβηστό: ένα λογικό κύκλωμα που μπορεί να ελεγχθεί.`],
-      [42, "Αλλά το κύκλωμα είναι ελλιπές. Τα papers ξέρουν συνδέσεις που του λείπουν."], [47, "Ένα AI μπορεί να διαβάσει τα papers. Δεν ξέρει αν μια νέα σύνδεση <em>χαλάει</em> το κύκλωμα."],
-      [52.5, "Ένας ακριβής solver μπορεί να ελέγξει το κύκλωμα. Δεν μπορεί να <em>διαβάσει.</em>"], [57.5, "Το CellProof τους ενώνει. Το AI προτείνει. Ο solver <em>αποφασίζει.</em>"],
-      [62.5, "Ό,τι μένει δοκιμάζεται σε έναν εικονικό όγκο."], [67, "Δεν βρήκαμε τη θεραπεία του καρκίνου. Φτιάξαμε έναν τρόπο να ρωτάμε <em>πώς</em>, με ακρίβεια."]],
-    short: [[0, "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι <em>πριν από κάθε άλλον.</em>"], [6, "Πριν υπάρξει <em>απόδειξη.</em>"],
-      [9.5, "Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα."], [17.5, "Κι όμως, είμαστε εδώ."]],
+    short: [[0, "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι <em>πριν από κάθε άλλον.</em>", "crowd"], [7.5, TERM_EL, "crowd", "term"], [16, "Πριν υπάρξει <em>απόδειξη.</em>", "trail"],
+      [21, "Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα.", "week"], [30, "Κι όμως, είμαστε εδώ.", "here"]],
+    full: [[0, "Η βιολογία πνίγεται στον <em>θόρυβο.</em>", "noise"], [4.5, "Χείμαρρος άρθρων. Ατελείωτα πειράματα. Υπερβολικά πολλοί συνδυασμοί γονιδίων για να τους <em>δοκιμάσεις όλους.</em>", "noise"], [10.5, "Η δοκιμή και το λάθος δεν αρκούν.", "noise"],
+      [15.5, "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι <em>πριν από κάθε άλλον.</em>", "crowd"], [23, TERM_EL, "crowd", "term"], [31, "Πριν υπάρξει <em>απόδειξη.</em>", "trail"],
+      [36, "Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα.", "week"], [45, "Κι όμως, είμαστε εδώ.", "here"],
+      [50.5, "Ένα κύτταρο είναι ένα <em>κύκλωμα.</em> Τα γονίδια ανάβουν και σβήνουν το ένα το άλλο."], [55.5, `${genes} γονίδια, το καθένα αναμμένο ή σβηστό: ένα λογικό κύκλωμα που μπορεί να ελεγχθεί.`],
+      [60.5, "Αλλά το κύκλωμα είναι ελλιπές. Τα papers ξέρουν συνδέσεις που του λείπουν."], [66, "Ένα AI μπορεί να διαβάσει τα papers. Δεν ξέρει αν μια νέα σύνδεση <em>χαλάει</em> το κύκλωμα."],
+      [72, "Ένας ακριβής solver μπορεί να ελέγξει το κύκλωμα. Δεν μπορεί να <em>διαβάσει.</em>"], [77.5, "Το CellProof τους ενώνει. Το AI προτείνει. Ο solver <em>αποφασίζει.</em>"],
+      [83, "Ό,τι μένει δοκιμάζεται σε έναν εικονικό όγκο."], [88, "Δεν βρήκαμε τη θεραπεία του καρκίνου. Φτιάξαμε έναν τρόπο να ρωτάμε <em>πώς</em>, με ακρίβεια."]],
     tag: "From shared uncertainty to solitary conviction.",
     cap: `Πριν από αυτή την εβδομάδα: ένα δημοσιευμένο μοντέλο ${genes} γονιδίων, ανοιχτά papers, solvers ανοιχτού κώδικα. Αυτή την εβδομάδα: ένας agent όπου το Muse Spark διαβάζει τα papers και ένας ακριβής solver αποφασίζει. Υποθέσεις για το εργαστήριο, όχι θεραπείες.`,
   };
-  const lines = document.createElement("div"), fl = document.createElement("div");
-  lines.className = "vid-lines"; fl.className = "vid-flash"; document.body.append(lines, fl);
+  const lines = document.createElement("div"), fl = document.createElement("div"), art = document.createElement("canvas"), actx = art.getContext("2d");
+  lines.className = "vid-lines"; fl.className = "vid-flash"; art.className = "vid-art"; art.hidden = true; document.body.append(art, lines, fl);
+
+  /* the backgrounds: each is drawn for the idea of its line. Noise: a field of red points that flicker. Crowd: a stream of dim points and one that stays.
+     Trail: one point walks into the dark, leaving a dashed path, and the dark ahead stays dark. Week: seven days fill one by one, then all burn. */
+  let scene = "", st0 = 0, raf = 0, W = 0, H = 0;
+  const rnd = (() => { let x = 7; return () => ((x = (x * 16807) % 2147483647) / 2147483647); })();
+  const dots = Array.from({ length: 320 }, () => ({ x: rnd(), y: rnd(), v: 0.012 + rnd() * 0.04, r: 1 + rnd() * 2.2, p: rnd() * 6.28 }));
+  const ease = (x) => 1 - Math.pow(1 - Math.min(1, Math.max(0, x)), 3), clamp = (x) => Math.min(1, Math.max(0, x));
+  const bg = (c1, c2) => { const g = actx.createRadialGradient(W * 0.5, H * 0.45, 0, W * 0.5, H * 0.5, Math.max(W, H) * 0.72); g.addColorStop(0, c1); g.addColorStop(1, c2); actx.fillStyle = g; actx.fillRect(0, 0, W, H); };
+  const glow = (x, y, r, a) => { const g = actx.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, `rgba(255,196,150,${a})`); g.addColorStop(1, "rgba(255,196,150,0)"); actx.fillStyle = g; actx.beginPath(); actx.arc(x, y, r, 0, 6.2832); actx.fill(); };
+  function drawArt(t) {
+    actx.clearRect(0, 0, W, H);
+    if (scene === "noise") {
+      bg("#2a0610", "#050003");
+      for (const d of dots) { actx.fillStyle = `rgba(255,${80 + (d.p * 20) | 0},90,${0.1 + 0.55 * Math.abs(Math.sin(t * 3.2 + d.p * 9))})`; actx.fillRect(d.x * W, d.y * H, d.r * 1.6, d.r * 1.6); }
+      for (let i = 0; i < 5; i++) { const y = ((t * 90 + i * 211) % H); actx.fillStyle = "rgba(255,60,80,.06)"; actx.fillRect(0, y, W, 3 + (i % 3) * 3); }
+    } else if (scene === "crowd") {
+      bg("#2b2a4d", "#0b0a1c");
+      for (const d of dots) { const x = ((d.x + t * d.v) % 1) * W, y = d.y * H + Math.sin(t * 0.8 + d.p) * 10; actx.fillStyle = "rgba(190,182,232,.38)"; actx.beginPath(); actx.arc(x, y, d.r, 0, 6.2832); actx.fill(); }
+      const cx = W * 0.5, cy = H * 0.5, ring = (t % 2.6) / 2.6;
+      actx.strokeStyle = `rgba(255,196,150,${0.5 * (1 - ring)})`; actx.lineWidth = 2; actx.beginPath(); actx.arc(cx, cy, 20 + ring * Math.min(W, H) * 0.42, 0, 6.2832); actx.stroke();
+      glow(cx, cy, 70 + 10 * Math.sin(t * 2), 0.8); actx.fillStyle = "#ffe2c8"; actx.beginPath(); actx.arc(cx, cy, 8, 0, 6.2832); actx.fill();
+    } else if (scene === "trail") {
+      bg("#1d1c3a", "#050510");
+      const x0 = W * 0.22, x1 = x0 + (W * 0.46) * ease(t / 5), y = H * 0.5;
+      actx.setLineDash([12, 12]); actx.strokeStyle = "rgba(255,196,150,.55)"; actx.lineWidth = 2; actx.beginPath(); actx.moveTo(x0, y); actx.lineTo(x1, y); actx.stroke(); actx.setLineDash([]);
+      glow(x1, y, 80 + 10 * Math.sin(t * 3), 0.85); actx.fillStyle = "#ffe2c8"; actx.beginPath(); actx.arc(x1, y, 8, 0, 6.2832); actx.fill();
+      const f = actx.createLinearGradient(x1, 0, W, 0); f.addColorStop(0, "rgba(3,3,12,0)"); f.addColorStop(0.35, "rgba(3,3,12,.92)"); actx.fillStyle = f; actx.fillRect(x1, 0, W - x1, H);
+    } else if (scene === "week" || scene === "here") {
+      bg(scene === "here" ? "#3a2f55" : "#262445", "#0a0a1a");
+      const sz = Math.min(W * 0.085, 96), gap = sz * 0.4, total = 7 * sz + 6 * gap, x0 = (W - total) / 2, y = H * 0.76 - sz / 2, prog = scene === "here" ? 7 : 7 * clamp(t / 7);
+      if (scene === "here") for (let i = 0; i < 28; i++) { const a = (i / 28) * 6.2832, len = (60 + 600 * ease(t / 2.2)) , r0 = sz * 2; actx.strokeStyle = `rgba(255,196,150,${0.25 * (1 - clamp(t / 4))})`; actx.beginPath(); actx.moveTo(W / 2 + Math.cos(a) * r0, H * 0.76 + Math.sin(a) * r0); actx.lineTo(W / 2 + Math.cos(a) * (r0 + len), H * 0.76 + Math.sin(a) * (r0 + len)); actx.stroke(); }
+      for (let i = 0; i < 7; i++) {
+        const x = x0 + i * (sz + gap), k = clamp(prog - i), pulse = scene === "here" ? 0.75 + 0.25 * Math.sin(t * 4 + i) : 1;
+        if (k > 0) { glow(x + sz / 2, y + sz / 2, sz * 1.4, 0.5 * k * pulse); actx.fillStyle = `rgba(255,196,150,${0.9 * k * pulse})`; actx.fillRect(x, y, sz, sz); }
+        actx.strokeStyle = "rgba(255,255,255,.45)"; actx.lineWidth = 2; actx.strokeRect(x, y, sz, sz);
+        actx.fillStyle = k > 0.5 ? "#1c1b30" : "rgba(255,255,255,.7)"; actx.font = `600 ${sz * 0.3}px ${css("--sans") || "sans-serif"}`; actx.textAlign = "center"; actx.fillText(String(i + 1), x + sz / 2, y + sz * 0.62);
+      }
+    }
+  }
+  function artLoop() { raf = 0; if (!scene) return; drawArt((performance.now() - st0) / 1000); raf = requestAnimationFrame(artLoop); }
+  const setArt = (name) => {
+    if (name === scene) return;
+    scene = name; st0 = performance.now(); art.hidden = !name;
+    if (name) { const d = Math.min(2, devicePixelRatio || 1); W = innerWidth; H = innerHeight; art.width = W * d; art.height = H * d; actx.setTransform(d, 0, 0, d, 0, 0); if (!raf) artLoop(); }
+  };
+
   let cutId = 0;
   const flash = (dark) => { fl.classList.toggle("dark", !!dark); fl.classList.remove("go"); void fl.offsetWidth; fl.classList.add("go"); };
-  const showLine = (html, big, warn) => {
-    clearTimeout(cutId); lines.innerHTML = ""; lines.classList.toggle("warn", !!warn);
+  const showLine = (html, big, warn, kind) => {
+    clearTimeout(cutId); lines.innerHTML = ""; lines.classList.toggle("warn", !!warn); lines.classList.toggle("art", !!scene);
     if (!html) return;
     const mol = $("#heroMol"); mol.classList.remove("jolt"); void mol.offsetWidth; if (!reduced) mol.classList.add("jolt");
     if (!big) flash(true);
-    cutId = setTimeout(() => { lines.innerHTML = `<p class="${big ? "big" : ""}">${html}</p>`; }, reduced ? 0 : 140);  /* a black frame between two lines */
+    cutId = setTimeout(() => { lines.innerHTML = `<p class="${big ? "big" : ""} ${kind || ""}">${html}</p>`; }, reduced ? 0 : 140);  /* a black frame between two lines */
   };
   const introPlan = (short) => {
-    const set = CP.lang() === "el" ? EL : EN, src = short ? set.short : set.full, tail = src[src.length - 1][0] + 5;
+    const set = CP.lang() === "el" ? EL : EN, src = short ? set.short : set.full, tail = src[src.length - 1][0] + 5.5;
     return [[0, () => { scrollTo("#top"); CPHero.pin(true); CPHero.show(0); root.classList.add("vid-intro", "vid-zoom"); }],
-      ...src.map(([t, html], i) => [t, () => showLine(html, false, !short && i < 3)]),
-      [tail, () => { flash(); lines.classList.remove("warn"); showLine(`CellProof<small>${set.tag}</small>`, true); say(set.cap); }]];
+      ...src.map(([t, html, sc, kind]) => [t, () => { setArt(sc || ""); showLine(html, false, sc === "noise", kind); }]),
+      [tail, () => { setArt(""); flash(); lines.classList.remove("warn"); showLine(`CellProof<small>${set.tag}</small>`, true); say(set.cap); }]];
   };
   const end = take[take.length - 1][0] + 5;  /* the last ten seconds of the video are the terminal, recorded apart */
 
   function stopTake(done) {
-    ids.splice(0).forEach(clearTimeout); CPBench.stop(); CPHero.pin(false); say(""); count.textContent = ""; root.classList.remove("vid", "vid-intro", "vid-zoom"); showLine(""); fl.classList.remove("go");
+    ids.splice(0).forEach(clearTimeout); CPBench.stop(); CPHero.pin(false); say(""); count.textContent = ""; root.classList.remove("vid", "vid-intro", "vid-zoom"); showLine(""); setArt(""); fl.classList.remove("go");
     bar.hidden = false; if (done) say("");
   }
   function start() {
