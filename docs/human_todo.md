@@ -35,7 +35,8 @@ and what was considered and not used).
 Left, in order of importance:
 1. **M4 and D4** (`make label`): about 25 and 15 minutes. Without M4 the extraction accuracy stays "TBD" in the README, which is
    honest but a visible gap. Tell the assistant when a tab shows all done; it computes the numbers and commits the files.
-2. **The video**, recorded from the page and `make verify` (see `docs/video_script.md`). The first line must say what pre-existed and
+2. **The video**, recorded from the page and `make verify` (see `docs/video_script.md`). Open `results/report.html#video`, start the
+   recorder, press the button: the page performs the three minutes by itself, and you only read the sentences of the script. The first line must say what pre-existed and
    what was built this week; if the tissue beat is shown, add that the simulator PhysiBoSS and the ChEMBL database existed and
    that the translation of the network, the experiments and the checks are new.
 3. **Before the repository is public**: secret scan again, read `THIRD_PARTY.md` once, check that no paper text is committed

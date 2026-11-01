@@ -663,7 +663,8 @@
   function stop() {
     clearSet(script); st.playing = false; grid.classList.remove("playing"); $("#bStop").hidden = true; cap.classList.remove("show"); delete cap.dataset.key;
   }
-  function play() {
+  function play(speed) {  /* `speed` (a number, for the recording mode) shortens every wait; a click passes an event, which is ignored */
+    const k = typeof speed === "number" && speed > 0 ? speed : 1;
     clearSet(script); clearUi(); Object.assign(st, initial()); built = null; render();
     st.playing = true; tumSig = ""; grid.classList.add("playing"); $("#bStop").hidden = false;
     grid.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });  /* stage and lamps together in one screen */
@@ -680,7 +681,7 @@
         [76500, () => say("cap.16", TUM.agree, TUM.of)], [81500, () => say("cap.17")]] : []),
       [(TUM ? PLAY_S : 60) * 1000, () => stop()],
     ];
-    S.forEach(([ms, fn]) => later(script, fn, ms));
+    S.forEach(([ms, fn]) => later(script, fn, ms / k));
   }
   $("#bStop").addEventListener("click", stop);
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && st.playing) stop(); });
@@ -741,7 +742,8 @@
       arm(DUR[n]);
     }
     /* the next beat comes when the time is up, unless the header is held */
-    const arm = (ms) => { clearTimeout(timer); due = ms; since = performance.now(); if (!reduced && seen && !document.hidden && !held) timer = setTimeout(() => show((beat + 1) % BEATS), ms); };
+    let pinned = false;  /* the recording mode keeps a beat on screen for as long as it likes */
+    const arm = (ms) => { clearTimeout(timer); due = ms; since = performance.now(); if (!reduced && seen && !document.hidden && !held && !pinned) timer = setTimeout(() => show((beat + 1) % BEATS), ms); };
     /* the header stands still while the pointer is over its words or pictures, so that they can be read (not over the bars and buttons: a click on a bar plays that beat), and carries on when the pointer leaves */
     const hold = () => {
       if (held || reduced) return;
@@ -750,7 +752,7 @@
     const release = () => {
       if (!held) return;
       held = false; hero.classList.remove("is-held"); story.release(); since = performance.now();
-      if (seen && !document.hidden) timer = setTimeout(() => show((beat + 1) % BEATS), due);
+      if (seen && !document.hidden && !pinned) timer = setTimeout(() => show((beat + 1) % BEATS), due);
     };
     const sync = () => {
       if (seen && !document.hidden) { helix.start(); story.start(); show(beat); } else { release(); helix.stop(); story.stop(); clearTimeout(timer); clearTimeout(hitT); }
@@ -760,7 +762,7 @@
     hero.addEventListener("pointerleave", release);
     new IntersectionObserver((es) => { seen = es[0].isIntersecting; sync(); }, { threshold: 0.05 }).observe(hero);
     document.addEventListener("visibilitychange", sync);
-    heroApi = { relabel: () => { dots.forEach((d, i) => d.setAttribute("aria-label", T("hero.step", i + 1, BEATS))); paint(shown); paintHeroStage(shownStage); } };
+    heroApi = { show: (n) => show(n), pin: (on) => { pinned = !!on; if (pinned) clearTimeout(timer); else arm(DUR[beat]); }, beats: BEATS, relabel: () => { dots.forEach((d, i) => d.setAttribute("aria-label", T("hero.step", i + 1, BEATS))); paint(shown); paintHeroStage(shownStage); } };
   })();
 
   /* the search engine (search.js) opens its answers here and adds its own words */
@@ -778,5 +780,6 @@
   const applyStatic0 = applyStatic;
   applyStatic = function () { applyStatic0(); langHooks.forEach((fn) => fn()); };
   applyStatic(); render();
-  window.CPBench = { play, stop, go, reset, state: st, open: openSet };
+  window.CPBench = { play, stop, go, reset, state: st, open: openSet, seconds: TUM ? PLAY_S : 60 };
+  window.CPHero = heroApi;
 })();

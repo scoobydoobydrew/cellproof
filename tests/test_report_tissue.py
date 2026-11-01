@@ -85,7 +85,10 @@ def test_the_page_has_the_tissue_section_and_its_script_is_part_of_the_build():
     assert 'id="seqCard"' in body and 'id="genoCard"' in body and "Does the order of the changes matter?" in script and "Do the answers survive a tumour's genotype?" in script
     assert (WEB / "tissue.js").read_text(encoding="utf-8").startswith("/* Tissue what-if.")
     assert not (WEB / "story.js").exists()
-    for name in ("tissue.js", "search.js", "bench.js"):
+    video = (WEB / "video.js").read_text(encoding="utf-8")
+    assert 'location.hash === "#video"' in video and "CPBench.play(SPEED)" in video and "CPHero.pin(true)" in video  # the recording mode exists only behind #video, and plays the page's own demo and beats
+    assert '"video.js"' in (WEB.parent / "build.py").read_text(encoding="utf-8")
+    for name in ("tissue.js", "search.js", "bench.js", "video.js"):
         page = (WEB / name).read_text(encoding="utf-8")
         for word in ("clinical trial", "proof", "patient", "personalis", "cure"):
             assert word not in page.lower().replace("cellproof", "").replace("not a prediction for any patient", "").replace("no patient", "").replace("not a clinical trial", ""), (name, word)

@@ -774,3 +774,12 @@ canvas.scene { position: absolute; inset: 0; width: 100%; height: 100%; display:
 @media (prefers-reduced-motion: reduce) { .sx-results li { animation: none; } }
 @media (max-width: 900px) { .sx-main { grid-template-columns: minmax(0, 1fr); } .sx-goal { border-right: 0; padding-right: 0; } }
 @media (max-width: 700px) { .hero-dots { gap: 6px; } .hero-dots button { width: 32px; } }
+
+/* ---------------------------------------------------------------- the recording mode (#video in the address; video.js) */
+.vid-bar { position: fixed; z-index: 60; right: 16px; bottom: 16px; display: flex; align-items: center; gap: 12px; max-width: min(520px, calc(100vw - 32px)); padding: 10px 14px; border-radius: 14px; background: rgba(14, 12, 34, .92); color: #fff; font-size: 13px; line-height: 1.35; }
+.vid-bar[hidden], .vid-cap:not(.show), .vid-count:empty { display: none; }
+.vid-cap { position: fixed; z-index: 60; left: 50%; bottom: 7vh; transform: translateX(-50%); width: min(920px, calc(100vw - 48px)); padding: 14px 22px; border-radius: 16px; background: rgba(14, 12, 34, .82); backdrop-filter: blur(8px); color: #fff; font-size: clamp(17px, 1.9vw, 24px); line-height: 1.35; text-align: center; text-wrap: balance; }
+.vid-cap.top { bottom: auto; top: 4vh; }
+.vid-count { position: fixed; z-index: 61; inset: 0; display: grid; place-items: center; background: rgba(14, 12, 34, .55); color: #fff; font: 400 clamp(120px, 24vw, 280px)/1 var(--display); pointer-events: none; }
+html.vid .topbar, html.vid .hero .cta, html.vid .hero-tag { visibility: hidden; }
+html.vid { cursor: none; }

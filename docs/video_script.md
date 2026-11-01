@@ -1,61 +1,59 @@
 # Demo video script (3 minutes)
 
-Record from `results/report.html` (open the file in a browser) and a terminal running `make verify`. Everything on screen comes from
-cached model outputs, so there is no live-API risk. Numbers below are the ones the page shows at the time of writing; read them off the
-page when recording, do not trust this file.
+The page performs the video by itself. You start the recorder, press one button, and talk. Everything on screen comes from cached model
+outputs, so there is no live-API risk. Numbers below are the ones the page shows at the time of writing; the captions on the page are read
+from the same data, so read the numbers off the page, do not trust this file.
 
-Before recording: the page speaks English and Greek and remembers the last choice (a browser set to Greek opens it in Greek). Press
-**EN** in the top bar, then reload once to check. The header loops eight beats of about ten seconds each (about 80 seconds in all) and
-stands still while the pointer is over its words or pictures; the little bars under the words jump to any beat, so for a three-minute
-video click the bars instead of waiting for the loop. The search engine starts by itself when it scrolls into view.
+## How to record
 
-**0:00 to 0:15. The one line (say it over the DNA, beat 1).**
-"Before this week: a published 30-gene model of how a cell responds to DNA damage, open-access papers, and open-source solvers. Built this
-week: an agent where Muse Spark reads the papers and proposes rules, and an exact solver decides which ones the model can take."
-Keep the pointer off the header while the first beat plays.
+1. Build the page: `python -m cellproof.cli report` (or `make verify`). Open `results/report.html#video` in a browser at 1920x1080 (full
+   screen, F11), in English (**EN** in the top bar; the page remembers it). Close other tabs and notifications.
+2. Start the screen recorder (OBS or the system recorder) with your microphone. Press **Start the take** (or Space), then take your hands off
+   the mouse and move the pointer off the window: the page hides the top bar and the buttons, shows 3, 2, 1, and performs the take.
+   Esc stops it at any point.
+3. The take lasts about 2 minutes 47 seconds (after the countdown) and ends on the page's limits. Then record the terminal on its own for
+   10 to 12 seconds: `make verify` (or run it before and scroll the output). Cut the countdown and join the two parts.
+4. The take is deterministic: if you stumble over a sentence, record the whole take again. Read the script below at a calm pace; the
+   gaps between shots are the pauses.
 
-**0:15 to 0:50. The problem, in the header (click the bars: 2, 3, 5, 4, 6; about 6 seconds each, one sentence each).**
-2. *Not every damaged cell dies.* "After radiation a cell can pause, age, recycle itself or die."
-3. *Flip the right genes, and every cell dies.* "The goal: a combination of genes to switch off or on, so that only death is left."
-5. *Which combination? The search explodes.* "Every combination is a lab experiment. Our solver tried all 1,058 changes of one or two genes in a
-   few seconds. For five genes at once it is over a million." (Read the numbers off the counter.)
-4. *New rules change which genes to flip.* "And papers keep adding rules. Eleven new rules from 36 papers, unchecked, replaced all eleven
-   combinations that worked."
-6. *The AI proposes. The solver decides.* "The AI alone finds four of the eleven and breaks seven or eight known experiments; the solver alone
-   cannot read the papers; together, none are broken."
+Captions stay on screen at the opening, in the search engine and at the limits, for anyone who watches without sound. The rest of the
+words are the page's own.
 
-**0:50 to 1:10. The virtual tumour and the tumour samples (bars 7 and 8).**
-7. "A virtual tumour: a real simulation of 1,663 cells. Radiation alone leaves 107 alive. With one of the solver's candidates: none."
-8. "Every tumour has its own genes. We asked the model again for 9,896 real tumour samples from public data. For between 14 and 39 of every 100,
-   p53 is lost, depending on how strictly we count, and then none of our candidates works." Say once that this is a statement about the
-   model, not about any person.
+## The take (seconds counted from the end of the countdown)
 
-**1:10 to 2:10. The demo (press *Play the demo*; it runs about 90 seconds; show the first 60 and the end, or press Escape to stop).**
-- An AI reads 36 papers and proposes a link; an exact checker replays ten experiments with known results; three come out wrong; the AI
-  rewrites the link; all ten pass: "the checker decided, not the AI". Mention that the AI once offered a rule that passed every test but
-  changed nothing, and the checker refused it as vacuous.
-- The honest limit, said straight (it is in the caption): "On outcomes from papers the AI never read, the model is no better than before."
-- The virtual tumour: radiation alone, then the solver's candidate: no cell is left, and the simulation agrees with the solver on 22 of 22 sets.
-  Say that the two engines run the same rules, so this checks one against the other, not the biology.
-- The last caption: "Every tumour has its own genes. Where p53 is lost, none of the candidates works."
+| time | on screen | say (about 2.5 words a second) |
+|---|---|---|
+| 0:00 | DNA and a ray; the caption states what pre-existed and what was built | "Before this week: a published thirty-gene model of how a cell responds to DNA damage, open papers, and open-source solvers. Built this week: an agent where Muse Spark reads papers and proposes rules, and an exact solver decides." |
+| 0:14 | *Not every damaged cell dies* | "After radiation a cell can pause, age, recycle itself, or die." |
+| 0:20 | *Flip the right genes, and every cell dies* | "The goal: switch a few genes, off or on, so that only death is left." |
+| 0:27 | *The search explodes* (the counter runs to over a million) | "But every combination is a lab experiment. For one or two genes there are about a thousand. For five at once, over a million." |
+| 0:36 | *New rules change which genes to flip* | "And papers keep adding rules. Eleven new rules from thirty-six papers, unchecked, replaced every combination that worked." |
+| 0:46 | *The AI proposes. The solver decides.* | "So the AI proposes and the solver decides. Alone, the AI breaks seven or eight known experiments. Together, none." |
+| 0:56 | *A virtual tumour* | "A virtual tumour: a real simulation of sixteen hundred cells. Radiation alone leaves a hundred and seven alive. With one of the solver's candidates, none." |
+| 1:06 | *Every tumour has its own genes* | "Every tumour has its own genes. For nearly ten thousand real samples, p53 is lost in fourteen to thirty-nine of every hundred, depending on how we count, and then none of our candidates works. That is about the model, not about any person." |
+| 1:16 | the demo, a little faster (about a minute): the dish, the four fates, a gene whose loss kills every cell, the circuit | "On the bench: radiation damages a cell, and each cell picks a fate. Switch off one gene and every cell dies. Inside, genes switch each other on and off, and the model is missing a link that the papers know." |
+| 1:34 | an AI reads, proposes a link; ten tests, three fail; the fix | "An AI reads thirty-six papers and proposes the link. An exact checker replays ten known experiments: three come out wrong. The AI rewrites the link, and all ten pass. The checker decided, not the AI." |
+| 1:54 | the audit, with its caption | "Honest limit: on outcomes it never saw, the model is no better than before." |
+| 1:57 | the virtual tumour inside the demo | "Back in the virtual tumour, one candidate leaves no cell alive, and the simulation agrees with the solver on twenty-two of twenty-two sets. Both run the same rules, so this checks one against the other, not the biology." |
+| 2:17 | the search engine, scrolled into view; it runs by itself | "This is the solver's whole search on one board: twenty-three genes, off in red, on in green, and a line for every set it tried, one thousand and fifty-eight. Eleven glow: they leave only death, and nothing smaller does." |
+| 2:26 | the **p53 lost** profile | "Now the same search in a tumour where p53 is lost: nine hundred and sixty-eight sets, and none leaves only death." |
+| 2:34 | the **WIP1 high** profile | "Another profile, a different answer." |
+| 2:42 | the limits, with a caption | "Limits, plainly: a model of a cell, not of a person. These are hypotheses for the lab." |
+| 2:47 | terminal, recorded apart | "One command, `make verify`, rebuilds every number from cached outputs, with no API call." |
 
-**2:10 to 2:40. The search engine (scroll to *Search*; it plays by itself).**
-"This is the solver's whole search on one board: 23 genes, each switched off in red or on in green, and a line for every set it tried, 1,058
-in all. Eleven glow: they leave only death and nothing smaller does." Click **p53 lost**: "Now the same search in a tumour where p53 is
-lost: 968 sets tried, none leaves only death." Click **WIP1 high**: "Another profile, one different answer." Click a result's **Dish** or
-**Tumour** button to show it opening in the demo. Do not say "patient", "therapy", "treatment", "personalised", "proof", "trial", "cure" or "safe"
-(the page says "no treatment, no dose, no medical advice" in the negative, and that is the only place). Say "tumour samples", "candidates",
-"hypotheses for the lab", "a model of a cell".
+Do not say "patient", "therapy", "treatment", "personalised", "proof", "trial", "cure" or "safe" (the page says "no treatment, no dose, no
+medical advice" in the negative, and that is the only place). Say "tumour samples", "candidates", "hypotheses for the lab", "a model of a
+cell". If PhysiBoSS, ChEMBL, cBioPortal or TCGA appear in the first line, say that they existed before the week and that the translation of
+the network, the experiments, the checks, the board and the studies are new.
 
-**2:40 to 3:00. Reproducibility and limits.**
-- Terminal: `make verify`, which rebuilds every number with no API call.
-- Limits, on screen (scroll to **Limits**): ten scoreable held-out claims, written by me and not yet checked by a person; the model's repairs
-  can pass the checks without being biologically right; Boolean networks have no dose and no time; no medical claims. "These are hypotheses
-  for the lab."
-- If the simulator PhysiBoSS, the ChEMBL database, the cBioPortal API and TCGA data appear in the opening line, say that they existed before
-  the week and that the translation of the network, the experiments, the checks, the board and the studies are new.
+## If you would rather click than use the take
 
-**If asked afterwards**
+Open the page normally. The header loops eight beats of about ten seconds (the little bars jump to any beat, and it stands still while the
+pointer is over it). **Play the demo** runs the walk-through in about 86 seconds; the search engine starts by itself when it scrolls into
+view. The sentences above fit these screens in the same order.
+
+## If asked afterwards
+
 - The audit: "The published model can answer 8 of the 10 scoreable outcomes. In 4 of them it has no stable state, so those verdicts are
   artifacts. On the other 4 it gets 2 right, the same as ignoring the perturbation. So this does not show better prediction. It shows where
   a published model and the literature disagree, and it does so automatically."
@@ -66,3 +64,5 @@ lost: 968 sets tried, none leaves only death." Click **WIP1 high**: "Another pro
   mean different things by "dead", and was amended afterwards and labelled as such; the amended one holds on 23 of 23 and was then tested out of
   sample on three recipes (none of 1,663 cells alive). No pair of changes, and no order of the five kinases named in the brief, works only in a
   particular order in this model.
+- Limits, on the page and in `docs/limitations.md`: ten scoreable held-out claims, written by me and not yet checked by a person; the model's
+  repairs can pass the checks without being biologically right; Boolean networks have no dose and no time; no medical claims.
