@@ -86,9 +86,9 @@ def test_the_page_has_the_tissue_section_and_its_script_is_part_of_the_build():
     assert (WEB / "tissue.js").read_text(encoding="utf-8").startswith("/* Tissue what-if.")
     assert not (WEB / "story.js").exists()
     video = (WEB / "video.js").read_text(encoding="utf-8")
-    assert 'location.hash === "#video"' in video and "CPBench.play(SPEED)" in video and "CPHero.pin(true)" in video  # the recording mode exists only behind #video, and plays the page's own demo and beats
+    assert '/^#(video|intro)/.test(location.hash)' in video and "CPBench.play(SPEED)" in video and "CPHero.pin(true)" in video  # the recording mode exists only behind #video, and plays the page's own demo and beats
     assert '"video.js"' in (WEB.parent / "build.py").read_text(encoding="utf-8")
     for name in ("tissue.js", "search.js", "bench.js", "video.js"):
         page = (WEB / name).read_text(encoding="utf-8")
         for word in ("clinical trial", "proof", "patient", "personalis", "cure"):
-            assert word not in page.lower().replace("cellproof", "").replace("not a prediction for any patient", "").replace("no patient", "").replace("not a clinical trial", ""), (name, word)
+            assert word not in page.lower().replace("cellproof", "").replace("not a prediction for any patient", "").replace("no patient", "").replace("not a clinical trial", "").replace("before there is <em>proof.</em>", "").replace("we did not find a cure for cancer", "")  # the opening says that the project began before there was any proof, which is the opposite of claiming one, (name, word)

@@ -66,3 +66,15 @@ view. The sentences above fit these screens in the same order.
   particular order in this model.
 - Limits, on the page and in `docs/limitations.md`: ten scoreable held-out claims, written by me and not yet checked by a person; the model's
   repairs can pass the checks without being biologically right; Boolean networks have no dose and no time; no medical claims.
+
+## The opening (cinematic, made by the page)
+
+`results/report.html#intro-short` (about 28 seconds) and `#intro` (about a minute, for a cut of its own, for example on X): press the button
+and the page plays its own DNA, slowly closer, with one line of words at a time and a white flash on the last, ending on a card with the name,
+"From shared uncertainty to solitary conviction." and the caption that says what pre-existed and what was built this week (the brief's rule 9).
+The page language decides whether the words are English or Greek (the **EN / ΕΛ** button). Say the lines at the pace they arrive, with a pause
+between them; the long version is the corrected form of the draft script: it does not name a solver the project does not use, it says "an exact
+solver" and "a virtual tumour", it states the limit ("We did not find a cure for cancer"), and it makes no claim about patients or treatment.
+Put your own royalty-free music under it in the editor (with a licence; nothing from a reel or a stock library without rights).
+For the three-minute video, record `#intro-short`, then the take (`#video`), then the terminal, then the card (`#card`): the take then needs
+about fifteen seconds cut from the header beats to stay inside three minutes.
