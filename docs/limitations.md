@@ -20,6 +20,9 @@ This is a research prototype that ranks hypotheses for lab testing. It makes no 
 - Literature can be inconsistent, incomplete or specific to a cell type; the model has one context.
 
 **The pictures**
+- The tissue simulation holds tumour cells of one kind only. Radiation also reaches the normal tissue around a tumour, and the tolerance of that
+  tissue limits the dose (Scaife et al. 2015, Br J Radiol, PMC4628540, CC BY 4.0, cited on the page); no normal tissue is modelled here.
+  "Only death" is the goal we state for the model's cells because a cell that pauses or ages is still alive; it is not a claim about treatment.
 - The virtual tumour (header and demo) replays the frames that PhysiBoSS wrote; the dots of the tumour samples (header) are public
   counts, one dot per sample, in no order that means anything; the ring of genes in the search engine draws the solver's verdict on each
   set, and the profiles are single forced genes, not whole tumours (`docs/search_board.md`). All three are statements about a model.
