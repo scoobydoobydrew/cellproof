@@ -50,33 +50,35 @@
   const TERM_EL = "<b>Solitary conviction</b>Η κατάσταση όπου πιστεύεις σε κάτι χωρίς να έχεις απόδειξη ότι θα δουλέψει.";
   const EN = {
     short: [[0, "There is a feeling you get when you believe in something <em>before anyone else does.</em>", "cosmos"], [7.5, TERM_EN, "dna", "term"],
-      [16, "We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week.", "week"], [25, "And yet, here we are.", "leap"],
-      [31.5, "We aimed for the <em>stars.</em> We landed on the <em>moon.</em>", "moon"]],
+      [16, "We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week.", "week"],
+      [25, "We aimed for the <em>stars.</em> We landed on the <em>moon.</em>", "moon"]],
     full: [[0, "Biology is drowning in <em>noise.</em>", "noise"], [4.5, "A flood of papers. Endless experiments. Too many gene switches to <em>ever try them all.</em>", "noise"], [10.5, "Trial and error is not enough.", "noise"],
       [15.5, "There is a feeling you get when you believe in something <em>before anyone else does.</em>", "cosmos"], [23, TERM_EN, "dna", "term"],
-      [31, "We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week.", "week"], [40, "And yet, here we are.", "leap"],
-      [46.5, "We aimed for the <em>stars.</em> We landed on the <em>moon.</em>", "moon"],
-      [53, "A cell is a <em>circuit.</em> Genes switch each other on and off.", "circuit"], [58, `${genes} genes, each on or off: a logic circuit that can be checked.`, "circuit"],
-      [63, "But the circuit is incomplete. The papers know links that it is missing.", "circuit-link"], [68.5, "An AI can read the papers. It cannot tell whether a new link <em>breaks</em> the circuit.", "circuit-link"],
-      [74.5, "An exact solver can check the circuit. It cannot <em>read.</em>", "circuit-scan"], [80, "CellProof joins them. The AI proposes. The solver <em>decides.</em>", "circuit-scan"],
-      [85.5, "What is left is tested on a virtual tumour.", "tumour"], [90.5, "We did not find a cure for cancer. We built a way to ask <em>how</em>, exactly.", "dna"]],
-    what: ["Cells run on circuits of genes.", "An AI reads the papers and proposes what the circuit is missing.", "An exact solver checks every proposal.", "What survives is tested on a virtual tumour."],
+      [31, "We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week.", "week"],
+      [40, "We aimed for the <em>stars.</em> We landed on the <em>moon.</em>", "moon"],
+      [46.5, "A cell is a <em>circuit.</em> Genes switch each other on and off.", "circuit"], [51.5, `${genes} genes, each on or off: a logic circuit that can be checked.`, "circuit"],
+      [56.5, "But the circuit is incomplete. The papers know links that it is missing.", "circuit-link"], [62, "An AI can read the papers. It cannot tell whether a new link <em>breaks</em> the circuit.", "circuit-link"],
+      [68, "An exact solver can check the circuit. It cannot <em>read.</em>", "circuit-scan"], [73.5, "CellProof joins them. The AI proposes. The solver <em>decides.</em>", "circuit-scan"],
+      [79, "What is left is tested on a virtual tumour.", "tumour"], [84, "We did not find a cure for cancer. We built a way to ask <em>how</em>, exactly.", "dna"]],
+    what: [["The field", "Cancer biology: how cells respond to radiation."], ["The problem", "Cell models are incomplete, and nobody can check every idea from the papers by hand."],
+      ["How it helps", "An AI proposes, an exact solver checks, and researchers get candidates to test in the lab."]],
     tag: "From shared uncertainty to solitary conviction.",
     cap: `Before this week: a published ${genes}-gene model, open papers, open-source solvers. This week: an agent where Muse Spark reads the papers and an exact solver decides. Hypotheses for the lab, not treatments.`,
   };
   const EL = {
     short: [[0, "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι <em>πριν από κάθε άλλον.</em>", "cosmos"], [7.5, TERM_EL, "dna", "term"],
-      [16, "Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα.", "week"], [25, "Κι όμως, είμαστε εδώ.", "leap"],
-      [31.5, "Στοχεύσαμε στα <em>αστέρια.</em> Προσγειωθήκαμε στη <em>Σελήνη.</em>", "moon"]],
+      [16, "Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα.", "week"],
+      [25, "Στοχεύσαμε στα <em>αστέρια.</em> Προσγειωθήκαμε στη <em>Σελήνη.</em>", "moon"]],
     full: [[0, "Η βιολογία πνίγεται στον <em>θόρυβο.</em>", "noise"], [4.5, "Χείμαρρος άρθρων. Ατελείωτα πειράματα. Υπερβολικά πολλοί συνδυασμοί γονιδίων για να τους <em>δοκιμάσεις όλους.</em>", "noise"], [10.5, "Η δοκιμή και το λάθος δεν αρκούν.", "noise"],
       [15.5, "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι <em>πριν από κάθε άλλον.</em>", "cosmos"], [23, TERM_EL, "dna", "term"],
-      [31, "Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα.", "week"], [40, "Κι όμως, είμαστε εδώ.", "leap"],
-      [46.5, "Στοχεύσαμε στα <em>αστέρια.</em> Προσγειωθήκαμε στη <em>Σελήνη.</em>", "moon"],
-      [53, "Ένα κύτταρο είναι ένα <em>κύκλωμα.</em> Τα γονίδια ανάβουν και σβήνουν το ένα το άλλο.", "circuit"], [58, `${genes} γονίδια, το καθένα αναμμένο ή σβηστό: ένα λογικό κύκλωμα που μπορεί να ελεγχθεί.`, "circuit"],
-      [63, "Αλλά το κύκλωμα είναι ελλιπές. Τα papers ξέρουν συνδέσεις που του λείπουν.", "circuit-link"], [68.5, "Ένα AI μπορεί να διαβάσει τα papers. Δεν ξέρει αν μια νέα σύνδεση <em>χαλάει</em> το κύκλωμα.", "circuit-link"],
-      [74.5, "Ένας ακριβής solver μπορεί να ελέγξει το κύκλωμα. Δεν μπορεί να <em>διαβάσει.</em>", "circuit-scan"], [80, "Το CellProof τους ενώνει. Το AI προτείνει. Ο solver <em>αποφασίζει.</em>", "circuit-scan"],
-      [85.5, "Ό,τι μένει δοκιμάζεται σε έναν εικονικό όγκο.", "tumour"], [90.5, "Δεν βρήκαμε τη θεραπεία του καρκίνου. Φτιάξαμε έναν τρόπο να ρωτάμε <em>πώς</em>, με ακρίβεια.", "dna"]],
-    what: ["Τα κύτταρα λειτουργούν με κυκλώματα γονιδίων.", "Ένα AI διαβάζει τα papers και προτείνει ό,τι λείπει από το κύκλωμα.", "Ένας ακριβής solver ελέγχει κάθε πρόταση.", "Ό,τι επιβιώνει δοκιμάζεται σε έναν εικονικό όγκο."],
+      [31, "Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα.", "week"],
+      [40, "Στοχεύσαμε στα <em>αστέρια.</em> Προσγειωθήκαμε στη <em>Σελήνη.</em>", "moon"],
+      [46.5, "Ένα κύτταρο είναι ένα <em>κύκλωμα.</em> Τα γονίδια ανάβουν και σβήνουν το ένα το άλλο.", "circuit"], [51.5, `${genes} γονίδια, το καθένα αναμμένο ή σβηστό: ένα λογικό κύκλωμα που μπορεί να ελεγχθεί.`, "circuit"],
+      [56.5, "Αλλά το κύκλωμα είναι ελλιπές. Τα papers ξέρουν συνδέσεις που του λείπουν.", "circuit-link"], [62, "Ένα AI μπορεί να διαβάσει τα papers. Δεν ξέρει αν μια νέα σύνδεση <em>χαλάει</em> το κύκλωμα.", "circuit-link"],
+      [68, "Ένας ακριβής solver μπορεί να ελέγξει το κύκλωμα. Δεν μπορεί να <em>διαβάσει.</em>", "circuit-scan"], [73.5, "Το CellProof τους ενώνει. Το AI προτείνει. Ο solver <em>αποφασίζει.</em>", "circuit-scan"],
+      [79, "Ό,τι μένει δοκιμάζεται σε έναν εικονικό όγκο.", "tumour"], [84, "Δεν βρήκαμε τη θεραπεία του καρκίνου. Φτιάξαμε έναν τρόπο να ρωτάμε <em>πώς</em>, με ακρίβεια.", "dna"]],
+    what: [["Ο τομέας", "Βιολογία του καρκίνου: πώς αντιδρούν τα κύτταρα στην ακτινοβολία."], ["Το πρόβλημα", "Τα μοντέλα των κυττάρων είναι ελλιπή, και κανείς δεν μπορεί να ελέγξει με το χέρι κάθε ιδέα από τα papers."],
+      ["Πού βοηθά", "Ένα AI προτείνει, ένας ακριβής solver ελέγχει, και οι ερευνητές παίρνουν υποψήφιες αλλαγές για δοκιμή στο εργαστήριο."]],
     tag: "From shared uncertainty to solitary conviction.",
     cap: `Πριν από αυτή την εβδομάδα: ένα δημοσιευμένο μοντέλο ${genes} γονιδίων, ανοιχτά papers, solvers ανοιχτού κώδικα. Αυτή την εβδομάδα: ένας agent όπου το Muse Spark διαβάζει τα papers και ένας ακριβής solver αποφασίζει. Υποθέσεις για το εργαστήριο, όχι θεραπείες.`,
   };
@@ -86,7 +88,7 @@
 
   /* the backgrounds: each is drawn for the idea of its line, in the manner of glowing renders: a universe of stars, a band of the galaxy, spiral galaxies, nebulae.
      noise: red points that flicker. cosmos: a person on a cliff facing the galaxies. dna: a luminous helix in the universe. week: seven days fill one by one.
-     leap: IMPOSSIBLE loses its first two letters and the point crosses the gap. moon: the point aims for a star and lands on the moon. circuit: a network with
+     moon: the point aims for a star and lands on the moon. circuit: a network with
      signals, with a new link, with a scan. tumour: the simulation's own cells (the only picture here that is data). */
   let scene = "", st0 = 0, raf = 0, W = 0, H = 0, pack = null;
   const rnd = (() => { let x = 7; return () => ((x = (x * 16807) % 2147483647) / 2147483647); })(), gauss = () => rnd() + rnd() + rnd() - 1.5;
@@ -233,24 +235,6 @@
       actx.fillStyle = k > 0.5 ? "#1c1b30" : "rgba(255,255,255,.7)"; actx.font = `600 ${sz * 0.3}px ${sans}`; actx.textAlign = "center"; actx.fillText(String(i + 1), x + sz / 2, y + sz * 0.62);
     }
   }
-  function leap(t) {  /* a dusk, two cliffs, IMPOSSIBLE: its first two letters tip into the gap, and the point crosses it and lights what is left */
-    const base = H * 0.76, size = Math.min(W * 0.075, H * 0.17); actx.font = `800 ${size}px ${sans}`; actx.textBaseline = "alphabetic"; actx.textAlign = "left";
-    const wIM = actx.measureText("IM").width, wP = actx.measureText("POSSIBLE").width, xP = W * 0.46, xR = xP - W * 0.012, xL = xR - W * 0.2, xIM = xL - wIM - W * 0.012, land = 4.3, ign = clamp((t - land) / 0.9);
-    frozen("leap", () => {
-      const g = actx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#0b0a26"); g.addColorStop(0.5, "#4b2b66"); g.addColorStop(0.78, "#e48c6c"); g.addColorStop(1, "#ffd3a4"); actx.fillStyle = g; actx.fillRect(0, 0, W, H);
-      for (const q of STARS.slice(0, 120)) { actx.fillStyle = `rgba(255,255,255,${0.5 * (1 - q.y)})`; actx.fillRect(q.x * W, q.y * H * 0.5, q.r, q.r); }
-      glow(W * 0.62, H * 0.7, Math.min(W, H) * 0.6, 0.95); actx.fillStyle = "#05050f";
-      actx.beginPath(); actx.moveTo(0, H); actx.lineTo(0, base); actx.lineTo(xL, base); actx.quadraticCurveTo(xL + W * 0.008, base + H * 0.1, xL - W * 0.03, H); actx.fill();
-      actx.beginPath(); actx.moveTo(xR, base); actx.lineTo(W, base - H * 0.02); actx.lineTo(W, H); actx.lineTo(xR - W * 0.03, H); actx.quadraticCurveTo(xR + W * 0.006, base + H * 0.12, xR, base); actx.fill();
-    });
-    actx.font = `800 ${size}px ${sans}`;
-    actx.save(); actx.fillStyle = `rgb(${(5 + 250 * ign) | 0},${(5 + 195 * ign) | 0},${(15 + 135 * ign) | 0})`; if (ign > 0) { actx.shadowColor = "rgba(255,196,150,.9)"; actx.shadowBlur = 30 * ign; } actx.fillText("POSSIBLE", xP, base); actx.restore();
-    const tip = clamp((t - 1.3) / 0.9), fall = Math.max(0, t - 2.2);
-    actx.save(); actx.translate(xIM + wIM + fall * 60, base + fall * fall * 380); actx.rotate(ease(tip) * 1.25 + fall * fall * 0.9); actx.fillStyle = "#05050f"; actx.fillText("IM", -wIM, 0); actx.restore();
-    const sx = xL - W * 0.03, sy = base - 9, ex = xP + wP * 0.46, ey = base - size - 12, k = clamp((t - 2) / 2.3), px = sx + (ex - sx) * ease(k), py = sy + (ey - sy) * k - Math.sin(k * Math.PI) * H * 0.3;
-    glow(px, py, 60 + 12 * Math.sin(t * 6), 0.9); actx.fillStyle = "#fff3e6"; actx.beginPath(); actx.arc(px, py, 8, 0, 6.2832); actx.fill();
-    if (t > land && t < land + 1.2) { const r = (t - land) / 1.2; actx.strokeStyle = `rgba(255,220,180,${1 - r})`; actx.lineWidth = 3; actx.beginPath(); actx.arc(ex, ey, 20 + r * 260, 0, 6.2832); actx.stroke(); }
-  }
   function tumour(t) {  /* the cells of the simulation, 72 hours after radiation, played once */
     sky("plain", t, 0.5, false);
     if (pack === null) { const TS = D.tissue, c = TS && TS.conditions.find((x) => x.name === "radiation_only" && x.frames); pack = c ? { tf: tissueFrames(TS), c } : false; }
@@ -271,8 +255,6 @@
       sky("dna", t, 1, true); helix(t);
     } else if (scene === "week") {
       sky("week", t, 0.7, true); days(t);
-    } else if (scene === "leap") {
-      leap(t);
     } else if (scene === "moon") {
       moon(t);
     } else if (scene.startsWith("circuit")) {
@@ -299,7 +281,7 @@
   };
   const introPlan = (short) => {
     const set = CP.lang() === "el" ? EL : EN, src = short ? set.short : set.full, tail = src[src.length - 1][0] + 6.5;
-    const title = `CellProof<small>${set.tag}</small>`, card = `<div class="cardbox"><p class="big compact">${title}</p><ol class="what">${set.what.map((w) => `<li>${w}</li>`).join("")}</ol></div>`;
+    const title = `CellProof<small>${set.tag}</small>`, card = `<div class="cardbox"><p class="big compact">${title}</p><ol class="what labelled">${set.what.map(([l, w]) => `<li><span class="vlab">${l}</span><span>${w}</span></li>`).join("")}</ol></div>`;
     return [[0, () => { scrollTo("#top"); CPHero.pin(true); CPHero.show(0); root.classList.add("vid-intro", "vid-zoom"); }],
       ...src.map(([t, html, sc, kind]) => [t, () => { setArt(sc || ""); showLine(html, false, sc === "noise", kind); }]),
       [tail, () => { setArt(short ? "circuit" : "dna"); flash(); lines.classList.remove("warn"); showLine(short ? card : title, !short, false, short ? "card" : ""); say(set.cap); }]];

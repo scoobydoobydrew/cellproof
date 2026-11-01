@@ -856,3 +856,15 @@ html.vid-zoom #heroMol.jolt { animation: vidJolt .6s ease-out; }
 .vid-lines ol.what { max-width: 82vw; }
 .vid-lines ol.what li { font-size: clamp(22px, 2.4vw, 38px); }
 .vid-lines:has(.cardbox) { padding-block: 1vh 23vh; }
+
+/* the last card: the field, the problem, where the work helps */
+.vid-lines ol.what.labelled { gap: 22px; max-width: 74vw; }
+.vid-lines ol.what.labelled li { grid-template-columns: 1fr; gap: 4px; text-align: center; justify-items: center; font-size: clamp(24px, 2.8vw, 44px); line-height: 1.25; }
+.vid-lines ol.what.labelled li::before { content: none; }
+.vid-lines ol.what.labelled .vlab { font: 600 clamp(13px, 1.25vw, 20px)/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: #ffc9a0; }
+.vid-lines ol.what.labelled li:nth-child(1) { animation-delay: 2.2s; } .vid-lines ol.what.labelled li:nth-child(2) { animation-delay: 5.6s; } .vid-lines ol.what.labelled li:nth-child(3) { animation-delay: 9s; }
+/* the card scales with the height of the window too, so that it clears the caption on a short screen */
+.vid-lines p.compact { font-size: clamp(40px, min(7vw, 12vh), 104px); }
+.vid-lines small { font-size: clamp(16px, min(2.6vw, 4.4vh), 38px); }
+.vid-lines ol.what.labelled { gap: min(22px, 3vh); }
+.vid-lines ol.what.labelled li { font-size: clamp(18px, min(2.8vw, 4.7vh), 44px); }
