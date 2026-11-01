@@ -37,8 +37,8 @@
     ...searchPart(demoEnd),
   ];
   /* #video-short: the take that follows #intro-short, which has already said what the project is: the tumour, the samples, the demo a little faster, the search, the limits */
-  const SPEED2 = 1.6, startDemo2 = 20, takeShort = [
-    [0, () => { scrollTo("#top"); CPHero.pin(true); CPHero.show(6); }], [10, beat(7)],
+  const SPEED2 = 1.5, startDemo2 = 16, takeShort = [
+    [0, () => { scrollTo("#top"); CPHero.pin(true); CPHero.show(6); }], [8, beat(7)],
     [startDemo2, () => { CPHero.pin(false); CPBench.play(SPEED2); }],
     ...searchPart(startDemo2 + CPBench.seconds / SPEED2 + 1.5),
   ];
@@ -49,48 +49,54 @@
   const TERM_EN = "<b>Solitary conviction</b>A state where you believe in something without having evidence that it would work.";
   const TERM_EL = "<b>Solitary conviction</b>Η κατάσταση όπου πιστεύεις σε κάτι χωρίς να έχεις απόδειξη ότι θα δουλέψει.";
   const EN = {
-    short: [[0, "There is a feeling you get when you believe in something <em>before anyone else does.</em>", "crowd"], [7.5, TERM_EN, "dna", "term"], [16, "Before there is <em>proof.</em>", "trail"],
-      [21, "We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week.", "week"], [30, "And yet, here we are.", "leap"]],
+    short: [[0, "There is a feeling you get when you believe in something <em>before anyone else does.</em>", "cosmos"], [7.5, TERM_EN, "dna", "term"],
+      [16, "We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week.", "week"], [25, "And yet, here we are.", "leap"],
+      [31.5, "We aimed for the <em>stars.</em> We landed on the <em>moon.</em>", "moon"]],
     full: [[0, "Biology is drowning in <em>noise.</em>", "noise"], [4.5, "A flood of papers. Endless experiments. Too many gene switches to <em>ever try them all.</em>", "noise"], [10.5, "Trial and error is not enough.", "noise"],
-      [15.5, "There is a feeling you get when you believe in something <em>before anyone else does.</em>", "crowd"], [23, TERM_EN, "dna", "term"], [31, "Before there is <em>proof.</em>", "trail"],
-      [36, "We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week.", "week"], [45, "And yet, here we are.", "leap"],
-      [51.5, "A cell is a <em>circuit.</em> Genes switch each other on and off.", "circuit"], [56.5, `${genes} genes, each on or off: a logic circuit that can be checked.`, "circuit"],
-      [61.5, "But the circuit is incomplete. The papers know links that it is missing.", "circuit-link"], [67, "An AI can read the papers. It cannot tell whether a new link <em>breaks</em> the circuit.", "circuit-link"],
-      [73, "An exact solver can check the circuit. It cannot <em>read.</em>", "circuit-scan"], [78.5, "CellProof joins them. The AI proposes. The solver <em>decides.</em>", "circuit-scan"],
-      [84, "What is left is tested on a virtual tumour.", "tumour"], [89, "We did not find a cure for cancer. We built a way to ask <em>how</em>, exactly.", "dna"]],
-    what: ["A cell is a circuit of genes that switch each other on and off.", "An AI reads the papers and proposes what the circuit is missing.", "An exact solver checks every proposal and rejects what breaks it.",
-      "What survives is tested on a virtual tumour, and asked again for tumours with different genes."],
+      [15.5, "There is a feeling you get when you believe in something <em>before anyone else does.</em>", "cosmos"], [23, TERM_EN, "dna", "term"],
+      [31, "We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week.", "week"], [40, "And yet, here we are.", "leap"],
+      [46.5, "We aimed for the <em>stars.</em> We landed on the <em>moon.</em>", "moon"],
+      [53, "A cell is a <em>circuit.</em> Genes switch each other on and off.", "circuit"], [58, `${genes} genes, each on or off: a logic circuit that can be checked.`, "circuit"],
+      [63, "But the circuit is incomplete. The papers know links that it is missing.", "circuit-link"], [68.5, "An AI can read the papers. It cannot tell whether a new link <em>breaks</em> the circuit.", "circuit-link"],
+      [74.5, "An exact solver can check the circuit. It cannot <em>read.</em>", "circuit-scan"], [80, "CellProof joins them. The AI proposes. The solver <em>decides.</em>", "circuit-scan"],
+      [85.5, "What is left is tested on a virtual tumour.", "tumour"], [90.5, "We did not find a cure for cancer. We built a way to ask <em>how</em>, exactly.", "dna"]],
+    what: ["Cells run on circuits of genes.", "An AI reads the papers and proposes what the circuit is missing.", "An exact solver checks every proposal.", "What survives is tested on a virtual tumour."],
     tag: "From shared uncertainty to solitary conviction.",
     cap: `Before this week: a published ${genes}-gene model, open papers, open-source solvers. This week: an agent where Muse Spark reads the papers and an exact solver decides. Hypotheses for the lab, not treatments.`,
   };
   const EL = {
-    short: [[0, "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι <em>πριν από κάθε άλλον.</em>", "crowd"], [7.5, TERM_EL, "dna", "term"], [16, "Πριν υπάρξει <em>απόδειξη.</em>", "trail"],
-      [21, "Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα.", "week"], [30, "Κι όμως, είμαστε εδώ.", "leap"]],
+    short: [[0, "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι <em>πριν από κάθε άλλον.</em>", "cosmos"], [7.5, TERM_EL, "dna", "term"],
+      [16, "Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα.", "week"], [25, "Κι όμως, είμαστε εδώ.", "leap"],
+      [31.5, "Στοχεύσαμε στα <em>αστέρια.</em> Προσγειωθήκαμε στη <em>Σελήνη.</em>", "moon"]],
     full: [[0, "Η βιολογία πνίγεται στον <em>θόρυβο.</em>", "noise"], [4.5, "Χείμαρρος άρθρων. Ατελείωτα πειράματα. Υπερβολικά πολλοί συνδυασμοί γονιδίων για να τους <em>δοκιμάσεις όλους.</em>", "noise"], [10.5, "Η δοκιμή και το λάθος δεν αρκούν.", "noise"],
-      [15.5, "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι <em>πριν από κάθε άλλον.</em>", "crowd"], [23, TERM_EL, "dna", "term"], [31, "Πριν υπάρξει <em>απόδειξη.</em>", "trail"],
-      [36, "Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα.", "week"], [45, "Κι όμως, είμαστε εδώ.", "leap"],
-      [51.5, "Ένα κύτταρο είναι ένα <em>κύκλωμα.</em> Τα γονίδια ανάβουν και σβήνουν το ένα το άλλο.", "circuit"], [56.5, `${genes} γονίδια, το καθένα αναμμένο ή σβηστό: ένα λογικό κύκλωμα που μπορεί να ελεγχθεί.`, "circuit"],
-      [61.5, "Αλλά το κύκλωμα είναι ελλιπές. Τα papers ξέρουν συνδέσεις που του λείπουν.", "circuit-link"], [67, "Ένα AI μπορεί να διαβάσει τα papers. Δεν ξέρει αν μια νέα σύνδεση <em>χαλάει</em> το κύκλωμα.", "circuit-link"],
-      [73, "Ένας ακριβής solver μπορεί να ελέγξει το κύκλωμα. Δεν μπορεί να <em>διαβάσει.</em>", "circuit-scan"], [78.5, "Το CellProof τους ενώνει. Το AI προτείνει. Ο solver <em>αποφασίζει.</em>", "circuit-scan"],
-      [84, "Ό,τι μένει δοκιμάζεται σε έναν εικονικό όγκο.", "tumour"], [89, "Δεν βρήκαμε τη θεραπεία του καρκίνου. Φτιάξαμε έναν τρόπο να ρωτάμε <em>πώς</em>, με ακρίβεια.", "dna"]],
-    what: ["Ένα κύτταρο είναι ένα κύκλωμα γονιδίων που ανάβουν και σβήνουν το ένα το άλλο.", "Ένα AI διαβάζει τα papers και προτείνει ό,τι λείπει από το κύκλωμα.", "Ένας ακριβής solver ελέγχει κάθε πρόταση και απορρίπτει όσες χαλάνε το κύκλωμα.",
-      "Ό,τι επιβιώνει δοκιμάζεται σε έναν εικονικό όγκο, και ξαναρωτιέται για όγκους με διαφορετικά γονίδια."],
+      [15.5, "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι <em>πριν από κάθε άλλον.</em>", "cosmos"], [23, TERM_EL, "dna", "term"],
+      [31, "Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα.", "week"], [40, "Κι όμως, είμαστε εδώ.", "leap"],
+      [46.5, "Στοχεύσαμε στα <em>αστέρια.</em> Προσγειωθήκαμε στη <em>Σελήνη.</em>", "moon"],
+      [53, "Ένα κύτταρο είναι ένα <em>κύκλωμα.</em> Τα γονίδια ανάβουν και σβήνουν το ένα το άλλο.", "circuit"], [58, `${genes} γονίδια, το καθένα αναμμένο ή σβηστό: ένα λογικό κύκλωμα που μπορεί να ελεγχθεί.`, "circuit"],
+      [63, "Αλλά το κύκλωμα είναι ελλιπές. Τα papers ξέρουν συνδέσεις που του λείπουν.", "circuit-link"], [68.5, "Ένα AI μπορεί να διαβάσει τα papers. Δεν ξέρει αν μια νέα σύνδεση <em>χαλάει</em> το κύκλωμα.", "circuit-link"],
+      [74.5, "Ένας ακριβής solver μπορεί να ελέγξει το κύκλωμα. Δεν μπορεί να <em>διαβάσει.</em>", "circuit-scan"], [80, "Το CellProof τους ενώνει. Το AI προτείνει. Ο solver <em>αποφασίζει.</em>", "circuit-scan"],
+      [85.5, "Ό,τι μένει δοκιμάζεται σε έναν εικονικό όγκο.", "tumour"], [90.5, "Δεν βρήκαμε τη θεραπεία του καρκίνου. Φτιάξαμε έναν τρόπο να ρωτάμε <em>πώς</em>, με ακρίβεια.", "dna"]],
+    what: ["Τα κύτταρα λειτουργούν με κυκλώματα γονιδίων.", "Ένα AI διαβάζει τα papers και προτείνει ό,τι λείπει από το κύκλωμα.", "Ένας ακριβής solver ελέγχει κάθε πρόταση.", "Ό,τι επιβιώνει δοκιμάζεται σε έναν εικονικό όγκο."],
     tag: "From shared uncertainty to solitary conviction.",
     cap: `Πριν από αυτή την εβδομάδα: ένα δημοσιευμένο μοντέλο ${genes} γονιδίων, ανοιχτά papers, solvers ανοιχτού κώδικα. Αυτή την εβδομάδα: ένας agent όπου το Muse Spark διαβάζει τα papers και ένας ακριβής solver αποφασίζει. Υποθέσεις για το εργαστήριο, όχι θεραπείες.`,
   };
-  const lines = document.createElement("div"), fl = document.createElement("div"), art = document.createElement("canvas"), actx = art.getContext("2d");
+  const lines = document.createElement("div"), fl = document.createElement("div"), art = document.createElement("canvas");
+  let actx = art.getContext("2d");
   lines.className = "vid-lines"; fl.className = "vid-flash"; art.className = "vid-art"; art.hidden = true; document.body.append(art, lines, fl);
 
-  /* the backgrounds: each is drawn for the idea of its line, in the manner of glowing renders (a nebula, a luminous helix, a network of lit cells).
-     noise: red points that flicker. crowd: a stream of points and one that stays. dna: a helix in a nebula. trail: one point walks into the dark.
-     week: seven days fill one by one. leap: IMPOSSIBLE loses its first two letters and the point crosses the gap. circuit: a network with signals, with a
-     new link, with a scan. tumour: the simulation's own cells (the only picture here that is data). */
+  /* the backgrounds: each is drawn for the idea of its line, in the manner of glowing renders: a universe of stars, a band of the galaxy, spiral galaxies, nebulae.
+     noise: red points that flicker. cosmos: a person on a cliff facing the galaxies. dna: a luminous helix in the universe. week: seven days fill one by one.
+     leap: IMPOSSIBLE loses its first two letters and the point crosses the gap. moon: the point aims for a star and lands on the moon. circuit: a network with
+     signals, with a new link, with a scan. tumour: the simulation's own cells (the only picture here that is data). */
   let scene = "", st0 = 0, raf = 0, W = 0, H = 0, pack = null;
-  const rnd = (() => { let x = 7; return () => ((x = (x * 16807) % 2147483647) / 2147483647); })();
-  const dots = Array.from({ length: 320 }, () => ({ x: rnd(), y: rnd(), v: 0.012 + rnd() * 0.04, r: 1 + rnd() * 2.2, p: rnd() * 6.28 }));
-  const CLOUDS = Array.from({ length: 7 }, (_, i) => ({ x: rnd(), y: rnd(), r: 0.22 + rnd() * 0.3, c: [[120, 80, 255], [255, 80, 170], [60, 170, 255], [150, 90, 230]][i % 4], p: rnd() * 6.28, s: 0.03 + rnd() * 0.05 }));
-  const STARS = Array.from({ length: 160 }, () => ({ x: rnd(), y: rnd(), r: 0.4 + rnd() * 1.3, p: rnd() * 6.28 }));
-  const NODES = Array.from({ length: 18 }, (_, i) => ({ x: ((i % 6) + 0.5 + (rnd() - 0.5) * 0.7) / 6, y: (Math.floor(i / 3 / 2) + 0.5 + (rnd() - 0.5) * 0.7) / 3 }));
+  const rnd = (() => { let x = 7; return () => ((x = (x * 16807) % 2147483647) / 2147483647); })(), gauss = () => rnd() + rnd() + rnd() - 1.5;
+  const dots = Array.from({ length: 320 }, () => ({ x: rnd(), y: rnd(), r: 1 + rnd() * 2.2, p: rnd() * 6.28 }));
+  const CLOUDS = Array.from({ length: 8 }, (_, i) => ({ x: rnd(), y: rnd(), r: 0.22 + rnd() * 0.3, c: [[120, 80, 255], [255, 90, 120], [60, 170, 255], [150, 90, 230]][i % 4], p: rnd() * 6.28, s: 0.03 + rnd() * 0.05 }));
+  const STARS = Array.from({ length: 460 }, () => ({ x: rnd(), y: rnd(), r: 0.4 + Math.pow(rnd(), 3) * 2.2, p: rnd() * 6.28 }));
+  const BAND = Array.from({ length: 800 }, () => ({ s: rnd() * 1.4 - 0.2, o: gauss(), z: 0.6 + rnd() * 1.4, a: 0.18 + rnd() * 0.5, c: rnd() }));
+  const spiral = (n) => Array.from({ length: n }, (_, i) => { const r = Math.pow(rnd(), 0.6); return { r, th: r * 9 + (i % 2) * Math.PI + (rnd() - 0.5) * 0.5, z: 0.6 + rnd() * 1.4 }; });
+  const GAL = [{ x: 0.16, y: 0.27, R: 0.11, tilt: 0.45, rot: 0.5, pts: spiral(520) }, { x: 0.86, y: 0.2, R: 0.085, tilt: 0.6, rot: -0.4, pts: spiral(420) }, { x: 0.91, y: 0.62, R: 0.055, tilt: 0.5, rot: 0.9, pts: spiral(260) }];
+  const NODES = Array.from({ length: 18 }, (_, i) => ({ x: ((i % 6) + 0.5 + (rnd() - 0.5) * 0.7) / 6, y: (Math.floor(i / 6) + 0.5 + (rnd() - 0.5) * 0.7) / 3 }));
   const EDGES = (() => {
     const out = [], seen = new Set();
     NODES.forEach((a, i) => NODES.map((b, j) => [j, Math.hypot(a.x - b.x, (a.y - b.y) * 0.6)]).filter(([j]) => j !== i).sort((u, v) => u[1] - v[1]).slice(0, 2).forEach(([j]) => {
@@ -98,34 +104,107 @@
     }));
     return out;
   })(), LINK = [2, 15], CROWD2 = [[190, 182, 232], [92, 158, 255], [232, 192, 72], [58, 214, 168], [255, 110, 186]].map((c) => rgba(c, 0.95)), sans = css("--sans") || "sans-serif";
+  const CRATERS = Array.from({ length: 34 }, () => ({ a: -Math.PI / 2 + (rnd() - 0.5) * 1.5, d: 0.5 + rnd() * 0.5, r: 0.012 + rnd() * 0.05 }));
   const ease = (x) => 1 - Math.pow(1 - Math.min(1, Math.max(0, x)), 3), clamp = (x) => Math.min(1, Math.max(0, x));
   const bg = (c1, c2) => { const g = actx.createRadialGradient(W * 0.5, H * 0.45, 0, W * 0.5, H * 0.5, Math.max(W, H) * 0.72); g.addColorStop(0, c1); g.addColorStop(1, c2); actx.fillStyle = g; actx.fillRect(0, 0, W, H); };
   const glow = (x, y, r, a) => { const g = actx.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, `rgba(255,196,150,${a})`); g.addColorStop(1, "rgba(255,196,150,0)"); actx.fillStyle = g; actx.beginPath(); actx.arc(x, y, r, 0, 6.2832); actx.fill(); };
-  function nebula(t, k) {
-    actx.fillStyle = "#06061a"; actx.fillRect(0, 0, W, H); actx.globalCompositeOperation = "lighter";
-    for (const c of CLOUDS) {
-      const x = (c.x + Math.sin(t * c.s + c.p) * 0.05) * W, y = (c.y + Math.cos(t * c.s * 1.3 + c.p) * 0.05) * H, r = c.r * Math.max(W, H), g = actx.createRadialGradient(x, y, 0, x, y, r);
-      g.addColorStop(0, `rgba(${c.c},${0.24 * k})`); g.addColorStop(1, `rgba(${c.c},0)`); actx.fillStyle = g; actx.fillRect(x - r, y - r, 2 * r, 2 * r);
+  function nebula(k, rich, c) {  /* clouds, the band of the galaxy, spiral galaxies and stars, drawn once into `c` */
+    c.fillStyle = "#05051a"; c.fillRect(0, 0, W, H); c.globalCompositeOperation = "lighter";
+    const m = Math.max(W, H);
+    for (const q of CLOUDS) { const x = q.x * W, y = q.y * H, r = q.r * m, g = c.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, `rgba(${q.c},${0.36 * k})`); g.addColorStop(1, `rgba(${q.c},0)`); c.fillStyle = g; c.fillRect(x - r, y - r, 2 * r, 2 * r); }
+    if (rich) {
+      for (let i = 0; i < 6; i++) { const sx = 0.1 + i * 0.16, x = sx * W, y = (0.88 - 0.55 * sx) * H, g = c.createRadialGradient(x, y, 0, x, y, m * 0.2); g.addColorStop(0, "rgba(150,170,255,.11)"); g.addColorStop(1, "rgba(150,170,255,0)"); c.fillStyle = g; c.fillRect(x - m * 0.2, y - m * 0.2, m * 0.4, m * 0.4); }
+      for (const q of BAND) { c.fillStyle = q.c > 0.7 ? `rgba(255,190,200,${q.a})` : `rgba(200,215,255,${q.a})`; c.fillRect(q.s * W + q.o * W * 0.1, (0.88 - 0.55 * q.s) * H + q.o * H * 0.3, q.z, q.z); }
+      for (const g of GAL) {
+        const cx = g.x * W, cy = g.y * H, R = g.R * m, gl = c.createRadialGradient(cx, cy, 0, cx, cy, R * 0.7), co = Math.cos(g.rot), si = Math.sin(g.rot);
+        gl.addColorStop(0, "rgba(255,225,180,.55)"); gl.addColorStop(1, "rgba(255,200,150,0)"); c.fillStyle = gl; c.fillRect(cx - R, cy - R, 2 * R, 2 * R);
+        for (const q of g.pts) { const px = Math.cos(q.th) * q.r * R, py = Math.sin(q.th) * q.r * R * g.tilt; c.fillStyle = `rgba(${(255 - 110 * q.r) | 0},${(225 - 45 * q.r) | 0},${(170 + 85 * q.r) | 0},${0.8 - 0.5 * q.r})`; c.fillRect(cx + px * co - py * si, cy + px * si + py * co, q.z, q.z); }
+      }
     }
-    actx.globalCompositeOperation = "source-over";
-    for (const s of STARS) { actx.fillStyle = `rgba(255,255,255,${0.2 + 0.45 * Math.abs(Math.sin(t * 0.8 + s.p))})`; actx.beginPath(); actx.arc(s.x * W, s.y * H, s.r, 0, 6.2832); actx.fill(); }
+    c.globalCompositeOperation = "source-over";
+    for (const q of STARS) {
+      const a = 0.45 + 0.4 * Math.sin(q.p), x = q.x * W, y = q.y * H; c.fillStyle = `rgba(255,255,255,${a})`; c.beginPath(); c.arc(x, y, q.r, 0, 6.2832); c.fill();
+      if (q.r > 1.7) { c.strokeStyle = `rgba(255,255,255,${a * 0.6})`; c.lineWidth = 1; c.beginPath(); c.moveTo(x - q.r * 5, y); c.lineTo(x + q.r * 5, y); c.moveTo(x, y - q.r * 5); c.lineTo(x, y + q.r * 5); c.stroke(); }
+    }
   }
-  function helix(t) {  /* two luminous strands and their rungs, slowly turning, across the nebula */
+  const skies = {};
+  function sky(name, t, k, rich, still) {  /* the universe of a scene: drawn once, then copied with a slow zoom, twinkling stars and now and then a shooting star */
+    const key = `${name}${W}x${H}`;
+    if (!skies[key]) { const o = document.createElement("canvas"), d = Math.min(2, devicePixelRatio || 1); o.width = W * d; o.height = H * d; const c = o.getContext("2d"); c.setTransform(d, 0, 0, d, 0, 0); nebula(k, rich, c); skies[key] = o; }
+    const z = still ? 1 : 1 + 0.03 * Math.min(1, t / 10);
+    actx.save(); actx.translate(W / 2, H / 2); actx.scale(z, z); actx.translate(-W / 2, -H / 2); actx.drawImage(skies[key], 0, 0, W, H); actx.restore();
+    if (still) return;
+    twinkle(t, 70); if (rich) shootStar(t);
+  }
+  function twinkle(t, n) { for (let i = 0; i < n; i++) { const q = STARS[i]; actx.fillStyle = `rgba(255,255,255,${0.7 * Math.abs(Math.sin(t * 1.3 + q.p * 3))})`; actx.beginPath(); actx.arc(q.x * W, q.y * H, q.r * 1.2, 0, 6.2832); actx.fill(); } }
+  function shootStar(t) {
+    const per = 6.5, k2 = (t % per) / 0.9;
+    if (k2 < 1) { const n = Math.floor(t / per), x0 = W * (0.15 + ((n * 0.37) % 0.6)), y0 = H * (0.08 + ((n * 0.23) % 0.25)), x = x0 + k2 * W * 0.28, y = y0 + k2 * H * 0.16, g = actx.createLinearGradient(x - W * 0.09, y - H * 0.05, x, y); g.addColorStop(0, "rgba(255,255,255,0)"); g.addColorStop(1, "rgba(255,255,255,.95)"); actx.strokeStyle = g; actx.lineWidth = 2; actx.beginPath(); actx.moveTo(x - W * 0.09, y - H * 0.05); actx.lineTo(x, y); actx.stroke(); }
+  }
+  const layers = {};
+  function frozen(name, draw, zoom, t) {  /* what does not move is drawn once into a layer and copied (with a very slow push-in if `zoom`) */
+    const key = `${name}${W}x${H}`;
+    if (!layers[key]) { const o = document.createElement("canvas"), d = Math.min(2, devicePixelRatio || 1); o.width = W * d; o.height = H * d; const c = o.getContext("2d"); c.setTransform(d, 0, 0, d, 0, 0); const keep = actx; actx = c; try { draw(); } finally { actx = keep; } layers[key] = o; }
+    const z = zoom ? 1 + zoom * clamp(t / 8) : 1;
+    actx.save(); actx.translate(W / 2, H / 2); actx.scale(z, z); actx.translate(-W / 2, -H / 2); actx.drawImage(layers[key], 0, 0, W, H); actx.restore();
+  }
+  function helix(t) {  /* two luminous strands and their rungs, slowly turning, across the universe */
     actx.save(); actx.translate(W * 0.5, H * 0.5); actx.rotate(-0.42); actx.globalCompositeOperation = "lighter"; actx.lineCap = "round";
-    const len = Math.hypot(W, H) * 1.05, amp = Math.min(H * 0.17, 150), N = 120, ph = t * 0.9, pt = (s, k) => [(s - 0.5) * len, Math.sin(s * 22 + ph + k * Math.PI) * amp, Math.cos(s * 22 + ph + k * Math.PI)];
+    const len = Math.hypot(W, H) * 1.05, amp = Math.min(H * 0.17, 150), N = 120, ph = t * 0.9, pt = (u, k) => [(u - 0.5) * len, Math.sin(u * 22 + ph + k * Math.PI) * amp, Math.cos(u * 22 + ph + k * Math.PI)];
     for (let i = 0; i < N; i += 2) { const a = pt(i / N, 0), b = pt(i / N, 1); actx.strokeStyle = `rgba(255,255,255,${0.08 + 0.2 * Math.abs(a[2])})`; actx.lineWidth = 2; actx.beginPath(); actx.moveTo(a[0], a[1]); actx.lineTo(b[0], b[1]); actx.stroke(); }
     for (let k = 0; k < 2; k++) {
-      const col = k ? "255,90,200" : "80,200,255"; actx.strokeStyle = `rgba(${col},.95)`; actx.shadowColor = `rgba(${col},1)`; actx.shadowBlur = 22; actx.lineWidth = 4; actx.beginPath();
+      const col = k ? "255,90,200" : "80,200,255"; actx.beginPath();
       for (let i = 0; i <= N; i++) { const q = pt(i / N, k); if (i) actx.lineTo(q[0], q[1]); else actx.moveTo(q[0], q[1]); }
-      actx.stroke(); actx.shadowBlur = 0;
+      actx.strokeStyle = `rgba(${col},.16)`; actx.lineWidth = 16; actx.stroke(); actx.strokeStyle = `rgba(${col},.95)`; actx.lineWidth = 4; actx.stroke();
     }
     actx.restore();
   }
+  function person(x, y, h) {  /* a silhouette seen from behind, feet at (x, y) */
+    const u = h / 10; actx.fillStyle = "#02030a"; actx.strokeStyle = "#02030a"; actx.lineCap = "round";
+    actx.beginPath(); actx.arc(x, y - 9.2 * u, 0.62 * u, 0, 6.2832); actx.fill(); actx.fillRect(x - 0.24 * u, y - 8.7 * u, 0.48 * u, 0.6 * u);
+    actx.beginPath(); actx.moveTo(x - 1.15 * u, y - 7.9 * u); actx.quadraticCurveTo(x, y - 8.6 * u, x + 1.15 * u, y - 7.9 * u); actx.lineTo(x + 0.9 * u, y - 4.5 * u); actx.lineTo(x - 0.9 * u, y - 4.5 * u); actx.closePath(); actx.fill();
+    actx.lineWidth = 0.55 * u; actx.beginPath(); actx.moveTo(x - 1.2 * u, y - 7.7 * u); actx.lineTo(x - 1.4 * u, y - 4.6 * u); actx.moveTo(x + 1.2 * u, y - 7.7 * u); actx.lineTo(x + 1.4 * u, y - 4.6 * u); actx.stroke();
+    actx.lineWidth = 0.85 * u; actx.beginPath(); actx.moveTo(x - 0.45 * u, y - 4.6 * u); actx.lineTo(x - 0.5 * u, y - 0.2 * u); actx.moveTo(x + 0.45 * u, y - 4.6 * u); actx.lineTo(x + 0.5 * u, y - 0.2 * u); actx.stroke();
+  }
+  function cosmos(t) {  /* one person on a cliff, and a universe: galaxies, a red nebula, a bright horizon; drawn once, then moved a little */
+    frozen("cosmos", () => {
+      sky("cosmos", 0, 1.6, true, true); actx.globalCompositeOperation = "lighter";
+      let g = actx.createRadialGradient(W * 0.78, H * 0.32, 0, W * 0.78, H * 0.32, W * 0.3); g.addColorStop(0, "rgba(255,120,80,.3)"); g.addColorStop(1, "rgba(255,120,80,0)"); actx.fillStyle = g; actx.fillRect(W * 0.4, 0, W * 0.6, H * 0.7);
+      const hy = H * 0.62; actx.save(); actx.translate(W * 0.5, hy); actx.scale(1, 0.1); g = actx.createRadialGradient(0, 0, 0, 0, 0, W * 0.55); g.addColorStop(0, "rgba(255,255,255,.95)"); g.addColorStop(0.12, "rgba(190,210,255,.55)"); g.addColorStop(1, "rgba(80,120,255,0)"); actx.fillStyle = g; actx.beginPath(); actx.arc(0, 0, W * 0.55, 0, 6.2832); actx.fill(); actx.restore();
+      actx.globalCompositeOperation = "source-over";
+      const lg = actx.createLinearGradient(0, 0, W, 0); lg.addColorStop(0, "rgba(255,255,255,0)"); lg.addColorStop(0.5, "rgba(255,255,255,.95)"); lg.addColorStop(1, "rgba(255,255,255,0)");
+      actx.save(); actx.strokeStyle = lg; actx.lineWidth = 2; actx.shadowColor = "rgba(180,210,255,.9)"; actx.shadowBlur = 24; actx.beginPath(); actx.moveTo(0, hy + H * 0.03); actx.quadraticCurveTo(W * 0.5, hy - H * 0.05, W, hy + H * 0.03); actx.stroke(); actx.restore();
+      actx.save(); actx.beginPath(); actx.rect(0, hy + H * 0.02, W, H); actx.clip(); actx.translate(0, 2 * hy); actx.scale(1, -1); actx.globalAlpha = 0.5; sky("cosmos", 0, 1.6, true, true); actx.restore();  /* the sky again, upside down, below the horizon */
+      const dk = actx.createLinearGradient(0, hy, 0, H); dk.addColorStop(0, "rgba(3,5,18,.1)"); dk.addColorStop(1, "rgba(2,3,10,.55)"); actx.fillStyle = dk; actx.fillRect(0, hy + H * 0.02, W, H);
+      const ry = H * 0.8, px = W * 0.3; actx.fillStyle = "#02030a";
+      actx.beginPath(); actx.moveTo(0, H); actx.lineTo(0, ry + H * 0.02); actx.lineTo(px - W * 0.16, ry + H * 0.015); actx.lineTo(px + W * 0.07, ry); actx.lineTo(px + W * 0.13, ry + H * 0.03); actx.quadraticCurveTo(px + W * 0.1, ry + H * 0.12, px + W * 0.03, H); actx.fill();
+      actx.strokeStyle = "rgba(140,170,255,.22)"; actx.lineWidth = 1.5; actx.beginPath(); actx.moveTo(px - W * 0.16, ry + H * 0.015); actx.lineTo(px + W * 0.07, ry); actx.lineTo(px + W * 0.13, ry + H * 0.03); actx.stroke();
+      person(px, ry, H * 0.17);
+    }, 0.025, t);
+    twinkle(t, 60); shootStar(t);
+  }
+  function moon(t) {  /* the point aims for a star, curves down and lands on the moon */
+    const R = H, cx = W * 0.55, cy = H * 1.55, topAt = (x) => cy - Math.sqrt(Math.max(0, R * R - (x - cx) * (x - cx)));
+    frozen("moon", () => {
+      sky("moon", 0, 0.9, true, true);
+      actx.save(); actx.shadowColor = "rgba(160,190,255,.7)"; actx.shadowBlur = 40; const g = actx.createRadialGradient(cx - R * 0.3, cy - R * 0.55, R * 0.1, cx, cy, R); g.addColorStop(0, "#e2dff0"); g.addColorStop(0.55, "#8d8aa3"); g.addColorStop(1, "#2a2940"); actx.fillStyle = g; actx.beginPath(); actx.arc(cx, cy, R, 0, 6.2832); actx.fill(); actx.restore();
+      for (const c of CRATERS) { const x = cx + Math.cos(c.a) * c.d * R, y = cy + Math.sin(c.a) * c.d * R, r = c.r * R; actx.fillStyle = "rgba(40,38,64,.28)"; actx.beginPath(); actx.ellipse(x, y, r, r * 0.55, 0, 0, 6.2832); actx.fill(); actx.strokeStyle = "rgba(255,255,255,.14)"; actx.lineWidth = 1.5; actx.stroke(); }
+    }, 0.02, t);
+    twinkle(t, 50); shootStar(t);
+    const u = clamp(t / 5.2), s = u * u * (3 - 2 * u), E = [W * 0.42, topAt(W * 0.42) - 6], S = [W * 0.1, H * 0.56], C1 = [W * 0.45, -H * 0.12], C2 = [W * 0.97, H * 0.02];
+    const at = (v) => { const w = 1 - v; return [w * w * w * S[0] + 3 * w * w * v * C1[0] + 3 * w * v * v * C2[0] + v * v * v * E[0], w * w * w * S[1] + 3 * w * w * v * C1[1] + 3 * w * v * v * C2[1] + v * v * v * E[1]]; };
+    const sx = W * 0.6, sy = H * 0.1, near = Math.max(0, 1 - Math.abs(s - 0.5) / 0.15), len = 18 + 40 * near;  /* the star it aims for flares as the point passes */
+    actx.globalCompositeOperation = "lighter"; glow(sx, sy, 40 + 70 * near, 0.5 + 0.4 * near); actx.strokeStyle = `rgba(255,255,255,${0.5 + 0.5 * near})`; actx.lineWidth = 1.5; actx.beginPath(); actx.moveTo(sx - len, sy); actx.lineTo(sx + len, sy); actx.moveTo(sx, sy - len); actx.lineTo(sx, sy + len); actx.stroke();
+    for (let v = Math.max(0, s - 0.4); v < s; v += 0.012) { const [x, y] = at(v), a = (v - (s - 0.4)) / 0.4; actx.fillStyle = `rgba(255,205,160,${0.5 * a})`; actx.beginPath(); actx.arc(x, y, 1 + 3 * a, 0, 6.2832); actx.fill(); }
+    actx.globalCompositeOperation = "source-over";
+    const [px, py] = at(s); glow(px, py, 55 + 8 * Math.sin(t * 6), 0.9); actx.fillStyle = "#fff3e6"; actx.beginPath(); actx.arc(px, py, 7, 0, 6.2832); actx.fill();
+    if (t > 5.2 && t < 6.7) { const r = (t - 5.2) / 1.5; actx.strokeStyle = `rgba(255,225,190,${1 - r})`; actx.lineWidth = 3; actx.beginPath(); actx.ellipse(E[0], E[1] + 6, 20 + r * 220, (20 + r * 220) * 0.25, 0, 0, 6.2832); actx.stroke(); }
+  }
   function circuit(t, mode) {  /* a network of lit cells: signals run along its links; `link` grows a new one; `scan` checks the links from left to right */
-    nebula(t, 0.5); actx.globalCompositeOperation = "lighter"; actx.lineCap = "round";
+    sky("plain", t, 0.5, false); actx.globalCompositeOperation = "lighter"; actx.lineCap = "round";
     const sx = mode === "scan" ? clamp(t / 5.5) * W : -1, green = (x) => sx >= 0 && x < sx, P0 = (n) => [NODES[n].x * W, NODES[n].y * H];
     const path = (e) => { const [x1, y1] = P0(e[0]), [x2, y2] = P0(e[1]); return [x1, y1, (x1 + x2) / 2 + (y2 - y1) * e[2], (y1 + y2) / 2 - (x2 - x1) * e[2], x2, y2]; };
-    const at = (q, s) => { const u = 1 - s; return [u * u * q[0] + 2 * u * s * q[2] + s * s * q[4], u * u * q[1] + 2 * u * s * q[3] + s * s * q[5]]; };
+    const at = (q, u) => { const w = 1 - u; return [w * w * q[0] + 2 * w * u * q[2] + u * u * q[4], w * w * q[1] + 2 * w * u * q[3] + u * u * q[5]]; };
     for (const e of EDGES) {
       const q = path(e), ok = green((q[0] + q[4]) / 2), c = ok ? "90,240,170" : "60,170,255";
       actx.beginPath(); actx.moveTo(q[0], q[1]); actx.quadraticCurveTo(q[2], q[3], q[4], q[5]); actx.strokeStyle = `rgba(${c},.14)`; actx.lineWidth = 9; actx.stroke(); actx.strokeStyle = `rgba(${c},.6)`; actx.lineWidth = 1.6; actx.stroke();
@@ -134,7 +213,7 @@
     if (mode === "link" || mode === "scan") {
       const q = path([LINK[0], LINK[1], 0.2]), k = mode === "scan" ? 1 : clamp((t - 0.8) / 3.2), ok = green((q[0] + q[4]) / 2);
       actx.setLineDash([10, 10]); actx.strokeStyle = ok ? "rgba(90,240,170,.95)" : "rgba(255,196,150,.95)"; actx.lineWidth = 3; actx.beginPath();
-      for (let s = 0; s <= k + 1e-6; s += 0.02) { const [x, y] = at(q, s); if (s) actx.lineTo(x, y); else actx.moveTo(x, y); }
+      for (let u = 0; u <= k + 1e-6; u += 0.02) { const [x, y] = at(q, u); if (u) actx.lineTo(x, y); else actx.moveTo(x, y); }
       actx.stroke(); actx.setLineDash([]);
     }
     NODES.forEach((n, i) => {
@@ -155,14 +234,16 @@
     }
   }
   function leap(t) {  /* a dusk, two cliffs, IMPOSSIBLE: its first two letters tip into the gap, and the point crosses it and lights what is left */
-    const g = actx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#0b0a26"); g.addColorStop(0.5, "#4b2b66"); g.addColorStop(0.78, "#e48c6c"); g.addColorStop(1, "#ffd3a4"); actx.fillStyle = g; actx.fillRect(0, 0, W, H);
-    for (const s of STARS.slice(0, 70)) { actx.fillStyle = `rgba(255,255,255,${0.4 * (1 - s.y)})`; actx.fillRect(s.x * W, s.y * H * 0.5, s.r, s.r); }
-    glow(W * 0.62, H * 0.7, Math.min(W, H) * 0.6, 0.95);
     const base = H * 0.76, size = Math.min(W * 0.075, H * 0.17); actx.font = `800 ${size}px ${sans}`; actx.textBaseline = "alphabetic"; actx.textAlign = "left";
     const wIM = actx.measureText("IM").width, wP = actx.measureText("POSSIBLE").width, xP = W * 0.46, xR = xP - W * 0.012, xL = xR - W * 0.2, xIM = xL - wIM - W * 0.012, land = 4.3, ign = clamp((t - land) / 0.9);
-    actx.fillStyle = "#05050f";
-    actx.beginPath(); actx.moveTo(0, H); actx.lineTo(0, base); actx.lineTo(xL, base); actx.quadraticCurveTo(xL + W * 0.008, base + H * 0.1, xL - W * 0.03, H); actx.fill();
-    actx.beginPath(); actx.moveTo(xR, base); actx.lineTo(W, base - H * 0.02); actx.lineTo(W, H); actx.lineTo(xR - W * 0.03, H); actx.quadraticCurveTo(xR + W * 0.006, base + H * 0.12, xR, base); actx.fill();
+    frozen("leap", () => {
+      const g = actx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#0b0a26"); g.addColorStop(0.5, "#4b2b66"); g.addColorStop(0.78, "#e48c6c"); g.addColorStop(1, "#ffd3a4"); actx.fillStyle = g; actx.fillRect(0, 0, W, H);
+      for (const q of STARS.slice(0, 120)) { actx.fillStyle = `rgba(255,255,255,${0.5 * (1 - q.y)})`; actx.fillRect(q.x * W, q.y * H * 0.5, q.r, q.r); }
+      glow(W * 0.62, H * 0.7, Math.min(W, H) * 0.6, 0.95); actx.fillStyle = "#05050f";
+      actx.beginPath(); actx.moveTo(0, H); actx.lineTo(0, base); actx.lineTo(xL, base); actx.quadraticCurveTo(xL + W * 0.008, base + H * 0.1, xL - W * 0.03, H); actx.fill();
+      actx.beginPath(); actx.moveTo(xR, base); actx.lineTo(W, base - H * 0.02); actx.lineTo(W, H); actx.lineTo(xR - W * 0.03, H); actx.quadraticCurveTo(xR + W * 0.006, base + H * 0.12, xR, base); actx.fill();
+    });
+    actx.font = `800 ${size}px ${sans}`;
     actx.save(); actx.fillStyle = `rgb(${(5 + 250 * ign) | 0},${(5 + 195 * ign) | 0},${(15 + 135 * ign) | 0})`; if (ign > 0) { actx.shadowColor = "rgba(255,196,150,.9)"; actx.shadowBlur = 30 * ign; } actx.fillText("POSSIBLE", xP, base); actx.restore();
     const tip = clamp((t - 1.3) / 0.9), fall = Math.max(0, t - 2.2);
     actx.save(); actx.translate(xIM + wIM + fall * 60, base + fall * fall * 380); actx.rotate(ease(tip) * 1.25 + fall * fall * 0.9); actx.fillStyle = "#05050f"; actx.fillText("IM", -wIM, 0); actx.restore();
@@ -171,7 +252,7 @@
     if (t > land && t < land + 1.2) { const r = (t - land) / 1.2; actx.strokeStyle = `rgba(255,220,180,${1 - r})`; actx.lineWidth = 3; actx.beginPath(); actx.arc(ex, ey, 20 + r * 260, 0, 6.2832); actx.stroke(); }
   }
   function tumour(t) {  /* the cells of the simulation, 72 hours after radiation, played once */
-    nebula(t, 0.5);
+    sky("plain", t, 0.5, false);
     if (pack === null) { const TS = D.tissue, c = TS && TS.conditions.find((x) => x.name === "radiation_only" && x.frames); pack = c ? { tf: tissueFrames(TS), c } : false; }
     if (!pack) return;
     const rad = Math.min(W, H) * 0.36, cx = W * 0.5, cy = H * 0.5;
@@ -184,24 +265,16 @@
       bg("#2a0610", "#050003");
       for (const d of dots) { actx.fillStyle = `rgba(255,${80 + ((d.p * 20) | 0)},90,${0.1 + 0.55 * Math.abs(Math.sin(t * 3.2 + d.p * 9))})`; actx.fillRect(d.x * W, d.y * H, d.r * 1.6, d.r * 1.6); }
       for (let i = 0; i < 5; i++) { const y = (t * 90 + i * 211) % H; actx.fillStyle = "rgba(255,60,80,.06)"; actx.fillRect(0, y, W, 3 + (i % 3) * 3); }
-    } else if (scene === "crowd") {
-      nebula(t, 0.8);
-      for (const d of dots) { const x = ((d.x + t * d.v) % 1) * W, y = d.y * H + Math.sin(t * 0.8 + d.p) * 10; actx.fillStyle = "rgba(190,182,232,.38)"; actx.beginPath(); actx.arc(x, y, d.r, 0, 6.2832); actx.fill(); }
-      const cx = W * 0.5, cy = H * 0.5, ring = (t % 2.6) / 2.6;
-      actx.strokeStyle = `rgba(255,196,150,${0.5 * (1 - ring)})`; actx.lineWidth = 2; actx.beginPath(); actx.arc(cx, cy, 20 + ring * Math.min(W, H) * 0.42, 0, 6.2832); actx.stroke();
-      glow(cx, cy, 70 + 10 * Math.sin(t * 2), 0.8); actx.fillStyle = "#ffe2c8"; actx.beginPath(); actx.arc(cx, cy, 8, 0, 6.2832); actx.fill();
+    } else if (scene === "cosmos") {
+      cosmos(t);
     } else if (scene === "dna") {
-      nebula(t, 1); helix(t);
-    } else if (scene === "trail") {
-      nebula(t, 0.6);
-      const x0 = W * 0.22, x1 = x0 + W * 0.46 * ease(t / 5), y = H * 0.5;
-      actx.setLineDash([12, 12]); actx.strokeStyle = "rgba(255,196,150,.55)"; actx.lineWidth = 2; actx.beginPath(); actx.moveTo(x0, y); actx.lineTo(x1, y); actx.stroke(); actx.setLineDash([]);
-      glow(x1, y, 80 + 10 * Math.sin(t * 3), 0.85); actx.fillStyle = "#ffe2c8"; actx.beginPath(); actx.arc(x1, y, 8, 0, 6.2832); actx.fill();
-      const f = actx.createLinearGradient(x1, 0, W, 0); f.addColorStop(0, "rgba(3,3,12,0)"); f.addColorStop(0.35, "rgba(3,3,12,.92)"); actx.fillStyle = f; actx.fillRect(x1, 0, W - x1, H);
+      sky("dna", t, 1, true); helix(t);
     } else if (scene === "week") {
-      nebula(t, 0.7); days(t);
+      sky("week", t, 0.7, true); days(t);
     } else if (scene === "leap") {
       leap(t);
+    } else if (scene === "moon") {
+      moon(t);
     } else if (scene.startsWith("circuit")) {
       circuit(t, scene.slice(8));
     } else if (scene === "tumour") {
@@ -243,7 +316,7 @@
     [3, 2, 1].forEach((n, i) => ids.push(setTimeout(() => { count.textContent = String(n); }, i * 1000)));
     ids.push(setTimeout(() => {
       count.textContent = "";
-      const hash = location.hash, intro = hash.startsWith("#intro"), plan = intro ? introPlan(hash === "#intro-short") : hash === "#video-short" ? takeShort : take, stopAt = intro ? plan[plan.length - 1][0] + (hash === "#intro-short" ? 16 : 7) : hash === "#video-short" ? endShort : end;
+      const hash = location.hash, intro = hash.startsWith("#intro"), plan = intro ? introPlan(hash === "#intro-short") : hash === "#video-short" ? takeShort : take, stopAt = intro ? plan[plan.length - 1][0] + (hash === "#intro-short" ? 15 : 7) : hash === "#video-short" ? endShort : end;
       plan.forEach(([s, fn]) => ids.push(setTimeout(fn, s * 1000)));
       ids.push(setTimeout(() => { stopTake(true); scrollTo("#top"); }, stopAt * 1000));
     }, 3000));
