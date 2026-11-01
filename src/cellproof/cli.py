@@ -548,6 +548,23 @@ def ingest(
 
 
 @app.command()
+def serve(
+    port: int = typer.Option(8767, help="Local port; 0 picks a free one."),
+    browser: bool = typer.Option(True, "--browser/--no-browser", help="Open the page in the default browser."),
+    rebuild: bool = typer.Option(False, help="Build results/report.html first (about 20 seconds)."),
+) -> None:
+    """Open the report page from this computer, with a door for your own PDFs: drop a paper the AI could not find, and it is read, its links are
+    judged by the solver, and its graph is drawn. Local only; the PDFs and what is read from them stay in data/user_papers (git-ignored)."""
+    from cellproof.serve import REPORT, serve as run_server
+
+    if rebuild or not REPORT.exists():
+        from cellproof.report.build import write as write_report
+
+        typer.echo(f"wrote {write_report()}")
+    run_server(port, browser)
+
+
+@app.command()
 def label(
     port: int = typer.Option(8765, help="Local port; 0 picks a free one."),
     browser: bool = typer.Option(True, "--browser/--no-browser", help="Open the page in the default browser."),
