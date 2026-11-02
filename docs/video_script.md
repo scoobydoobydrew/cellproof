@@ -87,6 +87,8 @@ following the page language (**EN / ΕΛ**). Chrome and Firefox have other voice
 to read; with no voice for the language, the page is silent. In Greek, "Solitary conviction" is read in a Greek voice and sounds odd: say so in the video or record
 the English page.
 
+**To try another voice or a darker tone**, open `results/report.html#intro&voice=Guy&pitch=0.6&rate=0.8` (any part of a voice's name; pitch 0 to 2, rate 0.1 to 10; the defaults are Ryan, pitch 0.8, rate 0.85) and press Space. Not every online voice follows the pitch. For a deeper, more eerie sound the reliable way is in the video editor, on the recorded audio: lower it by two or three semitones and add a little hall reverb.
+
 **For the three-minute video.** The opening is short now, so it fits in front of the take: `#intro` (about half a minute), then `#video-short` (about 1 minute 37 seconds),
 then the terminal (10 to 12 seconds) and `#card` (4 seconds): about 2 minutes 30 seconds to 2 minutes 45 seconds. Put your own royalty-free music under it in the editor
 (with a licence; nothing from a reel or a stock library without rights).
