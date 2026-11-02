@@ -68,9 +68,9 @@
     tag: "From shared uncertainty to solitary conviction.",
     cap: `Πριν από αυτή την εβδομάδα: ένα δημοσιευμένο μοντέλο ${genes} γονιδίων, ανοιχτά papers, solvers ανοιχτού κώδικα. Αυτή την εβδομάδα: ένας agent όπου το Muse Spark διαβάζει τα papers και ένας ακριβής solver αποφασίζει. Υποθέσεις για το εργαστήριο, όχι θεραπείες.`,
   };
-  const lines = document.createElement("div"), fl = document.createElement("div"), art = document.createElement("canvas");
+  const lines = document.createElement("div"), fl = document.createElement("div"), art = document.createElement("canvas"), sw = document.createElement("div");
   let actx = art.getContext("2d");
-  lines.className = "vid-lines"; fl.className = "vid-flash"; art.className = "vid-art"; art.hidden = true; document.body.append(art, lines, fl);
+  lines.className = "vid-lines"; fl.className = "vid-flash"; art.className = "vid-art"; art.hidden = true; sw.className = "vid-sweep"; document.body.append(art, lines, fl, sw);
 
   /* the backgrounds: each is drawn for the idea of its line, in the manner of glowing renders: a universe of stars, a band of the galaxy, spiral galaxies, nebulae.
      noise: red points that flicker. cosmos: a person on a cliff facing the galaxies. dna: a luminous helix in the universe. week: seven days fill one by one.
@@ -275,13 +275,14 @@
   };
 
   let cutId = 0;
+  const sweep = () => { for (const el of [sw, art]) { const c = el === sw ? "go" : "warp"; el.classList.remove(c); void el.offsetWidth; el.classList.add(c); } };  /* a sweep of light and the new scene warping in */
   const flash = (dark) => { fl.classList.toggle("dark", !!dark); fl.classList.remove("go"); void fl.offsetWidth; fl.classList.add("go"); };
   const showLine = (html, big, warn, kind) => {
     clearTimeout(cutId); lines.innerHTML = ""; lines.classList.toggle("warn", !!warn); lines.classList.toggle("art", !!scene); lines.classList.toggle("high", scene === "cosmos");  /* over the person on the cliff the words ride higher */
     if (!html) return;
     const mol = $("#heroMol"); mol.classList.remove("jolt"); void mol.offsetWidth; if (!reduced) mol.classList.add("jolt");
-    if (!big) flash(true);
-    cutId = setTimeout(() => { lines.innerHTML = kind === "card" ? html : `<p class="${big ? "big" : ""} ${kind || ""}">${html}</p>`; }, reduced ? 0 : 140);  /* a black frame between two lines */
+    if (!big) { flash(true); if (!reduced) sweep(); }
+    cutId = setTimeout(() => { lines.innerHTML = kind === "card" ? html : `<p class="${big ? "big" : ""} ${kind || ""}">${html}</p>`; }, reduced ? 0 : 90);  /* a black frame between two lines */
   };
   /* the voice: the browser's own speech synthesis (an operating-system or browser feature, not a model call of this project; the voices differ from one browser to another).
      Each line starts 0.7 s after the previous one has been spoken; with no voice for the language, the words stay for as long as they take to read. */
@@ -298,7 +299,7 @@
     const natural = vs.filter((v) => /natural|online/i.test(v.name)), voice = (ask("voice") && vs.find((v) => v.name.toLowerCase().includes(ask("voice").toLowerCase()))) || vs.find((v) => CHOSEN.test(v.name)) || natural.find((v) => PREFER[lang].test(v.name)) || natural[0] || vs[0];
     if (!voice) { ids.push(setTimeout(res, reading * 1000)); return; }
     const u = new SpeechSynthesisUtterance(text), t0 = Date.now();
-    u.voice = voice; u.lang = voice.lang; u.rate = +ask("rate") || 0.85; u.pitch = +ask("pitch") || 0.95;
+    u.voice = voice; u.lang = voice.lang; u.rate = +ask("rate") || 0.9; u.pitch = +ask("pitch") || 0.95;
     u.onend = u.onerror = () => ids.push(setTimeout(res, Math.max(0, reading * 300 - (Date.now() - t0))));  /* a voice that fails at once (no network for an online voice) must not make the opening race */
     ids.push(setTimeout(res, (reading * 2 + 5) * 1000));  /* a voice that never ends must not freeze the opening */
     speechSynthesis.speak(u);
@@ -309,19 +310,19 @@
     for (const [html, scene, kind, said] of set.opening) {
       setArt(scene); showLine(html, false, false, kind);
       await speak(said || plain(html), lang); if (!alive()) return;
-      await wait(0.7); if (!alive()) return;
+      await wait(0.3); if (!alive()) return;
     }
     /* the platform explained over the network: a new link grows, the solver scans it, and each item of the card appears as it is said */
     const card = `<div class="cardbox"><p class="big compact">CellProof<small>${set.tag}</small></p><ol class="what labelled">${set.what.map(([l, w]) => `<li class="hold" style="animation-delay:0s"><span class="vlab">${l}</span><span>${w}</span></li>`).join("")}</ol></div>`;
     setArt("circuit-link"); flash(); lines.classList.remove("warn"); showLine(card, false, false, "card"); say(set.cap);
     await speak(set.hello, lang); if (!alive()) return;
-    for (const [i, [label, what]] of set.what.entries()) {
+    for (const [i, [, what]] of set.what.entries()) {
       if (i === 1) setArt("circuit-scan");
-      await wait(0.5); if (!alive()) return;
+      await wait(0.2); if (!alive()) return;
       const li = $$(".vid-lines ol.what li")[i]; if (li) li.classList.remove("hold");
-      await speak(`${label}: ${what}`, lang); if (!alive()) return;
+      await speak(what, lang);  /* the label ("The field"...) is on the screen, not said */ if (!alive()) return;
     }
-    await wait(4); if (!alive()) return;
+    await wait(3); if (!alive()) return;
     stopTake(true); scrollTo("#top");
   }
   const end = take[take.length - 1][0] + 5, endShort = takeShort[takeShort.length - 1][0] + 5;  /* the last ten seconds of the video are the terminal, recorded apart */

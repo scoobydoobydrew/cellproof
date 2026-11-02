@@ -816,7 +816,7 @@ html.vid-zoom #heroMol { transform: scale(1.16); transform-origin: 72% 40%; tran
   40% { opacity: 1; transform: scale(.985); filter: blur(1px); text-shadow: -4px 0 rgba(255, 40, 80, .6), 4px 0 rgba(60, 220, 255, .6); }
   100% { opacity: 1; transform: none; filter: none; } }
 .vid-flash.dark { background: #000; }
-.vid-flash.dark.go { animation: vidCut .35s ease-out; }
+.vid-flash.dark.go { animation: vidCut .22s ease-out; }
 @keyframes vidCut { 0% { opacity: 1; } 100% { opacity: 0; } }
 html.vid-zoom #heroMol.jolt { animation: vidJolt .6s ease-out; }
 @keyframes vidJolt { 0% { filter: brightness(2.2) contrast(1.4); translate: -6px 4px; } 25% { translate: 5px -3px; } 50% { translate: -3px 2px; filter: none; } 100% { translate: 0 0; filter: none; } }
@@ -826,6 +826,13 @@ html.vid-zoom #heroMol.jolt { animation: vidJolt .6s ease-out; }
 .vid-lines.high { padding-bottom: 26vh; }
 .vid-art { position: fixed; z-index: 57; inset: 0; width: 100vw; height: 100vh; }
 .vid-art[hidden] { display: none; }
+/* the cut between two scenes: a bright streak sweeps across, and the new scene arrives enlarged and blurred and settles */
+.vid-sweep { position: fixed; z-index: 59; inset: 0; pointer-events: none; opacity: 0; mix-blend-mode: screen; background: linear-gradient(105deg, transparent 47%, rgba(160, 110, 255, 0) 48%, rgba(210, 170, 255, .65) 49.4%, rgba(255, 255, 255, .95) 50%, rgba(210, 170, 255, .65) 50.6%, rgba(160, 110, 255, 0) 52%, transparent 53%); background-size: 300% 100%; background-position: 100% 0; }
+.vid-sweep.go { animation: vidSweep .55s cubic-bezier(.6, 0, .2, 1); }
+@keyframes vidSweep { 0% { opacity: 1; background-position: 100% 0; } 100% { opacity: 1; background-position: 0% 0; } }
+.vid-art.warp { animation: vidWarp .8s cubic-bezier(.16, 1, .3, 1); }
+@keyframes vidWarp { 0% { transform: scale(1.18); filter: blur(12px) brightness(2); } 55% { filter: blur(2px) brightness(1.25); } 100% { transform: none; filter: none; } }
+@media (prefers-reduced-motion: reduce) { .vid-sweep.go, .vid-art.warp { animation: none; } }
 .vid-lines p.term { max-width: 19em; font-size: clamp(26px, 3.4vw, 54px); line-height: 1.25; }
 .vid-lines p.term b { display: block; margin-bottom: .25em; font: italic 400 clamp(54px, 8.6vw, 130px)/1 var(--display); color: #ffc9a0; }
 .vid-lines.art, .vid-lines.art.warn { background: radial-gradient(ellipse at center, rgba(6, 4, 22, 0), rgba(6, 4, 22, .5)); }
