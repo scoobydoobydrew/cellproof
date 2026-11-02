@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voice audition</title>
+<style>
+  :root { color-scheme: dark; --bg: #0c0a1c; --fg: #ece8ff; --muted: #9a93c4; --line: #2c2650; --accent: #ffc9a0; }
+  body { margin: 0; padding: 24px 16px 64px; background: var(--bg); color: var(--fg); font: 16px/1.5 system-ui, sans-serif; }
+  main { max-width: 920px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 4px; } p { color: var(--muted); margin: 0 0 16px; }
+  textarea { width: 100%; min-height: 84px; padding: 10px; border-radius: 10px; border: 1px solid var(--line); background: #15122e; color: var(--fg); font: inherit; box-sizing: border-box; }
+  .row { display: flex; flex-wrap: wrap; gap: 20px; margin: 14px 0 22px; align-items: center; }
+  label { display: flex; gap: 10px; align-items: center; color: var(--muted); } input[type=range] { width: 160px; }
+  h2 { font-size: 15px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 26px 0 10px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 8px; }
+  button { text-align: left; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: #15122e; color: var(--fg); font: inherit; cursor: pointer; }
+  button:hover, button.on { border-color: var(--accent); } button small { display: block; color: var(--muted); }
+  #none { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Voice audition</h1>
+  <p>The voices of this browser (open it in Microsoft Edge: it has the natural ones). Click a name to hear the text below. When you choose, open
+     <code>results/report.html#intro&amp;voice=NAME&amp;pitch=0.7&amp;rate=0.85</code> and press Space.</p>
+  <textarea id="text">Solitary conviction. A state where you believe in something, without having evidence that it would work. We felt it at the start of this hackathon: a platform that looked impossible to build in one week.</textarea>
+  <div class="row">
+    <label>Rate <input id="rate" type="range" min="0.5" max="1.4" step="0.05" value="0.85"> <output id="rateOut">0.85</output></label>
+    <label>Pitch <input id="pitch" type="range" min="0" max="2" step="0.05" value="0.8"> <output id="pitchOut">0.8</output></label>
+    <label><input id="onlyNatural" type="checkbox" checked> natural voices only</label>
+  </div>
+  <p id="none" hidden>This browser lists no voices. Open the page in Microsoft Edge.</p>
+  <div id="lists"></div>
+</main>
+<script>
+  const $ = (s) => document.querySelector(s), lists = $("#lists"), text = $("#text");
+  const GROUPS = [["English", "en"], ["Greek", "el"]];
+  const shortName = (v) => v.name.replace(/^Microsoft\s+/, "").replace(/\s+-\s+.*$/, "").replace(/\s*Online \(Natural\)/, "").replace(/\s*\(Natural\)/, "");
+  function draw() {
+    const voices = speechSynthesis.getVoices(), only = $("#onlyNatural").checked; lists.innerHTML = "";
+    $("#none").hidden = voices.length > 0;
+    for (const [title, code] of GROUPS) {
+      const vs = voices.filter((v) => v.lang.toLowerCase().startsWith(code) && (!only || /natural|online/i.test(v.name)));
+      if (!vs.length) continue;
+      const h = document.createElement("h2"); h.textContent = `${title} (${vs.length})`; const g = document.createElement("div"); g.className = "grid";
+      for (const v of vs) {
+        const b = document.createElement("button"); b.type = "button";
+        b.innerHTML = `${shortName(v)}<small>${v.lang}${v.localService ? " · on this computer" : " · online"}</small>`;
+        b.onclick = () => { document.querySelectorAll("button.on").forEach((x) => x.classList.remove("on")); b.classList.add("on"); speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text.value); u.voice = v; u.lang = v.lang; u.rate = +$("#rate").value; u.pitch = +$("#pitch").value; speechSynthesis.speak(u); };
+        g.append(b);
+      }
+      lists.append(h, g);
+    }
+  }
+  for (const id of ["rate", "pitch"]) $("#" + id).oninput = () => { $("#" + id + "Out").textContent = $("#" + id).value; };
+  $("#onlyNatural").onchange = draw; speechSynthesis.onvoiceschanged = draw; draw();
+</script>
+</body>
+</html>
