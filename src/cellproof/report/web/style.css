@@ -1121,3 +1121,6 @@ details.deep > summary h3 { margin: 0; }
 .deep-go::before { content: "Show the details ↓"; }
 details.deep[open] .deep-go::before { content: "Hide the details ↑"; }
 details.deep[open] > summary { margin-bottom: 14px; }
+.vid-skip { position: fixed; z-index: 62; top: max(14px, env(safe-area-inset-top, 0px)); right: max(14px, env(safe-area-inset-right, 0px)); padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .4); background: rgba(14, 12, 34, .7); color: #fff; font-size: 13px; cursor: pointer; backdrop-filter: blur(6px); }
+.vid-skip[hidden] { display: none; }
+html.vid.vid-pub { cursor: auto; overflow: hidden; }

@@ -289,22 +289,31 @@
   };
   const end = take[take.length - 1][0] + 5, endShort = takeShort[takeShort.length - 1][0] + 5;  /* the last ten seconds of the video are the terminal, recorded apart */
 
+  /* the button of the header ("Watch the intro") plays the short intro for a visitor: no countdown, the pointer stays, and a button skips it */
+  const skip = document.createElement("button");
+  skip.type = "button"; skip.className = "vid-skip"; skip.hidden = true; document.body.append(skip);
+  skip.addEventListener("click", () => stopTake(true));
   function stopTake(done) {
-    ids.splice(0).forEach(clearTimeout); CPBench.stop(); CPHero.pin(false); say(""); count.textContent = ""; root.classList.remove("vid", "vid-intro", "vid-zoom"); showLine(""); setArt(""); fl.classList.remove("go");
-    bar.hidden = false; if (done) say("");
+    ids.splice(0).forEach(clearTimeout); CPBench.stop(); CPHero.pin(false); say(""); count.textContent = ""; root.classList.remove("vid", "vid-pub", "vid-intro", "vid-zoom"); showLine(""); setArt(""); fl.classList.remove("go");
+    skip.hidden = true; bar.hidden = !/^#(video|intro)/.test(location.hash); if (done) say("");
   }
-  function start() {
+  function start(pub) {
     if (root.classList.contains("vid")) return;
     root.classList.add("vid"); bar.hidden = true;
-    [3, 2, 1].forEach((n, i) => ids.push(setTimeout(() => { count.textContent = String(n); }, i * 1000)));
-    ids.push(setTimeout(() => {
+    const run = () => {
       count.textContent = "";
-      const hash = location.hash, intro = hash.startsWith("#intro"), plan = intro ? introPlan(hash === "#intro-short") : hash === "#video-short" ? takeShort : take, stopAt = intro ? plan[plan.length - 1][0] + (hash === "#intro-short" ? 15 : 7) : hash === "#video-short" ? endShort : end;
+      const hash = location.hash, intro = pub || hash.startsWith("#intro"), short = pub || hash === "#intro-short", plan = intro ? introPlan(short) : hash === "#video-short" ? takeShort : take, stopAt = intro ? plan[plan.length - 1][0] + (short ? 15 : 7) : hash === "#video-short" ? endShort : end;
       plan.forEach(([s, fn]) => ids.push(setTimeout(fn, s * 1000)));
       ids.push(setTimeout(() => { stopTake(true); scrollTo("#top"); }, stopAt * 1000));
-    }, 3000));
+    };
+    if (pub) { root.classList.add("vid-pub"); skip.textContent = CP.lang() === "el" ? "Παράλειψη ✕" : "Skip ✕"; skip.hidden = false; run(); return; }
+    [3, 2, 1].forEach((n, i) => ids.push(setTimeout(() => { count.textContent = String(n); }, i * 1000)));
+    ids.push(setTimeout(run, 3000));
   }
-  $("#vidGo").addEventListener("click", start);
+  window.CPIntro = { play: () => start(true), stop: () => stopTake(true) };
+  const introBtn = $("#introBtn");
+  if (introBtn) introBtn.addEventListener("click", () => start(true));
+  $("#vidGo").addEventListener("click", () => start());
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && root.classList.contains("vid")) stopTake();
     else if (e.code === "Space" && /^#(video|intro)/.test(location.hash) && !root.classList.contains("vid") &&!/^(BUTTON|INPUT|TEXTAREA|A)$/.test(document.activeElement.tagName)) { e.preventDefault(); start(); }
