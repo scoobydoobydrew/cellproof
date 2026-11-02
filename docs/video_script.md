@@ -115,7 +115,7 @@ an old teacher with a lantern, and the student from the cliff, with petals falli
 it ends on one line about using AI where it can help people. The long opening is now about 124 seconds. The short opening is unchanged.
 
 `report.html#intro-master` plays this scene and goes on (about 55 seconds after the countdown): "Shoot for the moon. A treatment for cancer." (a point aims at
-the moon and falls short), then "At worst, you land among the stars: a platform that helps labs choose which tests to run first. We did not find a cure."
+the moon and falls short), then "At worst, you land among the stars: a platform that helps labs choose which tests to run first. We did not find a cure for cancer."
 (the stars light up and join into a network), then the platform explained on the network (the field, the problem, where it helps) while a new link grows and the
 solver scans it, with the caption that says what pre-existed and what was built this week. It is meant as a short clip for X or a reel: press Space (or the button
 at the top), record, and the page does the rest. English or Greek follows the page language (**EN / ΕΛ**).
