@@ -325,7 +325,12 @@
     await wait(3); if (!alive()) return;
     stopTake(true); scrollTo("#top");
   }
-  const takeDemo = takeShort.slice(0, 3), endDemo = startDemo2 + CPBench.seconds / SPEED2 + 3;  /* #video-demo: the same, without the search engine and the cards: it stops when the demo ends */
+  /* #video-demo: what comes after the opening, for someone who has not seen the header: not every damaged cell dies (beat 1), the goal (2), the AI proposes and the solver decides (5), the virtual tumour (6),
+     the samples (7), then the demo; it stops when the demo ends, with no search engine and no cards */
+  const startDemo3 = 44, takeDemo = [
+    [0, () => { scrollTo("#top"); CPHero.pin(true); CPHero.show(1); }], [7, beat(2)], [14, beat(5)], [24, beat(6)], [34, beat(7)],
+    [startDemo3, () => { CPHero.pin(false); CPBench.play(SPEED2); }],
+  ], endDemo = startDemo3 + CPBench.seconds / SPEED2 + 3;
   const end = take[take.length - 1][0] + 5, endShort = takeShort[takeShort.length - 1][0] + 5;  /* the last ten seconds of the video are the terminal, recorded apart */
 
   /* the button of the header ("Watch the intro") plays the opening for a visitor: no countdown, the pointer stays, and a button skips it */

@@ -93,12 +93,12 @@ the English page.
 | piece | address | about |
 |---|---|---|
 | 1. the opening | `results/report.html#intro` | 30 to 40 s (the pace follows the voice) |
-| 2. the virtual tumour, the samples and the demo | `results/report.html#video-demo` (it stops when the demo ends) | 76 s after the countdown |
+| 2. the header (damage, the goal, the AI proposes and the solver decides, the virtual tumour, the samples) and then the demo | `results/report.html#video-demo` (it stops when the demo ends) | about 105 s after the countdown |
 | 3. the terminal: `python -m cellproof.cli verify` (or `make verify`), once, to show that one command rebuilds every number | a terminal | 10 to 12 s |
 | 4. the closing card | `results/report.html#card` | 4 s |
 
-That is about 2 minutes 10 seconds. If you want the search engine and the three cards of what this is and is not as well, use `#video-short` instead of `#video-demo`
-(about 97 s, so about 2 minutes 30 seconds in all). The opening starts with the line that says what pre-existed and what was built this week (rule 9 of the brief).
+That is about 2 minutes 40 seconds. If you want the search engine and the three cards of what this is and is not as well, use `#video-short` instead of `#video-demo`
+(about 97 s, a shorter header and the search engine, so about 2 minutes 30 seconds in all). The opening starts with the line that says what pre-existed and what was built this week (rule 9 of the brief).
 The demo and the other pieces have no voice: say the sentences of the table at the top of this file over them, or let the music and the captions carry them.
 
 **To record:** use Chrome (the voice the author chose is there; record every piece in the same browser), full screen (F11) at 1920 x 1080, with notifications off. In OBS Studio (free),
@@ -119,3 +119,5 @@ come from the cache in an instant, the solver runs for real, and the graph is dr
 verdict. Nothing is spent twice and there is no live-API risk. Say what it is: "A paper the AI could not find on its own, handed over as a PDF:
 read like the others, and every link it can judge is judged by the solver." Do not drop a paper you may not process, and do not show one that is not
 open access in a public video unless its licence allows it.
+
+**By hand instead of the take.** The eight small bars under the title in the header are its eight screens (damage, not every cell dies, the goal, new rules, the search explodes, the AI proposes and the solver decides, the virtual tumour, the samples): click one to go to it, and the header stands still while the pointer is over it. The demo is the *Play the demo* button (header or top bar); it runs in about 86 seconds.
