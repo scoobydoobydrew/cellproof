@@ -66,37 +66,36 @@ view. The sentences above fit these screens in the same order.
 - Limits, on the page and in `docs/limitations.md`: ten scoreable held-out claims, written by me and not yet checked by a person; the model's
   repairs can pass the checks without being biologically right; Boolean networks have no dose and no time; no medical claims.
 
-## The opening (cinematic, made by the page)
+## The opening (made by the page, with a voice-over)
 
-`results/report.html#intro-short` (about 28 seconds) and `#intro` (about 100 seconds, for a cut of its own, for example on X; it also explains the idea: a cell as a logic circuit of genes, an AI that reads but cannot check, a solver that checks but cannot read; the first three lines are dark red and every cut is a black frame with a slam-in): press the button
-and the page plays its own DNA, slowly closer, with one line of words at a time and a white flash on the last, ending on a card with the name,
-"From shared uncertainty to solitary conviction." and the caption that says what pre-existed and what was built this week (the brief's rule 9).
-The page language decides whether the words are English or Greek (the **EN / ΕΛ** button). Say the lines at the pace they arrive, with a pause
-between them; the long version is the corrected form of the draft script: it does not name a solver the project does not use, it says "an exact
-solver" and "a virtual tumour", it states the limit ("We did not find a cure for cancer"), and it makes no claim about patients or treatment.
+There is one opening. A visitor starts it with the **Watch the intro** button in the header (no countdown; **Skip** stops it). To record it, open
+`results/report.html#intro-master`, press Space (or the button at the top), and the page does the rest after a 3-2-1. It lasts about 2 minutes 16 seconds
+and is timed to a voice-over. In order:
+
+1. Two slides: what the platform is for ("a platform that helps cancer labs decide which experiments to run first") and why there is too much to read
+   (new papers, new genes, a lab can only run a few experiments). It does not say "clinical trials": the platform does not touch them.
+2. A quiet scene: a night, a tree in blossom, an old teacher with a lantern, the student from the cliff, petals falling. A short talk, then one line about
+   using AI where it can help people.
+3. The words "There is a feeling...", *solitary conviction* and its definition, and the seven days of the week.
+4. "Shoot for the moon. A treatment for cancer." (a point aims at the moon and falls short), then "At worst, you land among the stars: a platform that helps labs
+   choose which tests to run first. We did not find a cure for cancer." (the stars light up and join into a network).
+5. The platform explained on that network (the field, the problem, where it helps) while a new link grows and the solver scans it, with the caption that
+   says what pre-existed and what was built this week (rule 9 of the brief).
+
+**The voice.** `results/voice/*.wav`, twelve files, made once by `python -m cellproof.voice` with Meta's open-source MMS-TTS (CC-BY-NC 4.0; see
+`THIRD_PARTY.md`). It is synthetic, has one voice and no style, and is English only: on the Greek page (**EN / ΕΛ**) the opening is silent. The cues are
+`MASTER_CUES` in `video.js`; if the lines or the voice change, run the command again and paste the cues it prints. The browser plays the files after a
+click or a key press; if a file is missing the opening still plays, without sound. Do not call the voice a person's.
+
+**For the three-minute video.** The opening alone is longer than two minutes, and `#video-short` (about 1 minute 37 seconds) comes after it, so both do not fit in
+three minutes. Choose: the opening as a clip of its own (for X or a reel) and `#video` as the three-minute video; or a shorter take after the opening. The
+earlier short and long openings no longer exist.
+
+One sentence of the teacher's talk, "You are too concerned about what was and what will be", is a short nod to a line of the film Kung Fu Panda (DreamWorks);
+everything else in the scene and its figures is ours. If you would rather not quote it in a public video, replace it with a sentence of our own in `TALK_EN`
+and `TALK_EL` in `video.js` (and say the new sentence in `src/cellproof/voice.py`, line `03-teacher`).
+
 Put your own royalty-free music under it in the editor (with a licence; nothing from a reel or a stock library without rights).
-For the three-minute video, record `#intro-short`, then the take (`#video`), then the terminal, then the card (`#card`): the take then needs
-about twenty-five seconds cut from the header beats to stay inside three minutes.
-
-## The order for the three minutes (with the opening that explains the project)
-
-1. `#intro-short`, about 47 seconds. Each idea has a background drawn by the page, in the manner of a glowing render: a person on a cliff facing a
-   universe of galaxies for "a feeling you get when you believe in something before anyone else does"; a luminous helix in the universe for the term
-   *solitary conviction* and its definition; seven days that fill for "a platform that looked impossible to build in one week"; the point that aims for a
-   star and lands on the moon for "We aimed for the stars: a cure for cancer. We landed on the moon: a platform that helps labs choose which tests to
-   run first. A small step on the way."; and at the end the name over a network of lit cells with three
-   lines, large and slow: the field (cancer biology: how cells respond to radiation), the problem (cell models are incomplete, and nobody can check every
-   idea from the papers by hand) and where it helps (an AI proposes, an exact solver checks, researchers get candidates to test in the lab), and the caption
-   of what pre-existed and what was built this week.
-2. `#video-short`, about 1 minute 37 seconds: it starts on the virtual tumour (8 s), then the tumour samples (8 s), then the demo at 1.5 times, the search
-   engine with the model cell and the p53 profile, and the three cards of what this is and is not. Say the sentences of the rows *A virtual tumour*, *Every tumour has its own genes*, the demo, the
-   search engine and the closing cards of the table above; skip the first beats, the opening has said them.
-3. The terminal, 10 to 12 seconds: `make verify`.
-4. `#card`, 4 seconds.
-
-That is about 2 minutes 42 seconds; if it comes out longer, cut the countdowns and the pauses. `#intro` (about 100 seconds) is the longer opening, with the same
-backgrounds and the explanation in more steps (a network with signals, a new link, a scan, the simulation's own cells), for a cut of its own.
-Images from elsewhere (stock photos, a reel) are not in the page: put them in the editor only if you hold their licence; the page draws its own.
 
 ## If you want the drop of a PDF in the video (optional, about 20 seconds)
 
@@ -107,20 +106,3 @@ come from the cache in an instant, the solver runs for real, and the graph is dr
 verdict. Nothing is spent twice and there is no live-API risk. Say what it is: "A paper the AI could not find on its own, handed over as a PDF:
 read like the others, and every link it can judge is judged by the solver." Do not drop a paper you may not process, and do not show one that is not
 open access in a public video unless its licence allows it.
-
-### The teacher scene (long opening only)
-
-`#intro` (not `#intro-short`) has a quiet scene of about 24 seconds after the noise lines and before "There is a feeling...": a night, a tree in blossom,
-an old teacher with a lantern, and the student from the cliff, with petals falling. The talk and the figures are our own (nothing is taken from a film);
-it ends on one line about using AI where it can help people. The long opening is now about 124 seconds. The short opening is unchanged.
-
-`report.html#intro-master` is the whole opening as one piece, timed to the voice-over made by `python -m cellproof.voice` (about 2 minutes 16 seconds after the countdown; the cues are `MASTER_CUES` in `video.js`): two opening slides ("A platform that helps cancer labs decide which experiments to run first", then why: new papers, new genes, a lab can only run a few experiments; we do not say "clinical trials", because the platform does not touch them); the teacher scene; then the first words of the short
-opening ("There is a feeling...", "Solitary conviction", "We felt it at the start of this hackathon..."); then "Shoot for the moon. A treatment for cancer."
-(a point aims at the moon and falls short) and "At worst, you land among the stars: a platform that helps labs choose which tests to run first. We did not
-find a cure for cancer." (the stars light up and join into a network); then the platform explained on the network (the field, the problem, where it helps)
-while a new link grows and the solver scans it, with the caption that says what pre-existed and what was built this week. It is meant as the one opening
-for X or a reel: press Space (or the button at the top), record, and the page does the rest. English or Greek follows the page language (**EN / ΕΛ**).
-
-One sentence of the teacher's talk, "You are too concerned about what was and what will be", is a short nod to a line of the film Kung Fu Panda (DreamWorks);
-everything else in the scene and its figures is ours. If you would rather not quote it in a public video, replace it with a sentence of our own in `TALK_EN` and
-`TALK_EL` in `video.js`.

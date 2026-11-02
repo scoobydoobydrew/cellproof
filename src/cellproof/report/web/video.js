@@ -35,57 +35,35 @@
     [demoStart, () => { CPHero.pin(false); CPBench.play(SPEED); }],
     ...searchPart(demoEnd),
   ];
-  /* #video-short: the take that follows #intro-short, which has already said what the project is: the tumour, the samples, the demo a little faster, the search, the three cards of what this is and is not */
+  /* #video-short: the take that follows the opening, which has already said what the project is: the tumour, the samples, the demo a little faster, the search, the three cards of what this is and is not */
   const SPEED2 = 1.5, startDemo2 = 16, takeShort = [
     [0, () => { scrollTo("#top"); CPHero.pin(true); CPHero.show(6); }], [8, beat(7)],
     [startDemo2, () => { CPHero.pin(false); CPBench.play(SPEED2); }],
     ...searchPart(startDemo2 + CPBench.seconds / SPEED2 + 1.5),
   ];
 
-  /* ---- the opening: a background of its own for each idea, drawn here (nothing is a picture of data), one line of words at a time, slower than the
-     take. #intro-short is about 40 seconds (for the start of the three minutes), #intro about 100 (a cut of its own, which also explains the idea).
-     Nothing here states a result; it ends on the sentence that says what pre-existed and what was built this week. */
+  /* ---- the opening (#intro-master, the only one): a background of its own for each idea, drawn here (nothing is a picture of data), one line of words at a time, timed to the
+     voice-over. It ends on the sentence that says what pre-existed and what was built this week. Nothing here states a result. */
   const TERM_EN = "<b>Solitary conviction</b>A state where you believe in something without having evidence that it would work.";
   const TERM_EL = "<b>Solitary conviction</b>Η κατάσταση όπου πιστεύεις σε κάτι χωρίς να έχεις απόδειξη ότι θα δουλέψει.";
-  const STARS_EN = "We aimed for the <em>stars:</em> a cure for cancer.", MOON_EN = "We landed on the <em>moon:</em> a platform that helps labs choose which tests to run first.<small>A small step on the way.</small>";
-  const STARS_EL = "Στοχεύσαμε στα <em>αστέρια:</em> τη θεραπεία του καρκίνου.", MOON_EL = "Προσγειωθήκαμε στη <em>Σελήνη:</em> μια πλατφόρμα που βοηθά τα εργαστήρια να διαλέξουν ποιες δοκιμές να τρέξουν πρώτες.<small>Ένα μικρό βήμα στον δρόμο.</small>";
   const EN = {
-    short: [[0, "There is a feeling you get when you believe in something <em>before anyone else does.</em>", "cosmos"], [7.5, TERM_EN, "dna", "term"],
-      [16, "We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week.", "week"],
-      [25, STARS_EN, "moon"], [28.2, MOON_EN, "moon"]],
-    full: [[0, "Biology is drowning in <em>noise.</em>", "noise"], [4.5, "A flood of papers. Endless experiments. Too many gene switches to <em>ever try them all.</em>", "noise"], [10.5, "Trial and error is not enough.", "noise"],
-      [15.5, "There is a feeling you get when you believe in something <em>before anyone else does.</em>", "cosmos"], [23, TERM_EN, "dna", "term"],
-      [31, "We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week.", "week"],
-      [40, STARS_EN, "moon"], [43.2, MOON_EN, "moon"],
-      [49.7, "A cell is a <em>circuit.</em> Genes switch each other on and off.", "circuit"], [54.7, `${genes} genes, each on or off: a logic circuit that can be checked.`, "circuit"],
-      [59.7, "But the circuit is incomplete. The papers know links that it is missing.", "circuit-link"], [65.2, "An AI can read the papers. It cannot tell whether a new link <em>breaks</em> the circuit.", "circuit-link"],
-      [71.2, "An exact solver can check the circuit. It cannot <em>read.</em>", "circuit-scan"], [76.7, "CellProof joins them. The AI proposes. The solver <em>decides.</em>", "circuit-scan"],
-      [82.2, "What is left is tested on a virtual tumour.", "tumour"], [87.2, "We did not find a cure for cancer. We built a way to ask <em>how</em>, exactly.", "dna"]],
+    feeling: [[0, "There is a feeling you get when you believe in something <em>before anyone else does.</em>", "cosmos"], [0, TERM_EN, "dna", "term"],
+      [0, "We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week.", "week"]],
     what: [["The field", "Cancer biology: how cells respond to radiation."], ["The problem", "Cell models are incomplete, and nobody can check every idea from the papers by hand."],
       ["How it helps", "An AI proposes, an exact solver checks, and researchers get candidates to test in the lab."]],
     tag: "From shared uncertainty to solitary conviction.",
     cap: `Before this week: a published ${genes}-gene model, open papers, open-source solvers. This week: an agent where Muse Spark reads the papers and an exact solver decides. Hypotheses for the lab, not treatments.`,
   };
   const EL = {
-    short: [[0, "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι <em>πριν από κάθε άλλον.</em>", "cosmos"], [7.5, TERM_EL, "dna", "term"],
-      [16, "Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα.", "week"],
-      [25, STARS_EL, "moon"], [28.2, MOON_EL, "moon"]],
-    full: [[0, "Η βιολογία πνίγεται στον <em>θόρυβο.</em>", "noise"], [4.5, "Χείμαρρος άρθρων. Ατελείωτα πειράματα. Υπερβολικά πολλοί συνδυασμοί γονιδίων για να τους <em>δοκιμάσεις όλους.</em>", "noise"], [10.5, "Η δοκιμή και το λάθος δεν αρκούν.", "noise"],
-      [15.5, "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι <em>πριν από κάθε άλλον.</em>", "cosmos"], [23, TERM_EL, "dna", "term"],
-      [31, "Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα.", "week"],
-      [40, STARS_EL, "moon"], [43.2, MOON_EL, "moon"],
-      [49.7, "Ένα κύτταρο είναι ένα <em>κύκλωμα.</em> Τα γονίδια ανάβουν και σβήνουν το ένα το άλλο.", "circuit"], [54.7, `${genes} γονίδια, το καθένα αναμμένο ή σβηστό: ένα λογικό κύκλωμα που μπορεί να ελεγχθεί.`, "circuit"],
-      [59.7, "Αλλά το κύκλωμα είναι ελλιπές. Τα papers ξέρουν συνδέσεις που του λείπουν.", "circuit-link"], [65.2, "Ένα AI μπορεί να διαβάσει τα papers. Δεν ξέρει αν μια νέα σύνδεση <em>χαλάει</em> το κύκλωμα.", "circuit-link"],
-      [71.2, "Ένας ακριβής solver μπορεί να ελέγξει το κύκλωμα. Δεν μπορεί να <em>διαβάσει.</em>", "circuit-scan"], [76.7, "Το CellProof τους ενώνει. Το AI προτείνει. Ο solver <em>αποφασίζει.</em>", "circuit-scan"],
-      [82.2, "Ό,τι μένει δοκιμάζεται σε έναν εικονικό όγκο.", "tumour"], [87.2, "Δεν βρήκαμε τη θεραπεία του καρκίνου. Φτιάξαμε έναν τρόπο να ρωτάμε <em>πώς</em>, με ακρίβεια.", "dna"]],
+    feeling: [[0, "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι <em>πριν από κάθε άλλον.</em>", "cosmos"], [0, TERM_EL, "dna", "term"],
+      [0, "Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα.", "week"]],
     what: [["Ο τομέας", "Βιολογία του καρκίνου: πώς αντιδρούν τα κύτταρα στην ακτινοβολία."], ["Το πρόβλημα", "Τα μοντέλα των κυττάρων είναι ελλιπή, και κανείς δεν μπορεί να ελέγξει με το χέρι κάθε ιδέα από τα papers."],
       ["Πού βοηθά", "Ένα AI προτείνει, ένας ακριβής solver ελέγχει, και οι ερευνητές παίρνουν υποψήφιες αλλαγές για δοκιμή στο εργαστήριο."]],
     tag: "From shared uncertainty to solitary conviction.",
     cap: `Πριν από αυτή την εβδομάδα: ένα δημοσιευμένο μοντέλο ${genes} γονιδίων, ανοιχτά papers, solvers ανοιχτού κώδικα. Αυτή την εβδομάδα: ένας agent όπου το Muse Spark διαβάζει τα papers και ένας ακριβής solver αποφασίζει. Υποθέσεις για το εργαστήριο, όχι θεραπείες.`,
   };
-  /* the scene of the teacher, in the long opening only (after the noise, before "There is a feeling..."): a night, a tree in blossom, an old teacher with a lantern, the student we
+  /* the scene of the teacher: a night, a tree in blossom, an old teacher with a lantern, the student we
      met on the cliff. A quiet talk in the manner of the old wise-master stories. The words and the figures are our own; nothing here is taken from a film. */
-  const TALK_T = 24.5;
   const talk = (who, what) => `<span class="who">${who}</span>${what}`;
   const TALK_EN = [[0, talk("The student", "Too many papers. Too many genes. I cannot check them all."), "master", "talk"],
     [5.2, talk("The teacher", "You are too concerned about <em>what was</em> and <em>what will be.</em>"), "master", "talk"],
@@ -95,20 +73,18 @@
     [5.2, talk("Ο δάσκαλος", "Ανησυχείς υπερβολικά για <em>ό,τι ήταν</em> και <em>ό,τι θα έρθει.</em>"), "master", "talk"],
     [11.6, talk("Ο δάσκαλος", "Άσε τη μηχανή να διαβάσει. Άσε τον solver να κρίνει. <em>Εσύ διαλέγεις τι αξίζει το εργαστήριο.</em>"), "master", "talk"],
     [18, talk("Ο δάσκαλος", "Ένα AI που διαβάζει ό,τι κανείς άνθρωπος δεν προλαβαίνει. Χρησιμοποίησέ το εκεί όπου μπορεί να <em>βοηθήσει ανθρώπους.</em>"), "master", "talk"]];
-  /* #intro-master goes on from the talk with the first words of the short opening (the feeling, the term, the week), then: aim for the moon, and fall among the stars (the platform), which light up and join */
+  /* then: aim for the moon, and fall among the stars (the platform), which light up and join */
   const SHOT_EN = [[0, "Shoot for the <em>moon.</em> A treatment for cancer.", "moonshot"],
     [5.8, "At worst, you land among the <em>stars:</em> a platform that helps labs choose which tests to run first.<small>We did not find a cure for cancer. This is a small step on the way.</small>", "moonshot"]];
   const SHOT_EL = [[0, "Στόχευσε στο <em>φεγγάρι.</em> Μια θεραπεία για τον καρκίνο.", "moonshot"],
     [5.8, "Στη χειρότερη, θα βρεθείς ανάμεσα στα <em>αστέρια:</em> μια πλατφόρμα που βοηθά τα εργαστήρια να διαλέξουν ποιες δοκιμές να τρέξουν πρώτες.<small>Δεν βρήκαμε θεραπεία. Είναι ένα μικρό βήμα στον δρόμο.</small>", "moonshot"]];
-  /* #intro-master opens by saying what this is for and why there is too much to read: two slides, then the talk */
-  const PRE_T = 11;
+  /* it opens by saying what this is for and why there is too much to read: two slides, then the talk */
   const PRE_EN = [[0, "A platform that helps cancer labs decide <em>which experiments to run first.</em><small>A small step on the way to better cancer research.</small>", "dna"],
     [5, "Every week, new papers. Every paper, new genes to test. <em>A lab can only run a few experiments.</em>", "dna"]];
   const PRE_EL = [[0, "Μια πλατφόρμα που βοηθά τα εργαστήρια καρκίνου να διαλέξουν <em>ποια πειράματα να τρέξουν πρώτα.</em><small>Ένα μικρό βήμα για καλύτερη έρευνα του καρκίνου.</small>", "dna"],
     [5, "Κάθε εβδομάδα, νέα papers. Κάθε paper, νέα γονίδια για δοκιμή. <em>Ένα εργαστήριο τρέχει λίγα πειράματα.</em>", "dna"]];
-  const sh = (d, a) => a.map(([t, ...r]) => [t + d, ...r]);
-  for (const [set, scene, shot, pre] of [[EN, TALK_EN, SHOT_EN, PRE_EN], [EL, TALK_EL, SHOT_EL, PRE_EL]]) set.talk = [...pre, ...sh(PRE_T, [...scene, ...sh(TALK_T, set.short.slice(0, 3)), ...sh(TALK_T + 25, shot)])], set.full = [...set.full.slice(0, 3), ...sh(15.5, scene), ...sh(TALK_T, set.full.slice(3))];
-  /* the voice-over of #intro-master (src/cellproof/voice.py, lines 00 to 11): the start of each line, in seconds, with 0.7 s between lines; the last is the card. The three items of the card
+  for (const [set, pre, scene, shot] of [[EN, PRE_EN, TALK_EN, SHOT_EN], [EL, PRE_EL, TALK_EL, SHOT_EL]]) set.talk = [...pre, ...scene, ...set.feeling, ...shot];
+  /* the voice-over (results/voice/, made by src/cellproof/voice.py, lines 00 to 11): the start of each line, in seconds, with 0.7 s between lines; the last is the card. The three items of the card
      appear as the voice reaches them (CARD_AT, seconds after the card starts). If the voice or its lines change, run `python -m cellproof.voice` again and take the new times from its output. */
   const MASTER_CUES = [0, 11.8, 22.4, 29.8, 38.5, 47.4, 54.3, 63.5, 71.9, 81.7, 87.3, 104.3], CARD_AT = [7.6, 13.4, 21.8];
   for (const set of [EN, EL]) set.talk = set.talk.map(([, ...r], i) => [MASTER_CUES[i], ...r]);
@@ -405,30 +381,32 @@
     if (!big) flash(true);
     cutId = setTimeout(() => { lines.innerHTML = kind === "card" ? html : `<p class="${big ? "big" : ""} ${kind || ""}">${html}</p>`; }, reduced ? 0 : 140);  /* a black frame between two lines */
   };
-  const introPlan = (short, master) => {  /* `master`: #intro-master, the teacher scene on its own, ending on the name and the caption */
-    const set = CP.lang() === "el" ? EL : EN, src = master ? set.talk : short ? set.short : set.full, tail = src[src.length - 1][0] + 6.5;
-    const title = `CellProof<small>${set.tag}</small>`, card = `<div class="cardbox"><p class="big compact">${title}</p><ol class="what labelled">${set.what.map(([l, w], i) => `<li${master ? ` style="animation-delay:${CARD_AT[i]}s"` : ""}><span class="vlab">${l}</span><span>${w}</span></li>`).join("")}</ol></div>`;
-    const open = [0, () => { scrollTo("#top"); CPHero.pin(true); CPHero.show(0); root.classList.add("vid-intro", "vid-zoom"); }], cuts = src.map(([t, html, sc, kind]) => [t, () => { setArt(sc || ""); showLine(html, false, sc === "noise", kind); }]);
-    if (master) { const t0 = MASTER_CUES[11]; return [open, ...cuts, [t0, () => { setArt("circuit-link"); flash(); lines.classList.remove("warn"); showLine(card, false, false, "card"); say(set.cap); }], [t0 + 5.5, () => setArt("circuit-scan")]]; }  /* the platform explained over the network: a new link grows, then the solver scans it */
-    return [open, ...cuts,
-      [tail, () => { setArt(short ? "circuit" : "dna"); flash(); lines.classList.remove("warn"); showLine(short ? card : title, !short, false, short ? "card" : ""); say(set.cap); }]];
+  const VOICE = ["00-platform", "01-flood", "02-student", "03-teacher", "04-teacher", "05-teacher", "06-feeling", "07-term", "08-week", "09-moon", "10-stars", "11-card"];
+  let voices = [];  /* the voice-over is English, one file per line: the Greek page is silent. Made once by src/cellproof/voice.py, shipped as results/voice/*.wav */
+  const introPlan = () => {
+    const set = CP.lang() === "el" ? EL : EN, src = set.talk;
+    const title = `CellProof<small>${set.tag}</small>`, card = `<div class="cardbox"><p class="big compact">${title}</p><ol class="what labelled">${set.what.map(([l, w], i) => `<li style="animation-delay:${CARD_AT[i]}s"><span class="vlab">${l}</span><span>${w}</span></li>`).join("")}</ol></div>`;
+    const open = [0, () => { scrollTo("#top"); CPHero.pin(true); CPHero.show(0); root.classList.add("vid-intro", "vid-zoom"); }], cuts = src.map(([t, html, sc, kind]) => [t, () => { setArt(sc || ""); showLine(html, false, false, kind); }]);
+    const talking = voices.map((a, i) => [MASTER_CUES[i], () => a.play().catch(() => {})]), t0 = MASTER_CUES[11];
+    return [open, ...cuts, ...talking, [t0, () => { setArt("circuit-link"); flash(); lines.classList.remove("warn"); showLine(card, false, false, "card"); say(set.cap); }], [t0 + 5.5, () => setArt("circuit-scan")]];  /* the platform explained over the network: a new link grows, then the solver scans it */
   };
   const end = take[take.length - 1][0] + 5, endShort = takeShort[takeShort.length - 1][0] + 5;  /* the last ten seconds of the video are the terminal, recorded apart */
 
-  /* the button of the header ("Watch the intro") plays the short intro for a visitor: no countdown, the pointer stays, and a button skips it */
+  /* the button of the header ("Watch the intro") plays the opening for a visitor: no countdown, the pointer stays, and a button skips it */
   const skip = document.createElement("button");
   skip.type = "button"; skip.className = "vid-skip"; skip.hidden = true; document.body.append(skip);
   skip.addEventListener("click", () => stopTake(true));
   function stopTake(done) {
-    ids.splice(0).forEach(clearTimeout); CPBench.stop(); CPHero.pin(false); say(""); count.textContent = ""; root.classList.remove("vid", "vid-pub", "vid-intro", "vid-zoom"); showLine(""); setArt(""); fl.classList.remove("go");
+    ids.splice(0).forEach(clearTimeout); voices.forEach((a) => a.pause()); voices = []; CPBench.stop(); CPHero.pin(false); say(""); count.textContent = ""; root.classList.remove("vid", "vid-pub", "vid-intro", "vid-zoom"); showLine(""); setArt(""); fl.classList.remove("go");
     skip.hidden = true; bar.hidden = !/^#(video|intro)/.test(location.hash); if (done) say("");
   }
   function start(pub) {
     if (root.classList.contains("vid")) return;
     root.classList.add("vid"); bar.hidden = true;
+    if (pub || location.hash.startsWith("#intro")) voices = CP.lang() === "el" ? [] : VOICE.map((n) => { const a = new Audio(`voice/${n}.wav`); a.preload = "auto"; return a; });  /* made here, in the click or key press, so that the browser lets it play */
     const run = () => {
       count.textContent = "";
-      const hash = location.hash, intro = pub || hash.startsWith("#intro"), short = pub || hash === "#intro-short", plan = intro ? introPlan(short, hash === "#intro-master") : hash === "#video-short" ? takeShort : take, stopAt = intro ? plan[plan.length - 1][0] + (short ? 15 : hash === "#intro-master" ? 25 : 7) : hash === "#video-short" ? endShort : end;
+      const hash = location.hash, intro = pub || hash.startsWith("#intro"), plan = intro ? introPlan() : hash === "#video-short" ? takeShort : take, stopAt = intro ? plan[plan.length - 1][0] + 25 : hash === "#video-short" ? endShort : end;
       plan.forEach(([s, fn]) => ids.push(setTimeout(fn, s * 1000)));
       ids.push(setTimeout(() => { stopTake(true); scrollTo("#top"); }, stopAt * 1000));
     };

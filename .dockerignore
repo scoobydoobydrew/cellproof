@@ -6,6 +6,5 @@ __pycache__/
 .env
 data/raw/
 data/user_papers/
-data/voice/
 results/.cache/
 results/tissue/staging/

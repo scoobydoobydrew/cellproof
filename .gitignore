@@ -14,5 +14,3 @@ results/tissue/staging/
 # Papers the user drops in (PDFs, quotes, the model's replies): they may not be open access, so they never leave this computer.
 data/user_papers/
 
-# Generated voice-over (made by `python -m cellproof.voice`, reproducible; not redistributed).
-data/voice/

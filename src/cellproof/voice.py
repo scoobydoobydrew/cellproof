@@ -2,7 +2,7 @@
 
 Not part of the research pipeline: it only turns the lines of the opening into wav files, locally, once. `<break time="1.0s" />` in a line becomes silence
 (the model itself does not read it). The model has one voice and no style control; the pace is the `speaking_rate` of the model, below 1.0 is slower.
-Needs the optional extra: `pip install -e .[voice]`. Run: `python -m cellproof.voice [out_dir] [lang]`.
+Needs the optional extra: `pip install -e .[voice]`. Run: `python -m cellproof.voice [out_dir] [lang]` (default out_dir: results/voice, which the page plays).
 """
 import functools
 import re
@@ -73,7 +73,7 @@ def write_wav(path: Path, samples: np.ndarray, sr: int) -> float:
 
 
 def main() -> None:
-    out = Path(sys.argv[1] if len(sys.argv) > 1 else "data/voice")
+    out = Path(sys.argv[1] if len(sys.argv) > 1 else "results/voice")
     lang = sys.argv[2] if len(sys.argv) > 2 else "eng"
     if lang != "eng":
         sys.exit("only the English lines are written; add a LINES list for another language first")

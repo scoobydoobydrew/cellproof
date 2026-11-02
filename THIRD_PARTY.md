@@ -90,7 +90,7 @@ run is made at run time by patching the one of PhysiBoSS's cell-lines sample, re
   algorithm or tool), and Montagud et al., "Patient-specific Boolean models of signalling networks guide personalised treatments", eLife 2022 (CC BY;
   `docs/genotype_protocol.md` follows only the idea of forcing the nodes of altered genes; none of its code, models or data is used).
 - Meta MMS-TTS (`facebook/mms-tts-eng`, Hugging Face; Pratap et al., "Scaling Speech Technology to 1,000+ Languages", 2023), used only offline to make the
-  voice-over of the video opening (`src/cellproof/voice.py`, optional extra `voice`); it is not called by the pipeline or the page. Licence: CC-BY-NC 4.0
+  voice-over of the video opening (`src/cellproof/voice.py`, optional extra `voice`); the page only plays the twelve files it made (`results/voice/*.wav`, committed, an output of the model), it never calls the model, and neither does the pipeline. Licence: CC-BY-NC 4.0
   (non-commercial, attribution): credit Meta; the licence must be re-read before any use beyond the hackathon. The voice is synthetic and says so in the README.
   Libraries it needs, installed and not vendored: PyTorch 2.15.0 (BSD-3-Clause), Hugging Face Transformers 5.22.1 (Apache-2.0) (licences as stated by the projects; to be re-checked).
 
