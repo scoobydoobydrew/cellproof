@@ -29,6 +29,7 @@ LINES_EN = [
     ("10-stars", 'At worst, you land among the stars. <break time="0.8s" /> A platform that helps labs choose which tests to run first. <break time="1.0s" /> We did not find a cure for cancer. <break time="0.8s" /> This is a small step, on the way.'),
     ("11-card", 'CellProof. <break time="1.0s" /> From shared uncertainty, to solitary conviction. <break time="1.2s" /> The field: cancer biology, how cells respond to radiation. <break time="0.9s" /> The problem: cell models are incomplete, and nobody can check every idea from the papers by hand. <break time="0.9s" /> How it helps: an AI proposes, an exact solver checks, and researchers get candidates to test in the lab.'),
 ]
+GAP = 0.7  # seconds between two lines on the page
 MODELS = {"eng": "facebook/mms-tts-eng", "ell": "facebook/mms-tts-ell"}
 
 
@@ -77,9 +78,14 @@ def main() -> None:
     if lang != "eng":
         sys.exit("only the English lines are written; add a LINES list for another language first")
     out.mkdir(parents=True, exist_ok=True)
+    starts, at = [], 0.0
     for name, text in LINES_EN:
         samples, sr = speak(split(text), lang)
-        print(f"{name}: {write_wav(out / f'{name}.wav', samples, sr):.1f} s  (peak {np.abs(samples).max():.2f})")
+        seconds = write_wav(out / f"{name}.wav", samples, sr)
+        print(f"{name}: {seconds:.1f} s  (peak {np.abs(samples).max():.2f})")
+        starts.append(round(at, 1))
+        at += seconds + GAP
+    print(f"cues for MASTER_CUES in report/web/video.js (a line starts {GAP} s after the previous one ends): {starts}")
 
 
 if __name__ == "__main__":

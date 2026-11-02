@@ -1128,3 +1128,8 @@ details.deep[open] > summary { margin-bottom: 14px; }
 .vid-skip { position: fixed; z-index: 62; top: max(14px, env(safe-area-inset-top, 0px)); right: max(14px, env(safe-area-inset-right, 0px)); padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .4); background: rgba(12, 6, 34, .7); color: #fff; font-size: 13px; cursor: pointer; backdrop-filter: blur(6px); }
 .vid-skip[hidden] { display: none; }
 html.vid.vid-pub { cursor: auto; overflow: hidden; }
+
+/* all three items of the card stay above the caption, also in Greek, where the words are longer */
+.vid-lines ol.what.labelled { gap: min(14px, 2vh); }
+.vid-lines ol.what.labelled li { font-size: clamp(16px, min(2.25vw, 3.8vh), 36px); line-height: 1.2; }
+.vid-lines:has(.cardbox) p.compact { font-size: clamp(36px, min(6vw, 10vh), 90px); }

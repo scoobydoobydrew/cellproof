@@ -108,6 +108,10 @@
     [5, "Κάθε εβδομάδα, νέα papers. Κάθε paper, νέα γονίδια για δοκιμή. <em>Ένα εργαστήριο τρέχει λίγα πειράματα.</em>", "dna"]];
   const sh = (d, a) => a.map(([t, ...r]) => [t + d, ...r]);
   for (const [set, scene, shot, pre] of [[EN, TALK_EN, SHOT_EN, PRE_EN], [EL, TALK_EL, SHOT_EL, PRE_EL]]) set.talk = [...pre, ...sh(PRE_T, [...scene, ...sh(TALK_T, set.short.slice(0, 3)), ...sh(TALK_T + 25, shot)])], set.full = [...set.full.slice(0, 3), ...sh(15.5, scene), ...sh(TALK_T, set.full.slice(3))];
+  /* the voice-over of #intro-master (src/cellproof/voice.py, lines 00 to 11): the start of each line, in seconds, with 0.7 s between lines; the last is the card. The three items of the card
+     appear as the voice reaches them (CARD_AT, seconds after the card starts). If the voice or its lines change, run `python -m cellproof.voice` again and take the new times from its output. */
+  const MASTER_CUES = [0, 11.8, 22.4, 29.8, 38.5, 47.4, 54.3, 63.5, 71.9, 81.7, 87.3, 104.3], CARD_AT = [7.6, 13.4, 21.8];
+  for (const set of [EN, EL]) set.talk = set.talk.map(([, ...r], i) => [MASTER_CUES[i], ...r]);
   const lines = document.createElement("div"), fl = document.createElement("div"), art = document.createElement("canvas");
   let actx = art.getContext("2d");
   lines.className = "vid-lines"; fl.className = "vid-flash"; art.className = "vid-art"; art.hidden = true; document.body.append(art, lines, fl);
@@ -403,9 +407,9 @@
   };
   const introPlan = (short, master) => {  /* `master`: #intro-master, the teacher scene on its own, ending on the name and the caption */
     const set = CP.lang() === "el" ? EL : EN, src = master ? set.talk : short ? set.short : set.full, tail = src[src.length - 1][0] + 6.5;
-    const title = `CellProof<small>${set.tag}</small>`, card = `<div class="cardbox"><p class="big compact">${title}</p><ol class="what labelled">${set.what.map(([l, w]) => `<li><span class="vlab">${l}</span><span>${w}</span></li>`).join("")}</ol></div>`;
+    const title = `CellProof<small>${set.tag}</small>`, card = `<div class="cardbox"><p class="big compact">${title}</p><ol class="what labelled">${set.what.map(([l, w], i) => `<li${master ? ` style="animation-delay:${CARD_AT[i]}s"` : ""}><span class="vlab">${l}</span><span>${w}</span></li>`).join("")}</ol></div>`;
     const open = [0, () => { scrollTo("#top"); CPHero.pin(true); CPHero.show(0); root.classList.add("vid-intro", "vid-zoom"); }], cuts = src.map(([t, html, sc, kind]) => [t, () => { setArt(sc || ""); showLine(html, false, sc === "noise", kind); }]);
-    if (master) { const t0 = src[src.length - 1][0] + 7.5; return [open, ...cuts, [t0, () => { setArt("circuit-link"); flash(); lines.classList.remove("warn"); showLine(card, false, false, "card"); say(set.cap); }], [t0 + 5.5, () => setArt("circuit-scan")]]; }  /* the platform explained over the network: a new link grows, then the solver scans it */
+    if (master) { const t0 = MASTER_CUES[11]; return [open, ...cuts, [t0, () => { setArt("circuit-link"); flash(); lines.classList.remove("warn"); showLine(card, false, false, "card"); say(set.cap); }], [t0 + 5.5, () => setArt("circuit-scan")]]; }  /* the platform explained over the network: a new link grows, then the solver scans it */
     return [open, ...cuts,
       [tail, () => { setArt(short ? "circuit" : "dna"); flash(); lines.classList.remove("warn"); showLine(short ? card : title, !short, false, short ? "card" : ""); say(set.cap); }]];
   };
@@ -424,7 +428,7 @@
     root.classList.add("vid"); bar.hidden = true;
     const run = () => {
       count.textContent = "";
-      const hash = location.hash, intro = pub || hash.startsWith("#intro"), short = pub || hash === "#intro-short", plan = intro ? introPlan(short, hash === "#intro-master") : hash === "#video-short" ? takeShort : take, stopAt = intro ? plan[plan.length - 1][0] + (short ? 15 : hash === "#intro-master" ? 9 : 7) : hash === "#video-short" ? endShort : end;
+      const hash = location.hash, intro = pub || hash.startsWith("#intro"), short = pub || hash === "#intro-short", plan = intro ? introPlan(short, hash === "#intro-master") : hash === "#video-short" ? takeShort : take, stopAt = intro ? plan[plan.length - 1][0] + (short ? 15 : hash === "#intro-master" ? 25 : 7) : hash === "#video-short" ? endShort : end;
       plan.forEach(([s, fn]) => ids.push(setTimeout(fn, s * 1000)));
       ids.push(setTimeout(() => { stopTake(true); scrollTo("#top"); }, stopAt * 1000));
     };
