@@ -85,20 +85,23 @@
   };
   /* the scene of the teacher, in the long opening only (after the noise, before "There is a feeling..."): a night, a tree in blossom, an old teacher with a lantern, the student we
      met on the cliff. A quiet talk in the manner of the old wise-master stories. The words and the figures are our own; nothing here is taken from a film. */
-  const TALK_T = 27.5;
+  const TALK_T = 24.5;
   const talk = (who, what) => `<span class="who">${who}</span>${what}`;
   const TALK_EN = [[0, talk("The student", "Too many papers. Too many genes. I cannot check them all."), "master", "talk"],
     [5.2, talk("The teacher", "Read, don't read? Guess, don't guess? <em>You carry the whole forest on your back.</em>"), "master", "talk"],
     [11.6, talk("The teacher", "Let the machine read. Let the solver judge. <em>You choose what is worth the lab.</em>"), "master", "talk"],
-    [18, "Today is a <em>gift.</em>", "master", "talk gift"],
-    [22.8, talk("The teacher", "An AI that reads what no person can finish. Use it where it can <em>help people.</em>"), "master", "talk"]];
+    [18, talk("The teacher", "An AI that reads what no person can finish. Use it where it can <em>help people.</em>"), "master", "talk"]];
   const TALK_EL = [[0, talk("Ο μαθητής", "Πάρα πολλά papers. Πάρα πολλά γονίδια. Δεν προλαβαίνω να τα ελέγξω όλα."), "master", "talk"],
     [5.2, talk("Ο δάσκαλος", "Να διαβάσεις, να μη διαβάσεις; Να μαντέψεις, να μη μαντέψεις; <em>Κουβαλάς όλο το δάσος στην πλάτη σου.</em>"), "master", "talk"],
     [11.6, talk("Ο δάσκαλος", "Άσε τη μηχανή να διαβάσει. Άσε τον solver να κρίνει. <em>Εσύ διαλέγεις τι αξίζει το εργαστήριο.</em>"), "master", "talk"],
-    [18, "Το σήμερα είναι ένα <em>δώρο.</em>", "master", "talk gift"],
-    [22.8, talk("Ο δάσκαλος", "Ένα AI που διαβάζει ό,τι κανείς άνθρωπος δεν προλαβαίνει. Χρησιμοποίησέ το εκεί όπου μπορεί να <em>βοηθήσει ανθρώπους.</em>"), "master", "talk"]];
+    [18, talk("Ο δάσκαλος", "Ένα AI που διαβάζει ό,τι κανείς άνθρωπος δεν προλαβαίνει. Χρησιμοποίησέ το εκεί όπου μπορεί να <em>βοηθήσει ανθρώπους.</em>"), "master", "talk"]];
+  /* #intro-master goes on from the talk: aim for the moon, and fall among the stars (the platform), which light up and join */
+  const SHOT_EN = [[0, "Shoot for the <em>moon.</em> A treatment for cancer.", "moonshot"],
+    [5.8, "At worst, you land among the <em>stars:</em> a platform that helps labs choose which tests to run first.<small>We did not find a cure. This is a small step on the way.</small>", "moonshot"]];
+  const SHOT_EL = [[0, "Στόχευσε στο <em>φεγγάρι.</em> Μια θεραπεία για τον καρκίνο.", "moonshot"],
+    [5.8, "Στη χειρότερη, θα βρεθείς ανάμεσα στα <em>αστέρια:</em> μια πλατφόρμα που βοηθά τα εργαστήρια να διαλέξουν ποιες δοκιμές να τρέξουν πρώτες.<small>Δεν βρήκαμε θεραπεία. Είναι ένα μικρό βήμα στον δρόμο.</small>", "moonshot"]];
   const sh = (d, a) => a.map(([t, ...r]) => [t + d, ...r]);
-  for (const [set, scene] of [[EN, TALK_EN], [EL, TALK_EL]]) set.talk = scene, set.full = [...set.full.slice(0, 3), ...sh(15.5, scene), ...sh(TALK_T, set.full.slice(3))];
+  for (const [set, scene, shot] of [[EN, TALK_EN, SHOT_EN], [EL, TALK_EL, SHOT_EL]]) set.talk = [...scene, ...sh(TALK_T, shot)], set.full = [...set.full.slice(0, 3), ...sh(15.5, scene), ...sh(TALK_T, set.full.slice(3))];
   const lines = document.createElement("div"), fl = document.createElement("div"), art = document.createElement("canvas");
   let actx = art.getContext("2d");
   lines.className = "vid-lines"; fl.className = "vid-flash"; art.className = "vid-art"; art.hidden = true; document.body.append(art, lines, fl);
@@ -278,6 +281,39 @@
       actx.fillStyle = `rgba(255,${150 + (p.p * 10 | 0)},210,.8)`; actx.beginPath(); actx.ellipse(px, py, r * 1.6, r, t * 0.6 + p.p, 0, 6.2832); actx.fill();
     }
   }
+  function moonshot(t) {  /* the point aims for the moon and falls short; where it falls, the stars light up and join into a network: the platform */
+    const mx = W * 0.78, my = H * 0.3, R = H * 0.13;
+    frozen("moonshot", () => {
+      sky("moonshot", 0, 1.2, true, true);
+      actx.save(); actx.shadowColor = "rgba(150,130,255,.7)"; actx.shadowBlur = 70; const g = actx.createRadialGradient(mx - R * 0.3, my - R * 0.3, R * 0.1, mx, my, R); g.addColorStop(0, "#fff3de"); g.addColorStop(0.65, "#e3b394"); g.addColorStop(1, "#5a3a70"); actx.fillStyle = g; actx.beginPath(); actx.arc(mx, my, R, 0, 6.2832); actx.fill(); actx.restore();
+      for (let i = 0; i < 9; i++) { const c = CRATERS[i], a = c.a + 1.6, x = mx + Math.cos(a) * c.d * R * 0.8, y = my + Math.sin(a) * c.d * R * 0.8, r = c.r * R * 2; actx.fillStyle = "rgba(60,30,90,.25)"; actx.beginPath(); actx.ellipse(x, y, r, r * 0.8, 0, 0, 6.2832); actx.fill(); }
+    }, 0, t);
+    twinkle(t, 50); shootStar(t);
+    const S = [W * 0.06, H * 0.92], E = [mx - R * 2.3, my + R * 2.6], C1 = [W * 0.2, H * 0.35], C2 = [W * 0.5, H * 0.1];
+    const at = (v) => { const w = 1 - v; return [w * w * w * S[0] + 3 * w * w * v * C1[0] + 3 * w * v * v * C2[0] + v * v * v * E[0], w * w * w * S[1] + 3 * w * w * v * C1[1] + 3 * w * v * v * C2[1] + v * v * v * E[1]]; };
+    const u = clamp(t / 4.4), s = u * u * (3 - 2 * u);
+    if (t < 4.6) {
+      actx.globalCompositeOperation = "lighter";
+      for (let v = Math.max(0, s - 0.4); v < s; v += 0.012) { const [x, y] = at(v), a = (v - (s - 0.4)) / 0.4; actx.fillStyle = `rgba(255,205,160,${0.5 * a})`; actx.beginPath(); actx.arc(x, y, 1 + 3 * a, 0, 6.2832); actx.fill(); }
+      actx.globalCompositeOperation = "source-over";
+      const [px, py] = at(s); glow(px, py, 55 + 8 * Math.sin(t * 6), 0.9); actx.fillStyle = "#fff3e6"; actx.beginPath(); actx.arc(px, py, 7, 0, 6.2832); actx.fill();
+    }
+    if (t > 4.4 && t < 6.2) { const r = (t - 4.4) / 1.8; actx.strokeStyle = `rgba(255,225,190,${1 - r})`; actx.lineWidth = 3; actx.beginPath(); actx.arc(E[0], E[1], 20 + r * 260, 0, 6.2832); actx.stroke(); }
+    const k = clamp((t - 4.4) / 2.4), reach = Math.hypot(W, H), reveal = (x, y) => clamp((k * 1.7 - Math.hypot(x - E[0], y - E[1]) / reach * 1.7) * 3);  /* the network is revealed outwards from where the point fell */
+    if (k > 0) {
+      actx.globalCompositeOperation = "lighter"; actx.lineCap = "round";
+      for (const e of EDGES) {
+        const a = NODES[e[0]], b = NODES[e[1]], x1 = a.x * W, y1 = a.y * H, x2 = b.x * W, y2 = b.y * H, al = Math.min(reveal(x1, y1), reveal(x2, y2)); if (al <= 0) continue;
+        actx.beginPath(); actx.moveTo(x1, y1); actx.quadraticCurveTo((x1 + x2) / 2 + (y2 - y1) * e[2], (y1 + y2) / 2 - (x2 - x1) * e[2], x2, y2); actx.strokeStyle = `rgba(60,170,255,${0.14 * al})`; actx.lineWidth = 9; actx.stroke(); actx.strokeStyle = `rgba(60,170,255,${0.6 * al})`; actx.lineWidth = 1.6; actx.stroke();
+      }
+      NODES.forEach((n, i) => {
+        const x = n.x * W, y = n.y * H, al = reveal(x, y); if (al <= 0) return; const g = actx.createRadialGradient(x, y, 0, x, y, 38);
+        g.addColorStop(0, `rgba(225,60,175,${0.55 * al * (0.7 + 0.3 * Math.sin(t * 2 + i))})`); g.addColorStop(1, "rgba(225,60,175,0)"); actx.fillStyle = g; actx.beginPath(); actx.arc(x, y, 38, 0, 6.2832); actx.fill();
+        actx.fillStyle = `rgba(255,255,255,${0.95 * al})`; actx.beginPath(); actx.arc(x, y, 3.4, 0, 6.2832); actx.fill();
+      });
+      actx.globalCompositeOperation = "source-over";
+    }
+  }
   function circuit(t, mode) {  /* a network of lit cells: signals run along its links; `link` grows a new one; `scan` checks the links from left to right */
     sky("plain", t, 0.5, false); actx.globalCompositeOperation = "lighter"; actx.lineCap = "round";
     const sx = mode === "scan" ? clamp(t / 5.5) * W : -1, green = (x) => sx >= 0 && x < sx, P0 = (n) => [NODES[n].x * W, NODES[n].y * H];
@@ -331,6 +367,8 @@
       sky("dna", t, 1, true); helix(t);
     } else if (scene === "week") {
       sky("week", t, 0.7, true); days(t);
+    } else if (scene === "moonshot") {
+      moonshot(t);
     } else if (scene === "master") {
       master(t);
     } else if (scene === "moon") {
@@ -360,8 +398,9 @@
   const introPlan = (short, master) => {  /* `master`: #intro-master, the teacher scene on its own, ending on the name and the caption */
     const set = CP.lang() === "el" ? EL : EN, src = master ? set.talk : short ? set.short : set.full, tail = src[src.length - 1][0] + 6.5;
     const title = `CellProof<small>${set.tag}</small>`, card = `<div class="cardbox"><p class="big compact">${title}</p><ol class="what labelled">${set.what.map(([l, w]) => `<li><span class="vlab">${l}</span><span>${w}</span></li>`).join("")}</ol></div>`;
-    return [[0, () => { scrollTo("#top"); CPHero.pin(true); CPHero.show(0); root.classList.add("vid-intro", "vid-zoom"); }],
-      ...src.map(([t, html, sc, kind]) => [t, () => { setArt(sc || ""); showLine(html, false, sc === "noise", kind); }]),
+    const open = [0, () => { scrollTo("#top"); CPHero.pin(true); CPHero.show(0); root.classList.add("vid-intro", "vid-zoom"); }], cuts = src.map(([t, html, sc, kind]) => [t, () => { setArt(sc || ""); showLine(html, false, sc === "noise", kind); }]);
+    if (master) { const t0 = src[src.length - 1][0] + 7.5; return [open, ...cuts, [t0, () => { setArt("circuit-link"); flash(); lines.classList.remove("warn"); showLine(card, false, false, "card"); say(set.cap); }], [t0 + 5.5, () => setArt("circuit-scan")]]; }  /* the platform explained over the network: a new link grows, then the solver scans it */
+    return [open, ...cuts,
       [tail, () => { setArt(short ? "circuit" : "dna"); flash(); lines.classList.remove("warn"); showLine(short ? card : title, !short, false, short ? "card" : ""); say(set.cap); }]];
   };
   const end = take[take.length - 1][0] + 5, endShort = takeShort[takeShort.length - 1][0] + 5;  /* the last ten seconds of the video are the terminal, recorded apart */
@@ -379,7 +418,7 @@
     root.classList.add("vid"); bar.hidden = true;
     const run = () => {
       count.textContent = "";
-      const hash = location.hash, intro = pub || hash.startsWith("#intro"), short = pub || hash === "#intro-short", plan = intro ? introPlan(short, hash === "#intro-master") : hash === "#video-short" ? takeShort : take, stopAt = intro ? plan[plan.length - 1][0] + (short ? 15 : 7) : hash === "#video-short" ? endShort : end;
+      const hash = location.hash, intro = pub || hash.startsWith("#intro"), short = pub || hash === "#intro-short", plan = intro ? introPlan(short, hash === "#intro-master") : hash === "#video-short" ? takeShort : take, stopAt = intro ? plan[plan.length - 1][0] + (short ? 15 : hash === "#intro-master" ? 9 : 7) : hash === "#video-short" ? endShort : end;
       plan.forEach(([s, fn]) => ids.push(setTimeout(fn, s * 1000)));
       ids.push(setTimeout(() => { stopTake(true); scrollTo("#top"); }, stopAt * 1000));
     };
