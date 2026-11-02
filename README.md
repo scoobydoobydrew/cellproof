@@ -132,6 +132,7 @@ g++ and make only), `python -m cellproof.cli tissue` re-runs the conditions, `py
 |---|---|---|
 | Muse Spark (`muse-spark-1.3`, Standard) | `src/cellproof/meta_client.py`, `extract/`, `verify/repair.py`, `ingest/` | The core of the pipeline: reads papers, proposes rules, repairs rejected ones, and is the "AI alone" baseline of the search. Every call is cached on disk, so `make verify` makes none. |
 | Muse Wonder (`muse-wonder-1.0`) | `cli.py` (`augment`, the ablation M5), through `verify/repair.py` | The same repair task, to compare accuracy, cost and latency with Muse Spark (table above). |
+| MMS-TTS (`facebook/mms-tts-eng`, open weights, CC-BY-NC 4.0) | tried, **not in the repository** | Meta's open-source text-to-speech, tried for a first draft of the voice-over of the opening (installed locally with PyTorch and Transformers, run offline). It was dropped: the opening is read aloud by the browser's voice instead (below). Not used by the pipeline or the page, no fine-tuning of any model was done. |
 
 Not used: SAM 3.1, Muse Image, Muse Voice Transcribe, Muse Spark Open, Muse Glimmer. The page (`results/report.html`) makes no model call: it only reads results stored
 when it is built. The one thing it takes from the machine is a **browser feature, not a model**: the opening (button *Watch the intro*) is read aloud by the browser's own speech
