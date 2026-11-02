@@ -114,7 +114,7 @@ open access in a public video unless its licence allows it.
 an old teacher with a lantern, and the student from the cliff, with petals falling. The talk and the figures are our own (nothing is taken from a film);
 it ends on one line about using AI where it can help people. The long opening is now about 124 seconds. The short opening is unchanged.
 
-`report.html#intro-master` is the whole opening as one piece (about 80 seconds after the countdown): the teacher scene; then the first words of the short
+`report.html#intro-master` is the whole opening as one piece (about 91 seconds after the countdown): two opening slides ("A platform that helps cancer labs decide which experiments to run first", then why: new papers, new genes, a lab can only run a few experiments; we do not say "clinical trials", because the platform does not touch them); the teacher scene; then the first words of the short
 opening ("There is a feeling...", "Solitary conviction", "We felt it at the start of this hackathon..."); then "Shoot for the moon. A treatment for cancer."
 (a point aims at the moon and falls short) and "At worst, you land among the stars: a platform that helps labs choose which tests to run first. We did not
 find a cure for cancer." (the stars light up and join into a network); then the platform explained on the network (the field, the problem, where it helps)

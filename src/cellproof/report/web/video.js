@@ -100,8 +100,14 @@
     [5.8, "At worst, you land among the <em>stars:</em> a platform that helps labs choose which tests to run first.<small>We did not find a cure for cancer. This is a small step on the way.</small>", "moonshot"]];
   const SHOT_EL = [[0, "Στόχευσε στο <em>φεγγάρι.</em> Μια θεραπεία για τον καρκίνο.", "moonshot"],
     [5.8, "Στη χειρότερη, θα βρεθείς ανάμεσα στα <em>αστέρια:</em> μια πλατφόρμα που βοηθά τα εργαστήρια να διαλέξουν ποιες δοκιμές να τρέξουν πρώτες.<small>Δεν βρήκαμε θεραπεία. Είναι ένα μικρό βήμα στον δρόμο.</small>", "moonshot"]];
+  /* #intro-master opens by saying what this is for and why there is too much to read: two slides, then the talk */
+  const PRE_T = 11;
+  const PRE_EN = [[0, "A platform that helps cancer labs decide <em>which experiments to run first.</em><small>A small step on the way to better cancer research.</small>", "dna"],
+    [5, "Every week, new papers. Every paper, new genes to test. <em>A lab can only run a few experiments.</em>", "dna"]];
+  const PRE_EL = [[0, "Μια πλατφόρμα που βοηθά τα εργαστήρια καρκίνου να διαλέξουν <em>ποια πειράματα να τρέξουν πρώτα.</em><small>Ένα μικρό βήμα για καλύτερη έρευνα του καρκίνου.</small>", "dna"],
+    [5, "Κάθε εβδομάδα, νέα papers. Κάθε paper, νέα γονίδια για δοκιμή. <em>Ένα εργαστήριο τρέχει λίγα πειράματα.</em>", "dna"]];
   const sh = (d, a) => a.map(([t, ...r]) => [t + d, ...r]);
-  for (const [set, scene, shot] of [[EN, TALK_EN, SHOT_EN], [EL, TALK_EL, SHOT_EL]]) set.talk = [...scene, ...sh(TALK_T, set.short.slice(0, 3)), ...sh(TALK_T + 25, shot)], set.full = [...set.full.slice(0, 3), ...sh(15.5, scene), ...sh(TALK_T, set.full.slice(3))];
+  for (const [set, scene, shot, pre] of [[EN, TALK_EN, SHOT_EN, PRE_EN], [EL, TALK_EL, SHOT_EL, PRE_EL]]) set.talk = [...pre, ...sh(PRE_T, [...scene, ...sh(TALK_T, set.short.slice(0, 3)), ...sh(TALK_T + 25, shot)])], set.full = [...set.full.slice(0, 3), ...sh(15.5, scene), ...sh(TALK_T, set.full.slice(3))];
   const lines = document.createElement("div"), fl = document.createElement("div"), art = document.createElement("canvas");
   let actx = art.getContext("2d");
   lines.className = "vid-lines"; fl.className = "vid-flash"; art.className = "vid-art"; art.hidden = true; document.body.append(art, lines, fl);
