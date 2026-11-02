@@ -88,20 +88,20 @@
   const TALK_T = 24.5;
   const talk = (who, what) => `<span class="who">${who}</span>${what}`;
   const TALK_EN = [[0, talk("The student", "Too many papers. Too many genes. I cannot check them all."), "master", "talk"],
-    [5.2, talk("The teacher", "Read, don't read? Guess, don't guess? <em>You carry the whole forest on your back.</em>"), "master", "talk"],
+    [5.2, talk("The teacher", "You are too concerned about <em>what was</em> and <em>what will be.</em>"), "master", "talk"],
     [11.6, talk("The teacher", "Let the machine read. Let the solver judge. <em>You choose what is worth the lab.</em>"), "master", "talk"],
     [18, talk("The teacher", "An AI that reads what no person can finish. Use it where it can <em>help people.</em>"), "master", "talk"]];
   const TALK_EL = [[0, talk("Ο μαθητής", "Πάρα πολλά papers. Πάρα πολλά γονίδια. Δεν προλαβαίνω να τα ελέγξω όλα."), "master", "talk"],
-    [5.2, talk("Ο δάσκαλος", "Να διαβάσεις, να μη διαβάσεις; Να μαντέψεις, να μη μαντέψεις; <em>Κουβαλάς όλο το δάσος στην πλάτη σου.</em>"), "master", "talk"],
+    [5.2, talk("Ο δάσκαλος", "Ανησυχείς υπερβολικά για <em>ό,τι ήταν</em> και <em>ό,τι θα έρθει.</em>"), "master", "talk"],
     [11.6, talk("Ο δάσκαλος", "Άσε τη μηχανή να διαβάσει. Άσε τον solver να κρίνει. <em>Εσύ διαλέγεις τι αξίζει το εργαστήριο.</em>"), "master", "talk"],
     [18, talk("Ο δάσκαλος", "Ένα AI που διαβάζει ό,τι κανείς άνθρωπος δεν προλαβαίνει. Χρησιμοποίησέ το εκεί όπου μπορεί να <em>βοηθήσει ανθρώπους.</em>"), "master", "talk"]];
-  /* #intro-master goes on from the talk: aim for the moon, and fall among the stars (the platform), which light up and join */
+  /* #intro-master goes on from the talk with the first words of the short opening (the feeling, the term, the week), then: aim for the moon, and fall among the stars (the platform), which light up and join */
   const SHOT_EN = [[0, "Shoot for the <em>moon.</em> A treatment for cancer.", "moonshot"],
     [5.8, "At worst, you land among the <em>stars:</em> a platform that helps labs choose which tests to run first.<small>We did not find a cure for cancer. This is a small step on the way.</small>", "moonshot"]];
   const SHOT_EL = [[0, "Στόχευσε στο <em>φεγγάρι.</em> Μια θεραπεία για τον καρκίνο.", "moonshot"],
     [5.8, "Στη χειρότερη, θα βρεθείς ανάμεσα στα <em>αστέρια:</em> μια πλατφόρμα που βοηθά τα εργαστήρια να διαλέξουν ποιες δοκιμές να τρέξουν πρώτες.<small>Δεν βρήκαμε θεραπεία. Είναι ένα μικρό βήμα στον δρόμο.</small>", "moonshot"]];
   const sh = (d, a) => a.map(([t, ...r]) => [t + d, ...r]);
-  for (const [set, scene, shot] of [[EN, TALK_EN, SHOT_EN], [EL, TALK_EL, SHOT_EL]]) set.talk = [...scene, ...sh(TALK_T, shot)], set.full = [...set.full.slice(0, 3), ...sh(15.5, scene), ...sh(TALK_T, set.full.slice(3))];
+  for (const [set, scene, shot] of [[EN, TALK_EN, SHOT_EN], [EL, TALK_EL, SHOT_EL]]) set.talk = [...scene, ...sh(TALK_T, set.short.slice(0, 3)), ...sh(TALK_T + 25, shot)], set.full = [...set.full.slice(0, 3), ...sh(15.5, scene), ...sh(TALK_T, set.full.slice(3))];
   const lines = document.createElement("div"), fl = document.createElement("div"), art = document.createElement("canvas");
   let actx = art.getContext("2d");
   lines.className = "vid-lines"; fl.className = "vid-flash"; art.className = "vid-art"; art.hidden = true; document.body.append(art, lines, fl);
