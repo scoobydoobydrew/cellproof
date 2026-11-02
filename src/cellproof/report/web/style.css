@@ -822,9 +822,7 @@ html.vid-zoom #heroMol.jolt { animation: vidJolt .6s ease-out; }
 @keyframes vidJolt { 0% { filter: brightness(2.2) contrast(1.4); translate: -6px 4px; } 25% { translate: 5px -3px; } 50% { translate: -3px 2px; filter: none; } 100% { translate: 0 0; filter: none; } }
 @media (prefers-reduced-motion: reduce) { .vid-lines p { animation: none; } html.vid-zoom #heroMol.jolt { animation: none; } }
 
-.vid-lines.talk { place-items: start start; padding: 8vh 0 0 7vw; }
-.vid-lines.talk p { max-width: 14em; text-align: left; font-size: clamp(26px, 3.3vw, 52px); text-shadow: 0 3px 28px rgba(2, 3, 10, .95), 0 0 6px rgba(2, 3, 10, .7); }
-.vid-lines.talk .who { display: block; margin-bottom: .55em; font: 600 clamp(12px, 1.1vw, 18px)/1 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: #ffc9a0; }
+.vid-lines ol.what li.hold { animation: none; opacity: 0; }
 .vid-lines.high { padding-bottom: 26vh; }
 .vid-art { position: fixed; z-index: 57; inset: 0; width: 100vw; height: 100vh; }
 .vid-art[hidden] { display: none; }

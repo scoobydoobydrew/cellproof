@@ -66,36 +66,33 @@ view. The sentences above fit these screens in the same order.
 - Limits, on the page and in `docs/limitations.md`: ten scoreable held-out claims, written by me and not yet checked by a person; the model's
   repairs can pass the checks without being biologically right; Boolean networks have no dose and no time; no medical claims.
 
-## The opening (made by the page, with a voice-over)
+## The opening (made by the page, read aloud by the browser)
 
-There is one opening. A visitor starts it with the **Watch the intro** button in the header (no countdown; **Skip** stops it). To record it, open
-`results/report.html#intro-master`, press Space (or the button at the top), and the page does the rest after a 3-2-1. It lasts about 2 minutes 16 seconds
-and is timed to a voice-over. In order:
+There is one opening, of about 25 to 40 seconds depending on the voice. A visitor starts it with the **Watch the intro** button in the header (no countdown;
+**Skip** stops it). To record it, open `results/report.html#intro` (or `#intro-master`), press Space (or the button at the top), and the page does the rest after a 3-2-1.
+In order:
 
-1. Two slides: what the platform is for ("a platform that helps cancer labs decide which experiments to run first") and why there is too much to read
-   (new papers, new genes, a lab can only run a few experiments). It does not say "clinical trials": the platform does not touch them.
-2. A quiet scene: a night, a tree in blossom, an old teacher with a lantern, the student from the cliff, petals falling. A short talk, then one line about
-   using AI where it can help people.
-3. The words "There is a feeling...", *solitary conviction* and its definition, and the seven days of the week.
-4. "Shoot for the moon. A treatment for cancer." (a point aims at the moon and falls short), then "At worst, you land among the stars: a platform that helps labs
-   choose which tests to run first. We did not find a cure for cancer." (the stars light up and join into a network).
-5. The platform explained on that network (the field, the problem, where it helps) while a new link grows and the solver scans it, with the caption that
-   says what pre-existed and what was built this week (rule 9 of the brief).
+1. *Solitary conviction* and its definition, over a turning DNA.
+2. "We felt it at the start of this hackathon: a platform that looked impossible to build in one week", with seven days that fill.
+3. "A platform that helps cancer labs decide which experiments to run first. A small step on the way to better cancer research." It does not say "clinical trials":
+   the platform does not touch them.
+4. "Every week, new papers. Every paper, new genes to test. A lab can only run a few experiments."
+5. The name and the platform explained over a network of lit cells (the field, the problem, where it helps) while a new link grows and the solver scans it, with the
+   caption that says what pre-existed and what was built this week (rule 9 of the brief). Each of the three items appears as it is said.
 
-**The voice.** `results/voice/*.wav`, twelve files, made once by `python -m cellproof.voice` with Meta's open-source MMS-TTS (CC-BY-NC 4.0; see
-`THIRD_PARTY.md`). It is synthetic, has one voice and no style, and is English only: on the Greek page (**EN / ΕΛ**) the opening is silent. The cues are
-`MASTER_CUES` in `video.js`; if the lines or the voice change, run the command again and paste the cues it prints. The browser plays the files after a
-click or a key press; if a file is missing the opening still plays, without sound. Do not call the voice a person's.
+**The voice** is the browser's own speech synthesis: a feature of the browser and the operating system, not a model of this project, and not a file in the repository.
+On Microsoft Edge it uses Microsoft's natural voices (the page prefers a calm male one: Ryan, Guy, Andrew, Brian...; in Greek, Νέστορας or Αθηνά), in English or Greek
+following the page language (**EN / ΕΛ**). Chrome and Firefox have other voices, and the sound differs from browser to browser, so **record in the same browser every time**. A line starts
+0.7 s after the previous one has been spoken, so the pace follows the voice; a voice that fails at once (an online voice with no network) falls back to the time the words take
+to read; with no voice for the language, the page is silent. In Greek, "Solitary conviction" is read in a Greek voice and sounds odd: say so in the video or record
+the English page.
 
-**For the three-minute video.** The opening alone is longer than two minutes, and `#video-short` (about 1 minute 37 seconds) comes after it, so both do not fit in
-three minutes. Choose: the opening as a clip of its own (for X or a reel) and `#video` as the three-minute video; or a shorter take after the opening. The
-earlier short and long openings no longer exist.
+**For the three-minute video.** The opening is short now, so it fits in front of the take: `#intro` (about half a minute), then `#video-short` (about 1 minute 37 seconds),
+then the terminal (10 to 12 seconds) and `#card` (4 seconds): about 2 minutes 30 seconds to 2 minutes 45 seconds. Put your own royalty-free music under it in the editor
+(with a licence; nothing from a reel or a stock library without rights).
 
-One sentence of the teacher's talk, "You are too concerned about what was and what will be", is a short nod to a line of the film Kung Fu Panda (DreamWorks);
-everything else in the scene and its figures is ours. If you would rather not quote it in a public video, replace it with a sentence of our own in `TALK_EN`
-and `TALK_EL` in `video.js` (and say the new sentence in `src/cellproof/voice.py`, line `03-teacher`).
-
-Put your own royalty-free music under it in the editor (with a licence; nothing from a reel or a stock library without rights).
+The scenes of an earlier opening (a teacher and a student under a tree in blossom, a point aimed at the moon) and the recordings made for it were removed after a first
+audience found them unconvincing; they are in the git history (commits before this change), and the recordings stay on the author's computer, not in the repository.
 
 ## If you want the drop of a PDF in the video (optional, about 20 seconds)
 

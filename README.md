@@ -132,10 +132,10 @@ g++ and make only), `python -m cellproof.cli tissue` re-runs the conditions, `py
 |---|---|---|
 | Muse Spark (`muse-spark-1.3`, Standard) | `src/cellproof/meta_client.py`, `extract/`, `verify/repair.py`, `ingest/` | The core of the pipeline: reads papers, proposes rules, repairs rejected ones, and is the "AI alone" baseline of the search. Every call is cached on disk, so `make verify` makes none. |
 | Muse Wonder (`muse-wonder-1.0`) | `cli.py` (`augment`, the ablation M5), through `verify/repair.py` | The same repair task, to compare accuracy, cost and latency with Muse Spark (table above). |
-| MMS-TTS (`facebook/mms-tts-eng`, open weights, CC-BY-NC 4.0) | `src/cellproof/voice.py`, offline | Made the **synthetic** voice-over of the opening, once, on this computer; the page plays the stored files (`results/voice/`, English only). It is not called by the pipeline or the page. |
 
-Not used: SAM 3.1, Muse Image, Muse Voice Transcribe, Muse Spark Open, Muse Glimmer. The page (`results/report.html`) makes no model call and uses no
-browser or operating-system speech feature: it only reads results stored when it is built. Standard model IDs only, never `-contributor`.
+Not used: SAM 3.1, Muse Image, Muse Voice Transcribe, Muse Spark Open, Muse Glimmer. The page (`results/report.html`) makes no model call: it only reads results stored
+when it is built. The one thing it takes from the machine is a **browser feature, not a model**: the opening (button *Watch the intro*) is read aloud by the browser's own speech
+synthesis (on Microsoft Edge, its natural voices, in English or Greek; the voice depends on the browser, and without one the words just stay on screen). Standard model IDs only, never `-contributor`.
 
 ## Layout
 
@@ -155,7 +155,6 @@ src/cellproof/
   targets/           the solver's sets as targets (HGNC) and ChEMBL measured chemistry
   genotype/          tumour genotypes (TCGA through cBioPortal) as constraints on the model: counts of signatures, what the model says for each
                      (the search board of `analysis/search_board.py` is the solver's verdict on every set of one or two changes, per profile)
-  voice.py           synthetic voice-over of the video opening with Meta MMS-TTS (offline, optional extra `voice`)
 Dockerfile, compose.yaml   `docker compose run --rm verify` / `test`
 .github/workflows/ci.yml   unit tests and `cellproof verify` on every push
 eval/                where the evaluation is: its protocol, metrics and results (an index; the code is in `src/cellproof/eval/`)

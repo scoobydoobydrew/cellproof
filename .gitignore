@@ -14,3 +14,5 @@ results/tissue/staging/
 # Papers the user drops in (PDFs, quotes, the model's replies): they may not be open access, so they never leave this computer.
 data/user_papers/
 
+# The author's own recordings of a voice-over that was not used: they stay on this computer.
+data/own_voice/
