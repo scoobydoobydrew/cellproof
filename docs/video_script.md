@@ -112,7 +112,7 @@ audience found them unconvincing; they are in the git history (commits before th
 
 ## If you want the drop of a PDF in the video (optional, about 20 seconds)
 
-It needs the local server, so it is a separate screen recording, not the page of the artifact. Read the paper once beforehand (a few cents):
+`#video-demo` ends with an *example run* of the box (labelled so on the screen), because a static page cannot read a PDF. For the real thing it needs the local server, so it is a separate screen recording, not the page of the artifact. Read the paper once beforehand (a few cents):
 `python -m cellproof.cli serve`, open the *Your PDFs* part, drop the PDF, press *Read it*. Then press *remove* on it (the model's replies stay in
 `data/user_papers/cache`, git-ignored) and record: drop the same PDF again. The six steps run in front of the camera, Muse Spark's two answers
 come from the cache in an instant, the solver runs for real, and the graph is drawn line by line, then each line takes the colour of the solver's

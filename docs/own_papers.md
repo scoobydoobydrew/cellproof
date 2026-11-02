@@ -31,8 +31,9 @@ python -m cellproof.cli serve              # the report from this computer, with
 python -m cellproof.cli ingest paper.pdf   # the same from the command line; --dry-run only reads the PDF and prints the cost
 ```
 
-`serve` needs `MODEL_API_KEY` in `.env`. Without the server the report is a static file and the second part explains itself: a page has no key
-and no solver. The published page (the artifact) is always static.
+`serve` needs `MODEL_API_KEY` in `.env`. Without the server the report is a static file: a page has no key and no solver, so the box still takes a drop but plays a clearly labelled
+*example run* on a paper the AI found, and never reads or sends the file. The published page (the artifact, GitHub Pages) is always static. With `serve` running
+(`/api/status` says `enabled`, with the key and the model `muse-spark-1.3`), the same box reads the PDF for real.
 
 A drop first shows a plan: the title, the pages, the DOI, what the guard says and about what reading it costs. Nothing is sent until the
 person presses *Read it*. Then six steps run, and the page shows them as they finish: the PDF is read, the guard checks it, Muse Spark reads the
