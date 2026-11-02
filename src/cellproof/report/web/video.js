@@ -49,8 +49,7 @@
   const EN = {
     opening: [[TERM_EN, "dna", "term", "Solitary conviction. A state where you believe in something, without having evidence that it would work."],
       ["We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week.", "week"],
-      ["A platform that helps cancer labs decide <em>which experiments to run first.</em><small>A small step on the way to better cancer research.</small>", "cosmos"],
-      ["Every week, new papers. Every paper, new genes to test. <em>A lab can only run a few experiments.</em>", "cosmos"]],
+      ["A platform that helps cancer labs decide <em>which experiments to run first.</em><small>A small step on the way to better cancer research.</small>", "cosmos"]],
     hello: "CellProof. From shared uncertainty, to solitary conviction.",
     what: [["The field", "Cancer biology: how cells respond to radiation."], ["The problem", "Cell models are incomplete, and nobody can check every idea from the papers by hand."],
       ["How it helps", "An AI proposes, an exact solver checks, and researchers get candidates to test in the lab."]],
@@ -60,8 +59,7 @@
   const EL = {
     opening: [[TERM_EL, "dna", "term", "Solitary conviction. Η κατάσταση όπου πιστεύεις σε κάτι, χωρίς να έχεις απόδειξη ότι θα δουλέψει."],
       ["Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα.", "week"],
-      ["Μια πλατφόρμα που βοηθά τα εργαστήρια καρκίνου να διαλέξουν <em>ποια πειράματα να τρέξουν πρώτα.</em><small>Ένα μικρό βήμα για καλύτερη έρευνα του καρκίνου.</small>", "cosmos"],
-      ["Κάθε εβδομάδα, νέα papers. Κάθε paper, νέα γονίδια για δοκιμή. <em>Ένα εργαστήριο τρέχει λίγα πειράματα.</em>", "cosmos"]],
+      ["Μια πλατφόρμα που βοηθά τα εργαστήρια καρκίνου να διαλέξουν <em>ποια πειράματα να τρέξουν πρώτα.</em><small>Ένα μικρό βήμα για καλύτερη έρευνα του καρκίνου.</small>", "cosmos"]],
     hello: "CellProof.",
     what: [["Ο τομέας", "Βιολογία του καρκίνου: πώς αντιδρούν τα κύτταρα στην ακτινοβολία."], ["Το πρόβλημα", "Τα μοντέλα των κυττάρων είναι ελλιπή, και κανείς δεν μπορεί να ελέγξει με το χέρι κάθε ιδέα από τα papers."],
       ["Πού βοηθά", "Ένα AI προτείνει, ένας ακριβής solver ελέγχει, και οι ερευνητές παίρνουν υποψήφιες αλλαγές για δοκιμή στο εργαστήριο."]],

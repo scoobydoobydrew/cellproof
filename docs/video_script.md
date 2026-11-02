@@ -68,17 +68,16 @@ view. The sentences above fit these screens in the same order.
 
 ## The opening (made by the page, read aloud by the browser)
 
-There is one opening, of about 25 to 40 seconds depending on the voice. A visitor starts it with the **Watch the intro** button in the header (no countdown;
+There is one opening, of about 30 to 40 seconds depending on the voice. A visitor starts it with the **Watch the intro** button in the header (no countdown;
 **Skip** stops it). To record it, open `results/report.html#intro` (or `#intro-master`), press Space (or the button at the top), and the page does the rest after a 3-2-1.
 In order:
 
-1. *Solitary conviction* and its definition, over a turning DNA.
+1. *Solitary conviction* and its definition, over a turning DNA, with the line that says what pre-existed and what was built this week (rule 9 of the brief).
 2. "We felt it at the start of this hackathon: a platform that looked impossible to build in one week", with seven days that fill.
 3. "A platform that helps cancer labs decide which experiments to run first. A small step on the way to better cancer research." It does not say "clinical trials":
    the platform does not touch them.
-4. "Every week, new papers. Every paper, new genes to test. A lab can only run a few experiments."
-5. The name and the platform explained over a network of lit cells (the field, the problem, where it helps) while a new link grows and the solver scans it, with the
-   caption that says what pre-existed and what was built this week (rule 9 of the brief). Each of the three items appears as it is said.
+4. The name and the platform explained over a network of lit cells (the field, the problem, where it helps) while a new link grows and the solver scans it, with the
+   caption again. Each of the three items appears as it is said.
 
 **The voice** is the browser's own speech synthesis: a feature of the browser and the operating system, not a model of this project, and not a file in the repository.
 On Microsoft Edge it uses Microsoft's natural voices (the page prefers a calm male one: Ryan, Guy, Andrew, Brian...; in Greek, Νέστορας or Αθηνά); on Chrome the author chose **Google UK English Female**, which the page uses when it is there, at rate 0.9 and pitch 0.95, in English or Greek
@@ -93,7 +92,7 @@ the English page.
 
 | piece | address | about |
 |---|---|---|
-| 1. the opening | `results/report.html#intro` | 35 to 45 s (the pace follows the voice) |
+| 1. the opening | `results/report.html#intro` | 30 to 40 s (the pace follows the voice) |
 | 2. the virtual tumour, the samples and the demo | `results/report.html#video-demo` (it stops when the demo ends) | 76 s after the countdown |
 | 3. the terminal: `python -m cellproof.cli verify` (or `make verify`), once, to show that one command rebuilds every number | a terminal | 10 to 12 s |
 | 4. the closing card | `results/report.html#card` | 4 s |
