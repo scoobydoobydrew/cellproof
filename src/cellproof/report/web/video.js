@@ -14,7 +14,7 @@
   bar.innerHTML = '<button type="button" class="btn primary" id="vidGo">● Start the take (Space)</button><span>Start your screen recorder first. Esc stops. Keep the pointer off the window.</span>';
   /* #card: a closing card, a still to record for the last seconds of the video */
   const card = document.createElement("div");
-  card.className = "vid-card"; card.innerHTML = "<b>CellProof</b><span>LLM-proposed rules, solver-verified.</span><small>github.com/scoobydoobydrew/meta_ai_hackathon</small>";
+  card.className = "vid-card"; card.innerHTML = "<b>CellProof</b><span>LLM-proposed rules, solver-verified.</span><small>github.com/scoobydoobydrew/cellproof</small>";
   document.body.append(bar, cap, count, card);
   const say = (text, top) => { cap.textContent = text || ""; cap.classList.toggle("show", !!text); cap.classList.toggle("top", !!top); };
   const click = (sel, i) => { const el = $$(sel)[i]; if (el) el.click(); };
