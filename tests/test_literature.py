@@ -107,11 +107,15 @@ def test_no_quote_is_taken_from_a_paper_under_a_no_derivatives_or_share_alike_li
     assert [p["pmcid"] for p in papers if p["quotes"] and "nc" in p["license"]] == ["PMC6267624"]  # the one non-commercial paper that is quoted
 
 
+# the paper texts are not redistributed (data/raw is git-ignored), so the two checks that read a quote in them can only run where the texts were downloaded
+needs_texts = pytest.mark.skipif(not lit.TEXTS.exists(), reason="the paper texts (data/raw/literature) are not in a fresh clone")
+
+
 @pytest.mark.parametrize("change, expected", [
     (lambda p: p.update(verdict="maybe"), "unknown verdict"),
     (lambda p: p.update(quotes=[]), "needs a quote"),
-    (lambda p: p["quotes"].append({"text": "a sentence that is not in this paper at all, nowhere", "where": "x", "says": "y"}), "quote not found"),
-    (lambda p: p["quotes"].append({"text": " ".join(["word"] * 41), "where": "x", "says": "y"}), "more than 40 words"),
+    pytest.param(lambda p: p["quotes"].append({"text": "a sentence that is not in this paper at all, nowhere", "where": "x", "says": "y"}), "quote not found", marks=needs_texts),
+    pytest.param(lambda p: p["quotes"].append({"text": " ".join(["word"] * 41), "where": "x", "says": "y"}), "more than 40 words", marks=needs_texts),
     (lambda p: p.update(pmcid="PMC0"), "not taken by the protocol"),
     (lambda p: p.update(wave=3), "unknown wave"),
     (lambda p: p.update(design="vibes"), "unknown design"),

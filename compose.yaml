@@ -1,0 +1,9 @@
+# `docker compose run --rm verify`  rebuilds every table from the cached model outputs (no key, no network)
+# `docker compose run --rm test`    runs the unit tests (no network)
+services:
+  verify:
+    build: .
+    command: ["python", "-m", "cellproof.cli", "verify"]
+  test:
+    build: .
+    command: ["pytest", "-m", "not live", "-q"]

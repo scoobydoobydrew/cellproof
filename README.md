@@ -17,7 +17,8 @@ testing and gives no medical advice.
 - **What it is.** An agent in which Muse Spark reads papers and proposes rules for a published cell-signalling model, and an exact solver accepts or rejects each rule, returning a counterexample that Muse Spark uses to repair it.
 - **Why it matters.** Applied without the solver, edits taken from papers break 7 of 10 known behaviours of the model; with the solver, none (`results/RESULTS.md`).
 - **What it does not do.** It does not predict held-out outcomes better than the published model; the result is an automatic audit of where a model and the literature disagree. Failed checks are reported next to the passed ones.
-- **Try it.** Open `results/report.html`, or run `make verify` (no API call, no cost).
+- **Try it.** Open `results/report.html`, or run `make verify` (no API call, no cost), or `docker compose run --rm verify`.
+- **Video.** TBD: the 3-minute walk-through is linked here when it is published.
 
 ## The idea
 
@@ -108,6 +109,7 @@ Every answer also depends on p53: with p53 knocked out, none of the 11 sets leav
 
 ```bash
 python -m venv .venv && .venv/bin/pip install -e .[dev]      # Python 3.11+
+docker compose run --rm verify   # the same without installing anything: pinned dependencies, cached model outputs, no key
 make test      # unit tests, no network
 make verify    # rebuilds every table from cached model outputs; no API call, no cost; a cache miss is an error
 make extract   # the only target that spends money: calls the Meta Model API for requests not yet in cache/
@@ -123,6 +125,17 @@ g++ and make only), `python -m cellproof.cli tissue` re-runs the conditions, `py
 `python -m cellproof.cli genotypes --fetch` reads the TCGA tumour alterations from cBioPortal again (without `--fetch` it only recomputes from the committed counts).
 
 `.env` holds `MODEL_API_KEY` (never committed; see `.env.example`). Standard model IDs only, never `-contributor`.
+
+## Meta models
+
+| Model | Where | Role |
+|---|---|---|
+| Muse Spark (`muse-spark-1.3`, Standard) | `src/cellproof/meta_client.py`, `extract/`, `verify/repair.py`, `ingest/` | The core of the pipeline: reads papers, proposes rules, repairs rejected ones, and is the "AI alone" baseline of the search. Every call is cached on disk, so `make verify` makes none. |
+| Muse Wonder (`muse-wonder-1.0`) | `cli.py` (`augment`, the ablation M5), through `verify/repair.py` | The same repair task, to compare accuracy, cost and latency with Muse Spark (table above). |
+| MMS-TTS (`facebook/mms-tts-eng`, open weights, CC-BY-NC 4.0) | `src/cellproof/voice.py`, offline | Makes the **synthetic** voice-over of the video opening, once, on this computer. It is not used by the pipeline or the page. |
+
+Not used: SAM 3.1, Muse Image, Muse Voice Transcribe, Muse Spark Open, Muse Glimmer. The page (`results/report.html`) makes no model call and uses no
+browser or operating-system speech feature: it only reads results stored when it is built. Standard model IDs only, never `-contributor`.
 
 ## Layout
 
@@ -142,6 +155,10 @@ src/cellproof/
   targets/           the solver's sets as targets (HGNC) and ChEMBL measured chemistry
   genotype/          tumour genotypes (TCGA through cBioPortal) as constraints on the model: counts of signatures, what the model says for each
                      (the search board of `analysis/search_board.py` is the solver's verdict on every set of one or two changes, per profile)
+  voice.py           synthetic voice-over of the video opening with Meta MMS-TTS (offline, optional extra `voice`)
+Dockerfile, compose.yaml   `docker compose run --rm verify` / `test`
+.github/workflows/ci.yml   unit tests and `cellproof verify` on every push
+eval/                where the evaluation is: its protocol, metrics and results (an index; the code is in `src/cellproof/eval/`)
 data/                base network, verification cases, held-out set (frozen), extractions, models, HGNC cache
 docs/                protocol of the held-out set, limitations, notes on the Meta API and the extraction
 ```

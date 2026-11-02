@@ -1,0 +1,11 @@
+.venv/
+.git/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+data/raw/
+data/user_papers/
+data/voice/
+results/.cache/
+results/tissue/staging/
