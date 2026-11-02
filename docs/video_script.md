@@ -89,9 +89,24 @@ the English page.
 
 **To try another voice or a darker tone**, open `results/report.html#intro&voice=Guy&pitch=0.6&rate=0.8` (any part of a voice's name; pitch 0 to 2, rate 0.1 to 10; the defaults are Google UK English Female where it exists (Chrome), otherwise Ryan, with pitch 0.95 and rate 0.9) and press Space. Not every online voice follows the pitch. For a deeper, more eerie sound the reliable way is in the video editor, on the recorded audio: lower it by two or three semitones and add a little hall reverb.
 
-**For the three-minute video.** The opening is short now, so it fits in front of the take: `#intro` (about half a minute), then `#video-short` (about 1 minute 37 seconds),
-then the terminal (10 to 12 seconds) and `#card` (4 seconds): about 2 minutes 30 seconds to 2 minutes 45 seconds. Put your own royalty-free music under it in the editor
-(with a licence; nothing from a reel or a stock library without rights).
+**For the three-minute video** (the page plays each piece by itself; you record the screen with sound and join the pieces in an editor):
+
+| piece | address | about |
+|---|---|---|
+| 1. the opening | `results/report.html#intro` | 35 to 45 s (the pace follows the voice) |
+| 2. the virtual tumour, the samples and the demo | `results/report.html#video-demo` (it stops when the demo ends) | 76 s after the countdown |
+| 3. the terminal: `python -m cellproof.cli verify` (or `make verify`), once, to show that one command rebuilds every number | a terminal | 10 to 12 s |
+| 4. the closing card | `results/report.html#card` | 4 s |
+
+That is about 2 minutes 10 seconds. If you want the search engine and the three cards of what this is and is not as well, use `#video-short` instead of `#video-demo`
+(about 97 s, so about 2 minutes 30 seconds in all). The opening starts with the line that says what pre-existed and what was built this week (rule 9 of the brief).
+The demo and the other pieces have no voice: say the sentences of the table at the top of this file over them, or let the music and the captions carry them.
+
+**To record:** use Chrome (the voice the author chose is there; record every piece in the same browser), full screen (F11) at 1920 x 1080, with notifications off. In OBS Studio (free),
+add *Display Capture* and *Audio Output Capture* (the desktop sound, which carries the browser's voice), 1920 x 1080, 30 frames a second, and record to mp4. Open the address, press
+the *Start the take* button (or Space), take your hands off the mouse, and stop the recording when the page returns to its top. Esc stops a take; record the piece again if you stumble.
+Join the pieces, add music with a licence and subtitles, export at 1080p, upload it (YouTube, Loom or Vimeo, public or unlisted, or an mp4), and put the link in the README
+(the line *Video: TBD* under *In 30 seconds*). Check that it opens in a window where you are not signed in.
 
 The scenes of an earlier opening (a teacher and a student under a tree in blossom, a point aimed at the moon) and the recordings made for it were removed after a first
 audience found them unconvincing; they are in the git history (commits before this change), and the recordings stay on the author's computer, not in the repository.

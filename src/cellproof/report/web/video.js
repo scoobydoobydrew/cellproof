@@ -307,7 +307,9 @@
   async function playIntro(me) {
     const el = CP.lang() === "el", set = el ? EL : EN, lang = el ? "el" : "en", alive = () => me === token;
     scrollTo("#top"); CPHero.pin(true); CPHero.show(0); root.classList.add("vid-intro", "vid-zoom");
-    for (const [html, scene, kind, said] of set.opening) {
+    say(set.cap);  /* rule 9: the video opens with what pre-existed and what was built this week */
+    for (const [n, [html, scene, kind, said]] of set.opening.entries()) {
+      if (n === 2) say("");
       setArt(scene); showLine(html, false, false, kind);
       await speak(said || plain(html), lang); if (!alive()) return;
       await wait(0.3); if (!alive()) return;
@@ -325,6 +327,7 @@
     await wait(3); if (!alive()) return;
     stopTake(true); scrollTo("#top");
   }
+  const takeDemo = takeShort.slice(0, 3), endDemo = startDemo2 + CPBench.seconds / SPEED2 + 3;  /* #video-demo: the same, without the search engine and the cards: it stops when the demo ends */
   const end = take[take.length - 1][0] + 5, endShort = takeShort[takeShort.length - 1][0] + 5;  /* the last ten seconds of the video are the terminal, recorded apart */
 
   /* the button of the header ("Watch the intro") plays the opening for a visitor: no countdown, the pointer stays, and a button skips it */
@@ -340,7 +343,7 @@
     root.classList.add("vid"); bar.hidden = true;
     const run = () => {
       count.textContent = "";
-      const hash = location.hash, plan = hash === "#video-short" ? takeShort : take, stopAt = hash === "#video-short" ? endShort : end;
+      const hash = location.hash, plan = hash === "#video-demo" ? takeDemo : hash === "#video-short" ? takeShort : take, stopAt = hash === "#video-demo" ? endDemo : hash === "#video-short" ? endShort : end;
       if (pub || hash.startsWith("#intro")) { playIntro(++token); return; }
       plan.forEach(([s, fn]) => ids.push(setTimeout(fn, s * 1000)));
       ids.push(setTimeout(() => { stopTake(true); scrollTo("#top"); }, stopAt * 1000));
