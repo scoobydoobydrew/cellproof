@@ -1,5 +1,7 @@
 # CellProof
 
+[![tests](https://github.com/scoobydoobydrew/cellproof/actions/workflows/ci.yml/badge.svg)](https://github.com/scoobydoobydrew/cellproof/actions/workflows/ci.yml)
+
 **LLM-proposed rules, solver-verified: repairing a cell-signalling model under formal verification.**
 
 Meta Global AI Developer Hackathon, Indie track, "Push the Frontier". A research prototype. It prioritises hypotheses for lab
@@ -41,6 +43,16 @@ solver can tell, but cannot read. CellProof joins them:
    a repair that only restores the cases by making the new term inert is refused.
 6. **Evaluate.** The augmented network is compared with the base network on held-out outcomes it never saw.
 
+```mermaid
+flowchart LR
+  P["Open-access papers"] --> R["Muse Spark reads them<br/>and proposes rules"]
+  R --> S{"Exact solver:<br/>10 known experiments"}
+  S -- "passes" --> A["Augmented model"]
+  S -- "fails, with a counterexample" --> F["Muse Spark repairs the rule"]
+  F --> S
+  A --> E["Held-out audit,<br/>virtual tumour,<br/>search for gene sets"]
+```
+
 The model proposes; the solver decides. Every accepted or rejected rule is traceable to papers, quotes and a solver verdict:
 `python -m cellproof.cli explain "CHK1|inhibits|Cdc25"`.
 
@@ -57,7 +69,7 @@ decides; a virtual tumour (a real simulation of 1,663 cells, replayed with and w
 as one dot each, showing that every candidate relies on one gene (p53) and what share of samples have lost it. Straight after the header comes a
 strip of six counts that count up as it scrolls into view (papers read, links proposed, known experiments, changes tried, virtual cells, candidates),
 then the **demo**: a test bench in six clickable steps (a dish of cells, a missing link, ten known experiments, a fix, an audit, the virtual tumour) and a hunt
-for every way to leave only death, with a *Play the demo* button that walks through all of it in about 90 seconds. After the demo come the **papers**: the 36 the AI found and read on its own, each drawn as a graph of what it says with the solver's verdict on every
+for every way to leave only death, with a *Play the demo* button that walks through all of it in about 70 seconds. After the demo come the **papers**: the 36 the AI found and read on its own, each drawn as a graph of what it says with the solver's verdict on every
 link it can judge (three small animated cards say how to read the map: a dot is a gene, a line is a claim, a colour is the checker's verdict), and a second part for a PDF you hand it
 (a paper it cannot reach), read on your computer by `make serve` (`docs/own_papers.md`);
 then the **search

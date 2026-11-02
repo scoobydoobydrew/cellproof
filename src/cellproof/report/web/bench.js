@@ -10,7 +10,7 @@
   const GATE = [...new Set(toks(PATCH.final).filter((x) => /^[A-Za-z_]/.test(x) && !toks(PATCH.template).includes(x)))];
   const SPOT = new Set(["DNA_damage", "ATR", SRC, DST, ...GATE]);
   const NEW_LIST = ((D.summary && D.summary.new_nodes) || []).map(pretty).join(", ");
-  const N0 = D.networks.published.nodes.length, PLAY_S = 86;
+  const N0 = D.networks.published.nodes.length, PLAY_S = 72;
   const SCI = { proliferation: "proliferation", arrest: "arrest", senescence: "senescence", autophagy: "autophagy", apoptosis: "apoptosis" };
   /* the hunt: the exact solver found every set of one or two changes (readout genes excluded) after which every cell dies */
   const INTERV = ((D.interventions || {}).augmented || []).map((s) => s.map(([n, v]) => [n, v])), READOUT = new Set((D.interventions || {}).readout || []), HUNT = INTERV.length > 0;
@@ -677,8 +677,37 @@
   $$("#bScale button").forEach((b) => b.addEventListener("click", () => { if (!st.playing) setScale(b.dataset.scale); }));
 
   /* ---------------------------------------------------------------- presentation mode: the same actions, on a timer, with captions */
+  /* the demo, in as few words as it takes: one idea per caption */
+  Object.assign(TEXT.en, {
+    "cap.s1": "Radiation damages a cell. Then every cell picks a fate: it pauses, ages, recycles itself or dies.",
+    "cap.s2": () => `Turn off one gene, ${pretty("TUG1")}, and every cell dies. This is what we look for.`,
+    "cap.s3": "Inside, genes switch each other on and off. This is our model.",
+    "cap.s4": (n) => `A paper knows a link the model is missing. An AI reads ${n} papers and finds it.`,
+    "cap.s5": (a, b) => `New link: ${a} switches off ${b}.`,
+    "cap.s6": "Is it safe? An exact solver replays 10 experiments with known results.",
+    "cap.s7": (f) => `${f} of the 10 come out wrong. The AI sees which, and rewrites the link.`,
+    "cap.s8": "Now all 10 are right. The solver decided, not the AI.",
+    "cap.s9": (n) => `Last test: a virtual tumour, ${num(n)} cells.`,
+    "cap.s10": (a) => `Radiation alone: ${num(a)} cells are still alive after 72 hours.`,
+    "cap.s11": "Now one candidate from the solver, switched in every cell.",
+    "cap.s12": (a, n) => `No cell is left. The simulation agrees with the solver on ${a} of ${n} sets.`,
+  });
+  Object.assign(TEXT.el, {
+    "cap.s1": "Η ακτινοβολία κάνει ζημιά σε ένα κύτταρο. Μετά κάθε κύτταρο διαλέγει μοίρα: παύση, γήρανση, ανακύκλωση ή θάνατο.",
+    "cap.s2": () => `Σβήσε ένα γονίδιο, το ${pretty("TUG1")}, και πεθαίνουν όλα τα κύτταρα. Αυτό ψάχνουμε.`,
+    "cap.s3": "Μέσα στο κύτταρο, τα γονίδια ανάβουν και σβήνουν το ένα το άλλο. Αυτό είναι το μοντέλο μας.",
+    "cap.s4": (n) => `Ένα paper ξέρει μια σύνδεση που λείπει από το μοντέλο. Ένα AI διαβάζει ${n} papers και τη βρίσκει.`,
+    "cap.s5": (a, b) => `Νέα σύνδεση: το ${a} σβήνει το ${b}.`,
+    "cap.s6": "Είναι ασφαλής; Ένας ακριβής solver ξαναπαίζει 10 πειράματα με γνωστά αποτελέσματα.",
+    "cap.s7": (f) => `Τα ${f} από τα 10 βγαίνουν λάθος. Το AI βλέπει ποια και ξαναγράφει τη σύνδεση.`,
+    "cap.s8": "Τώρα βγαίνουν σωστά και τα 10. Αποφάσισε ο solver, όχι το AI.",
+    "cap.s9": (n) => `Τελευταίο τεστ: ένας εικονικός όγκος, ${num(n)} κύτταρα.`,
+    "cap.s10": (a) => `Μόνο η ακτινοβολία: ${num(a)} κύτταρα ζουν ακόμα μετά από 72 ώρες.`,
+    "cap.s11": "Τώρα μία υποψήφια του solver, γυρισμένη σε κάθε κύτταρο.",
+    "cap.s12": (a, n) => `Δεν μένει κανένα κύτταρο. Η προσομοίωση συμφωνεί με τον solver σε ${a} από ${n} σύνολα.`,
+  });
   const cap = $("#bCaption");
-  const say = (key, ...a) => { cap.dataset.key = key; cap.dataset.args = JSON.stringify(a); cap.textContent = T(key, ...a); cap.classList.add("show"); };
+  const say = (key, ...a) => { cap.dataset.key = key; cap.dataset.args = JSON.stringify(a); cap.textContent = T(key, ...a); cap.classList.add("show"); cap.classList.remove("pop"); void cap.offsetWidth; cap.classList.add("pop"); };
   const refreshCaption = () => { if (cap.dataset.key) cap.textContent = T(cap.dataset.key, ...JSON.parse(cap.dataset.args || "[]")); };
   function stop() {
     clearSet(script); st.playing = false; grid.classList.remove("playing"); $("#bStop").hidden = true; cap.classList.remove("show"); delete cap.dataset.key;
@@ -689,16 +718,16 @@
     st.playing = true; tumSig = ""; grid.classList.add("playing"); $("#bStop").hidden = false;
     grid.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });  /* stage and lamps together in one screen */
     /* plain words, one idea at a time: the damage, the four fates, a gene whose loss kills every cell, the model, a missing link, the test, the fix, the limit */
-    const fails = failing("B").length, S = [
-      [600, () => say("cap.1")], [3500, () => { say("cap.2"); irradiate(); }], [10500, () => { say("cap.3"); setCut("tug1"); }],
-      [17000, () => { say("cap.d1"); setScale("circuit"); }],
-      [23000, () => { say("cap.4"); go(2); }], [26000, () => { say("cap.5", D.meta.corpus_papers); doRead(); }],
-      [31000, () => { say("cap.6", pretty(SRC), pretty(DST)); doPlug(); }],
-      [35500, () => { say("cap.7"); go(3); }], [38000, () => doRun("B")], [43500, () => say("cap.8", fails)],
-      [47500, () => { say("cap.9"); go(4); }], [51500, () => { say("cap.10"); doFix(); }],
-      [55500, () => { say("cap.11"); go(5); }],
-      ...(TUM ? [[60000, () => { say("cap.13", TUM.cells); go(6); }], [67200, () => say("cap.14", TUM.alive)], [69500, () => { say("cap.15"); selectTum(TUM.items[1].cond.name); }],
-        [76500, () => say("cap.16", TUM.agree, TUM.of)], [81500, () => say("cap.17")]] : []),
+    const fails = failing("B").length, cut = () => { if (window.CPFx) CPFx.sweep(); }, S = [  /* a streak of light at every change of screen */
+      [400, () => say("cap.s1")], [2800, () => irradiate()],
+      [8200, () => { cut(); say("cap.s2"); setCut("tug1"); }],
+      [14000, () => { cut(); say("cap.s3"); setScale("circuit"); }],
+      [19000, () => { cut(); say("cap.s4", D.meta.corpus_papers); go(2); }], [20800, () => doRead()],
+      [25200, () => { say("cap.s5", pretty(SRC), pretty(DST)); doPlug(); }],
+      [29200, () => { cut(); say("cap.s6"); go(3); }], [31000, () => doRun("B")], [36500, () => say("cap.s7", fails)],
+      [40000, () => { cut(); go(4); }], [41000, () => { say("cap.s8"); doFix(); }],
+      ...(TUM ? [[46500, () => { cut(); say("cap.s9", TUM.cells); go(6); }], [53000, () => say("cap.s10", TUM.alive)], [55000, () => { say("cap.s11"); selectTum(TUM.items[1].cond.name); }],
+        [62000, () => say("cap.s12", TUM.agree, TUM.of)], [66500, () => say("cap.11")]] : []),
       [(TUM ? PLAY_S : 60) * 1000, () => stop()],
     ];
     S.forEach(([ms, fn]) => later(script, fn, ms / k));

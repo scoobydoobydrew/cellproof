@@ -36,7 +36,7 @@
     ...searchPart(demoEnd),
   ];
   /* #video-short: the take that follows the opening, which has already said what the project is: the tumour, the samples, the demo a little faster, the search, the three cards of what this is and is not */
-  const SPEED2 = 1.5, startDemo2 = 16, takeShort = [
+  const SPEED2 = 1, startDemo2 = 16, takeShort = [
     [0, () => { scrollTo("#top"); CPHero.pin(true); CPHero.show(6); }], [8, beat(7)],
     [startDemo2, () => { CPHero.pin(false); CPBench.play(SPEED2); }],
     ...searchPart(startDemo2 + CPBench.seconds / SPEED2 + 1.5),
@@ -274,6 +274,7 @@
 
   let cutId = 0;
   const sweep = () => { for (const el of [sw, art]) { const c = el === sw ? "go" : "warp"; el.classList.remove(c); void el.offsetWidth; el.classList.add(c); } };  /* a sweep of light and the new scene warping in */
+  window.CPFx = { sweep };  /* the demo of the page uses the same streak of light */
   const flash = (dark) => { fl.classList.toggle("dark", !!dark); fl.classList.remove("go"); void fl.offsetWidth; fl.classList.add("go"); };
   const showLine = (html, big, warn, kind) => {
     clearTimeout(cutId); lines.innerHTML = ""; lines.classList.toggle("warn", !!warn); lines.classList.toggle("art", !!scene); lines.classList.toggle("high", scene === "cosmos");  /* over the person on the cliff the words ride higher */
@@ -325,12 +326,14 @@
     await wait(3); if (!alive()) return;
     stopTake(true); scrollTo("#top");
   }
-  /* #video-demo: what comes after the opening, for someone who has not seen the header: not every damaged cell dies (beat 1), the goal (2), the AI proposes and the solver decides (5), the virtual tumour (6),
-     the samples (7), then the demo; it stops when the demo ends, with no search engine and no cards */
-  const startDemo3 = 44, takeDemo = [
-    [0, () => { scrollTo("#top"); CPHero.pin(true); CPHero.show(1); }], [7, beat(2)], [14, beat(5)], [24, beat(6)], [34, beat(7)],
+  /* #video-demo: what comes after the opening, for someone who has not seen the header: not every damaged cell dies (beat 1), the goal (2), the AI proposes and the solver decides (5),
+     the tumour samples (7; the virtual tumour comes in the demo), then the demo and a PDF dropped into the page's box; it stops when the demo ends, with no search engine and no cards */
+  const startDemo3 = 30, afterDemo = startDemo3 + CPBench.seconds / SPEED2 + 1.5, takeDemo = [
+    [0, () => { scrollTo("#top"); CPHero.pin(true); CPHero.show(1); }], [6, beat(2)], [12, beat(5)], [21, beat(7)],
     [startDemo3, () => { CPHero.pin(false); CPBench.play(SPEED2); }],
-  ], endDemo = startDemo3 + CPBench.seconds / SPEED2 + 3;
+    [afterDemo, () => { say("Drop your own PDF and the same machine reads it. (An example run: here on a paper the AI found.)", true); scrollTo("#papers", 70); }],
+    [afterDemo + 2.5, () => { if (window.CPPapers) CPPapers.demo("your-paper.pdf"); }],
+  ], endDemo = afterDemo + 2.5 + 9;  /* the demo, then a PDF dropped into the page's box */
   const end = take[take.length - 1][0] + 5, endShort = takeShort[takeShort.length - 1][0] + 5;  /* the last ten seconds of the video are the terminal, recorded apart */
 
   /* the button of the header ("Watch the intro") plays the opening for a visitor: no countdown, the pointer stays, and a button skips it */

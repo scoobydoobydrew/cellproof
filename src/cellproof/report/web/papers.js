@@ -82,6 +82,20 @@
       "pp.grapharia": "Ένας χάρτης: κάθε γονίδιο ή μόριο του paper είναι μια κουκκίδα, κάθε ισχυρισμός μια γραμμή, χρωματισμένη με ό,τι είπε ο ελεγκτής.", "pp.droparia": "Άφησε ένα PDF εδώ ή πάτα για να διαλέξεις",
     },
   });
+  CP.add({
+    en: {
+      "pp.drop": "Drop your PDFs here", "pp.dropsub": "or click to choose one; one paper is read at a time",
+      "pp.demo.n": "This web page cannot read your file: it has no key and no solver, and the file is not sent anywhere. What follows is an example, on a paper the AI found.",
+      "pp.demo.done": "That was an example. To read your own PDF, run the command on your computer: the same box then reads it for real.",
+      "pp.demo.tag": "Example run",
+    },
+    el: {
+      "pp.drop": "Άφησε εδώ τα PDF σου", "pp.dropsub": "ή κάνε κλικ για να διαλέξεις· διαβάζεται ένα paper κάθε φορά",
+      "pp.demo.n": "Αυτή η ιστοσελίδα δεν μπορεί να διαβάσει το αρχείο σου: δεν έχει κλειδί ούτε solver, και το αρχείο δεν στέλνεται πουθενά. Ό,τι ακολουθεί είναι παράδειγμα, σε ένα paper που βρήκε το AI.",
+      "pp.demo.done": "Αυτό ήταν παράδειγμα. Για να διαβάσεις το δικό σου PDF, τρέξε την εντολή στον υπολογιστή σου: το ίδιο κουτί το διαβάζει τότε πραγματικά.",
+      "pp.demo.tag": "Παράδειγμα",
+    },
+  });
   CP.refresh();
 
   const VERDICTS = ["accepted", "rejected", "present", "implied", "conflict", "outside"];
@@ -294,7 +308,7 @@
     $("#ppOwnN").textContent = served ? T("pp.ownN.on", own.length) : served === false ? T("pp.ownN.off") : "…";
     $$(".pp-tab").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.part === part)));
     $("#pp").dataset.part = part;
-    $("#ppOwn").hidden = part !== "own"; $("#ppDrop").hidden = !served; $("#ppOffline").hidden = served !== false; $("#ppPrivacy").hidden = !served;
+    $("#ppOwn").hidden = part !== "own"; $("#ppDrop").hidden = false; $("#ppOffline").hidden = served !== false; $("#ppPrivacy").hidden = !served;
     const base = $("#ppBase"); base.hidden = !(served && own.length);
     if (!base.hidden) base.textContent = T("pp.base", own.length, own.reduce((a, p) => a + p.counts.grounded, 0), own.reduce((a, p) => a + p.counts.links, 0));
   }
@@ -321,8 +335,8 @@
   drop.addEventListener("click", () => file.click());
   drop.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); file.click(); } });
   file.addEventListener("change", () => { if (file.files[0]) taken(file.files[0]); file.value = ""; });
-  for (const ev of ["dragenter", "dragover"]) $(".pp-side").addEventListener(ev, (e) => { if (!served || part !== "own") return; e.preventDefault(); drop.classList.add("over"); });
-  for (const ev of ["dragleave", "drop"]) $(".pp-side").addEventListener(ev, (e) => { drop.classList.remove("over"); if (ev === "drop" && served && part === "own") { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) taken(f); } });
+  for (const ev of ["dragenter", "dragover"]) $(".pp-side").addEventListener(ev, (e) => { if (part !== "own") return; e.preventDefault(); drop.classList.add("over"); });
+  for (const ev of ["dragleave", "drop"]) $(".pp-side").addEventListener(ev, (e) => { drop.classList.remove("over"); if (ev === "drop" && part === "own") { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) taken(f); } });
   $("#ppCopy").addEventListener("click", async () => {
     const text = $("#ppCmd").textContent, b = $("#ppCopy");
     try { await navigator.clipboard.writeText(text); b.textContent = T("pp.copied"); } catch (e) { const r = document.createRange(); r.selectNodeContents($("#ppCmd")); getSelection().removeAllRanges(); getSelection().addRange(r); }
@@ -335,7 +349,7 @@
     job.hidden = false;
     const j = jobState, steps = STEPS.map((s) => {
       const st = (j.steps && j.steps[s]) || {}, state = st.state === "done" ? "done" : st.state === "error" ? "fail" : st.state === "start" ? "run" : "";
-      const d = st.state !== "done" ? "" : s === "read" ? T("pp.d.read", st.pages, st.chars) : s === "mechanism" || s === "stimulus" ? T("pp.d.claims", st.counts.grounded, (st.usd || 0).toFixed(2)) : s === "ground" ? T("pp.d.ground", st.links) : s === "check" ? T("pp.d.check", st.in_model) : "";
+      const d = j.demo || st.state !== "done" ? "" : s === "read" ? T("pp.d.read", st.pages, st.chars) : s === "mechanism" || s === "stimulus" ? T("pp.d.claims", st.counts.grounded, (st.usd || 0).toFixed(2)) : s === "ground" ? T("pp.d.ground", st.links) : s === "check" ? T("pp.d.check", st.in_model) : "";
       return `<li class="${state}"><i></i><span>${esc(T("pp.s." + s))}${d ? `<small>${esc(d)}</small>` : ""}</span></li>`;
     }).join("");
     let top = "", end = "";
@@ -349,12 +363,20 @@
       $("#ppCancel").addEventListener("click", () => { jobState = null; renderJob(); });
       return;
     }
-    if (j.state === "done" && j.record) end = `<p class="msg">${esc(T("pp.done", j.record.counts.grounded, j.record.counts.links))}</p>`;
+    if (j.demo) end = `<p class="msg">${esc(j.state === "done" ? T("pp.demo.done") : T("pp.demo.n"))}</p>`;
+    else if (j.state === "done" && j.record) end = `<p class="msg">${esc(T("pp.done", j.record.counts.grounded, j.record.counts.links))}</p>`;
     else if (j.state === "refused") end = `<p class="msg bad"><b>${esc(T("pp.refused"))}</b> ${esc(j.refused.reason)}</p>`;
     else if (j.state === "error") end = `<p class="msg bad"><b>${esc(T("pp.failed"))}</b> ${esc(j.error || "")}</p>`;
-    job.innerHTML = `<h4>${esc(j.name)}</h4><ol class="pp-steps">${steps}</ol>${end}`;
+    job.innerHTML = `<h4>${esc(j.name)}${j.demo ? ` <em class="pp-tag">${esc(T("pp.demo.tag"))}</em>` : ""}</h4><ol class="pp-steps">${steps}</ol>${end}`;
+  }
+  /* a page with no server cannot read a PDF (no key, no solver): a drop plays an example run instead, on a paper the AI found, and says so in words. The file is never read or sent. */
+  function demo(name) {
+    stop(); const first = FIRST, run = (k, ms) => later(ms, () => { jobState = { phase: "run", demo: true, name, steps: Object.fromEntries(STEPS.slice(0, k).map((x) => [x, { state: "done", links: first.graph.edges.length, counts: { grounded: first.counts ? first.counts.grounded : 0 }, in_model: 0 }]).concat(k < STEPS.length ? [[STEPS[k], { state: "start" }]] : [])), state: k < STEPS.length ? "running" : "done" }; renderJob(); });
+    STEPS.forEach((_, k) => run(k, 150 + k * 750)); run(STEPS.length, 150 + STEPS.length * 750);
+    later(150 + STEPS.length * 750 + 300, async () => { part = "own"; paper = null; tabs(); if (!first.graph) await choose(first.id, true); else { paper = first; show(true); } });
   }
   async function taken(f) {
+    if (served !== true) { demo(f.name); return; }
     if (!/pdf$/i.test(f.name) && f.type !== "application/pdf") { jobState = { phase: "plan", plan: { title: f.name, pages: 0, chars: 0, doi: null, warnings: [], guard: { kind: "bad", reason: T("pp.badfile") } }, file: f }; renderJob(); return; }
     jobState = { phase: "wait", name: f.name, steps: { read: { state: "start" } }, state: "running" }; renderJob();
     try {
@@ -387,4 +409,5 @@
   let seen = false;
   new IntersectionObserver((es, io) => { if (!seen && es[0].isIntersecting) { seen = true; io.disconnect(); if (paper) draw(paper, true); } }, { threshold: 0.3 }).observe($("#ppStage"));
   detect();
+  window.CPPapers = { demo: (name) => { part = "own"; paper = null; tabs(); demo(name || "your-paper.pdf"); } };
 })();
