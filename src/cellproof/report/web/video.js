@@ -83,15 +83,22 @@
     tag: "From shared uncertainty to solitary conviction.",
     cap: `Πριν από αυτή την εβδομάδα: ένα δημοσιευμένο μοντέλο ${genes} γονιδίων, ανοιχτά papers, solvers ανοιχτού κώδικα. Αυτή την εβδομάδα: ένας agent όπου το Muse Spark διαβάζει τα papers και ένας ακριβής solver αποφασίζει. Υποθέσεις για το εργαστήριο, όχι θεραπείες.`,
   };
-  /* the prelude, in the rhythm of a story told by a teacher: three "don'ts" that say what we let the machines do, then "a gift", then where such a tool belongs.
-     The lines are our own words. It plays over the person on the cliff, before "There is a feeling...": in the short opening it comes first, in the long one after the noise. */
-  const GIFT_T = 17.4;
-  const GIFT_EN = [[0, "Read every paper by hand? <em>Don't.</em>", "cosmos"], [3.4, "Trust a guess? <em>Don't.</em>", "cosmos"], [6.8, "Today is a <em>gift.</em>", "cosmos", "gift"],
-    [11.6, "An AI that reads what no person can finish. A tool this powerful belongs where it can <em>help people.</em>", "cosmos"]];
-  const GIFT_EL = [[0, "Να διαβάσεις κάθε paper με το χέρι; <em>Μην το κάνεις.</em>", "cosmos"], [3.4, "Να εμπιστευτείς μια εικασία; <em>Μην το κάνεις.</em>", "cosmos"], [6.8, "Το σήμερα είναι ένα <em>δώρο.</em>", "cosmos", "gift"],
-    [11.6, "Ένα AI που διαβάζει ό,τι κανείς άνθρωπος δεν προλαβαίνει. Ένα τόσο ισχυρό εργαλείο αξίζει να πάει εκεί όπου μπορεί να <em>βοηθήσει ανθρώπους.</em>", "cosmos"]];
+  /* the scene of the teacher, in the long opening only (after the noise, before "There is a feeling..."): a night, a tree in blossom, an old teacher with a lantern, the student we
+     met on the cliff. A quiet talk in the manner of the old wise-master stories. The words and the figures are our own; nothing here is taken from a film. */
+  const TALK_T = 27.5;
+  const talk = (who, what) => `<span class="who">${who}</span>${what}`;
+  const TALK_EN = [[0, talk("The student", "Too many papers. Too many genes. I cannot check them all."), "master", "talk"],
+    [5.2, talk("The teacher", "Read, don't read? Guess, don't guess? <em>You carry the whole forest on your back.</em>"), "master", "talk"],
+    [11.6, talk("The teacher", "Let the machine read. Let the solver judge. <em>You choose what is worth the lab.</em>"), "master", "talk"],
+    [18, "Today is a <em>gift.</em>", "master", "talk gift"],
+    [22.8, talk("The teacher", "An AI that reads what no person can finish. Use it where it can <em>help people.</em>"), "master", "talk"]];
+  const TALK_EL = [[0, talk("Ο μαθητής", "Πάρα πολλά papers. Πάρα πολλά γονίδια. Δεν προλαβαίνω να τα ελέγξω όλα."), "master", "talk"],
+    [5.2, talk("Ο δάσκαλος", "Να διαβάσεις, να μη διαβάσεις; Να μαντέψεις, να μη μαντέψεις; <em>Κουβαλάς όλο το δάσος στην πλάτη σου.</em>"), "master", "talk"],
+    [11.6, talk("Ο δάσκαλος", "Άσε τη μηχανή να διαβάσει. Άσε τον solver να κρίνει. <em>Εσύ διαλέγεις τι αξίζει το εργαστήριο.</em>"), "master", "talk"],
+    [18, "Το σήμερα είναι ένα <em>δώρο.</em>", "master", "talk gift"],
+    [22.8, talk("Ο δάσκαλος", "Ένα AI που διαβάζει ό,τι κανείς άνθρωπος δεν προλαβαίνει. Χρησιμοποίησέ το εκεί όπου μπορεί να <em>βοηθήσει ανθρώπους.</em>"), "master", "talk"]];
   const sh = (d, a) => a.map(([t, ...r]) => [t + d, ...r]);
-  for (const [set, gift] of [[EN, GIFT_EN], [EL, GIFT_EL]]) { set.short = [...gift, ...sh(GIFT_T, set.short)]; set.full = [...set.full.slice(0, 3), ...sh(15.5, gift), ...sh(GIFT_T, set.full.slice(3))]; }
+  for (const [set, scene] of [[EN, TALK_EN], [EL, TALK_EL]]) set.full = [...set.full.slice(0, 3), ...sh(15.5, scene), ...sh(TALK_T, set.full.slice(3))];
   const lines = document.createElement("div"), fl = document.createElement("div"), art = document.createElement("canvas");
   let actx = art.getContext("2d");
   lines.className = "vid-lines"; fl.className = "vid-flash"; art.className = "vid-art"; art.hidden = true; document.body.append(art, lines, fl);
@@ -230,6 +237,47 @@
     const [px, py] = at(s); glow(px, py, 55 + 8 * Math.sin(t * 6), 0.9); actx.fillStyle = "#fff3e6"; actx.beginPath(); actx.arc(px, py, 7, 0, 6.2832); actx.fill();
     if (t > 5.2 && t < 6.7) { const r = (t - 5.2) / 1.5; actx.strokeStyle = `rgba(255,225,190,${1 - r})`; actx.lineWidth = 3; actx.beginPath(); actx.ellipse(E[0], E[1] + 6, 20 + r * 220, (20 + r * 220) * 0.25, 0, 0, 6.2832); actx.stroke(); }
   }
+  function sage(x, y, h, t) {  /* an old teacher in a hooded robe, bowed towards the student, leaning on a staff with a lantern; one hand lifts now and then; drawn every frame */
+    const u = h / 10, sw = Math.sin(t * 0.6), nod = 0.05 * Math.sin(t * 0.9), lift = 0.5 + 0.5 * Math.sin(t * 0.45 - 1), fl = 0.5 + 0.5 * Math.sin(t * 7.3) * Math.sin(t * 3.1);
+    const body = (col, ox, oy) => {
+      actx.save(); actx.translate(x + ox * u, y + oy * u); actx.fillStyle = col; actx.strokeStyle = col; actx.lineCap = actx.lineJoin = "round";
+      actx.beginPath(); actx.moveTo(-0.9 * u, -7.4 * u); actx.quadraticCurveTo(-1.5 * u, -3.5 * u, -2 * u, 0); actx.quadraticCurveTo(0.1 * u + 0.12 * u * sw, 0.3 * u, 1.9 * u, 0); actx.quadraticCurveTo(1.3 * u, -3.8 * u, 0.9 * u, -7.5 * u); actx.quadraticCurveTo(0, -8.1 * u, -0.9 * u, -7.4 * u); actx.fill();  /* the robe */
+      actx.save(); actx.translate(-0.2 * u, -8.2 * u); actx.rotate(-0.14 + nod); actx.beginPath(); actx.ellipse(0, 0, 0.72 * u, 0.82 * u, 0, 0, 6.2832); actx.fill(); actx.beginPath(); actx.moveTo(-0.72 * u, -0.1 * u); actx.quadraticCurveTo(0, -1.7 * u, 0.74 * u, -0.1 * u); actx.fill(); actx.restore();  /* the bowed head under its hood */
+      actx.lineWidth = 0.16 * u; actx.beginPath(); actx.moveTo(2.2 * u, 0); actx.lineTo(2.25 * u, -9.2 * u); actx.quadraticCurveTo(2.2 * u, -9.8 * u, 1.7 * u, -9.6 * u); actx.stroke();  /* the staff, hooked at the top */
+      actx.lineWidth = 0.42 * u; actx.beginPath(); actx.moveTo(0.8 * u, -7.1 * u); actx.quadraticCurveTo(1.7 * u, -6.9 * u, 2.2 * u, -5.7 * u); actx.stroke();  /* the arm that holds it */
+      const hx = (-1.7 - 0.5 * lift) * u, hy = (-5.2 - 1.8 * lift) * u;  /* the hand that lifts */
+      actx.beginPath(); actx.moveTo(-0.9 * u, -7 * u); actx.quadraticCurveTo(-1.9 * u, -6.2 * u, hx, hy); actx.stroke(); actx.beginPath(); actx.arc(hx, hy, 0.24 * u, 0, 6.2832); actx.fill();
+      actx.restore();
+    };
+    body("rgba(255,165,130,.8)", 0.1, -0.05); body("#02030a", 0, 0);
+    const lx = x + 1.7 * u + 0.12 * u * Math.sin(t * 1.4), ly = y - 9 * u;  /* the lantern swings a little and flickers */
+    actx.save(); actx.globalCompositeOperation = "lighter"; glow(lx, ly + 0.5 * u, 5 * u, 0.35 + 0.3 * fl); glow(lx, ly + 0.5 * u, 1.6 * u, 0.9); actx.restore();
+    actx.fillStyle = "#ffe2b8"; actx.fillRect(lx - 0.22 * u, ly, 0.44 * u, 0.62 * u); actx.strokeStyle = "#02030a"; actx.lineWidth = 0.05 * u; actx.strokeRect(lx - 0.22 * u, ly, 0.44 * u, 0.62 * u);
+  }
+  const PETALS = Array.from({ length: 80 }, () => ({ x: rnd(), y: rnd(), s: 0.5 + rnd(), p: rnd() * 6.28, v: 0.03 + rnd() * 0.05 }));
+  function master(t) {  /* a night, a tree in blossom to the right, a hill; the teacher, the student, petals drifting down */
+    frozen("master", () => {
+      sky("master", 0, 1.3, true, true);
+      const seed = (() => { let q = 11; return () => ((q = (q * 16807) % 2147483647) / 2147483647); })(), blossom = (bx, by, r, c) => { const g = actx.createRadialGradient(bx, by, 0, bx, by, r); g.addColorStop(0, `rgba(${c},.2)`); g.addColorStop(1, `rgba(${c},0)`); actx.fillStyle = g; actx.fillRect(bx - r, by - r, 2 * r, 2 * r); };
+      const blooms = [], boughs = [];
+      const branch = (bx, by, ang, len, wd, d) => {
+        const x2 = bx + Math.cos(ang) * len, y2 = by + Math.sin(ang) * len; boughs.push([bx, by, x2, y2, wd]); if (d < 5) blooms.push([x2, y2, H * (0.05 + 0.07 * seed())]);
+        if (d > 0) { branch(x2, y2, ang - 0.3 - seed() * 0.4, len * 0.75, wd * 0.68, d - 1); branch(x2, y2, ang + 0.25 + seed() * 0.4, len * 0.72, wd * 0.68, d - 1); }
+      };
+      branch(W * 0.88, H * 0.86, -Math.PI / 2 - 0.12, H * 0.17, H * 0.032, 7);
+      for (const b of blooms) blossom(b[0], b[1], b[2] * 1.3, "150,30,130");
+      actx.strokeStyle = "#02030a"; actx.lineCap = "round"; for (const b of boughs) { actx.lineWidth = b[4]; actx.beginPath(); actx.moveTo(b[0], b[1]); actx.lineTo(b[2], b[3]); actx.stroke(); }
+      for (const b of blooms) blossom(b[0], b[1], b[2] * 0.6, "255,105,185");
+      actx.fillStyle = "#02030a"; actx.beginPath(); actx.moveTo(0, H); actx.lineTo(0, H * 0.87); actx.quadraticCurveTo(W * 0.45, H * 0.8, W, H * 0.86); actx.lineTo(W, H); actx.fill();
+      actx.strokeStyle = "rgba(140,170,255,.25)"; actx.lineWidth = 1.5; actx.beginPath(); actx.moveTo(0, H * 0.87); actx.quadraticCurveTo(W * 0.45, H * 0.8, W, H * 0.86); actx.stroke();
+    }, 0, t);
+    twinkle(t, 50); shootStar(t);
+    person(W * 0.4, H * 0.855, H * 0.2, t); sage(W * 0.62, H * 0.84, H * 0.3, t);
+    for (const p of PETALS) {  /* petals fall slowly, drifting with the wind */
+      const px = (p.x * W + Math.sin(t * 0.8 + p.p) * 28 + t * 16) % W, py = ((p.y + t * p.v) % 1.04) * H, r = 3.5 * p.s * H / 900;
+      actx.fillStyle = `rgba(255,${150 + (p.p * 10 | 0)},210,.8)`; actx.beginPath(); actx.ellipse(px, py, r * 1.6, r, t * 0.6 + p.p, 0, 6.2832); actx.fill();
+    }
+  }
   function circuit(t, mode) {  /* a network of lit cells: signals run along its links; `link` grows a new one; `scan` checks the links from left to right */
     sky("plain", t, 0.5, false); actx.globalCompositeOperation = "lighter"; actx.lineCap = "round";
     const sx = mode === "scan" ? clamp(t / 5.5) * W : -1, green = (x) => sx >= 0 && x < sx, P0 = (n) => [NODES[n].x * W, NODES[n].y * H];
@@ -283,6 +331,8 @@
       sky("dna", t, 1, true); helix(t);
     } else if (scene === "week") {
       sky("week", t, 0.7, true); days(t);
+    } else if (scene === "master") {
+      master(t);
     } else if (scene === "moon") {
       moon(t);
     } else if (scene.startsWith("circuit")) {
@@ -301,7 +351,7 @@
   let cutId = 0;
   const flash = (dark) => { fl.classList.toggle("dark", !!dark); fl.classList.remove("go"); void fl.offsetWidth; fl.classList.add("go"); };
   const showLine = (html, big, warn, kind) => {
-    clearTimeout(cutId); lines.innerHTML = ""; lines.classList.toggle("warn", !!warn); lines.classList.toggle("art", !!scene); lines.classList.toggle("high", scene === "cosmos");  /* over the person on the cliff the words ride higher */
+    clearTimeout(cutId); lines.innerHTML = ""; lines.classList.toggle("warn", !!warn); lines.classList.toggle("art", !!scene); lines.classList.toggle("high", scene === "cosmos"); lines.classList.toggle("talk", scene === "master");  /* over the person on the cliff the words ride higher */
     if (!html) return;
     const mol = $("#heroMol"); mol.classList.remove("jolt"); void mol.offsetWidth; if (!reduced) mol.classList.add("jolt");
     if (!big) flash(true);
