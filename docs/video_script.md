@@ -113,3 +113,7 @@ open access in a public video unless its licence allows it.
 `#intro` (not `#intro-short`) has a quiet scene of about 27 seconds after the noise lines and before "There is a feeling...": a night, a tree in blossom,
 an old teacher with a lantern, and the student from the cliff, with petals falling. The talk and the figures are our own (nothing is taken from a film);
 it ends on "Today is a gift" and one line about using AI where it can help people. The long opening is now about 127 seconds. The short opening is unchanged.
+
+`report.html#intro-master` plays this scene on its own (about 36 seconds after the countdown) and ends on the name, "From shared uncertainty to solitary
+conviction." and the caption that says what pre-existed and what was built this week. It is meant as a short clip for X or a reel: press Space (or the button
+at the top), record, and the page does the rest. English or Greek follows the page language (**EN / ΕΛ**).

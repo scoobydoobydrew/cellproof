@@ -98,7 +98,7 @@
     [18, "Το σήμερα είναι ένα <em>δώρο.</em>", "master", "talk gift"],
     [22.8, talk("Ο δάσκαλος", "Ένα AI που διαβάζει ό,τι κανείς άνθρωπος δεν προλαβαίνει. Χρησιμοποίησέ το εκεί όπου μπορεί να <em>βοηθήσει ανθρώπους.</em>"), "master", "talk"]];
   const sh = (d, a) => a.map(([t, ...r]) => [t + d, ...r]);
-  for (const [set, scene] of [[EN, TALK_EN], [EL, TALK_EL]]) set.full = [...set.full.slice(0, 3), ...sh(15.5, scene), ...sh(TALK_T, set.full.slice(3))];
+  for (const [set, scene] of [[EN, TALK_EN], [EL, TALK_EL]]) set.talk = scene, set.full = [...set.full.slice(0, 3), ...sh(15.5, scene), ...sh(TALK_T, set.full.slice(3))];
   const lines = document.createElement("div"), fl = document.createElement("div"), art = document.createElement("canvas");
   let actx = art.getContext("2d");
   lines.className = "vid-lines"; fl.className = "vid-flash"; art.className = "vid-art"; art.hidden = true; document.body.append(art, lines, fl);
@@ -357,8 +357,8 @@
     if (!big) flash(true);
     cutId = setTimeout(() => { lines.innerHTML = kind === "card" ? html : `<p class="${big ? "big" : ""} ${kind || ""}">${html}</p>`; }, reduced ? 0 : 140);  /* a black frame between two lines */
   };
-  const introPlan = (short) => {
-    const set = CP.lang() === "el" ? EL : EN, src = short ? set.short : set.full, tail = src[src.length - 1][0] + 6.5;
+  const introPlan = (short, master) => {  /* `master`: #intro-master, the teacher scene on its own, ending on the name and the caption */
+    const set = CP.lang() === "el" ? EL : EN, src = master ? set.talk : short ? set.short : set.full, tail = src[src.length - 1][0] + 6.5;
     const title = `CellProof<small>${set.tag}</small>`, card = `<div class="cardbox"><p class="big compact">${title}</p><ol class="what labelled">${set.what.map(([l, w]) => `<li><span class="vlab">${l}</span><span>${w}</span></li>`).join("")}</ol></div>`;
     return [[0, () => { scrollTo("#top"); CPHero.pin(true); CPHero.show(0); root.classList.add("vid-intro", "vid-zoom"); }],
       ...src.map(([t, html, sc, kind]) => [t, () => { setArt(sc || ""); showLine(html, false, sc === "noise", kind); }]),
@@ -379,7 +379,7 @@
     root.classList.add("vid"); bar.hidden = true;
     const run = () => {
       count.textContent = "";
-      const hash = location.hash, intro = pub || hash.startsWith("#intro"), short = pub || hash === "#intro-short", plan = intro ? introPlan(short) : hash === "#video-short" ? takeShort : take, stopAt = intro ? plan[plan.length - 1][0] + (short ? 15 : 7) : hash === "#video-short" ? endShort : end;
+      const hash = location.hash, intro = pub || hash.startsWith("#intro"), short = pub || hash === "#intro-short", plan = intro ? introPlan(short, hash === "#intro-master") : hash === "#video-short" ? takeShort : take, stopAt = intro ? plan[plan.length - 1][0] + (short ? 15 : 7) : hash === "#video-short" ? endShort : end;
       plan.forEach(([s, fn]) => ids.push(setTimeout(fn, s * 1000)));
       ids.push(setTimeout(() => { stopTake(true); scrollTo("#top"); }, stopAt * 1000));
     };
