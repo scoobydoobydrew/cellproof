@@ -103,7 +103,7 @@
   let scene = "", st0 = 0, raf = 0, W = 0, H = 0, pack = null;
   const rnd = (() => { let x = 7; return () => ((x = (x * 16807) % 2147483647) / 2147483647); })(), gauss = () => rnd() + rnd() + rnd() - 1.5;
   const dots = Array.from({ length: 320 }, () => ({ x: rnd(), y: rnd(), r: 1 + rnd() * 2.2, p: rnd() * 6.28 }));
-  const CLOUDS = Array.from({ length: 8 }, (_, i) => ({ x: rnd(), y: rnd(), r: 0.22 + rnd() * 0.3, c: [[200, 20, 70], [255, 70, 40], [120, 10, 60], [255, 30, 110]][i % 4], p: rnd() * 6.28, s: 0.03 + rnd() * 0.05 }));
+  const CLOUDS = Array.from({ length: 8 }, (_, i) => ({ x: rnd(), y: rnd(), r: 0.22 + rnd() * 0.3, c: [[70, 30, 170], [150, 30, 150], [25, 60, 150], [95, 20, 125]][i % 4], p: rnd() * 6.28, s: 0.03 + rnd() * 0.05 }));
   const STARS = Array.from({ length: 460 }, () => ({ x: rnd(), y: rnd(), r: 0.4 + Math.pow(rnd(), 3) * 2.2, p: rnd() * 6.28 }));
   const BAND = Array.from({ length: 800 }, () => ({ s: rnd() * 1.4 - 0.2, o: gauss(), z: 0.6 + rnd() * 1.4, a: 0.18 + rnd() * 0.5, c: rnd() }));
   const spiral = (n) => Array.from({ length: n }, (_, i) => { const r = Math.pow(rnd(), 0.6); return { r, th: r * 9 + (i % 2) * Math.PI + (rnd() - 0.5) * 0.5, z: 0.6 + rnd() * 1.4 }; });
@@ -115,22 +115,22 @@
       const k = i < j ? `${i}-${j}` : `${j}-${i}`; if (!seen.has(k)) { seen.add(k); out.push([i, j, (rnd() - 0.5) * 0.35, rnd()]); }
     }));
     return out;
-  })(), LINK = [2, 15], CROWD2 = [[236, 196, 170], [92, 158, 255], [232, 192, 72], [58, 214, 168], [255, 50, 110]].map((c) => rgba(c, 0.95)), sans = css("--sans") || "sans-serif";
+  })(), LINK = [2, 15], CROWD2 = [[150, 120, 240], [92, 158, 255], [232, 192, 72], [58, 214, 168], [255, 90, 170]].map((c) => rgba(c, 0.95)), sans = css("--sans") || "sans-serif";
   const CRATERS = Array.from({ length: 34 }, () => ({ a: -Math.PI / 2 + (rnd() - 0.5) * 1.5, d: 0.5 + rnd() * 0.5, r: 0.012 + rnd() * 0.05 }));
   const ease = (x) => 1 - Math.pow(1 - Math.min(1, Math.max(0, x)), 3), clamp = (x) => Math.min(1, Math.max(0, x));
   const bg = (c1, c2) => { const g = actx.createRadialGradient(W * 0.5, H * 0.45, 0, W * 0.5, H * 0.5, Math.max(W, H) * 0.72); g.addColorStop(0, c1); g.addColorStop(1, c2); actx.fillStyle = g; actx.fillRect(0, 0, W, H); };
   const glow = (x, y, r, a) => { const g = actx.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, `rgba(255,196,150,${a})`); g.addColorStop(1, "rgba(255,196,150,0)"); actx.fillStyle = g; actx.beginPath(); actx.arc(x, y, r, 0, 6.2832); actx.fill(); };
   function nebula(k, rich, c) {  /* clouds, the band of the galaxy, spiral galaxies and stars, drawn once into `c` */
-    c.fillStyle = "#0a0208"; c.fillRect(0, 0, W, H); c.globalCompositeOperation = "lighter";
+    c.fillStyle = "#03031a"; c.fillRect(0, 0, W, H); c.globalCompositeOperation = "lighter";
     const m = Math.max(W, H);
     for (const q of CLOUDS) { const x = q.x * W, y = q.y * H, r = q.r * m, g = c.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, `rgba(${q.c},${0.36 * k})`); g.addColorStop(1, `rgba(${q.c},0)`); c.fillStyle = g; c.fillRect(x - r, y - r, 2 * r, 2 * r); }
     if (rich) {
-      for (let i = 0; i < 6; i++) { const sx = 0.1 + i * 0.16, x = sx * W, y = (0.88 - 0.55 * sx) * H, g = c.createRadialGradient(x, y, 0, x, y, m * 0.2); g.addColorStop(0, "rgba(255,110,70,.12)"); g.addColorStop(1, "rgba(255,110,70,0)"); c.fillStyle = g; c.fillRect(x - m * 0.2, y - m * 0.2, m * 0.4, m * 0.4); }
-      for (const q of BAND) { c.fillStyle = q.c > 0.7 ? `rgba(255,140,120,${q.a})` : `rgba(255,205,170,${q.a})`; c.fillRect(q.s * W + q.o * W * 0.1, (0.88 - 0.55 * q.s) * H + q.o * H * 0.3, q.z, q.z); }
+      for (let i = 0; i < 6; i++) { const sx = 0.1 + i * 0.16, x = sx * W, y = (0.88 - 0.55 * sx) * H, g = c.createRadialGradient(x, y, 0, x, y, m * 0.2); g.addColorStop(0, "rgba(130,110,255,.1)"); g.addColorStop(1, "rgba(130,110,255,0)"); c.fillStyle = g; c.fillRect(x - m * 0.2, y - m * 0.2, m * 0.4, m * 0.4); }
+      for (const q of BAND) { c.fillStyle = q.c > 0.7 ? `rgba(235,150,200,${q.a})` : `rgba(185,205,255,${q.a})`; c.fillRect(q.s * W + q.o * W * 0.1, (0.88 - 0.55 * q.s) * H + q.o * H * 0.3, q.z, q.z); }
       for (const g of GAL) {
         const cx = g.x * W, cy = g.y * H, R = g.R * m, gl = c.createRadialGradient(cx, cy, 0, cx, cy, R * 0.7), co = Math.cos(g.rot), si = Math.sin(g.rot);
         gl.addColorStop(0, "rgba(255,225,180,.55)"); gl.addColorStop(1, "rgba(255,200,150,0)"); c.fillStyle = gl; c.fillRect(cx - R, cy - R, 2 * R, 2 * R);
-        for (const q of g.pts) { const px = Math.cos(q.th) * q.r * R, py = Math.sin(q.th) * q.r * R * g.tilt; c.fillStyle = `rgba(${(255 - 30 * q.r) | 0},${(215 - 150 * q.r) | 0},${(160 - 110 * q.r) | 0},${0.8 - 0.5 * q.r})`; c.fillRect(cx + px * co - py * si, cy + px * si + py * co, q.z, q.z); }
+        for (const q of g.pts) { const px = Math.cos(q.th) * q.r * R, py = Math.sin(q.th) * q.r * R * g.tilt; c.fillStyle = `rgba(${(255 - 140 * q.r) | 0},${(215 - 120 * q.r) | 0},${(165 + 60 * q.r) | 0},${0.8 - 0.5 * q.r})`; c.fillRect(cx + px * co - py * si, cy + px * si + py * co, q.z, q.z); }
       }
     }
     c.globalCompositeOperation = "source-over";
@@ -165,7 +165,7 @@
     const len = Math.hypot(W, H) * 1.05, amp = Math.min(H * 0.17, 150), N = 120, ph = t * 0.9, pt = (u, k) => [(u - 0.5) * len, Math.sin(u * 22 + ph + k * Math.PI) * amp, Math.cos(u * 22 + ph + k * Math.PI)];
     for (let i = 0; i < N; i += 2) { const a = pt(i / N, 0), b = pt(i / N, 1); actx.strokeStyle = `rgba(255,255,255,${0.08 + 0.2 * Math.abs(a[2])})`; actx.lineWidth = 2; actx.beginPath(); actx.moveTo(a[0], a[1]); actx.lineTo(b[0], b[1]); actx.stroke(); }
     for (let k = 0; k < 2; k++) {
-      const col = k ? "255,40,100" : "255,150,40"; actx.beginPath();
+      const col = k ? "230,50,170" : "60,170,255"; actx.beginPath();
       for (let i = 0; i <= N; i++) { const q = pt(i / N, k); if (i) actx.lineTo(q[0], q[1]); else actx.moveTo(q[0], q[1]); }
       actx.strokeStyle = `rgba(${col},.16)`; actx.lineWidth = 16; actx.stroke(); actx.strokeStyle = `rgba(${col},.95)`; actx.lineWidth = 4; actx.stroke();
     }
@@ -191,24 +191,24 @@
       actx.lineWidth = 0.13 * u; for (const i of HAIR) { const a = -0.45 + i * 0.16, f = 0.8 + 0.5 * Math.sin(t * 2.4 + i * 0.9); actx.beginPath(); actx.moveTo(Math.sin(a) * 0.55 * u - 0.1 * u, -Math.cos(a) * 0.62 * u); actx.quadraticCurveTo(-0.7 * u * gust - i * 0.06 * u, -0.9 * u - 0.1 * u * f, (-1.15 - 0.12 * i) * u * gust, (-0.35 + 0.18 * f) * u); actx.stroke(); }
       actx.restore(); actx.restore();
     };
-    body("rgba(255,120,60,.9)", 0.1, -0.05); body("#0a0206", 0, 0);
-    actx.save(); actx.translate(x + 0.12 * s * u, y - 0.04 * w * u); actx.lineCap = "round"; actx.strokeStyle = "#d4153f"; actx.shadowColor = "rgba(255,40,70,.6)"; actx.shadowBlur = 0.5 * u;  /* a red scarf: the one warm thing on the figure, flowing in the wind */
+    body("rgba(255,165,130,.85)", 0.1, -0.05); body("#02030a", 0, 0);
+    actx.save(); actx.translate(x + 0.12 * s * u, y - 0.04 * w * u); actx.lineCap = "round"; actx.strokeStyle = "#d12fa0"; actx.shadowColor = "rgba(220,50,170,.6)"; actx.shadowBlur = 0.5 * u;  /* a red scarf: the one warm thing on the figure, flowing in the wind */
     for (let k = 1; k <= 16; k++) { const f = (v) => [(-0.05 - v * 0.24 * gust) * u, (-8.3 + 0.03 * v + Math.sin(v * 0.42 - t * 3.2) * 0.045 * v) * u], a = f(k - 1), b = f(k); actx.lineWidth = (0.42 - 0.02 * k) * u; actx.beginPath(); actx.moveTo(a[0], a[1]); actx.lineTo(b[0], b[1]); actx.stroke(); }
     actx.restore();
   }
   function cosmos(t) {  /* one person on a cliff, and a universe: galaxies, a red nebula, a bright horizon; drawn once, then moved a little */
     frozen("cosmos", () => {
-      sky("cosmos", 0, 1.15, true, true); actx.globalCompositeOperation = "lighter";
-      let g = actx.createRadialGradient(W * 0.78, H * 0.32, 0, W * 0.78, H * 0.32, W * 0.3); g.addColorStop(0, "rgba(255,70,50,.4)"); g.addColorStop(1, "rgba(255,70,50,0)"); actx.fillStyle = g; actx.fillRect(W * 0.4, 0, W * 0.6, H * 0.7);
-      const hy = H * 0.62; actx.save(); actx.translate(W * 0.5, hy); actx.scale(1, 0.1); g = actx.createRadialGradient(0, 0, 0, 0, 0, W * 0.55); g.addColorStop(0, "rgba(255,255,255,.95)"); g.addColorStop(0.12, "rgba(255,190,140,.55)"); g.addColorStop(1, "rgba(255,50,40,0)"); actx.fillStyle = g; actx.beginPath(); actx.arc(0, 0, W * 0.55, 0, 6.2832); actx.fill(); actx.restore();
+      sky("cosmos", 0, 1.3, true, true); actx.globalCompositeOperation = "lighter";
+      let g = actx.createRadialGradient(W * 0.78, H * 0.32, 0, W * 0.78, H * 0.32, W * 0.3); g.addColorStop(0, "rgba(255,120,80,.32)"); g.addColorStop(1, "rgba(255,120,80,0)"); actx.fillStyle = g; actx.fillRect(W * 0.4, 0, W * 0.6, H * 0.7);
+      const hy = H * 0.62; actx.save(); actx.translate(W * 0.5, hy); actx.scale(1, 0.1); g = actx.createRadialGradient(0, 0, 0, 0, 0, W * 0.55); g.addColorStop(0, "rgba(255,255,255,.95)"); g.addColorStop(0.12, "rgba(170,175,255,.55)"); g.addColorStop(1, "rgba(70,60,235,0)"); actx.fillStyle = g; actx.beginPath(); actx.arc(0, 0, W * 0.55, 0, 6.2832); actx.fill(); actx.restore();
       actx.globalCompositeOperation = "source-over";
       const lg = actx.createLinearGradient(0, 0, W, 0); lg.addColorStop(0, "rgba(255,255,255,0)"); lg.addColorStop(0.5, "rgba(255,255,255,.95)"); lg.addColorStop(1, "rgba(255,255,255,0)");
-      actx.save(); actx.strokeStyle = lg; actx.lineWidth = 2; actx.shadowColor = "rgba(255,130,70,.9)"; actx.shadowBlur = 24; actx.beginPath(); actx.moveTo(0, hy + H * 0.03); actx.quadraticCurveTo(W * 0.5, hy - H * 0.05, W, hy + H * 0.03); actx.stroke(); actx.restore();
+      actx.save(); actx.strokeStyle = lg; actx.lineWidth = 2; actx.shadowColor = "rgba(180,200,255,.9)"; actx.shadowBlur = 24; actx.beginPath(); actx.moveTo(0, hy + H * 0.03); actx.quadraticCurveTo(W * 0.5, hy - H * 0.05, W, hy + H * 0.03); actx.stroke(); actx.restore();
       actx.save(); actx.beginPath(); actx.rect(0, hy + H * 0.02, W, H); actx.clip(); actx.translate(0, 2 * hy); actx.scale(1, -1); actx.globalAlpha = 0.5; sky("cosmos", 0, 1.6, true, true); actx.restore();  /* the sky again, upside down, below the horizon */
-      const dk = actx.createLinearGradient(0, hy, 0, H); dk.addColorStop(0, "rgba(10,2,6,.1)"); dk.addColorStop(1, "rgba(8,1,4,.55)"); actx.fillStyle = dk; actx.fillRect(0, hy + H * 0.02, W, H);
-      const ry = H * 0.8, px = W * 0.3; actx.fillStyle = "#0a0206";
+      const dk = actx.createLinearGradient(0, hy, 0, H); dk.addColorStop(0, "rgba(3,4,16,.1)"); dk.addColorStop(1, "rgba(2,3,10,.55)"); actx.fillStyle = dk; actx.fillRect(0, hy + H * 0.02, W, H);
+      const ry = H * 0.8, px = W * 0.3; actx.fillStyle = "#02030a";
       actx.beginPath(); actx.moveTo(0, H); actx.lineTo(0, ry + H * 0.02); actx.lineTo(px - W * 0.16, ry + H * 0.015); actx.lineTo(px + W * 0.07, ry); actx.lineTo(px + W * 0.13, ry + H * 0.03); actx.quadraticCurveTo(px + W * 0.1, ry + H * 0.12, px + W * 0.03, H); actx.fill();
-      actx.strokeStyle = "rgba(255,120,70,.35)"; actx.lineWidth = 1.5; actx.beginPath(); actx.moveTo(px - W * 0.16, ry + H * 0.015); actx.lineTo(px + W * 0.07, ry); actx.lineTo(px + W * 0.13, ry + H * 0.03); actx.stroke();
+      actx.strokeStyle = "rgba(140,170,255,.3)"; actx.lineWidth = 1.5; actx.beginPath(); actx.moveTo(px - W * 0.16, ry + H * 0.015); actx.lineTo(px + W * 0.07, ry); actx.lineTo(px + W * 0.13, ry + H * 0.03); actx.stroke();
     }, 0.025, t);
     twinkle(t, 60); shootStar(t);
     const z = 1 + 0.025 * clamp(t / 8); actx.save(); actx.translate(W / 2, H / 2); actx.scale(z, z); actx.translate(-W / 2, -H / 2); person(W * 0.17, H * 0.8, H * 0.27, t); actx.restore();  /* the figure moves, so it is drawn on top of the still layer, with the same slow push-in */
@@ -217,8 +217,8 @@
     const R = H, cx = W * 0.55, cy = H * 1.55, topAt = (x) => cy - Math.sqrt(Math.max(0, R * R - (x - cx) * (x - cx)));
     frozen("moon", () => {
       sky("moon", 0, 0.9, true, true);
-      actx.save(); actx.shadowColor = "rgba(255,100,60,.6)"; actx.shadowBlur = 40; const g = actx.createRadialGradient(cx - R * 0.3, cy - R * 0.55, R * 0.1, cx, cy, R); g.addColorStop(0, "#ffd9bd"); g.addColorStop(0.55, "#c4553a"); g.addColorStop(1, "#3b0a14"); actx.fillStyle = g; actx.beginPath(); actx.arc(cx, cy, R, 0, 6.2832); actx.fill(); actx.restore();
-      for (const c of CRATERS) { const x = cx + Math.cos(c.a) * c.d * R, y = cy + Math.sin(c.a) * c.d * R, r = c.r * R; actx.fillStyle = "rgba(60,10,20,.3)"; actx.beginPath(); actx.ellipse(x, y, r, r * 0.55, 0, 0, 6.2832); actx.fill(); actx.strokeStyle = "rgba(255,255,255,.14)"; actx.lineWidth = 1.5; actx.stroke(); }
+      actx.save(); actx.shadowColor = "rgba(150,130,255,.6)"; actx.shadowBlur = 40; const g = actx.createRadialGradient(cx - R * 0.3, cy - R * 0.55, R * 0.1, cx, cy, R); g.addColorStop(0, "#eadcc9"); g.addColorStop(0.55, "#85688f"); g.addColorStop(1, "#1d1033"); actx.fillStyle = g; actx.beginPath(); actx.arc(cx, cy, R, 0, 6.2832); actx.fill(); actx.restore();
+      for (const c of CRATERS) { const x = cx + Math.cos(c.a) * c.d * R, y = cy + Math.sin(c.a) * c.d * R, r = c.r * R; actx.fillStyle = "rgba(30,15,60,.3)"; actx.beginPath(); actx.ellipse(x, y, r, r * 0.55, 0, 0, 6.2832); actx.fill(); actx.strokeStyle = "rgba(255,255,255,.14)"; actx.lineWidth = 1.5; actx.stroke(); }
     }, 0.02, t);
     twinkle(t, 50); shootStar(t);
     const u = clamp(t / 5.2), s = u * u * (3 - 2 * u), E = [W * 0.42, topAt(W * 0.42) - 6], S = [W * 0.1, H * 0.56], C1 = [W * 0.45, -H * 0.12], C2 = [W * 0.97, H * 0.02];
@@ -236,9 +236,9 @@
     const path = (e) => { const [x1, y1] = P0(e[0]), [x2, y2] = P0(e[1]); return [x1, y1, (x1 + x2) / 2 + (y2 - y1) * e[2], (y1 + y2) / 2 - (x2 - x1) * e[2], x2, y2]; };
     const at = (q, u) => { const w = 1 - u; return [w * w * q[0] + 2 * w * u * q[2] + u * u * q[4], w * w * q[1] + 2 * w * u * q[3] + u * u * q[5]]; };
     for (const e of EDGES) {
-      const q = path(e), ok = green((q[0] + q[4]) / 2), c = ok ? "90,240,170" : "255,110,50";
+      const q = path(e), ok = green((q[0] + q[4]) / 2), c = ok ? "90,240,170" : "60,170,255";
       actx.beginPath(); actx.moveTo(q[0], q[1]); actx.quadraticCurveTo(q[2], q[3], q[4], q[5]); actx.strokeStyle = `rgba(${c},.14)`; actx.lineWidth = 9; actx.stroke(); actx.strokeStyle = `rgba(${c},.6)`; actx.lineWidth = 1.6; actx.stroke();
-      const [x, y] = at(q, (t * 0.3 + e[3]) % 1); actx.fillStyle = ok ? "rgba(200,255,230,.95)" : "rgba(255,215,180,.95)"; actx.beginPath(); actx.arc(x, y, 2.8, 0, 6.2832); actx.fill();
+      const [x, y] = at(q, (t * 0.3 + e[3]) % 1); actx.fillStyle = ok ? "rgba(200,255,230,.95)" : "rgba(170,225,255,.95)"; actx.beginPath(); actx.arc(x, y, 2.8, 0, 6.2832); actx.fill();
     }
     if (mode === "link" || mode === "scan") {
       const q = path([LINK[0], LINK[1], 0.2]), k = mode === "scan" ? 1 : clamp((t - 0.8) / 3.2), ok = green((q[0] + q[4]) / 2);
@@ -247,20 +247,20 @@
       actx.stroke(); actx.setLineDash([]);
     }
     NODES.forEach((n, i) => {
-      const [x, y] = P0(i), pulse = 0.7 + 0.3 * Math.sin(t * 2 + i), c = green(x) ? "90,240,170" : "255,40,100", g = actx.createRadialGradient(x, y, 0, x, y, 38);
+      const [x, y] = P0(i), pulse = 0.7 + 0.3 * Math.sin(t * 2 + i), c = green(x) ? "90,240,170" : "225,60,175", g = actx.createRadialGradient(x, y, 0, x, y, 38);
       g.addColorStop(0, `rgba(${c},${0.55 * pulse})`); g.addColorStop(1, `rgba(${c},0)`); actx.fillStyle = g; actx.beginPath(); actx.arc(x, y, 38, 0, 6.2832); actx.fill();
       actx.fillStyle = "rgba(255,255,255,.95)"; actx.beginPath(); actx.arc(x, y, 3.4, 0, 6.2832); actx.fill();
     });
-    if (sx >= 0 && sx < W) { const g = actx.createLinearGradient(sx - 120, 0, sx + 3, 0); g.addColorStop(0, "rgba(255,150,90,0)"); g.addColorStop(1, "rgba(255,235,215,.9)"); actx.fillStyle = g; actx.fillRect(sx - 120, 0, 123, H); }
+    if (sx >= 0 && sx < W) { const g = actx.createLinearGradient(sx - 120, 0, sx + 3, 0); g.addColorStop(0, "rgba(120,220,255,0)"); g.addColorStop(1, "rgba(220,250,255,.9)"); actx.fillStyle = g; actx.fillRect(sx - 120, 0, 123, H); }
     actx.globalCompositeOperation = "source-over";
   }
   function days(t) {  /* seven days, filling one by one */
     const sz = Math.min(W * 0.085, 96), gap = sz * 0.4, x0 = (W - (7 * sz + 6 * gap)) / 2, y = H * 0.76 - sz / 2, prog = 7 * clamp(t / 7);
     for (let i = 0; i < 7; i++) {
       const x = x0 + i * (sz + gap), k = clamp(prog - i);
-      if (k > 0) { glow(x + sz / 2, y + sz / 2, sz * 1.4, 0.5 * k); actx.fillStyle = `rgba(255,196,150,${0.9 * k})`; actx.fillRect(x, y, sz, sz); }
+      if (k > 0) { glow(x + sz / 2, y + sz / 2, sz * 1.4, 0.3 * k); actx.fillStyle = `rgba(255,150,100,${0.95 * k})`; actx.fillRect(x, y, sz, sz); }
       actx.strokeStyle = "rgba(255,255,255,.45)"; actx.lineWidth = 2; actx.strokeRect(x, y, sz, sz);
-      actx.fillStyle = k > 0.5 ? "#2a0610" : "rgba(255,255,255,.7)"; actx.font = `600 ${sz * 0.3}px ${sans}`; actx.textAlign = "center"; actx.fillText(String(i + 1), x + sz / 2, y + sz * 0.62);
+      actx.fillStyle = k > 0.5 ? "#1c1b30" : "rgba(255,255,255,.7)"; actx.font = `600 ${sz * 0.3}px ${sans}`; actx.textAlign = "center"; actx.fillText(String(i + 1), x + sz / 2, y + sz * 0.62);
     }
   }
   function tumour(t) {  /* the cells of the simulation, 72 hours after radiation, played once */
@@ -268,7 +268,7 @@
     if (pack === null) { const TS = D.tissue, c = TS && TS.conditions.find((x) => x.name === "radiation_only" && x.frames); pack = c ? { tf: tissueFrames(TS), c } : false; }
     if (!pack) return;
     const rad = Math.min(W, H) * 0.36, cx = W * 0.5, cy = H * 0.5;
-    actx.beginPath(); actx.arc(cx, cy, rad * 1.04, 0, 6.2832); actx.fillStyle = "rgba(255,70,60,.12)"; actx.fill(); actx.strokeStyle = "rgba(255,255,255,.3)"; actx.lineWidth = 2; actx.stroke();
+    actx.beginPath(); actx.arc(cx, cy, rad * 1.04, 0, 6.2832); actx.fillStyle = "rgba(90,60,200,.16)"; actx.fill(); actx.strokeStyle = "rgba(255,255,255,.3)"; actx.lineWidth = 2; actx.stroke();
     drawCrowd(actx, pack.tf, pack.c, clamp(t / 6) * (pack.c.times.length - 1), cx, cy, rad, CROWD2, "rgba(255,255,255,.12)");
   }
   function drawArt(t) {
