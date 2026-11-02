@@ -12,7 +12,7 @@ testing and gives no medical advice.
 > `data/` (except the base model's rules, generated from its supplement by `src/cellproof/network/gupta2023.py`), `scripts/`
 > and `docs/`.
 >
-> **The author's own earlier project.** Just before this hackathon (a few days before it began) the author built, for another hackathon, a different agent in a different repository, "Verified Knockout Agent": an LLM proposed gene knockouts on another published model
+> **The author's own earlier project.** On 24 October, before this hackathon began, the author built a different agent in a different repository, "Verified Knockout Agent": an LLM proposed gene knockouts on another published model
 > (Remy et al. 2015, 35 nodes, 23 knockable genes) and an exact solver checked them. It did **not** read papers. CellProof is a new repository on a different model (Gupta et al. 2023) with new work: Muse Spark reads papers, the claims become
 > rules, a repair loop, a held-out audit, a virtual tumour. The two share the idea that a model proposes and an exact solver decides. One note from that project (`lessons.md`) was committed to this repository on 29 October and removed on 30 October; it is still in the git history.
 
