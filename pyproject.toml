@@ -24,6 +24,8 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest==9.2.0"]
+# only for the voice-over of the opening (src/cellproof/voice.py); the CPU build of torch comes from https://download.pytorch.org/whl/cpu
+voice = ["torch==2.15.0", "transformers==5.22.1"]
 
 [project.scripts]
 cellproof = "cellproof.cli:app"
