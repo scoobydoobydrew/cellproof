@@ -93,13 +93,13 @@ the English page.
 | piece | address | about |
 |---|---|---|
 | 1. the opening | `results/report.html#intro` | 30 to 40 s (the pace follows the voice) |
-| 2. the header (damage, the goal, the AI proposes and the solver decides, the samples), the demo (72 s) and a PDF dropped into the page's box (an example run, labelled so) | `results/report.html#video-demo` | about 115 s after the countdown |
+| 2. the header (damage, the goal, the AI proposes and the solver decides, the samples), the demo and a PDF dropped into the page's box (an example run, labelled so), **all read aloud by the same voice, each part waiting for the voice** | `results/report.html#video-demo` | about 135 s (an estimate; it follows the voice) |
 | 3. the terminal: `python -m cellproof.cli verify` (or `make verify`), once, to show that one command rebuilds every number | a terminal | 10 to 12 s |
 | 4. the closing card | `results/report.html#card` | 4 s |
 
-That is about 2 minutes 45 seconds, so there is little slack: cut the pauses in the editor, not the demo. If you want the search engine and the three cards of what this is and is not as well, use `#video-short` instead of `#video-demo`
+That is about 3 minutes 5 seconds before any cut, so it is **over the limit**: it has to lose about 10 to 15 seconds. The easiest cuts, in order: the PDF part (about 16 s: stop the take before it), the last header screen (about 10 s), the intro's second slide; or a faster voice (`rate=1.1` in the address). Time the whole video once recorded. If you want the search engine and the three cards of what this is and is not as well, use `#video-short` instead of `#video-demo`
 (about 112 s: a shorter header, the demo and the search engine, but no PDF; about 2 minutes 45 seconds in all). The opening starts with the line that says what pre-existed and what was built this week (rule 9 of the brief).
-The demo and the other pieces have no voice: say the sentences of the table at the top of this file over them, or let the music and the captions carry them.
+The terminal and the closing card have no voice (the page cannot speak over a terminal): let the music and a title carry them.
 
 **To record:** use Microsoft Edge (the voice the author chose, Christopher, is there; record every piece in the same browser), full screen (F11) at 1920 x 1080, with notifications off. In OBS Studio (free),
 add *Display Capture* and *Audio Output Capture* (the desktop sound, which carries the browser's voice), 1920 x 1080, 30 frames a second, and record to mp4. Open the address, press

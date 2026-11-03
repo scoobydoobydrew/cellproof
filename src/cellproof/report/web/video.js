@@ -303,6 +303,7 @@
     ids.push(setTimeout(res, (reading * 2 + 5) * 1000));  /* a voice that never ends must not freeze the opening */
     speechSynthesis.speak(u);
   });
+  window.CPVoice = { speak: (text) => speak(text, CP.lang() === "el" ? "el" : "en") };  /* the demo of the page reads its captions with the same voice */
   async function playIntro(me) {
     const el = CP.lang() === "el", set = el ? EL : EN, lang = el ? "el" : "en", alive = () => me === token;
     scrollTo("#top"); CPHero.pin(true); CPHero.show(0); root.classList.add("vid-intro", "vid-zoom");
@@ -326,14 +327,25 @@
     await wait(3); if (!alive()) return;
     stopTake(true); scrollTo("#top");
   }
-  /* #video-demo: what comes after the opening, for someone who has not seen the header: not every damaged cell dies (beat 1), the goal (2), the AI proposes and the solver decides (5),
-     the tumour samples (7; the virtual tumour comes in the demo), then the demo and a PDF dropped into the page's box; it stops when the demo ends, with no search engine and no cards */
-  const startDemo3 = 30, afterDemo = startDemo3 + CPBench.seconds / SPEED2 + 1.5, takeDemo = [
-    [0, () => { scrollTo("#top"); CPHero.pin(true); CPHero.show(1); }], [6, beat(2)], [12, beat(5)], [21, beat(7)],
-    [startDemo3, () => { CPHero.pin(false); CPBench.play(SPEED2); }],
-    [afterDemo, () => { say("Drop your own PDF and the same machine reads it. (An example run: here on a paper the AI found.)", true); scrollTo("#papers", 70); }],
-    [afterDemo + 2.5, () => { if (window.CPPapers) CPPapers.demo("your-paper.pdf"); }],
-  ], endDemo = afterDemo + 2.5 + 9;  /* the demo, then a PDF dropped into the page's box */
+  /* #video-demo: what comes after the opening, for someone who has not seen the header, all read aloud and each part waiting for the voice: not every damaged cell dies (beat 1), the goal (2),
+     the AI proposes and the solver decides (5), the tumour samples (7), then the demo (its captions read too) and a PDF dropped into the page's box. No numbers are said that the page does not show. */
+  const BEAT_SAY = {
+    en: { 1: "Not every damaged cell dies. After radiation it can pause, age, recycle itself, or die.", 2: "The goal: switch a few genes, off or on, so that only death is left.", 5: "The AI proposes. The solver decides.",
+      7: "But every tumour has its own genes. In public tumour data, p53 is lost in a share of the samples, and there none of our candidates works." },
+    el: { 1: "Δεν πεθαίνει κάθε κύτταρο με βλάβη. Μετά την ακτινοβολία μπορεί να κάνει παύση, να γεράσει, να ανακυκλωθεί ή να πεθάνει.", 2: "Ο στόχος: να γυρίσουμε μερικά γονίδια, σβηστά ή αναμμένα, ώστε να μείνει μόνο ο θάνατος.", 5: "Το AI προτείνει. Ο solver αποφασίζει.",
+      7: "Αλλά κάθε όγκος έχει δικά του γονίδια. Σε δημόσια δεδομένα όγκων, το p53 έχει χαθεί σε ένα μέρος των δειγμάτων, και εκεί καμία υποψήφια δεν δουλεύει." },
+  };
+  async function playDemoCut(me) {
+    const lang = CP.lang() === "el" ? "el" : "en", alive = () => me === token;
+    scrollTo("#top"); CPHero.pin(true);
+    for (const n of [1, 2, 5, 7]) { CPHero.show(n); await speak(BEAT_SAY[lang][n], lang); if (!alive()) return; await wait(0.5); if (!alive()) return; }
+    CPHero.pin(false); await CPBench.play(1, true); if (!alive()) return;
+    const pdf = lang === "el" ? "Άφησε το δικό σου PDF και η ίδια μηχανή το διαβάζει. Αυτό είναι παράδειγμα, σε ένα paper που βρήκε το AI." : "Drop your own PDF and the same machine reads it. This is an example run, on a paper the AI found.";
+    say(pdf, true); scrollTo("#papers", 70); await speak(pdf, lang); if (!alive()) return;
+    if (window.CPPapers) CPPapers.demo("your-paper.pdf");
+    await wait(9); if (!alive()) return;
+    stopTake(true); scrollTo("#top");
+  }
   const end = take[take.length - 1][0] + 5, endShort = takeShort[takeShort.length - 1][0] + 5;  /* the last ten seconds of the video are the terminal, recorded apart */
 
   /* the button of the header ("Watch the intro") plays the opening for a visitor: no countdown, the pointer stays, and a button skips it */
@@ -349,8 +361,9 @@
     root.classList.add("vid"); bar.hidden = true;
     const run = () => {
       count.textContent = "";
-      const hash = location.hash, plan = hash === "#video-demo" ? takeDemo : hash === "#video-short" ? takeShort : take, stopAt = hash === "#video-demo" ? endDemo : hash === "#video-short" ? endShort : end;
+      const hash = location.hash, plan = hash === "#video-short" ? takeShort : take, stopAt = hash === "#video-short" ? endShort : end;
       if (pub || hash.startsWith("#intro")) { playIntro(++token); return; }
+      if (hash === "#video-demo") { playDemoCut(++token); return; }
       plan.forEach(([s, fn]) => ids.push(setTimeout(fn, s * 1000)));
       ids.push(setTimeout(() => { stopTake(true); scrollTo("#top"); }, stopAt * 1000));
     };

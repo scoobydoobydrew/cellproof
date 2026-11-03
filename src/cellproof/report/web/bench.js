@@ -712,25 +712,37 @@
   function stop() {
     clearSet(script); st.playing = false; grid.classList.remove("playing"); $("#bStop").hidden = true; cap.classList.remove("show"); delete cap.dataset.key;
   }
-  function play(speed) {  /* `speed` (a number, for the recording mode) shortens every wait; a click passes an event, which is ignored */
+  function play(speed, voiced) {  /* `speed` (a number, for the recording mode) shortens every wait; a click passes an event, which is ignored; `voiced` (true, in the recording mode) has the captions read aloud, and every step waits for the voice */
     const k = typeof speed === "number" && speed > 0 ? speed : 1;
     clearSet(script); clearUi(); Object.assign(st, initial()); built = null; render();
     st.playing = true; tumSig = ""; grid.classList.add("playing"); $("#bStop").hidden = false;
     grid.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });  /* stage and lamps together in one screen */
-    /* plain words, one idea at a time: the damage, the four fates, a gene whose loss kills every cell, the model, a missing link, the test, the fix, the limit */
-    const fails = failing("B").length, cut = () => { if (window.CPFx) CPFx.sweep(); }, S = [  /* a streak of light at every change of screen */
-      [400, () => say("cap.s1")], [2800, () => irradiate()],
-      [8200, () => { cut(); say("cap.s2"); setCut("tug1"); }],
-      [14000, () => { cut(); say("cap.s3"); setScale("circuit"); }],
-      [19000, () => { cut(); say("cap.s4", D.meta.corpus_papers); go(2); }], [20800, () => doRead()],
-      [25200, () => { say("cap.s5", pretty(SRC), pretty(DST)); doPlug(); }],
-      [29200, () => { cut(); say("cap.s6"); go(3); }], [31000, () => doRun("B")], [36500, () => say("cap.s7", fails)],
-      [40000, () => { cut(); go(4); }], [41000, () => { say("cap.s8"); doFix(); }],
-      ...(TUM ? [[46500, () => { cut(); say("cap.s9", TUM.cells); go(6); }], [53000, () => say("cap.s10", TUM.alive)], [55000, () => { say("cap.s11"); selectTum(TUM.items[1].cond.name); }],
-        [62000, () => say("cap.s12", TUM.agree, TUM.of)], [66500, () => say("cap.11")]] : []),
-      [(TUM ? PLAY_S : 60) * 1000, () => stop()],
+    /* plain words, one idea at a time: the damage, the four fates, a gene whose loss kills every cell, the model, a missing link, the test, the fix, the tumour, the limit.
+       Each step: what happens, the milliseconds until the next one (they add up to the 72 seconds of the silent demo), and the caption (key and arguments) that the voice reads. */
+    const fails = failing("B").length, cut = () => { if (window.CPFx) CPFx.sweep(); };  /* a streak of light at every change of screen */
+    const SEQ = [
+      [() => say("cap.s1"), 2400, ["cap.s1"]], [() => irradiate(), 5400],
+      [() => { cut(); say("cap.s2"); setCut("tug1"); }, 5800, ["cap.s2"]],
+      [() => { cut(); say("cap.s3"); setScale("circuit"); }, 5000, ["cap.s3"]],
+      [() => { cut(); say("cap.s4", D.meta.corpus_papers); go(2); }, 1800, ["cap.s4", D.meta.corpus_papers]], [() => doRead(), 4400],
+      [() => { say("cap.s5", pretty(SRC), pretty(DST)); doPlug(); }, 4000, ["cap.s5", pretty(SRC), pretty(DST)]],
+      [() => { cut(); say("cap.s6"); go(3); }, 1800, ["cap.s6"]], [() => doRun("B"), 5500], [() => say("cap.s7", fails), 3500, ["cap.s7", fails]],
+      [() => { cut(); go(4); }, 1000], [() => { say("cap.s8"); doFix(); }, TUM ? 5500 : 19000, ["cap.s8"]],
+      ...(TUM ? [[() => { cut(); say("cap.s9", TUM.cells); go(6); }, 6500, ["cap.s9", TUM.cells]], [() => say("cap.s10", TUM.alive), 2000, ["cap.s10", TUM.alive]],
+        [() => { say("cap.s11"); selectTum(TUM.items[1].cond.name); }, 7000, ["cap.s11"]], [() => say("cap.s12", TUM.agree, TUM.of), 4500, ["cap.s12", TUM.agree, TUM.of]],
+        [() => say("cap.11"), 5500, ["cap.11"]]] : []),
     ];
-    S.forEach(([ms, fn]) => later(script, fn, ms / k));
+    const pause = (ms) => new Promise((ok) => later(script, ok, ms / k));
+    return (async () => {
+      await pause(400);
+      for (const [fn, then, spoken] of SEQ) {
+        if (!st.playing) return;
+        fn();
+        const voice = voiced && spoken && window.CPVoice ? CPVoice.speak(T(spoken[0], ...spoken.slice(1))) : null;
+        await Promise.all([pause(then), voice]);  /* the next step comes when the time is up and the voice has finished */
+      }
+      if (st.playing) stop();
+    })();
   }
   $("#bStop").addEventListener("click", stop);
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && st.playing) stop(); });
