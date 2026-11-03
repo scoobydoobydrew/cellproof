@@ -309,14 +309,14 @@
     scrollTo("#top"); CPHero.pin(true); CPHero.show(0); root.classList.add("vid-intro", "vid-zoom");
     say(set.cap);  /* rule 9: the video opens with what pre-existed and what was built this week */
     for (const [n, [html, scene, kind, said]] of set.opening.entries()) {
-      if (n === 2) say("");
+      if (n === 1) say("");  /* the line stays on the first slide only */
       setArt(scene); showLine(html, false, false, kind);
       await speak(said || plain(html), lang); if (!alive()) return;
       await wait(0.3); if (!alive()) return;
     }
     /* the platform explained over the network: a new link grows, the solver scans it, and each item of the card appears as it is said */
     const card = `<div class="cardbox"><p class="big compact">CellProof<small>${set.tag}</small></p><ol class="what labelled">${set.what.map(([l, w]) => `<li class="hold" style="animation-delay:0s"><span class="vlab">${l}</span><span>${w}</span></li>`).join("")}</ol></div>`;
-    setArt("circuit-link"); flash(); lines.classList.remove("warn"); showLine(card, false, false, "card"); say(set.cap);
+    setArt("circuit-link"); flash(); lines.classList.remove("warn"); showLine(card, false, false, "card");
     await speak(set.hello, lang); if (!alive()) return;
     for (const [i, [, what]] of set.what.entries()) {
       if (i === 1) setArt("circuit-scan");

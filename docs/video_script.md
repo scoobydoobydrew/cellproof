@@ -77,7 +77,7 @@ In order:
 3. "A platform that helps cancer labs decide which experiments to run first. A small step on the way to better cancer research." It does not say "clinical trials":
    the platform does not touch them.
 4. The name and the platform explained over a network of lit cells (the field, the problem, where it helps) while a new link grows and the solver scans it, with the
-   caption again. Each of the three items appears as it is said.
+   Each of the three items appears as it is said.
 
 **The voice** is the browser's own speech synthesis: a feature of the browser and the operating system, not a model of this project, and not a file in the repository.
 On Microsoft Edge it uses Microsoft's natural voices (the page prefers a calm male one: Ryan, Guy, Andrew, Brian...; in Greek, Νέστορας or Αθηνά); the author chose **Christopher** (Microsoft Edge), at rate 1 and pitch 0.9, which the page uses when it is there (on Chrome, **Google UK English Female** is the fallback), in English or Greek
