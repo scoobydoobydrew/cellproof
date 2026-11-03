@@ -291,14 +291,14 @@
   const wait = (s) => new Promise((res) => ids.push(setTimeout(res, s * 1000)));
   /* to try other voices, open the page as report.html#intro&voice=Guy&pitch=0.6&rate=0.8 (any part of a voice's name; pitch 0 to 2, rate 0.1 to 10) */
   const ask = (k) => { const m = new RegExp("[#&]" + k + "=([^&]+)").exec(location.hash); return m ? decodeURIComponent(m[1]) : ""; };
-  const CHOSEN = /Google UK English Female/;  /* the voice the author chose (Chrome); any other browser falls back to the calm voices below */
+  const CHOSEN = /Andrew Multilingual|Google UK English Female/;  /* the voice the author chose (Andrew Multilingual, on Edge; the Google voice is the fallback on Chrome); any other browser gets the calm voices below */
   const PREFER = { en: /Ryan|Guy|Andrew|Brian|Christopher|Eric/, el: /Νέστορας|Αθηνά/ };
   const speak = (text, lang) => new Promise((res) => {
     const reading = Math.max(2.5, text.split(/\s+/).length * 0.4), vs = "speechSynthesis" in window ? speechSynthesis.getVoices().filter((v) => v.lang.toLowerCase().startsWith(lang)) : [];
     const natural = vs.filter((v) => /natural|online/i.test(v.name)), voice = (ask("voice") && vs.find((v) => v.name.toLowerCase().includes(ask("voice").toLowerCase()))) || vs.find((v) => CHOSEN.test(v.name)) || natural.find((v) => PREFER[lang].test(v.name)) || natural[0] || vs[0];
     if (!voice) { ids.push(setTimeout(res, reading * 1000)); return; }
     const u = new SpeechSynthesisUtterance(text), t0 = Date.now();
-    u.voice = voice; u.lang = voice.lang; u.rate = +ask("rate") || 0.9; u.pitch = +ask("pitch") || 0.95;
+    u.voice = voice; u.lang = voice.lang; u.rate = +ask("rate") || 1; u.pitch = +ask("pitch") || 0.85;
     u.onend = u.onerror = () => ids.push(setTimeout(res, Math.max(0, reading * 300 - (Date.now() - t0))));  /* a voice that fails at once (no network for an online voice) must not make the opening race */
     ids.push(setTimeout(res, (reading * 2 + 5) * 1000));  /* a voice that never ends must not freeze the opening */
     speechSynthesis.speak(u);
