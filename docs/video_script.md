@@ -93,11 +93,11 @@ the English page.
 | piece | address | about |
 |---|---|---|
 | 1. the opening | `results/report.html#intro` | 30 to 40 s (the pace follows the voice) |
-| 2. the header (damage, the goal, the AI proposes and the solver decides, the samples), the demo and a PDF dropped into the page's box (an example run, labelled so), **all read aloud by the same voice, each part waiting for the voice** | `results/report.html#video-demo` | about 135 s (an estimate; it follows the voice) |
+| 2. the header (damage, the goal, the AI proposes and the solver decides, the samples), the demo and a PDF dropped into the page's box (an example run, labelled so), **read aloud by the same voice, which sets the pace (the animations run while it speaks); the p53 screen and the limit are shown, not said** | `results/report.html#video-demo` | about 115 s (an estimate; it follows the voice) |
 | 3. the terminal: `python -m cellproof.cli verify` (or `make verify`), once, to show that one command rebuilds every number | a terminal | 10 to 12 s |
 | 4. the closing card | `results/report.html#card` | 4 s |
 
-That is about 3 minutes 5 seconds before any cut, so it is **over the limit**: it has to lose about 10 to 15 seconds. The easiest cuts, in order: the PDF part (about 16 s: stop the take before it), the last header screen (about 10 s), the intro's second slide; or a faster voice (`rate=1.1` in the address). Time the whole video once recorded. If you want the search engine and the three cards of what this is and is not as well, use `#video-short` instead of `#video-demo`
+That is about 2 minutes 45 seconds before any cut, which fits with little slack: time the whole video once it is recorded. If it is over, the easiest cuts, in order: the PDF part (about 16 s: stop the take before it), the last header screen (5 s), the intro's second slide; or a faster voice (`rate=1.1` in the address). If you want the search engine and the three cards of what this is and is not as well, use `#video-short` instead of `#video-demo`
 (about 112 s: a shorter header, the demo and the search engine, but no PDF; about 2 minutes 45 seconds in all). The opening starts with the line that says what pre-existed and what was built this week (rule 9 of the brief).
 The terminal and the closing card have no voice (the page cannot speak over a terminal): let the music and a title carry them.
 

@@ -328,17 +328,18 @@
     stopTake(true); scrollTo("#top");
   }
   /* #video-demo: what comes after the opening, for someone who has not seen the header, all read aloud and each part waiting for the voice: not every damaged cell dies (beat 1), the goal (2),
-     the AI proposes and the solver decides (5), the tumour samples (7), then the demo (its captions read too) and a PDF dropped into the page's box. No numbers are said that the page does not show. */
+     the AI proposes and the solver decides (5), then the tumour samples (7, only shown), the demo (its captions read too, except the limit, which is only shown) and a PDF dropped into the page's box. */
   const BEAT_SAY = {
     en: { 1: "Not every damaged cell dies. After radiation it can pause, age, recycle itself, or die.", 2: "The goal: switch a few genes, off or on, so that only death is left.", 5: "The AI proposes. The solver decides.",
-      7: "But every tumour has its own genes. In public tumour data, p53 is lost in a share of the samples, and there none of our candidates works." },
+    },
     el: { 1: "Δεν πεθαίνει κάθε κύτταρο με βλάβη. Μετά την ακτινοβολία μπορεί να κάνει παύση, να γεράσει, να ανακυκλωθεί ή να πεθάνει.", 2: "Ο στόχος: να γυρίσουμε μερικά γονίδια, σβηστά ή αναμμένα, ώστε να μείνει μόνο ο θάνατος.", 5: "Το AI προτείνει. Ο solver αποφασίζει.",
-      7: "Αλλά κάθε όγκος έχει δικά του γονίδια. Σε δημόσια δεδομένα όγκων, το p53 έχει χαθεί σε ένα μέρος των δειγμάτων, και εκεί καμία υποψήφια δεν δουλεύει." },
+    },
   };
   async function playDemoCut(me) {
     const lang = CP.lang() === "el" ? "el" : "en", alive = () => me === token;
     scrollTo("#top"); CPHero.pin(true);
-    for (const n of [1, 2, 5, 7]) { CPHero.show(n); await speak(BEAT_SAY[lang][n], lang); if (!alive()) return; await wait(0.5); if (!alive()) return; }
+    for (const n of [1, 2, 5]) { CPHero.show(n); await speak(BEAT_SAY[lang][n], lang); if (!alive()) return; await wait(0.3); if (!alive()) return; }
+    CPHero.show(7); await wait(5); if (!alive()) return;  /* the tumour samples and p53: shown, not said (the page says it) */
     CPHero.pin(false); await CPBench.play(1, true); if (!alive()) return;
     const pdf = lang === "el" ? "Άφησε το δικό σου PDF και η ίδια μηχανή το διαβάζει. Αυτό είναι παράδειγμα, σε ένα paper που βρήκε το AI." : "Drop your own PDF and the same machine reads it. This is an example run, on a paper the AI found.";
     say(pdf, true); scrollTo("#papers", 70); await speak(pdf, lang); if (!alive()) return;

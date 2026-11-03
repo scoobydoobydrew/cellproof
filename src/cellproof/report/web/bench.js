@@ -732,14 +732,30 @@
         [() => { say("cap.s11"); selectTum(TUM.items[1].cond.name); }, 7000, ["cap.s11"]], [() => say("cap.s12", TUM.agree, TUM.of), 4500, ["cap.s12", TUM.agree, TUM.of]],
         [() => say("cap.11"), 5500, ["cap.11"]]] : []),
     ];
-    const pause = (ms) => new Promise((ok) => later(script, ok, ms / k));
+    /* Read aloud, the voice sets the pace: each step is [what happens, the least milliseconds that its animation needs, the caption the voice reads], and an animation runs while the voice speaks.
+       The caption of the limit is only shown (it is on the page; it does not need to be said). */
+    const after = (ms, fn) => later(script, fn, ms / k);
+    const SEQV = [
+      [() => { say("cap.s1"); irradiate(); }, 5200, ["cap.s1"]],
+      [() => { cut(); say("cap.s2"); setCut("tug1"); }, 4800, ["cap.s2"]],
+      [() => { cut(); say("cap.s3"); setScale("circuit"); }, 1000, ["cap.s3"]],
+      [() => { cut(); say("cap.s4", D.meta.corpus_papers); go(2); after(1200, doRead); }, 4200, ["cap.s4", D.meta.corpus_papers]],
+      [() => { say("cap.s5", pretty(SRC), pretty(DST)); doPlug(); }, 3500, ["cap.s5", pretty(SRC), pretty(DST)]],
+      [() => { cut(); say("cap.s6"); go(3); after(1500, () => doRun("B")); }, 5800, ["cap.s6"]],
+      [() => say("cap.s7", fails), 0, ["cap.s7", fails]],
+      [() => { cut(); go(4); say("cap.s8"); after(1000, doFix); }, TUM ? 6000 : 12000, ["cap.s8"]],
+      ...(TUM ? [[() => { cut(); say("cap.s9", TUM.cells); go(6); }, 6500, ["cap.s9", TUM.cells]], [() => say("cap.s10", TUM.alive), 0, ["cap.s10", TUM.alive]],
+        [() => { say("cap.s11"); selectTum(TUM.items[1].cond.name); }, 6800, ["cap.s11"]], [() => say("cap.s12", TUM.agree, TUM.of), 0, ["cap.s12", TUM.agree, TUM.of]],
+        [() => say("cap.11"), 4500]] : []),
+    ];
+    const pause = (ms) => new Promise((ok) => later(script, ok, ms / k)), list = voiced && window.CPVoice ? SEQV : SEQ;
     return (async () => {
       await pause(400);
-      for (const [fn, then, spoken] of SEQ) {
+      for (const [fn, ms, spoken] of list) {
         if (!st.playing) return;
         fn();
-        const voice = voiced && spoken && window.CPVoice ? CPVoice.speak(T(spoken[0], ...spoken.slice(1))) : null;
-        await Promise.all([pause(then), voice]);  /* the next step comes when the time is up and the voice has finished */
+        const voice = list === SEQV && spoken ? CPVoice.speak(T(spoken[0], ...spoken.slice(1))).then(() => pause(250)) : null;
+        await Promise.all([pause(ms), voice]);  /* the next step comes when the time is up and, if it is read, the voice has finished */
       }
       if (st.playing) stop();
     })();
