@@ -54,7 +54,7 @@
     what: [["The field", "Cancer biology: how cells respond to radiation."], ["The problem", "Cell models are incomplete, and nobody can check every idea from the papers by hand."],
       ["How it helps", "An AI proposes, an exact solver checks, and researchers get candidates to test in the lab."]],
     tag: "From shared uncertainty to solitary conviction.",
-    cap: `Before this week: a published ${genes}-gene model, open papers, open-source solvers, the PhysiBoSS simulator, and my own earlier agent from 24 October (another model, no paper reading). This week: an agent where Muse Spark reads the papers and an exact solver decides. Hypotheses for the lab, not treatments.`,
+    cap: `Before this week: a published ${genes}-gene model, open papers, open-source solvers and the PhysiBoSS simulator, and my own earlier agent from 24 October (another model, no paper reading). This week: Muse Spark reads the papers, an exact solver decides, and our network runs at tissue level in PhysiBoSS. Hypotheses for the lab, not treatments.`,
   };
   const EL = {
     opening: [[TERM_EL, "dna", "term2", "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι, χωρίς να έχεις απόδειξη ότι θα δουλέψει. Αυτό λέγεται solitary conviction."],
@@ -64,7 +64,7 @@
     what: [["Ο τομέας", "Βιολογία του καρκίνου: πώς αντιδρούν τα κύτταρα στην ακτινοβολία."], ["Το πρόβλημα", "Τα μοντέλα των κυττάρων είναι ελλιπή, και κανείς δεν μπορεί να ελέγξει με το χέρι κάθε ιδέα από τα papers."],
       ["Πού βοηθά", "Ένα AI προτείνει, ένας ακριβής solver ελέγχει, και οι ερευνητές παίρνουν υποψήφιες αλλαγές για δοκιμή στο εργαστήριο."]],
     tag: "From shared uncertainty to solitary conviction.",
-    cap: `Πριν από αυτή την εβδομάδα: ένα δημοσιευμένο μοντέλο ${genes} γονιδίων, ανοιχτά papers, solvers ανοιχτού κώδικα, ο προσομοιωτής PhysiBoSS, και ο δικός μου προηγούμενος agent από τις 24 Οκτωβρίου (άλλο μοντέλο, χωρίς ανάγνωση papers). Αυτή την εβδομάδα: ένας agent όπου το Muse Spark διαβάζει τα papers και ένας ακριβής solver αποφασίζει. Υποθέσεις για το εργαστήριο, όχι θεραπείες.`,
+    cap: `Πριν από αυτή την εβδομάδα: ένα δημοσιευμένο μοντέλο ${genes} γονιδίων, ανοιχτά papers, solvers ανοιχτού κώδικα, ο προσομοιωτής PhysiBoSS, και ο δικός μου προηγούμενος agent από τις 24 Οκτωβρίου (άλλο μοντέλο, χωρίς ανάγνωση papers). Αυτή την εβδομάδα: το Muse Spark διαβάζει τα papers, ένας ακριβής solver αποφασίζει, και το δίκτυό μας τρέχει σε επίπεδο ιστού με το PhysiBoSS. Υποθέσεις για το εργαστήριο, όχι θεραπείες.`,
   };
   const lines = document.createElement("div"), fl = document.createElement("div"), art = document.createElement("canvas"), sw = document.createElement("div");
   let actx = art.getContext("2d");
