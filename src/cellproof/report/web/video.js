@@ -328,17 +328,21 @@
     stopTake(true); scrollTo("#top");
   }
   /* #video-demo: what comes after the opening, for someone who has not seen the header, all read aloud and each part waiting for the voice: radiation breaks DNA (beat 0), not every damaged cell dies (1), the goal (2),
-     the AI proposes and the solver decides (5), then the tumour samples (7, only shown), the demo (its captions read too, except the limit, which is only shown) and a PDF dropped into the page's box. */
+     new rules (3), the search explodes (4), the AI proposes and the solver decides (5), the virtual tumour (6), then the tumour samples (7, only shown), the demo (its captions read too, except the limit, which is only shown) and a PDF dropped into the page's box. */
   const BEAT_SAY = {
-    en: { 0: "Radiation breaks DNA. Radiotherapy is commonly used to treat a variety of solid tumours.", 1: "Not every damaged cell dies. After radiation it can pause, age, recycle itself, or die.", 2: "The goal: switch a few genes, off or on, so that only death is left.", 5: "The AI proposes. The solver decides.",
+    en: { 0: "Radiation breaks DNA. Radiotherapy is commonly used to treat a variety of solid tumours.", 1: "Not every damaged cell dies. After radiation it can pause, age, recycle itself, or die.", 2: "The goal: switch a few genes, off or on, so that only death is left.",
+      3: "And when a new paper comes out, its new rules change which genes to flip.", 4: "Which combination? Each one is a lab experiment, and the search explodes.", 5: "The AI proposes. The solver decides.",
+      6: "Now, a virtual tumour: a computer simulation of cells, run with PhysiBoSS.",
     },
-    el: { 0: "Η ακτινοβολία σπάει το DNA. Η ακτινοθεραπεία χρησιμοποιείται συχνά για διάφορους συμπαγείς όγκους.", 1: "Δεν πεθαίνει κάθε κύτταρο με βλάβη. Μετά την ακτινοβολία μπορεί να κάνει παύση, να γεράσει, να ανακυκλωθεί ή να πεθάνει.", 2: "Ο στόχος: να γυρίσουμε μερικά γονίδια, σβηστά ή αναμμένα, ώστε να μείνει μόνο ο θάνατος.", 5: "Το AI προτείνει. Ο solver αποφασίζει.",
+    el: { 0: "Η ακτινοβολία σπάει το DNA. Η ακτινοθεραπεία χρησιμοποιείται συχνά για διάφορους συμπαγείς όγκους.", 1: "Δεν πεθαίνει κάθε κύτταρο με βλάβη. Μετά την ακτινοβολία μπορεί να κάνει παύση, να γεράσει, να ανακυκλωθεί ή να πεθάνει.", 2: "Ο στόχος: να γυρίσουμε μερικά γονίδια, σβηστά ή αναμμένα, ώστε να μείνει μόνο ο θάνατος.",
+      3: "Κι όταν βγαίνει ένα νέο paper, οι νέοι κανόνες του αλλάζουν ποια γονίδια πρέπει να γυρίσουμε.", 4: "Ποιος συνδυασμός; Ο καθένας είναι ένα πείραμα στο εργαστήριο, και η αναζήτηση εκρήγνυται.", 5: "Το AI προτείνει. Ο solver αποφασίζει.",
+      6: "Τώρα, ένας εικονικός όγκος: μια προσομοίωση κυττάρων, με το PhysiBoSS.",
     },
   };
   async function playDemoCut(me) {
     const lang = CP.lang() === "el" ? "el" : "en", alive = () => me === token;
     scrollTo("#top"); CPHero.pin(true);
-    for (const n of [0, 1, 2, 5]) { CPHero.show(n); await speak(BEAT_SAY[lang][n], lang); if (!alive()) return; await wait(0.3); if (!alive()) return; }
+    for (const n of [0, 1, 2, 3, 4, 5, 6]) { CPHero.show(n); await speak(BEAT_SAY[lang][n], lang); if (!alive()) return; await wait(0.3); if (!alive()) return; }
     CPHero.show(7); await wait(5); if (!alive()) return;  /* the tumour samples and p53: shown, not said (the page says it) */
     CPHero.pin(false); await CPBench.play(1, true); if (!alive()) return;
     const pdf = lang === "el" ? "Άφησε το δικό σου PDF και η ίδια μηχανή το διαβάζει. Αυτό είναι παράδειγμα, σε ένα paper που βρήκε το AI." : "Drop your own PDF and the same machine reads it. This is an example run, on a paper the AI found.";
