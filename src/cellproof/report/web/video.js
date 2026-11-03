@@ -44,10 +44,10 @@
 
   /* ---- the opening (#intro-master, the only one): a background of its own for each idea, drawn here (nothing is a picture of data), one line of words at a time, each spoken by the
      browser's voice. It ends on the sentence that says what pre-existed and what was built this week. Nothing here states a result. */
-  const TERM_EN = "<b>Solitary conviction</b>A state where you believe in something without having evidence that it would work.";
-  const TERM_EL = "<b>Solitary conviction</b>Η κατάσταση όπου πιστεύεις σε κάτι χωρίς να έχεις απόδειξη ότι θα δουλέψει.";
+  const TERM_EN = "There is a feeling when you believe in something without having evidence that it would work.<small>That's called</small><b>solitary conviction</b>";
+  const TERM_EL = "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι χωρίς να έχεις απόδειξη ότι θα δουλέψει.<small>Αυτό λέγεται</small><b>solitary conviction</b>";
   const EN = {
-    opening: [[TERM_EN, "dna", "term", "Solitary conviction. A state where you believe in something, without having evidence that it would work."],
+    opening: [[TERM_EN, "dna", "term2", "There is a feeling when you believe in something, without having evidence that it would work. That's called solitary conviction."],
       ["We felt it at the start of this hackathon: a platform that looked <em>impossible</em> to build in one week.", "week"],
       ["A platform that helps cancer labs decide <em>which experiments to run first.</em><small>A small step on the way to better cancer research.</small>", "cosmos"]],
     hello: "CellProof. From shared uncertainty, to solitary conviction.",
@@ -57,7 +57,7 @@
     cap: `Before this week: a published ${genes}-gene model, open papers, open-source solvers, the PhysiBoSS simulator, and my own earlier agent from 24 October (another model, no paper reading). This week: an agent where Muse Spark reads the papers and an exact solver decides. Hypotheses for the lab, not treatments.`,
   };
   const EL = {
-    opening: [[TERM_EL, "dna", "term", "Solitary conviction. Η κατάσταση όπου πιστεύεις σε κάτι, χωρίς να έχεις απόδειξη ότι θα δουλέψει."],
+    opening: [[TERM_EL, "dna", "term2", "Υπάρχει ένα συναίσθημα όταν πιστεύεις σε κάτι, χωρίς να έχεις απόδειξη ότι θα δουλέψει. Αυτό λέγεται solitary conviction."],
       ["Το νιώσαμε στην αρχή αυτού του hackathon: μια πλατφόρμα που φάνταζε <em>αδύνατο</em> να χτιστεί σε μία εβδομάδα.", "week"],
       ["Μια πλατφόρμα που βοηθά τα εργαστήρια καρκίνου να διαλέξουν <em>ποια πειράματα να τρέξουν πρώτα.</em><small>Ένα μικρό βήμα για καλύτερη έρευνα του καρκίνου.</small>", "cosmos"]],
     hello: "CellProof.",

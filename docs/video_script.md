@@ -72,7 +72,7 @@ There is one opening, of about 30 to 40 seconds depending on the voice. A visito
 **Skip** stops it). To record it, open `results/report.html#intro` (or `#intro-master`), press Space (or the button at the top), and the page does the rest after a 3-2-1.
 In order:
 
-1. *Solitary conviction* and its definition, over a turning DNA, with the line that says what pre-existed and what was built this week (rule 9 of the brief).
+1. "There is a feeling when you believe in something without having evidence that it would work. That's called *solitary conviction*", over a turning DNA, with the line that says what pre-existed and what was built this week (rule 9 of the brief).
 2. "We felt it at the start of this hackathon: a platform that looked impossible to build in one week", with seven days that fill.
 3. "A platform that helps cancer labs decide which experiments to run first. A small step on the way to better cancer research." It does not say "clinical trials":
    the platform does not touch them.

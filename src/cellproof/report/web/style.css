@@ -838,6 +838,10 @@ html.vid-zoom #heroMol.jolt { animation: vidJolt .6s ease-out; }
 @media (prefers-reduced-motion: reduce) { .vid-sweep.go, .vid-art.warp { animation: none; } }
 .vid-lines p.term { max-width: 19em; font-size: clamp(26px, 3.4vw, 54px); line-height: 1.25; }
 .vid-lines p.term b { display: block; margin-bottom: .25em; font: italic 400 clamp(54px, 8.6vw, 130px)/1 var(--display); color: #ffc9a0; }
+/* the first slide: the feeling in words, then its name in large letters */
+.vid-lines p.term2 { max-width: 19em; font-size: clamp(24px, 3vw, 46px); line-height: 1.25; }
+.vid-lines p.term2 small { margin-top: .5em; }
+.vid-lines p.term2 b { display: block; margin-top: .05em; font: italic 400 clamp(54px, 8vw, 118px)/1.05 var(--display); color: #ffc9a0; }
 .vid-lines.art, .vid-lines.art.warn { background: radial-gradient(ellipse at center, rgba(6, 4, 22, 0), rgba(6, 4, 22, .5)); }
 
 /* what CellProof does, in four lines under its name at the end of the short opening */
