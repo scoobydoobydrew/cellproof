@@ -80,13 +80,13 @@ In order:
    caption again. Each of the three items appears as it is said.
 
 **The voice** is the browser's own speech synthesis: a feature of the browser and the operating system, not a model of this project, and not a file in the repository.
-On Microsoft Edge it uses Microsoft's natural voices (the page prefers a calm male one: Ryan, Guy, Andrew, Brian...; in Greek, Νέστορας or Αθηνά); the author chose **Andrew Multilingual** (Microsoft Edge), at rate 1 and pitch 0.85, which the page uses when it is there (on Chrome, **Google UK English Female** is the fallback), in English or Greek
+On Microsoft Edge it uses Microsoft's natural voices (the page prefers a calm male one: Ryan, Guy, Andrew, Brian...; in Greek, Νέστορας or Αθηνά); the author chose **Christopher** (Microsoft Edge), at rate 1 and pitch 0.9, which the page uses when it is there (on Chrome, **Google UK English Female** is the fallback), in English or Greek
 following the page language (**EN / ΕΛ**). Chrome and Firefox have other voices, and the sound differs from browser to browser, so **record in the same browser every time**. A line starts
 0.3 s after the previous one has been spoken, so the pace follows the voice; a voice that fails at once (an online voice with no network) falls back to the time the words take
 to read; with no voice for the language, the page is silent. In Greek, "Solitary conviction" is read in a Greek voice and sounds odd: say so in the video or record
 the English page.
 
-**To try another voice or a darker tone**, open `results/report.html#intro&voice=Guy&pitch=0.6&rate=0.8` (any part of a voice's name; pitch 0 to 2, rate 0.1 to 10; the defaults are Andrew Multilingual (Edge), or Google UK English Female (Chrome), otherwise Ryan, with pitch 0.85 and rate 1) and press Space. Not every online voice follows the pitch. For a deeper, more eerie sound the reliable way is in the video editor, on the recorded audio: lower it by two or three semitones and add a little hall reverb.
+**To try another voice or a darker tone**, open `results/report.html#intro&voice=Guy&pitch=0.6&rate=0.8` (any part of a voice's name; pitch 0 to 2, rate 0.1 to 10; the defaults are Christopher (Edge), or Google UK English Female (Chrome), otherwise Ryan, with pitch 0.9 and rate 1) and press Space. Not every online voice follows the pitch. For a deeper, more eerie sound the reliable way is in the video editor, on the recorded audio: lower it by two or three semitones and add a little hall reverb.
 
 **For the three-minute video** (the page plays each piece by itself; you record the screen with sound and join the pieces in an editor):
 
@@ -101,7 +101,7 @@ That is about 2 minutes 45 seconds, so there is little slack: cut the pauses in 
 (about 112 s: a shorter header, the demo and the search engine, but no PDF; about 2 minutes 45 seconds in all). The opening starts with the line that says what pre-existed and what was built this week (rule 9 of the brief).
 The demo and the other pieces have no voice: say the sentences of the table at the top of this file over them, or let the music and the captions carry them.
 
-**To record:** use Microsoft Edge (the voice the author chose, Andrew Multilingual, is there; record every piece in the same browser), full screen (F11) at 1920 x 1080, with notifications off. In OBS Studio (free),
+**To record:** use Microsoft Edge (the voice the author chose, Christopher, is there; record every piece in the same browser), full screen (F11) at 1920 x 1080, with notifications off. In OBS Studio (free),
 add *Display Capture* and *Audio Output Capture* (the desktop sound, which carries the browser's voice), 1920 x 1080, 30 frames a second, and record to mp4. Open the address, press
 the *Start the take* button (or Space), take your hands off the mouse, and stop the recording when the page returns to its top. Esc stops a take; record the piece again if you stumble.
 Join the pieces, add music with a licence and subtitles, export at 1080p, upload it (YouTube, Loom or Vimeo, public or unlisted, or an mp4), and put the link in the README
