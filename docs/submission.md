@@ -3,7 +3,7 @@
 Every number here is one that `results/RESULTS.md` or the README already carries; read it off `make verify` again on the day,
 and change nothing that the files do not say. Fill in the two links before submitting.
 
-- Repository: TBD (public, checked in a clean browser)
+- Repository: https://github.com/scoobydoobydrew/cellproof (public; open it in a window where you are not signed in before submitting)
 - Video: TBD (public, 3 minutes, first line says what pre-existed and what was built this week)
 
 ## Name and one line
@@ -55,7 +55,7 @@ API call; only `make extract` spends money.
 
 Before: the published 30-node model (Gupta et al. 2023, CC BY), the open-access papers, the open-source solvers (clingo, mpbn, AEON,
 pyboolnet), the PhysiBoSS simulator with its MaBoSS engine, the ChEMBL database, the cBioPortal API and TCGA data, and the libraries
-in `THIRD_PARTY.md`. Built this week, in this repository only: everything in `src/`, `tests/`, `scripts/` and `docs/`, and the data
+in `THIRD_PARTY.md`, and the author's own earlier agent of 24 October, in another repository (an LLM proposing gene knockouts on a different published model, Remy et al. 2015, checked by an exact solver; it did not read papers; see the README). Built this week, in this repository only: everything in `src/`, `tests/`, `scripts/` and `docs/`, and the data
 files other than the base model's rules.
 
 ## Limits, stated plainly
