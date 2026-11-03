@@ -23,7 +23,7 @@
     [fmt(N), "irradiated cells in the virtual tissue, each carrying the whole network"],
     [`${agree}/${total}`, `sets on which the simulation and the exact checker agree: ${F.hits.count} the checker accepts and ${F.misses.count} of the same size it rejects`],
     [`${F.long.none_alive}/${F.long.count}`, `of the checker's sets leave no cell alive after ${F.long.hours} h; after ${H} h, ${F.hits.count - F.hits.none_alive} of them still held a few cells (at most ${F.hits.most_alive} of ${fmt(N)})`],
-    [fmt(F.radiation.alive), `cells alive after ${H} h of radiation alone (${pct(F.radiation.alive, N)}%): ${aliveStates.map(([w, n]) => `${fmt(n)} ${w}`).join(", ") || "none"}`],
+    [fmt(F.radiation.alive), `cells alive after ${H} h of radiation alone (${F.radiation.alive && pct(F.radiation.alive, N) < 1 ? "<1" : pct(F.radiation.alive, N)}%): ${aliveStates.map(([w, n]) => `${fmt(n)} ${w}`).join(", ") || "none"}`],
   ].map(([n, t]) => h(`<div class="stat"><b>${esc(n)}</b><span>${esc(t)}</span></div>`)));
 
   /* ---------- the tissue ---------- */
@@ -71,7 +71,7 @@
     const counts = cond.counts[k], alive = cond.alive[k];
     $("#tClock").textContent = `${hours(cond.times[k])} h`;
     slider.value = k;
-    $("#tNow").innerHTML = `<b>${fmt(alive)}</b><span>of ${fmt(N)} cells alive (${pct(alive, N)}%)</span>` +
+    $("#tNow").innerHTML = `<b>${fmt(alive)}</b><span>of ${fmt(N)} cells alive (${alive && pct(alive, N) < 1 ? "<1" : pct(alive, N)}%)</span>` +
       `<span class="t-sub">${counts.map((n, i) => (n ? `${fmt(n)} ${STATE[i]}` : "")).filter(Boolean).join(" · ")}</span>`;
   }
 
