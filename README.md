@@ -112,7 +112,7 @@ illustration unless they say that they are the simulation or public counts (see 
 | The search engine's board (extension, `docs/search_board.md`) | The solver's verdict on all 1,058 sets of one or two changes: for the model cell 226 leave only death and 11 are minimal; with p53 lost, none of the 968 sets offered does; two profiles (hTERT, MDM2 high) keep the same 11, one (WIP1 high) keeps a different single set; a model statement, not about any person |
 | Tumour genotypes as constraints on the model (extension) | 9,896 TCGA tumour samples from 32 studies (counts only): TP53 is lost in 14.2% (narrow rule) to 38.6% (broad rule) of them, and for none does any of the 11 sets leave only apoptosis; with TP53 intact each set works in 95% to 96.5% of the samples (80.4% for one); a model statement about genotype, not about any person |
 | Solver targets and ChEMBL chemistry (extension) | 3 of the 11 sets are knock-outs (PTEN, RB, TUG1); PTEN has 5 activity records and none at 1 micromolar, and the 6 strong records of RB1 all read out its phosphorylation in cells; the 5 kinases named in the brief have 566 to 2,299 compounds at 1 micromolar, but knocking out any of them alone leaves all four end states |
-| Extraction accuracy (M4) | TBD: needs 50 claims labelled by a person |
+| Extraction accuracy (M4) | 37 of 50 randomly sampled claims read correctly (74%, 95% interval 60% to 84%), labelled by one person from the 535 claims whose quote was found in the paper; the other 13 were labelled "quote does not support it". A precision: claims the model missed are not counted |
 
 **What the audit says.** The augmented networks do not predict the held-out outcomes better than the published model: none of
 its 8 verdicts changed, and a rule that ignores the perturbation scores higher than any network. In 4 of the 8 claims the
@@ -195,8 +195,9 @@ LICENSE              MIT
 
 - The held-out set (23 claims, 10 scoreable) was frozen before any network was scored; its history is in
   `docs/heldout_protocol.md`. A human has not yet checked that each quote supports its claim, so M1 is provisional.
-- Extraction accuracy (M4) needs 50 claims labelled by a person (`data/labels/m4_sample.csv`) and is TBD until then. `make label`
-  opens a page where each click is saved; nothing in it is pre-filled and no model is called.
+- Extraction accuracy (M4) is 37 of 50 sampled claims, labelled by one person (`data/labels/m4_sample.csv`), with no second reader and no
+  agreement figure; 50 claims give a wide interval. `make label` opens the page where each click is saved; nothing in it is pre-filled
+  and no model is called.
 - The tissue and chemistry steps are an extension and a second check of the solver. They say nothing about drugs, patients,
   efficacy, safety or secondary cancers (`docs/downstream_notes.md`), and a Boolean model of one published network decides
   every set they start from.

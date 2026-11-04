@@ -14,7 +14,8 @@ This is a research prototype that ranks hypotheses for lab testing. It makes no 
 
 **The evidence**
 - Claims are extracted by a language model. A quote that is found verbatim in the paper shows that the model copied faithfully,
-  not that it read correctly. Extraction accuracy (M4) needs a human to label 50 claims and had not been done when this was written.
+  not that it read correctly. Extraction accuracy (M4) was measured by one person on 50 claims sampled at random: 37 read correctly (74%, 95% interval 60% to 84%),
+  13 labelled "quote does not support it" (`results/RESULTS.md`). It is a precision on a small sample with a single labeller; it says nothing about claims the model missed.
 - The corpus is 36 open-access papers chosen by topic and citation count, many of them not about the DNA damage response in
   human cells. Some report experiments similar to the held-out ones in other cell lines.
 - Literature can be inconsistent, incomplete or specific to a cell type; the model has one context.

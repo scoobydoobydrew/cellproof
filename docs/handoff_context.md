@@ -26,7 +26,7 @@ CellProof: Muse Spark reads papers and proposes mechanism rules; an exact solver
 **Only the user can do (cannot be faked by the assistant)**
 1. GitHub settings (no gh, no token, browser not signed in): enable Pages (main, root) so `https://scoobydoobydrew.github.io/meta_ai_hackathon/` works; set repo description (include "Meta Global AI Hackathon 2026"); add topics `meta-hackathon-2026` and `meta-ai-hackathon`. The community tracker artifacts.watt-mind.com/meta-hackathon-2026 indexes by these.
 2. Read `THIRD_PARTY.md` (human check, rule 4).
-3. M4: label the 50 claims, D4: check the 23 held-out quotes (`make label`, a local click page). Until done: no extraction accuracy may be quoted and held-out verdicts are provisional.
+3. M4 is done (37 of 50 `correct`, labelled by the user on 2026-11-04). D4: check the 23 held-out quotes (`make label`, a local click page). Until D4 is done, held-out verdicts are provisional.
 4. Read the Scaife et al. 2015 source (PMC4628540) cited on the page.
 5. Record the video (3 min): `#intro-short` (or the button), then `#video-short`, then the terminal (`make verify`), then `#card`. Script and timings: `docs/video_script.md`. The first line must say what pre-existed and what was built this week. Make the video public and link it in the README.
 6. Check the page in a clean browser at 1920x1080 and on a real phone.

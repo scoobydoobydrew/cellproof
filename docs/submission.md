@@ -63,7 +63,7 @@ files other than the base model's rules.
 Boolean networks are discrete abstractions: no dose, no time. One base model, so the results depend on it. Ground truth comes from
 papers and may be incomplete. The solver catches contradictions with the behaviours we encoded, not every error. Ten scoreable held-out
 claims cannot show an improvement either way, and they were written by us and are not yet checked by a person. Extraction accuracy is
-TBD until 50 claims are labelled by a person. Everything is a hypothesis for the lab: no patient-facing output, no clinical claim,
+37 of 50 sampled claims (74%), labelled by one person. Everything is a hypothesis for the lab: no patient-facing output, no clinical claim,
 no medical advice.
 
 ## Reproduce

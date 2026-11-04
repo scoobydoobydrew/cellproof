@@ -105,7 +105,17 @@ muse-spark-1.3 (reasoning effort minimal) was asked, without any tool, for ten s
 
 ## Extraction accuracy (M4)
 
-TBD: 0 of 50 sampled claims have been labelled by a human.
+37 of 50 labelled claims are `correct` (74%; 95% Wilson interval 60% to 84%); 50 were sampled at random (fixed seed) from the 535 claims whose quote was found in the paper.
+
+| label (by a person) | claims |
+|---|---|
+| correct | 37 |
+| wrong_direction | 0 |
+| wrong_entity | 0 |
+| not_a_mechanism | 0 |
+| quote_does_not_support | 13 |
+
+This is a precision: it asks how many of the claims the model wrote down say what their quote says. It does not count claims the model missed. One person labelled the sample (no second reader), so there is no agreement figure. The model labelled nothing.
 
 ## Held-out claims checked by a person (D4)
 

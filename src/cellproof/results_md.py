@@ -120,6 +120,14 @@ def _search_arm(doc) -> str:
     return "\n".join(lines) + "\n"
 
 
+def _wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
+    """95% Wilson score interval for k successes in n trials."""
+    p, d = k / n, 1 + z * z / n
+    centre = (p + z * z / (2 * n)) / d
+    half = z * ((p * (1 - p) / n + z * z / (4 * n * n)) ** 0.5) / d
+    return centre - half, centre + half
+
+
 def labels_section() -> str:
     path = ROOT / "data" / "labels" / "m4_sample.csv"
     if not path.exists():
@@ -128,8 +136,23 @@ def labels_section() -> str:
     labelled = [r for r in rows if r["label"].strip()]
     if not labelled:
         return f"## Extraction accuracy (M4)\n\nTBD: 0 of {len(rows)} sampled claims have been labelled by a human.\n"
-    correct = sum(r["label"].strip() == "correct" for r in labelled)
-    return f"## Extraction accuracy (M4)\n\n{correct} of {len(labelled)} labelled claims are `correct` (human labels, {len(rows)} sampled).\n"
+    from collections import Counter
+
+    from cellproof.extract.stats import LABELS
+
+    counts = Counter(r["label"].strip() for r in labelled)
+    correct, n = counts["correct"], len(labelled)
+    low, high = _wilson(correct, n)
+    directory = ROOT / "data" / "extractions" / "muse-spark-1.3"
+    pool = sum(len(r["grounded"]) for r in load_records(directory)) if directory.exists() else None
+    lines = ["## Extraction accuracy (M4)", "",
+             f"{correct} of {n} labelled claims are `correct` ({correct / n:.0%}; 95% Wilson interval {low:.0%} to {high:.0%}); "
+             f"{len(rows)} were sampled" + (f" at random (fixed seed) from the {pool} claims whose quote was found in the paper" if pool else "") + ".", "",
+             "| label (by a person) | claims |", "|---|---|"]
+    lines += [f"| {label} | {counts[label]} |" for label in LABELS]
+    lines += ["", "This is a precision: it asks how many of the claims the model wrote down say what their quote says. It does not count claims the model missed. "
+                  "One person labelled the sample (no second reader), so there is no agreement figure. The model labelled nothing.", ""]
+    return "\n".join(lines)
 
 
 def checks_section() -> str:

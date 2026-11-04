@@ -598,5 +598,6 @@ def collect() -> dict:
         "downstream": downstream_block(),
         "papers": papers_block(),
         "api": api_usage(),
-        "labels": {"sampled": len(label_rows), "labelled": sum(1 for r in label_rows if r["label"].strip())},
+        "labels": {"sampled": len(label_rows), "labelled": sum(1 for r in label_rows if r["label"].strip()),
+                   "correct": sum(1 for r in label_rows if r["label"].strip() == "correct")},
     }
