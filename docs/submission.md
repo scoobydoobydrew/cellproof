@@ -4,7 +4,7 @@ Every number here is one that `results/RESULTS.md` or the README already carries
 and change nothing that the files do not say. Fill in the two links before submitting.
 
 - Repository: https://github.com/scoobydoobydrew/cellproof (public; open it in a window where you are not signed in before submitting)
-- Video: TBD (public, 3 minutes, first line says what pre-existed and what was built this week)
+- Video: https://youtu.be/3CyR4baXoyg (3 minutes; the first line says what pre-existed and what was built this week). Set to Public before submitting.
 
 ## Name and one line
 

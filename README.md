@@ -25,7 +25,7 @@ testing and gives no medical advice.
 - **What it does not do.** It does not predict held-out outcomes better than the published model; the result is an automatic audit of where a model and the literature disagree. Failed checks are reported next to the passed ones.
 - **Live demo.** [scoobydoobydrew.github.io/cellproof](https://scoobydoobydrew.github.io/cellproof/): the same page as `results/report.html`, hosted on GitHub Pages. The box for dropping your own PDF shows an example run there; reading a real PDF needs `cellproof serve` on your machine, with your own API key.
 - **Try it.** Open `results/report.html`, or run `make verify` (no API call, no cost), or `docker compose run --rm verify`.
-- **Video.** TBD: the 3-minute walk-through is linked here when it is published.
+- **Video.** [The 3-minute walk-through](https://youtu.be/3CyR4baXoyg): what pre-existed and what was built this week, the demo, and `cellproof verify` replayed from the cached model outputs.
 
 ## Screenshots
 
