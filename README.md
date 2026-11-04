@@ -23,8 +23,19 @@ testing and gives no medical advice.
 - **What it is.** An agent in which Muse Spark reads papers and proposes rules for a published cell-signalling model, and an exact solver accepts or rejects each rule, returning a counterexample that Muse Spark uses to repair it.
 - **Why it matters.** Applied without the solver, edits taken from papers break 7 of 10 known behaviours of the model; with the solver, none (`results/RESULTS.md`).
 - **What it does not do.** It does not predict held-out outcomes better than the published model; the result is an automatic audit of where a model and the literature disagree. Failed checks are reported next to the passed ones.
+- **Live demo.** [scoobydoobydrew.github.io/cellproof](https://scoobydoobydrew.github.io/cellproof/): the same page as `results/report.html`, hosted on GitHub Pages. The box for dropping your own PDF shows an example run there; reading a real PDF needs `cellproof serve` on your machine, with your own API key.
 - **Try it.** Open `results/report.html`, or run `make verify` (no API call, no cost), or `docker compose run --rm verify`.
 - **Video.** TBD: the 3-minute walk-through is linked here when it is published.
+
+## Screenshots
+
+From the page `results/report.html` (the live demo above). The middle frame is one moment of the 72-hour tumour simulation, not its end state.
+
+![The first screen of the page: radiation breaks DNA, and not every damaged cell dies](docs/img/hero.jpg)
+
+![The demo: a virtual tumour of 1,663 cells simulated with PhysiBoSS](docs/img/demo.jpg)
+
+![The papers section: each paper the AI read, drawn as a map of the claims the solver checked](docs/img/papers.jpg)
 
 ## The idea
 
@@ -177,6 +188,7 @@ Dockerfile, compose.yaml   `docker compose run --rm verify` / `test`
 eval/                where the evaluation is: its protocol, metrics and results (an index; the code is in `src/cellproof/eval/`)
 data/                base network, verification cases, held-out set (frozen), extractions, models, HGNC cache
 docs/                protocol of the held-out set, limitations, notes on the Meta API and the extraction
+LICENSE              MIT
 ```
 
 ## Honesty notes
@@ -193,3 +205,8 @@ docs/                protocol of the held-out set, limitations, notes on the Met
   holds, and is tested out of sample. Both are reported. The genotype study is about how the model's answers depend on genotype, counted on public tumour
   data with a crude rule; it says nothing about any person.
 - Third-party code and data are declared in `THIRD_PARTY.md`; paper texts are downloaded, not redistributed.
+
+## License
+
+MIT, see `LICENSE`. It covers this repository's own code, documents and screenshots. Third-party code, models and data keep their own licenses
+(`THIRD_PARTY.md`); the base model of the DNA damage response is CC BY (Gupta et al. 2023).
