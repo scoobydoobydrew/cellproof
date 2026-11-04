@@ -73,3 +73,8 @@ anyway is set aside and counted.
 - A dropped paper does not change the model, the augmentation or any number of the report. Adding its accepted links to a model is a separate
   step that does not exist yet, because it would change the numbers of the report and has to go through the evaluation protocol.
 - Cost: the plan's estimate is measured on the 36 corpus papers (both passes) and scaled by the number of characters; a few cents a paper.
+- Tried once on a real file (2026-11-04), by `cellproof ingest`, and shown by `cellproof serve` under "your PDFs": an open-access PLOS ONE paper (CC BY,
+  doi 10.1371/journal.pone.0006298, 11 pages, 46,514 characters, not in the corpus and not an audit source). 19 claims, every quote found in the text;
+  17 links drawn, 9 of them between genes of the model: 1 accepted, 2 rejected, 5 already present, 1 implied, none in conflict; 8 outside the model.
+  Cost $0.077 for both passes. The estimate shown before reading was $0.035: a paper's size was counted once per pass, which halved it (fixed, now $0.071,
+  and `tests/test_ingest.py` checks it against what the corpus cost). One paper is a check that the path works, not a measurement of accuracy.

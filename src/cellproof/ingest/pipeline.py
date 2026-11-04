@@ -109,11 +109,14 @@ def estimate_usd(chars: int) -> float | None:
         manifest = json.loads(MANIFEST_FILE.read_text(encoding="utf-8"))["papers"]
         size = {p["pmcid"]: p.get("chars", 0) for p in manifest}
         spent = total = 0.0
+        counted: set[str] = set()  # a paper's text is read by both passes but its size counts once: the cost is for the two passes together
         for folder in ("muse-spark-1.3", "muse-spark-1.3-stimulus"):
             for path in (ROOT / "data" / "extractions" / folder).glob("*.json"):
                 record = json.loads(path.read_text(encoding="utf-8"))
                 spent += cost_usd(record.get("usage"), record["model"])
-                total += size.get(record["pmcid"], 0)
+                if record["pmcid"] not in counted:
+                    counted.add(record["pmcid"])
+                    total += size.get(record["pmcid"], 0)
         return round(spent / total * chars, 3) if total else None
     except (OSError, KeyError, ValueError):
         return None

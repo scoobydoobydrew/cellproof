@@ -226,3 +226,22 @@ def test_papers_are_listed_loaded_and_deleted_by_id_only(stand_in, tmp_path):
     for hostile in ("../papers", "USR-x/../../x", "..\\x", "", "PMC123"):
         assert pipeline.load_paper(hostile, tmp_path) is None and not pipeline.delete_paper(hostile, tmp_path)
     assert pipeline.delete_paper(record["id"], tmp_path) and pipeline.list_papers(tmp_path) == []
+
+
+def test_the_cost_estimate_for_the_corpus_text_equals_what_the_corpus_cost_for_both_passes():
+    """A paper's size must count once, not once per pass: counting it twice halved the estimate shown before a person confirmed a read
+    (the first real PDF read cost $0.077 against an estimate of $0.035)."""
+    from pathlib import Path
+
+    from cellproof.meta_client import cost_usd
+
+    root = pipeline.ROOT
+    manifest = json.loads(pipeline.MANIFEST_FILE.read_text(encoding="utf-8"))["papers"]
+    size = {p["pmcid"]: p.get("chars", 0) for p in manifest}
+    spent, papers = 0.0, set()
+    for folder in ("muse-spark-1.3", "muse-spark-1.3-stimulus"):
+        for path in Path(root, "data", "extractions", folder).glob("*.json"):
+            record = json.loads(path.read_text(encoding="utf-8"))
+            spent += cost_usd(record.get("usage"), record["model"])
+            papers.add(record["pmcid"])
+    assert pipeline.estimate_usd(sum(size.get(p, 0) for p in papers)) == pytest.approx(spent, abs=0.0015)
