@@ -121,7 +121,9 @@ network oscillates, nothing is "present" under the frozen scoring rule, and thos
 `results/m1_heldout.md`, are artifacts and not predictions. On the other 4 it gets 2 right, the same as ignoring the
 perturbation. The annotation was added after the first scoring run and changes no verdict. So the useful result is the audit
 itself, an automatic comparison of a published model with the literature that also shows where the model gives no answer,
-and the solver loop that keeps added mechanisms from breaking what the model already gets right. Ten scoreable claims
+and the solver loop that keeps added mechanisms from breaking what the model already gets right. One of the ten claims (H03.1) has
+a quote that the person who checked the quotes judged not to support it; without it the augmented networks get 4 of 9 right and the
+rule that ignores the perturbation 4 of 9, a tie instead of a lead (`results/m1_heldout.md`). Ten scoreable claims
 cannot show an improvement either way.
 
 **Taking the answers downstream (extension, `docs/downstream_notes.md`).** The solver's sets were run in a virtual tissue (PhysiBoSS,
@@ -194,7 +196,9 @@ LICENSE              MIT
 ## Honesty notes
 
 - The held-out set (23 claims, 10 scoreable) was frozen before any network was scored; its history is in
-  `docs/heldout_protocol.md`. A human has not yet checked that each quote supports its claim, so M1 is provisional.
+  `docs/heldout_protocol.md`. After the freeze one person checked every quote against its claim (D4, `data/labels/d4_check.csv`):
+  16 of 23 are supported and 7 are not, with no reasons recorded. One of the 7 (H03.1) is among the 10 scored claims; it is reported, not
+  removed, and the item file was not amended. The totals with and without it are in `results/m1_heldout.md`.
 - Extraction accuracy (M4) is 37 of 50 sampled claims, labelled by one person (`data/labels/m4_sample.csv`), with no second reader and no
   agreement figure; 50 claims give a wide interval. `make label` opens the page where each click is saved; nothing in it is pre-filled
   and no model is called.

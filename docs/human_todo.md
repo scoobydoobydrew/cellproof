@@ -33,8 +33,8 @@ the moment before the repository is made public), `THIRD_PARTY.md` (new entries 
 and what was considered and not used).
 
 Left, in order of importance:
-1. **D4** (`make label`): about 15 minutes. M4 was labelled on 2026-11-04 (37 of 50 `correct`). Until D4 is done every M1 number stays
-   provisional. Tell the assistant when the tab shows all done; it computes the numbers and commits the files.
+1. **M4 and D4 are done** (2026-11-04): M4 37 of 50 `correct`; D4 16 of 23 quotes support their claim, 7 do not (no reasons recorded, 1 of the 7
+   is a scored claim). Nothing is left here.
 2. **The video**, recorded from the page and `make verify` (see `docs/video_script.md`). Open `results/report.html#video`, start the
    recorder, press the button: the page performs the three minutes by itself, and you only read the sentences of the script. The first line must say what pre-existed and
    what was built this week; if the tissue beat is shown, add that the simulator PhysiBoSS and the ChEMBL database existed and

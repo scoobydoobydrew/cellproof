@@ -63,7 +63,7 @@ view. The sentences above fit these screens in the same order.
   mean different things by "dead", and was amended afterwards and labelled as such; the amended one holds on 23 of 23 and was then tested out of
   sample on three recipes (none of 1,663 cells alive). No pair of changes, and no order of the five kinases named in the brief, works only in a
   particular order in this model.
-- Limits, on the page and in `docs/limitations.md`: ten scoreable held-out claims, written by me and not yet checked by a person; the model's
+- Limits, on the page and in `docs/limitations.md`: ten scoreable held-out claims, written by me (a person checked their quotes afterwards: 16 of 23 hold, 1 scored claim is flagged); the model's
   repairs can pass the checks without being biologically right; Boolean networks have no dose and no time; no medical claims.
 
 ## The opening (made by the page, read aloud by the browser)

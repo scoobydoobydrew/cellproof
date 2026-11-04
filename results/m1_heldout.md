@@ -1,5 +1,18 @@
 Held-out set status: FROZEN v1 (2026-10-29). Every claim carries a verbatim quote that code found in the source paper's full text (scripts/amend_heldout_quotes.py). No network had been scored on any item when this was frozen. A human has not yet checked that each quote supports its claim (D4): results computed from this set are provisional until then. Any change needs a logged amendment (docs/heldout_protocol.md).
 
+D4, added after the freeze (the item file and its status text above are unchanged): a person checked 23 of 23 quotes against their claims: 16 supported, 7 not supported, 0 unsure. Among the 10 scored claims, 1 flagged: H03.1. Flagged claims are reported, not removed; the totals without them (9 claims) are:
+
+| network | correct | wrong | not expressible |
+|---|---|---|---|
+| base | 3 | 4 | 2 |
+| naive_min2 | 4 | 5 | 0 |
+| verified_min2 | 4 | 5 | 0 |
+| repaired_min2 | 4 | 5 | 0 |
+| naive_min1 | 4 | 5 | 0 |
+| verified_min1 | 4 | 5 | 0 |
+| repaired_min1 | 4 | 5 | 0 |
+| no-information baseline | 4 | 5 | 0 |
+
 | claim | readout | polarity | how scored | base | naive_min2 | verified_min2 | repaired_min2 | naive_min1 | verified_min1 | repaired_min1 | no-information baseline |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | H01.1 | senescence | absent | absolute | correct * | correct * | correct * | correct * | correct | correct * | correct * | WRONG |

@@ -167,7 +167,8 @@ def checks_section() -> str:
                        f"{counts['does_not_support']} not supported, {counts['unsure']} unsure."]
     flagged = [r for r in rows if r["verdict"] != "supports"]
     if flagged:
-        lines += ["", "Each of these needs a decision or a logged amendment (docs/heldout_protocol.md); the item file is not edited here:", ""]
+        lines += ["", "The person flagged these. The item file is not edited and no amendment is logged (docs/heldout_protocol.md); the scored ones are "
+                      "reported with and without the flagged claims in the M1 section above:", ""]
         lines += [f"- {r['id']}: {r['verdict']}" + (f" ({r['note']})" if r["note"] else "") for r in flagged]
     elif len(rows) == total:
         lines += ["", "Every quote supports its claim, so M1 no longer waits on this check."]

@@ -107,7 +107,9 @@ This is a research prototype that ranks hypotheses for lab testing. It makes no 
 - The held-out set has 23 claims, 10 of them scoreable. That is far too few for a statistic, so results are counts per claim.
 - Most radiosensitisation results are about survival, which this network cannot express; that is a finding about the approach.
 - The set was written by the assistant from papers it chose, knowing the base rules. Per-claim reporting and a no-information
-  baseline are the guard. A human has not yet checked that each quote supports its claim (D4); until then all M1 numbers are provisional.
+  baseline are the guard. One person has since checked every quote against its claim (D4): 16 of 23 are supported, 7 are not (no reasons recorded), and
+  one of the 7, H03.1, is among the 10 scored claims. It is reported, not removed, and the item file was not amended; without it the
+  augmented networks get 4 of 9 right and the rule that ignores the perturbation 4 of 9 (`results/m1_heldout.md`). A single checker, no second reader.
 - No claim in the held-out set tests the DNA-PK node.
 - Scaling (M6) was measured on synthetic networks and on cascades added to the base network; no larger published model was tried.
 

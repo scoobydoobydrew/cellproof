@@ -1,6 +1,6 @@
 # Held-out set: protocol
 
-Status 2026-10-29: **frozen v1, human check pending.** The item file is `data/heldout/gupta2023_heldout.json`; its hash is
+Status 2026-10-29: **frozen v1** (human check D4 done on 2026-11-04, see D4 below; the text of this paragraph is from the freeze). The item file is `data/heldout/gupta2023_heldout.json`; its hash is
 in `data/heldout/heldout.sha256` and a test fails if the file changes without a logged amendment (section at the end).
 No network, base or augmented, and no LLM has been run on any item: the commit tagged `heldout-frozen-v1` precedes the first
 scoring run. Every claim carries a verbatim quote found by code in the source paper; what a person still has to do is
@@ -145,6 +145,12 @@ These are recorded per item in `perturbation.approximation`.
 - **D4. Still the human's, and not delegable.** Check that each claim's quote supports the claim. With the quotes this is a
   reading task of 23 sentences, not a literature search. An assistant checking its own selection cannot stand in for it.
   Until it is done, every number computed from this set is provisional.
+  **Done by the user on 2026-11-04, after the freeze and after the scoring run** (`data/labels/d4_check.csv`, one checker, no
+  reasons recorded): 16 of 23 quotes support their claim, 7 do not (H03#1, H05#1, H05#2, H07#1, H11#2, H12#1, H12#2). Only H03#1
+  is among the 10 scored claims. No amendment was made: the item file and its hash are unchanged, the flagged claim is reported and
+  not removed, and `results/m1_heldout.md` shows the totals with and without it. Removing it turns the lead of the "ignore the
+  perturbation" rule over the networks (5 against 4 correct) into a tie (4 against 4 of 9). An amendment that rewrites its statement
+  would need the human's approval.
 - **D5. Freeze.** Two points in the git history: the tag `heldout-pre-extraction` (before any extraction) and the tag
   `heldout-frozen-v1` (after amendment 1, before any scoring). Changes after the freeze are listed in the amendment log and
   need the human's approval; the log below shows what each did to the set.

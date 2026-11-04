@@ -154,7 +154,7 @@ def score(
 ) -> None:
     """M1: score each network on the held-out set, per claim. Refuses a set whose status is DRAFT."""
     from cellproof.eval.heldout import load
-    from cellproof.eval.report import markdown, score_networks
+    from cellproof.eval.report import d4_markdown, d4_summary, markdown, score_networks
     from cellproof.network.bnet import load_bnet
 
     doc = load(heldout)
@@ -162,7 +162,9 @@ def score(
     scored = score_networks(doc, loaded)["rows"]
     out.parent.mkdir(parents=True, exist_ok=True)
     table = markdown(doc, scored)
-    out.write_text(f"Held-out set status: {doc['status']}\n\n{table}", encoding="utf-8")
+    d4 = d4_summary(scored, "data/labels/d4_check.csv")
+    note = f"\n\n{d4_markdown(d4)}" if d4 else ""
+    out.write_text(f"Held-out set status: {doc['status']}{note}\n\n{table}", encoding="utf-8")
     out.with_suffix(".json").write_text(json.dumps(scored, indent=1) + "\n", encoding="utf-8")
     typer.echo(table)
 

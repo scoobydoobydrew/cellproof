@@ -20,6 +20,7 @@ from cellproof.analysis.interventions import READOUT_NODES, fates, minimal_sets,
 from cellproof.analysis.llm_search import candidate_sets
 from cellproof.eval.heldout import load as load_heldout
 from cellproof.eval.heldout import summarize
+from cellproof.eval.report import d4_summary
 from cellproof.formalize.entities import Grounder, Hgnc
 from cellproof.extract.stats import load_records, summarize as summarize_extractions
 from cellproof.ingest.graph import paper_graph
@@ -188,6 +189,7 @@ def heldout() -> dict | None:
     return {
         "status": doc["status"], "networks": names, "claims": claims, "totals": totals, "categories": categories, "papers": len(doc["sources"]),
         "all_claims": sum(len(i["claims"]) for i in doc["items"]), "baseline": {v: sum(1 for c in claims if c["baseline"] == v) for v in ("correct", "wrong", "not_expressible")},
+        "d4": d4_summary(scored, ROOT / "data" / "labels" / "d4_check.csv"),
     }
 
 
